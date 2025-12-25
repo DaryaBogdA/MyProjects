@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет — [[${user.login}]]</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}" />
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<main class="container profile-page">
+
+    <div th:if="${message}" th:class="${error == 1} ? 'vip-message vip-message--error' : 'vip-message vip-message--success'">
+        <span class="vip-message__text" th:text="${message}"></span>
+        <button type="button" class="vip-message__close" aria-label="Закрыть уведомление">Закрыть</button>
+    </div>
+
+    <section class="profile-hero card fade-in">
+        <h1>Привет, [[${user.name}]]</h1>
+        <p class="profile-email">[[${user.email}]]</p>
+        <p class="profile-vip">
+            Статус:
+            <span th:if="${isVip}" class="badge badge-vip">VIP</span>
+            <span th:if="${!isVip}" class="badge badge-standard">Стандарт</span>
+        </p>
+        <div th:if="${!isVip}" class="want-vip">
+            <p>Хотите приобрести VIP и снять ограничения?</p>
+            <form th:action="@{/vip/request}" method="post">
+                <button type="submit" class="btn">Приобрести VIP</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="card profile-requests fade-in">
+        <h2>Ваши расклады по Матрице судьбы</h2>
+        <p th:if="${isVip}">У вас <strong>VIP</strong> — ограничений нет. Сделано: <strong>[[${madeCount}]]</strong></p>
+        <div th:if="${!isVip}">
+            <p>Сделано: <strong>[[${madeCount}]]</strong> из [[${maxFree}]]</p>
+            <p>Осталось бесплатных: <strong>[[${remaining}]]</strong></p>
+            <div th:if="${remaining <= 0}" class="buy-vip-box">
+                <h3>Лимит бесплатных раскладов исчерпан</h3>
+                <p>Приобретите VIP и получайте неограниченное количество раскладов.</p>
+                <form th:action="@{/vip/request}" method="post">
+                    <button type="submit" class="btn">Приобрести VIP</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="card tarot-section fade-in">
+        <h2>Ваша карта Таро на сегодня</h2>
+        <div th:if="${card}">
+            <article class="tarot-item">
+                <div class="tarot-thumb">
+                    <img th:src="@{'/img/taro/' + ${card.image}}" th:alt="${card.name}">
+                </div>
+                <div class="tarot-info">
+                    <h3>[[${card.name}]]</h3>
+                    <p>[[${card.text}]]</p>
+                </div>
+            </article>
+        </div>
+        <p th:if="${card == null}" class="muted">Нажмите кнопку ниже, чтобы получить вашу карту дня.</p>
+        <form th:action="@{/card/day}" method="post">
+            <button type="submit" class="btn">Показать карту дня</button>
+        </form>
+    </section>
+
+</main>
+
+<div th:replace="blocks/footer :: footer"></div>
+<script>
+    document.addEventListener('click', function (e) {
+        if (!e.target.matches('.vip-message__close')) return;
+
+        const msg = e.target.closest('.vip-message');
+        if (!msg) return;
+
+        msg.style.transition = 'opacity 200ms ease, height 200ms ease, margin 200ms ease';
+        msg.style.opacity = '0';
+        msg.style.height = '0';
+        msg.style.margin = '0';
+        setTimeout(() => msg.remove(), 220);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Матрица судьбы</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}" />
+
+</head>
+<body>
+<div class="site-wrap container">
+
+    <div th:replace="blocks/header :: header"></div>
+
+    <section class="hero">
+        <div class="hero--info">
+            <h1>Добро пожаловать в Матрицу судьбы</h1>
+            <p>
+                Каждый день открывает новые возможности.<br>
+                Хотите узнать свой гороскоп на сегодня или рассчитать свою матрицу судьбы?<br>
+                Начните путь прямо сейчас!
+            </p>
+            <button class="btn" onclick="location.href='matrix'">Рассчитать матрицу</button>
+        </div>
+    </section>
+
+    <section class="intro-hero">
+        <div class="intro-hero__content">
+            <h1>Матрица судьбы — ваш личный путеводитель</h1>
+            <p>
+                На основе вашей даты рождения строится карта внутренних ресурсов, задач и сильных сторон.
+                Это мягкий и точный способ понять себя, свои таланты и гармонично выстроить жизнь.
+            </p>
+
+            <div class="intro-hero__highlights">
+                <div class="highlight">
+                    <h3>Самопознание</h3>
+                    <p>Раскройте сильные стороны, уязвимости и источники энергии.</p>
+                </div>
+                <div class="highlight">
+                    <h3>Отношения</h3>
+                    <p>Поймите динамику общения и создавайте поддержку без конфликта.</p>
+                </div>
+                <div class="highlight">
+                    <h3>Выбор пути</h3>
+                    <p>Определите направления в карьере и творчестве, которые резонируют.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="intro-hero__visual">
+            <img src="/img/img1.jfif" alt="Мандала судьбы" />
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <h2>Как работает матрица судьбы</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="badge">Шаг 1</div>
+                <h3>Дата рождения</h3>
+                <p>Вводите свою дату рождения — это основа расчёта и интерпретации.</p>
+            </div>
+            <div class="step">
+                <div class="badge">Шаг 2</div>
+                <h3>Построение схемы</h3>
+                <p>Формируется числовая схема: ключевые позиции отражают качества и задачи.</p>
+            </div>
+            <div class="step">
+                <div class="badge">Шаг 3</div>
+                <h3>Толкование</h3>
+                <p>Каждая позиция имеет смысл: сила, ресурс, урок, направление развития.</p>
+            </div>
+            <div class="step">
+                <div class="badge">Шаг 4</div>
+                <h3>Практические шаги</h3>
+                <p>Получаете мягкие рекомендации, чтобы упорядочить цели и улучшить состояние.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <h2>Почему это работает</h2>
+        <div class="cards">
+            <article class="card">
+                <h3>Личная точность</h3>
+                <p>Матрица учитывает вашу уникальность, не пытаясь «подогнать» вас под общий шаблон.</p>
+                <ul>
+                    <li><strong>Индивидуальность:</strong> акцент на ваших ресурсах</li>
+                    <li><strong>Баланс:</strong> и таланты, и зоны роста</li>
+                    <li><strong>Целостность:</strong> взгляд на жизнь как систему</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <h3>Мягкая практика</h3>
+                <p>Рекомендации без давления: шаги маленькими порциями и с заботой о вашем темпе.</p>
+                <ul>
+                    <li><strong>Поддержка:</strong> настрой на самопринятие</li>
+                    <li><strong>Экология:</strong> без навязанных решений</li>
+                    <li><strong>Ритм:</strong> вы выбираете скорость изменений</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <h3>Применимость</h3>
+                <p>Подходит для ежедневных решений: отношения, работа, творчество, отдых.</p>
+                <ul>
+                    <li><strong>Практичность:</strong> конкретные фокусы дня</li>
+                    <li><strong>Гибкость:</strong> адаптация под текущие задачи</li>
+                    <li><strong>Результат:</strong> ясность и спокойствие</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="examples">
+        <h2>Как могут выглядеть выводы</h2>
+        <div class="examples__grid">
+            <div class="example">
+                <h4>Сила числа 1</h4>
+                <p><strong>Проявление:</strong> инициатива, лидерство, продвижение идей.</p>
+                <p><strong>Мягкий фокус дня:</strong> доведите одну задачу до конца.</p>
+            </div>
+            <div class="example">
+                <h4>Сила числа 3</h4>
+                <p><strong>Проявление:</strong> творчество, коммуникация, лёгкость.</p>
+                <p><strong>Мягкий фокус дня:</strong> оформите мысль красиво: текст, пост, письмо.</p>
+            </div>
+            <div class="example">
+                <h4>Сила числа 6</h4>
+                <p><strong>Проявление:</strong> забота, гармония, дом, отношения.</p>
+                <p><strong>Мягкий фокус дня:</strong> добавьте ритуал тепла: звонок близким, уютный ужин.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="cta__content">
+            <h2>Готовы увидеть свою матрицу?</h2>
+            <p>Сделайте первый шаг с заботой о себе — и получите мягкие подсказки на каждый день.</p>
+            <button class="btn" onclick="location.href='matrix'">Рассчитать матрицу</button>
+        </div>
+        <div class="intro-hero__visual">
+            <img th:src="@{/img/img2.jpg}" alt="Декоративное изображение" />
+        </div>
+    </section>
+
+</div>
+
+<div th:replace="blocks/footer :: footer"></div>
+
+</body>
+</html>

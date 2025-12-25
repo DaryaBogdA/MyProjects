@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}" />
+</head>
+<body>
+
+<div th:replace="blocks/header :: header"></div>
+
+<main class="auth-page">
+    <section class="auth-card fade-in">
+        <h2>Авторизация</h2>
+        <p>Войдите в личный кабинет, чтобы рассчитать свою Матрицу судьбы и сохранить результаты.</p>
+
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <form id="auth-form" th:action="@{/check/login}" method="post" th:object="${user}">
+            <div class="inline">
+                <div>
+                    <label>Логин</label>
+                    <input type="text" th:field="*{login}">
+                </div>
+                <div>
+                    <label>Пароль</label>
+                    <input type="password" th:field="*{password}">
+                </div>
+            </div>
+            <button type="submit">Войти</button>
+        </form>
+
+
+
+    </section>
+</main>
+
+<div th:replace="blocks/footer :: footer"></div>
+
+</body>
+</html>

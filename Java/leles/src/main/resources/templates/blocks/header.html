@@ -1,0 +1,26 @@
+<div th:fragment="header">
+    <header class="container site-header">
+        <span class="logo">MATRIX</span>
+        <nav>
+            <ul>
+                <li class="active"><a th:href="@{/}">Home</a></li>
+
+                <li th:if="${login != null}">
+                    <a th:href="@{/user}">Кабинет пользователя</a>
+                </li>
+                <li th:if="${login != null}">
+                    <a th:href="@{/logout}" class="logout-btn">Выйти</a>
+                </li>
+
+                <li th:if="${login == null}">
+                    <a th:href="@{/reg}">Регистрация</a>
+                </li>
+                <li th:if="${login == null}">
+                    <a th:href="@{/login}">Авторизация</a>
+                </li>
+
+                <li class="btn"><a th:href="@{/matrix}">Рассчитать матрицу</a></li>
+            </ul>
+        </nav>
+    </header>
+</div>
