@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 public class Product {
-
+    //добавить дефолт просмотры
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
