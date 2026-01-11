@@ -44,7 +44,38 @@ spring:
     password: your_password
 ```
 
-#### Вариант B: Использование Docker для MySQL
+#### Вариант B: Использование Docker Compose для dev-среды (рекомендуется)
+
+**Быстрый старт с Docker Compose:**
+
+1. Запустите MySQL через Docker Compose:
+```bash
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+2. Убедитесь, что MySQL запущен и готов:
+```bash
+docker-compose -f docker-compose.dev.yml ps
+```
+
+3. Запустите приложение с профилем `dev`:
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Или через IDE: установите переменную окружения `SPRING_PROFILES_ACTIVE=dev`
+
+**Остановка MySQL:**
+```bash
+docker-compose -f docker-compose.dev.yml down
+```
+
+**Остановка с удалением данных:**
+```bash
+docker-compose -f docker-compose.dev.yml down -v
+```
+
+#### Вариант C: Использование Docker для MySQL (одиночный контейнер)
 
 ```bash
 docker run --name mysql-bank -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bank -p 3306:3306 -d mysql:8.0
@@ -279,15 +310,114 @@ API возвращает стандартные HTTP коды статуса:
 
 ## Разработка
 
+### Docker Compose для dev-среды
+
+Проект включает Docker Compose конфигурацию для быстрого развертывания dev-среды.
+
+#### Файлы Docker:
+- `docker-compose.dev.yml` - конфигурация для разработки (только MySQL)
+- `docker-compose.yml` - полная конфигурация (MySQL + приложение)
+- `Dockerfile` - образ для приложения
+- `.dockerignore` - исключения для Docker build
+
+#### Использование:
+
+**1. Запуск только MySQL (рекомендуется для разработки):**
+```bash
+# Запуск MySQL
+docker-compose -f docker-compose.dev.yml up -d
+
+# Проверка статуса
+docker-compose -f docker-compose.dev.yml ps
+
+# Просмотр логов
+docker-compose -f docker-compose.dev.yml logs -f mysql
+
+# Остановка
+docker-compose -f docker-compose.dev.yml down
+
+# Остановка с удалением данных
+docker-compose -f docker-compose.dev.yml down -v
+```
+
+**2. Запуск приложения с профилем dev:**
+```bash
+# Через Maven
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+# Или через JAR
+java -jar -Dspring.profiles.active=dev target/Bank_REST-0.0.1-SNAPSHOT.jar
+```
+
+**3. Полный запуск через Docker Compose (MySQL + приложение):**
+
+Раскомментируйте секцию `app` в `docker-compose.yml` и запустите:
+```bash
+docker-compose up -d
+```
+
+#### Параметры подключения к MySQL (dev-профиль):
+- **Host:** localhost
+- **Port:** 3306
+- **Database:** bank
+- **Username:** root
+- **Password:** rootpassword
+
+Эти параметры настроены в `src/main/resources/application-dev.yaml`
+
+#### Полезные команды Docker:
+
+```bash
+# Подключение к MySQL контейнеру
+docker exec -it bank-mysql-dev mysql -uroot -prootpassword
+
+# Просмотр логов MySQL
+docker logs bank-mysql-dev
+
+# Очистка всех данных
+docker-compose -f docker-compose.dev.yml down -v
+```
+
 ### Запуск тестов
+
+#### Вариант 1: Через Maven Wrapper (если Maven не установлен)
+
+```bash
+# Все тесты
+.\mvnw.cmd test
+
+# Конкретный класс тестов
+.\mvnw.cmd test -Dtest=CardServiceTest
+.\mvnw.cmd test -Dtest=AuthServiceTest
+.\mvnw.cmd test -Dtest=UserServiceTest
+.\mvnw.cmd test -Dtest=JwtServiceImplTest
+```
+
+#### Вариант 2: Через установленный Maven
 
 ```bash
 mvn test
 ```
 
+#### Вариант 3: Через IDE (рекомендуется)
+
+- **IntelliJ IDEA**: Правый клик на папку `src/test/java` → "Run All Tests"
+- **VS Code**: Откройте файл теста и нажмите "Run Test"
+- **Eclipse**: Правый клик на класс теста → "Run As" → "JUnit Test"
+
+**Покрытие тестами:**
+- `CardServiceTest` - 23 теста (создание карт, переводы, блокировка, активация)
+- `AuthServiceTest` - 6 тестов (регистрация пользователей)
+- `UserServiceTest` - 7 тестов (управление пользователями)
+- `JwtServiceImplTest` - 9 тестов (JWT токены)
+
 ### Сборка без тестов
 
 ```bash
+# Через Maven Wrapper
+.\mvnw.cmd clean package -DskipTests
+
+# Или через Maven
 mvn clean package -DskipTests
 ```
 
