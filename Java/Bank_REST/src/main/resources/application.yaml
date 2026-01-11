@@ -19,8 +19,15 @@ jwt:
   secret: f7bf5efa77d9ed25ffc9c3bff6f6d532
   expirationMinutes: 60
 
-#Что нужно сделать:
-#  - Указать настройки подключения к базе данных.
-#  - Указать порт приложения.
-#  - Настроить параметры безопасности и JWT.
-#  - Включить Swagger UI.
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    try-it-out-enabled: true
+  show-actuator: false
+  packages-to-scan: com.example.Bank_REST.controller
+

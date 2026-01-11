@@ -22,7 +22,7 @@ public class Users {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role; // ADMIN, USER
+    private Role role;
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt;

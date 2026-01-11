@@ -26,7 +26,7 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: password
+                  name: password_hash
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
@@ -35,11 +35,14 @@ databaseChangeLog:
                   type: VARCHAR(20)
                   constraints:
                     nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
 
-        - addCheckConstraint:
-            tableName: users
-            constraintName: chk_user_role
-            checkCondition: "role IN ('ADMIN','USER')"
+        - sql:
+            sql: ALTER TABLE users ADD CONSTRAINT chk_user_role CHECK (role IN ('ADMIN','USER'));
 
   - changeSet:
       id: create-table-cards
@@ -56,17 +59,18 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: number
-                  type: VARCHAR(255)
+                  name: encrypted_number
+                  type: VARCHAR(512)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: masked_number
+                  type: VARCHAR(32)
                   constraints:
                     nullable: false
               - column:
-                  name: owner
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: period
+                  name: expiry_date
                   type: DATE
                   constraints:
                     nullable: false
@@ -77,7 +81,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: balance
-                  type: DECIMAL(15,2)
+                  type: DECIMAL(19,2)
                   constraints:
                     nullable: false
               - column:
@@ -85,17 +89,23 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
 
         - addForeignKeyConstraint:
             baseTableName: cards
-            baseColumnNames:
-              - user_id
-            constraintName: fk_card_user
+            baseColumnNames: user_id
+            constraintName: fk_cards_users
             referencedTableName: users
-            referencedColumnNames:
-              - id
+            referencedColumnNames: id
 
-        - addCheckConstraint:
-            tableName: cards
-            constraintName: chk_card_status
-            checkCondition: "status IN ('ACTIVE','BLOCKED','EXPIRED')"
+        - sql:
+            sql: ALTER TABLE cards ADD CONSTRAINT chk_card_status CHECK (status IN ('ACTIVE','BLOCKED','EXPIRED'));

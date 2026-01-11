@@ -1,5 +1,4 @@
 package com.shop.subscription.models;
-
 import jakarta.persistence.*;
 
 @Entity
