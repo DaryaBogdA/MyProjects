@@ -1,9 +1,7 @@
 package com.shop.subscription.controllers;
 
-import com.shop.subscription.models.Post;
-import com.shop.subscription.models.Product;
-import com.shop.subscription.models.Users;
-import com.shop.subscription.repo.UsersRepository;
+import com.shop.subscription.entity.Users;
+import com.shop.subscription.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +27,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String shopPostAdd(@RequestParam String name, @RequestParam String login, @RequestParam String email, @RequestParam String password, @RequestParam String password_return, Model model) {
+    public String register(@RequestParam String name, @RequestParam String login, @RequestParam String email, @RequestParam String password, @RequestParam String password_return, Model model) {
 
         if (name.length() < 3) {
             model.addAttribute("error", "В имени должно быть больше букв");

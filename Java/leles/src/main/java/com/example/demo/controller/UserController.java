@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.check.DayCardCheckService;
+import com.example.demo.service.DayCardCheckService;
 import com.example.demo.model.CardTaro;
 import com.example.demo.model.DayCard;
 import com.example.demo.model.User;
@@ -62,25 +62,6 @@ public class UserController {
 
         return "user";
     }
-
-//    @PostMapping("/vip/request")
-//    public String requestVip(HttpSession session, RedirectAttributes redirectAttributes) {
-//        String login = (String) session.getAttribute("login");
-//        if (login == null) return "redirect:/login";
-//
-//        User user = userRepository.findByLogin(login).orElse(null);
-//        if (user == null) {
-//            session.removeAttribute("login");
-//            return "redirect:/login";
-//        }
-//
-//        user.setIsVip(true);
-//        userRepository.save(user);
-//
-//        redirectAttributes.addFlashAttribute("error", 0);
-//        redirectAttributes.addFlashAttribute("message", "VIP успешно активирован!");
-//        return "redirect:/user";
-//    }
 
     @PostMapping("/card/day")
     public String cardOfDay(HttpSession session, RedirectAttributes redirectAttributes) {

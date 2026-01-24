@@ -5,7 +5,7 @@ import com.example.demo.model.DayCard;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.ui.Model;
-import com.example.demo.check.DayCardCheckService;
+import com.example.demo.service.DayCardCheckService;
 import com.example.demo.repository.CardTaroRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

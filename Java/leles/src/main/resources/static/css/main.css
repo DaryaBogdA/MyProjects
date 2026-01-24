@@ -1025,6 +1025,46 @@ a:hover {
     margin-bottom: 14px;
 }
 
+.auth-card .success-message {
+    background: rgba(76, 175, 80, 0.08);
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    color: #2e7d32;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.auth-card .required {
+    color: var(--accent-3);
+    font-weight: 600;
+}
+
+.auth-card small {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.auth-link a {
+    color: var(--accent-3);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

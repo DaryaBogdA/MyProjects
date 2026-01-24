@@ -1,8 +1,8 @@
 package com.shop.subscription.controllers;
 
 
-import com.shop.subscription.models.Post;
-import com.shop.subscription.repo.PostReposittory;
+import com.shop.subscription.entity.Post;
+import com.shop.subscription.repository.PostReposittory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
