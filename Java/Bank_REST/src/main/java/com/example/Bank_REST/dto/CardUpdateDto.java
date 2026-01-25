@@ -3,6 +3,11 @@ package com.example.Bank_REST.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * DTO для обновления данных банковской карты.
+ * 
+ * @author darya
+ */
 public class CardUpdateDto {
     private LocalDate period;
     private BigDecimal balance;

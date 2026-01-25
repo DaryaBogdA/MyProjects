@@ -7,6 +7,11 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * DTO для создания новой банковской карты.
+ * 
+ * @author darya
+ */
 public class CardCreateDto {
     @NotNull
     @Size(min = 13, max = 19)

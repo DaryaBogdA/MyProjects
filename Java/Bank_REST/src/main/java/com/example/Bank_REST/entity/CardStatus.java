@@ -1,3 +1,15 @@
 package com.example.Bank_REST.entity;
 
-public enum CardStatus { ACTIVE, BLOCKED, EXPIRED }
+/**
+ * Статусы банковской карты.
+ * 
+ * @author darya
+ */
+public enum CardStatus {
+    /** Активная карта, доступна для операций */
+    ACTIVE,
+    /** Заблокированная карта, операции недоступны */
+    BLOCKED,
+    /** Карта с истекшим сроком действия */
+    EXPIRED
+}

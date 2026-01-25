@@ -2,6 +2,11 @@ package com.example.Bank_REST.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * DTO для запроса аутентификации пользователя.
+ * 
+ * @author darya
+ */
 public class AuthRequestDto {
     @NotBlank(message = "Username is required")
     private String username;

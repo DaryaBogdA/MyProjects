@@ -6,6 +6,14 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 
+/**
+ * Сущность банковской карты.
+ * 
+ * <p>Представляет банковскую карту с зашифрованным номером, маскированной версией,
+ * балансом, статусом и информацией о владельце.</p>
+ * 
+ * @author darya
+ */
 @Entity
 @Table(name = "cards")
 public class Cards {

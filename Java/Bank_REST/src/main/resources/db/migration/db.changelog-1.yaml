@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: create-table-users
       author: darya
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+          - tableExists:
+              tableName: users
       changes:
         - createTable:
             tableName: users
@@ -47,6 +52,14 @@ databaseChangeLog:
   - changeSet:
       id: create-table-cards
       author: darya
+      preConditions:
+        - onFail: MARK_RAN
+        - and:
+          - tableExists:
+              tableName: users
+          - not:
+            - tableExists:
+                tableName: cards
       changes:
         - createTable:
             tableName: cards

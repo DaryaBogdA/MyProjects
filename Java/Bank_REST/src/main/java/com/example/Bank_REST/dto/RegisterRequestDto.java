@@ -4,6 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * DTO для запроса регистрации нового пользователя.
+ * 
+ * @author darya
+ */
 public class RegisterRequestDto {
     @NotBlank(message = "Username is required")
     @Size(min = 2, max = 100, message = "Username must be between 2 and 100 characters")

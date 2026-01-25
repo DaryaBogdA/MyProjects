@@ -10,17 +10,34 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * Реализация сервиса для работы с JWT токенами.
+ * 
+ * <p>Использует библиотеку jjwt для генерации и валидации JWT токенов
+ * с алгоритмом подписи HS256.</p>
+ * 
+ * @author darya
+ */
 @Service
 public class JwtServiceImpl implements JwtService {
 
     private final SecretKey secretKey;
     private final long expirationMillis;
 
+    /**
+     * Конструктор сервиса JWT.
+     * 
+     * @param secret секретный ключ для подписи токенов (из конфигурации)
+     * @param expirationMinutes время жизни токена в минутах (из конфигурации)
+     */
     public JwtServiceImpl(@Value("${jwt.secret}") String secret, @Value("${jwt.expirationMinutes}") long expirationMinutes) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expirationMillis = expirationMinutes * 60_000;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
@@ -34,11 +51,17 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String extractUsername(String token) {
         return parseClaims(token).getSubject();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean validateToken(String token, UserDetails userDetails) {
         try {
@@ -51,6 +74,13 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
+    /**
+     * Парсит JWT токен и извлекает claims (данные токена).
+     * 
+     * @param token JWT токен
+     * @return claims токена
+     * @throws JwtException если токен невалиден
+     */
     private Claims parseClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)

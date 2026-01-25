@@ -1,5 +1,10 @@
 package com.example.Bank_REST.dto;
 
+/**
+ * DTO для ответа с данными пользователя.
+ * 
+ * @author darya
+ */
 public class UserResponseDto {
     private Long id;
     private String username;

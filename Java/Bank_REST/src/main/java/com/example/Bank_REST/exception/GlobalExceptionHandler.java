@@ -12,10 +12,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Глобальный обработчик исключений для REST API.
+ * 
+ * <p>Обрабатывает различные типы исключений и возвращает структурированные
+ * ответы с соответствующими HTTP статусами.</p>
+ * 
+ * @author darya
+ */
 @RestControllerAdvice
 @Hidden
 public class GlobalExceptionHandler {
 
+    /**
+     * Обрабатывает ошибки валидации входных данных.
+     * 
+     * @param ex исключение валидации
+     * @return ответ с ошибками валидации и статусом 400
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -27,6 +41,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
+    /**
+     * Обрабатывает исключения доступа (403 Forbidden).
+     * 
+     * @param ex исключение доступа
+     * @return ответ с ошибкой и статусом 403
+     */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException ex) {
         Map<String, String> error = new HashMap<>();
@@ -34,6 +54,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
+    /**
+     * Обрабатывает общие RuntimeException.
+     * 
+     * <p>Определяет тип ошибки по сообщению и возвращает соответствующий HTTP статус:
+     * 403 для ошибок доступа, 400 для остальных.</p>
+     * 
+     * @param ex исключение времени выполнения
+     * @return ответ с ошибкой и соответствующим статусом
+     */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();
@@ -48,6 +77,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    /**
+     * Обрабатывает все остальные необработанные исключения.
+     * 
+     * @param ex исключение
+     * @return ответ с ошибкой и статусом 500
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
         Map<String, String> error = new HashMap<>();

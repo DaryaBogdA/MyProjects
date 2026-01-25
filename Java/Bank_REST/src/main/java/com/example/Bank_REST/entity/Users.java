@@ -4,6 +4,14 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 
+/**
+ * Сущность пользователя системы.
+ * 
+ * <p>Представляет пользователя с информацией об имени, email, пароле и роли.
+ * Связана с картами через отношение One-to-Many.</p>
+ * 
+ * @author darya
+ */
 @Entity
 @Table(name = "users")
 public class Users {

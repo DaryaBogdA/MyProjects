@@ -8,9 +8,21 @@ import io.swagger.v3.oas.models.Components;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Конфигурация OpenAPI (Swagger) для документации REST API.
+ * 
+ * <p>Настраивает метаданные API и схему безопасности JWT Bearer токенов.</p>
+ * 
+ * @author darya
+ */
 @Configuration
 public class OpenApiConfig {
 
+    /**
+     * Создает конфигурацию OpenAPI с информацией об API и схемой безопасности JWT.
+     * 
+     * @return настроенный объект OpenAPI
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "bearerAuth";

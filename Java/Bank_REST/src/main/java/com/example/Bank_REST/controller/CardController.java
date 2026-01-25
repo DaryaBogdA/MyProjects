@@ -19,15 +19,34 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * REST контроллер для управления банковскими картами.
+ * 
+ * <p>Предоставляет эндпоинты для создания, просмотра, обновления и удаления карт.
+ * Пользователи могут просматривать только свои карты, администраторы имеют полный доступ.</p>
+ * 
+ * @author darya
+ */
 @RestController
 @RequestMapping("/cards")
 public class CardController {
     private final CardService cardService;
 
+    /**
+     * Конструктор контроллера карт.
+     * 
+     * @param cardService сервис для работы с картами
+     */
     public CardController(CardService cardService) {
         this.cardService = cardService;
     }
 
+    /**
+     * Создает новую банковскую карту (только для администраторов).
+     * 
+     * @param dto данные для создания карты
+     * @return созданная карта
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CardResponseDto> create(@Valid @RequestBody CardCreateDto dto) {
@@ -35,6 +54,12 @@ public class CardController {
         return ResponseEntity.ok(toDto(card));
     }
 
+    /**
+     * Получает все карты в системе (только для администраторов).
+     * 
+     * @param pageable параметры пагинации
+     * @return страница с картами
+     */
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<CardResponseDto>> getAllCards(@Parameter(hidden = true) Pageable pageable) {
@@ -42,6 +67,14 @@ public class CardController {
         return ResponseEntity.ok(cards.map(this::toDto));
     }
 
+    /**
+     * Получает карты текущего пользователя с возможностью поиска.
+     * 
+     * @param userDetails данные аутентифицированного пользователя
+     * @param search поисковый запрос (по маскированному номеру карты)
+     * @param pageable параметры пагинации
+     * @return страница с картами пользователя
+     */
     @GetMapping("/my")
     public ResponseEntity<Page<CardResponseDto>> myCards(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -52,6 +85,14 @@ public class CardController {
         return ResponseEntity.ok(cards.map(this::toDto));
     }
 
+    /**
+     * Получает карту по идентификатору.
+     * Пользователи могут получить только свои карты, администраторы - любые.
+     * 
+     * @param id идентификатор карты
+     * @param userDetails данные аутентифицированного пользователя
+     * @return данные карты
+     */
     @GetMapping("/{id}")
     public ResponseEntity<CardResponseDto> getCardById(
             @PathVariable Long id,
@@ -67,6 +108,14 @@ public class CardController {
         return ResponseEntity.ok(toDto(card));
     }
 
+    /**
+     * Получает баланс карты по идентификатору.
+     * Пользователи могут получить баланс только своих карт, администраторы - любых.
+     * 
+     * @param id идентификатор карты
+     * @param userDetails данные аутентифицированного пользователя
+     * @return баланс карты
+     */
     @GetMapping("/{id}/balance")
     public ResponseEntity<Map<String, BigDecimal>> getBalance(
             @PathVariable Long id,
@@ -88,6 +137,14 @@ public class CardController {
         }
     }
 
+    /**
+     * Обновляет данные карты (только для администраторов).
+     * 
+     * @param id идентификатор карты
+     * @param dto данные для обновления (период действия, баланс)
+     * @param userDetails данные аутентифицированного пользователя
+     * @return обновленная карта
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CardResponseDto> updateCard(
@@ -102,6 +159,13 @@ public class CardController {
         return ResponseEntity.ok(toDto(card));
     }
 
+    /**
+     * Блокирует карту (только для администраторов).
+     * 
+     * @param id идентификатор карты
+     * @param userDetails данные аутентифицированного пользователя
+     * @return заблокированная карта
+     */
     @PutMapping("/{id}/block")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CardResponseDto> blockCard(
@@ -112,6 +176,12 @@ public class CardController {
         return ResponseEntity.ok(toDto(card));
     }
 
+    /**
+     * Активирует карту (только для администраторов).
+     * 
+     * @param id идентификатор карты
+     * @return активированная карта
+     */
     @PutMapping("/{id}/activate")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CardResponseDto> activateCard(@PathVariable Long id) {
@@ -119,6 +189,12 @@ public class CardController {
         return ResponseEntity.ok(toDto(card));
     }
 
+    /**
+     * Удаляет карту (только для администраторов).
+     * 
+     * @param id идентификатор карты
+     * @return сообщение об успешном удалении
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCard(@PathVariable Long id) {
@@ -126,6 +202,14 @@ public class CardController {
         return ResponseEntity.ok("Card deleted successfully");
     }
 
+    /**
+     * Запрос на блокировку карты пользователем.
+     * Пользователи могут блокировать только свои активные карты.
+     * 
+     * @param id идентификатор карты
+     * @param userDetails данные аутентифицированного пользователя
+     * @return сообщение об успешной блокировке
+     */
     @PostMapping("/{id}/request-block")
     public ResponseEntity<String> requestBlockCard(
             @PathVariable Long id,
@@ -138,6 +222,16 @@ public class CardController {
         return ResponseEntity.ok("Card blocked successfully");
     }
 
+    /**
+     * Переводит средства между картами пользователя.
+     * Обе карты должны принадлежать текущему пользователю и быть активными.
+     * 
+     * @param userDetails данные аутентифицированного пользователя
+     * @param fromCardId идентификатор карты-отправителя
+     * @param toCardId идентификатор карты-получателя
+     * @param amount сумма перевода
+     * @return сообщение об успешном переводе
+     */
     @PostMapping("/transfer")
     public ResponseEntity<String> transfer(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -149,6 +243,12 @@ public class CardController {
         return ResponseEntity.ok("Transfer successful");
     }
 
+    /**
+     * Преобразует сущность Cards в DTO для ответа.
+     * 
+     * @param card сущность карты
+     * @return DTO карты
+     */
     private CardResponseDto toDto(Cards card) {
         CardResponseDto dto = new CardResponseDto();
         dto.setId(card.getId());

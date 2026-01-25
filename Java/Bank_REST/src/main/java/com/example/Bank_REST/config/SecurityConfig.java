@@ -18,6 +18,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfigurationSource;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Конфигурация безопасности Spring Security.
+ * 
+ * <p>Настраивает:
+ * <ul>
+ *   <li>JWT аутентификацию через фильтр</li>
+ *   <li>Правила авторизации для различных эндпоинтов</li>
+ *   <li>CORS настройки</li>
+ *   <li>Обработку исключений безопасности</li>
+ * </ul>
+ * </p>
+ * 
+ * @author darya
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -26,22 +40,58 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final CorsConfigurationSource corsConfigurationSource;
 
+    /**
+     * Конструктор конфигурации безопасности.
+     * 
+     * @param jwtService сервис для работы с JWT токенами
+     * @param userDetailsService сервис для загрузки данных пользователя
+     * @param corsConfigurationSource конфигурация CORS
+     */
     public SecurityConfig(JwtService jwtService, UserDetailsServiceImpl userDetailsService, CorsConfigurationSource corsConfigurationSource) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.corsConfigurationSource = corsConfigurationSource;
     }
 
+    /**
+     * Создает фильтр для JWT аутентификации.
+     * 
+     * @return фильтр JWT аутентификации
+     */
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtService, userDetailsService);
     }
 
+    /**
+     * Создает менеджер аутентификации.
+     * 
+     * @param configuration конфигурация аутентификации
+     * @return менеджер аутентификации
+     * @throws Exception если не удалось создать менеджер
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    /**
+     * Настраивает цепочку фильтров безопасности.
+     * 
+     * <p>Настройки включают:
+     * <ul>
+     *   <li>Отключение CSRF (так как используется JWT)</li>
+     *   <li>Включение CORS</li>
+     *   <li>Stateless сессии</li>
+     *   <li>Правила доступа к эндпоинтам</li>
+     *   <li>Обработку ошибок аутентификации и авторизации</li>
+     * </ul>
+     * </p>
+     * 
+     * @param http объект для настройки безопасности
+     * @return настроенная цепочка фильтров
+     * @throws Exception если не удалось настроить цепочку
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http 
@@ -72,6 +122,11 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Создает кодировщик паролей BCrypt.
+     * 
+     * @return кодировщик паролей
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
