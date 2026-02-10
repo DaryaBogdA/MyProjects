@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Совместимость по дате рождения</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}"/>
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="calc-container">
+    <h2>Расчёт совместимости по дате рождения</h2>
+
+    <form th:action="@{/compatibility}" method="post">
+        <div>
+            <div>
+                <div>
+                    <label for="birthDate1">Дата рождения первого партнёра:</label>
+                    <input type="date" th:value="${date1}" id="birthDate1" name="birthDate1" required>
+                </div>
+
+                <div>
+                    <label for="birthDate2">Дата рождения второго партнёра:</label>
+                    <input type="date" th:value="${date2}" id="birthDate2" name="birthDate2" required>
+                </div>
+            </div>
+
+            <button type="submit" >Рассчитать совместимость</button>
+        </div>
+    </form>
+
+    <div th:if="${number  != null}" class="result-container fade-in">
+        <div class="result-header">
+            <h3>Результат совместимости</h3>
+            <div class="compatibility-number">
+                <span class="number-label" th:text="${description}"></span>
+            </div>
+        </div>
+
+
+        <div class="additional-info">
+            <div class="info-card">
+                <h5>Как рассчитывается:</h5>
+                <p>Дата рождения одного партнера складывается с датой рождения другого и высчитывается одно большое число — сфера, по которой как раз-таки и определяется значение встречи двух людей.</p>
+                <p class="example">Пример: Ваша цифра 10, партнёра 12. Складываем числа между собой и получаем 22.</p>
+                <p>Если вышло число больше 22, его нужно разложить на цифры и сложить их между собой. Например, 43 → 4+3 = 7.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="blocks/footer :: footer"></div>
+
+</body>
+</html>

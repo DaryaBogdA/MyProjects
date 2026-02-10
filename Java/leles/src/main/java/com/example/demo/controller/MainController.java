@@ -13,16 +13,5 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/matrix")
-    public String matrix(HttpSession session, Model model) {
-        String login = (String) session.getAttribute("login");
-        if (login == null) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("login", login);
-        return "matrix";
-    }
-
 }
 

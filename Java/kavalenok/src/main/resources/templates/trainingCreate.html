@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить тренировку</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="calendar-section">
+    <div class="container">
+        <div class="training-create-card">
+            <div class="training-create-header">
+                <h1 class="training-create-title">
+                    <i class="fas fa-plus-circle me-2"></i>Добавить тренировку
+                </h1>
+                <p class="training-create-subtitle">Заполните данные о новой тренировке</p>
+            </div>
+
+            <form th:action="@{/trainings/create}" method="post" class="training-create-form">
+                <div class="form-group mb-3">
+                    <label for="title" class="form-label">
+                        <i class="fas fa-heading me-2 text-primary"></i>Название тренировки *
+                    </label>
+                    <input type="text" id="title" name="title" class="form-control" required
+                           placeholder="Например: Тренировка по волейболу для начинающих"
+                           maxlength="255">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="dateTime" class="form-label">
+                        <i class="fas fa-calendar-alt me-2 text-primary"></i>Дата и время *
+                    </label>
+                    <input type="datetime-local" id="dateTime" name="dateTime" class="form-control" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="location" class="form-label">
+                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>Место проведения
+                    </label>
+                    <input type="text" id="location" name="location" class="form-control"
+                           placeholder="Например: Спортивный зал №1">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="maxParticipants" class="form-label">
+                                <i class="fas fa-users me-2 text-primary"></i>Макс. участников
+                            </label>
+                            <input type="number" id="maxParticipants" name="maxParticipants" class="form-control"
+                                   min="1" placeholder="Например: 15">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="durationMinutes" class="form-label">
+                                <i class="fas fa-clock me-2 text-primary"></i>Длительность (мин)
+                            </label>
+                            <input type="number" id="durationMinutes" name="durationMinutes" class="form-control"
+                                   min="15" value="60" placeholder="60">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-create-actions">
+                    <button type="submit" class="btn btn-primary btn-login">
+                        <i class="fas fa-save me-2"></i>Сохранить тренировку
+                    </button>
+                    <a th:href="@{/trainings}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateTimeInput = document.getElementById('dateTime');
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        dateTimeInput.min = now.toISOString().slice(0, 16);
+    });
+</script>
+
+</body>
+</html>

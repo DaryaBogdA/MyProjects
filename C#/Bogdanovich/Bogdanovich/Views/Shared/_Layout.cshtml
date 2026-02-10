@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+
+    @await Html.PartialAsync("_MetaPartial");
+    @await Html.PartialAsync("_CssPartial");
+
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+
+    @await Html.PartialAsync("_HeaderPartial");
+
+    @RenderBody()
+
+    @await Html.PartialAsync("_FooterPartial");
+
+    @await Html.PartialAsync("_ScriptPartial");
+
+</body>
+
+</html>

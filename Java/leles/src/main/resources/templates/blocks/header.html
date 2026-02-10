@@ -8,18 +8,24 @@
                 <li th:if="${login != null}">
                     <a th:href="@{/user}">Кабинет пользователя</a>
                 </li>
-                <li th:if="${login != null}">
-                    <a th:href="@{/logout}" class="logout-btn">Выйти</a>
+
+                <li th:if="${user != null and user.role == T(com.example.demo.model.Role).ADMIN}">
+                    <a th:href="@{/admin/vip-requests}">Заявки на VIP</a>
                 </li>
 
                 <li th:if="${login == null}">
-                    <a th:href="@{/reg}">Регистрация</a>
+                    <a th:href="@{/reg}" class="logout-btn">Регистрация</a>
                 </li>
                 <li th:if="${login == null}">
-                    <a th:href="@{/login}">Авторизация</a>
+                    <a th:href="@{/login}" class="logout-btn">Авторизация</a>
                 </li>
 
                 <li class="btn"><a th:href="@{/matrix}">Рассчитать матрицу</a></li>
+                <li class="btn"><a th:href="@{/compatibility}">Проверить совместимость</a></li>
+
+                <li th:if="${login != null}">
+                    <a th:href="@{/logout}" class="logout-btn">Выйти</a>
+                </li>
             </ul>
         </nav>
     </header>

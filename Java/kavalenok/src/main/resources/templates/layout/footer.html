@@ -1,0 +1,47 @@
+<div th:fragment="footer">
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">VolleyPro</h5>
+                    <p>Платформа для организации, поиска и участия в волейбольных тренировках. Присоединяйся к нашему сообществу!</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-3"><i class="fab fa-vk fa-lg"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-telegram fa-lg"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold">Навигация</h6>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/trainings}" class="text-white-50 text-decoration-none">Тренировки</a></li>
+                        <li><a th:href="@{/coaches}" class="text-white-50 text-decoration-none">Тренеры</a></li>
+                        <li><a th:href="@{/teams}" class="text-white-50 text-decoration-none">Команды</a></li>
+                        <li><a th:href="@{/announcements}" class="text-white-50 text-decoration-none">Объявления</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="fw-bold">Помощь</h6>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/faq}" class="text-white-50 text-decoration-none">FAQ</a></li>
+                        <li><a th:href="@{/rules}" class="text-white-50 text-decoration-none">Правила</a></li>
+                        <li><a th:href="@{/support}" class="text-white-50 text-decoration-none">Поддержка</a></li>
+                        <li><a th:href="@{/privacy}" class="text-white-50 text-decoration-none">Конфиденциальность</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="fw-bold">Контакты</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i> support@volleypro.by</li>
+                        <li><i class="fas fa-phone me-2"></i> +375 (29) 123-45-67</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Минск, ул. Волейбольная, 15</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center pt-3">
+                <p class="mb-0">&copy; 2025 VolleyPro. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</div>

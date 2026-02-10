@@ -21,13 +21,14 @@
         <form th:action="@{/check/reg}" method="post">
             <div>
                 <label for="login">Логин <span class="required">*</span></label>
+
                 <input type="text" id="login" name="login" th:value="${user?.login}" placeholder="От 3 до 30 символов" required />
                 <small>Только буквы, цифры, подчеркивание и дефис</small>
             </div>
 
             <div>
                 <label for="name">Имя</label>
-                <input type="text" id="name" name="name" th:value="${user?.name}" placeholder="Необязательно" />
+                <input type="text" id="name" name="name" th:value="${user?.name}" />
             </div>
 
             <div>

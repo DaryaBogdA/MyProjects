@@ -84,7 +84,7 @@ public class UserController {
         }
 
         CardTaro randomCard = cardRepo.findRandomCard();
-        DayCard dayCard = dayCardCheckService.createForUserAndDate(user, randomCard, today);
+        dayCardCheckService.getOrCreateCard(user, randomCard);
 
         redirectAttributes.addFlashAttribute("message", "Ваша карта дня готова");
         redirectAttributes.addFlashAttribute("error", 0);

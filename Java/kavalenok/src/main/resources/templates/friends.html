@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Найти друга</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="coaches-section">
+    <div class="container">
+        <div class="coaches-header">
+            <h1 class="coaches-title"><i class="fas fa-user-friends me-2"></i>Найти друга</h1>
+            <p class="coaches-subtitle">Введите имя, фамилию или email для поиска участников платформы</p>
+
+            <form th:action="@{/friends}" method="get" class="coaches-search">
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="search-input-group flex-grow-1" style="min-width: 250px;">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" name="q" class="form-control search-input"
+                               th:value="${searchQuery}"
+                               placeholder="Поиск по имени, фамилии или email...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Найти</button>
+                </div>
+            </form>
+        </div>
+
+        <div th:if="${searchQuery != null && !searchQuery.isEmpty()}" class="search-results">
+            <div th:if="${searchResults.isEmpty()}" class="no-results">
+                <i class="fas fa-search no-results-icon"></i>
+                <h3>Никого не найдено</h3>
+                <p>Попробуйте изменить поисковый запрос</p>
+            </div>
+
+            <div th:if="${!searchResults.isEmpty()}" class="row">
+                <div th:each="foundUser : ${searchResults}" class="col-md-6 col-lg-4 mb-4">
+                    <div class="coach-card-enhanced">
+                        <div class="coach-header">
+                            <img th:src="@{${foundUser.avatarUrl} ?: '/img/avatars/1.png'}"
+                                 class="coach-avatar"
+                                 alt="Аватар"
+                                 onerror="this.src='/img/avatars/1.png'">
+                            <h3 class="coach-name" th:text="${foundUser.firstName} + ' ' + ${foundUser.lastName}">Имя</h3>
+                            <p class="coach-specialty" th:text="${foundUser.role}">USER</p>
+                        </div>
+                        <div class="coach-body">
+                            <div class="coach-info-item">
+                                <i class="fas fa-envelope info-icon"></i>
+                                <div>
+                                    <div class="info-label" th:text="${foundUser.email}">email</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coach-footer">
+                            <a th:href="@{/profile/{id}(id=${foundUser.id})}" class="btn-coach-action btn-view-profile w-100">
+                                <i class="fas fa-user me-2"></i>Посмотреть профиль
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${searchQuery == null || searchQuery.isEmpty()}" class="text-center text-muted py-5">
+            <i class="fas fa-search fa-3x mb-3"></i>
+            <p>Введите поисковый запрос и нажмите «Найти»</p>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

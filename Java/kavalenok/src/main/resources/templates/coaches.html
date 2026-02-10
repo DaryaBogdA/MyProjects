@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренеры - VolleyPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="coaches-section">
+    <div class="container">
+        <div class="coaches-header fade-in">
+            <h1 class="coaches-title">Наши тренеры</h1>
+            <p class="coaches-subtitle">Профессиональные тренеры с многолетним опытом работы.</p>
+
+            <div class="row" id="coachesList">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="coach : ${coaches}">
+                    <div class="coach-card-enhanced fade-in">
+                        <div class="coach-header">
+                            <h3 class="coach-name" th:text="${coach.firstName} + ' ' + ${coach.lastName}"></h3>
+
+                            <div class="coach-rating" th:if="${coach.rating != null}">
+                                <div class="stars">
+                                    <i class="fas fa-star" th:each="star : ${#numbers.sequence(1, 5)}"
+                                       th:classappend="${star <= coach.rating} ? 'fas' : 'far'"></i>
+                                </div>
+                                <span class="rating-value ms-2" th:text="${coach.rating}"></span>
+                            </div>
+                        </div>
+
+                        <div class="coach-body">
+                            <div class="coach-info">
+                                <div class="coach-info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div>
+                                        <div class="info-label">Опыт работы</div>
+                                        <div class="info-value" th:text="${coach.coachProfile.experienceYears} + ' лет'"></div>
+                                    </div>
+                                </div>
+
+                                <div class="coach-info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <div class="info-label">Телефон</div>
+                                        <div class="info-value" th:text="${coach.phone}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="coach-info-item">
+                                    <div class="info-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <div class="info-label">Email</div>
+                                        <div class="info-value" th:text="${coach.email}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="coach-bio">
+                                <div class="bio-title">О себе</div>
+                                <p class="bio-text" th:text="${coach.coachProfile.bio}"></p>
+                            </div>
+
+                            <div class="coach-achievements">
+                                <div class="achievements-title">Достижения</div>
+                                <ul class="achievements-list">
+                                    <li th:text="${coach.coachProfile.achievements}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

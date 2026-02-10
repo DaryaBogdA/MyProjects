@@ -36,16 +36,16 @@ public class LoginCheckService {
         if (login == null || password == null || login.trim().isEmpty() || password.isEmpty()) {
             return Optional.empty();
         }
-        
+
         String normalizedLogin = login.trim();
-        
+
         Optional<User> userOpt = userRepository.findByLogin(normalizedLogin);
         if (userOpt.isEmpty()) {
             return Optional.empty();
         }
-        
+
         User user = userOpt.get();
-        
+
         if (user.getPassword() != null) {
             try {
                 String storedPassword = user.getPassword();

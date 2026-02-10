@@ -19,6 +19,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    @Column(nullable = false)
     private String name;
 
     @Column(name = "is_vip")
@@ -27,7 +28,10 @@ public class User {
     @Column(name = "request_count")
     private Integer requestCount = 0;
 
-    // геттеры и сеттеры
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('ADMIN', 'USER') DEFAULT 'USER'")
+    private Role role = Role.USER;
+
     public Integer getId() {
         return id;
     }
@@ -82,5 +86,13 @@ public class User {
 
     public void setRequestCount(Integer requestCount) {
         this.requestCount = requestCount;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

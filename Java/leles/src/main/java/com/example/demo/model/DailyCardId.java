@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,7 +9,10 @@ import java.util.Objects;
 @Embeddable
 public class DailyCardId implements Serializable {
 
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
+
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
     public DailyCardId() {

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bogdanovich")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8738b91c0ab2920ebae75dfdb0050c892380417a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fcae089ab5e670181e8ac5f86ba314dfc2fd8982")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bogdanovich")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bogdanovich")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

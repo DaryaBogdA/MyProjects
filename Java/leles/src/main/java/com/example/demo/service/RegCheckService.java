@@ -43,7 +43,9 @@ public class RegCheckService {
         
         user.setLogin(login);
 
-        if (user.getName() != null && !user.getName().trim().isEmpty()) {
+        if (user.getName() == null || user.getName().trim().isEmpty()) {
+            user.setName(login);
+        } else {
             String name = user.getName().trim();
             if (name.length() < 2 || name.length() > 50) {
                 return "Имя должно содержать от 2 до 50 символов";

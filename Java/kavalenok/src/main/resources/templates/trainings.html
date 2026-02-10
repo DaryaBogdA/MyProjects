@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Тренировки</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="calendar-section">
+    <div class="container">
+        <div class="calendar-header fade-in">
+            <h1 class="calendar-title">Календарь тренировок</h1>
+            <p class="calendar-subtitle">Выберите удобное время и запишитесь на тренировку</p>
+
+            <div th:if="${user != null && user.role.name() == 'COACH'}" class="calendar-header-actions">
+                <a th:href="@{/trainings/create}" class="btn-add-training">
+                    <i class="fas fa-plus"></i>Добавить тренировку
+                </a>
+            </div>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <div class="calendar-nav fade-in">
+            <button class="btn-calendar-nav" onclick="changeMonth(-1)">
+                <i class="fas fa-chevron-left me-2"></i>Предыдущий месяц
+            </button>
+            <div class="calendar-month" id="currentMonth">Январь 2024</div>
+            <button class="btn-calendar-nav" onclick="changeMonth(1)">
+                Следующий месяц<i class="fas fa-chevron-right ms-2"></i>
+            </button>
+        </div>
+
+        <div class="training-list fade-in">
+            <h3>Предстоящие тренировки</h3>
+
+            <div th:if="${trainings.isEmpty()}" class="no-trainings">
+                <i class="fas fa-calendar-times"></i>
+                <h4>Тренировки не найдены</h4>
+                <p>Пока нет запланированных тренировок. Загляните позже!</p>
+            </div>
+
+            <div th:each="training : ${trainings}" class="training-card fade-in"
+                 th:classappend="${training.full ? 'full' : (training.dateTime.toLocalDate().isEqual(T(java.time.LocalDate).now()) ? 'today' : '')}">
+                <div class="training-header">
+                    <h4 class="training-title" th:text="${training.title}">Тренировка по волейболу</h4>
+                    <div class="training-time" th:text="${training.formattedTime + ' - ' + training.durationHours}">18:00 - 1.5ч</div>
+                </div>
+
+                <div class="training-info">
+                    <div class="training-info-item">
+                        <i class="fas fa-calendar training-info-icon"></i>
+                        <div>
+                            <div class="training-info-label">Дата</div>
+                            <div class="training-info-value" th:text="${#temporals.format(training.dateTime, 'dd.MM.yyyy')}">01.01.2024</div>
+                        </div>
+                    </div>
+
+                    <div class="training-info-item" th:if="${training.location != null}">
+                        <i class="fas fa-map-marker-alt training-info-icon"></i>
+                        <div>
+                            <div class="training-info-label">Место</div>
+                            <div class="training-info-value" th:text="${training.location}">Спортивный зал #1</div>
+                        </div>
+                    </div>
+
+                    <div class="training-info-item">
+                        <i class="fas fa-users training-info-icon"></i>
+                        <div>
+                            <div class="training-info-label">Участники</div>
+                            <div class="training-info-value"
+                                 th:text="${training.maxParticipants != null ? (training.currentParticipants + ' / ' + training.maxParticipants) : (training.currentParticipants + ' записано')}">
+                                8 / 15
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-coach" th:if="${training.coach != null}">
+                    <img th:src="@{${training.coach.avatarUrl} ?: '/img/avatars/1.png'}"
+                         class="coach-avatar"
+                         alt="Аватар тренера"
+                         onerror="this.src='/img/avatars/1.png'">
+                    <div class="coach-name" th:text="'Тренер: ' + ${training.coach.firstName} + ' ' + ${training.coach.lastName}">
+                        Тренер: Иван Петров
+                    </div>
+                </div>
+
+                <div class="training-actions">
+                    <th:block th:if="${user != null}">
+                        <th:block th:if="${registeredTrainingIds != null && registeredTrainingIds.contains(training.id)}">
+                            <span class="badge bg-success py-2 px-3">
+                                <i class="fas fa-check me-1"></i>Вы записаны
+                            </span>
+                        </th:block>
+                        <th:block th:unless="${registeredTrainingIds != null && registeredTrainingIds.contains(training.id)}">
+                            <form th:action="@{/trainings/register}" method="post" class="d-inline">
+                                <input type="hidden" name="trainingId" th:value="${training.id}">
+                                <button type="submit" class="btn-register"
+                                        th:disabled="${training.full}"
+                                        th:title="${training.full} ? 'Тренировка заполнена' : 'Записаться на тренировку'">
+                                    <i class="fas fa-user-plus me-2"></i>
+                                    <span th:text="${training.full} ? 'Заполнено' : 'Записаться'">Записаться</span>
+                                </button>
+                            </form>
+                        </th:block>
+                    </th:block>
+                    <th:block th:if="${user == null}">
+                        <a th:href="@{/login}" class="btn-register">
+                            <i class="fas fa-sign-in-alt me-2"></i>Войти для записи
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.training-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = (index * 0.1) + 's';
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        let currentDate = new Date();
+        updateMonthDisplay();
+
+        window.changeMonth = function(months) {
+            currentDate.setMonth(currentDate.getMonth() + months);
+            updateMonthDisplay();
+        };
+
+        function updateMonthDisplay() {
+            const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+            const monthElement = document.getElementById('currentMonth');
+            monthElement.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Расклад от [[${#temporals.format(history.birthDate, 'dd.MM.yyyy')}]] — Матрица судьбы</title>
+    <link rel="stylesheet" th:href="@{/css/main.css?v=1}"/>
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}"/>
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="calc-container">
+    <h2>Матрица по дате рождения [[${#temporals.format(history.birthDate, 'dd.MM.yyyy')}]]</h2>
+    <p class="muted" th:text="${'Сохранено: ' + #temporals.format(history.createdAt, 'dd.MM.yyyy HH:mm')}">Сохранено: 08.02.2025 14:30</p>
+
+    <div id="matrix" th:if="${digits != null and #arrays.length(digits) >= 9}">
+        <h3>Твоя матрица:</h3>
+        <div class="matrix-wrapper">
+            <img th:src="@{/img/matrix.jpg}" alt="Матрица" class="matrix-bg"/>
+            <div class="digit" id="d1" th:text="${digits[0]}">9</div>
+            <div class="digit" id="d2" th:text="${digits[1]}">9</div>
+            <div class="digit" id="d3" th:text="${digits[2]}">9</div>
+            <div class="digit" id="d4" th:text="${digits[3]}">9</div>
+            <div class="digit" id="d5" th:text="${digits[4]}">9</div>
+            <div class="digit" id="d6" th:text="${digits[5]}">9</div>
+            <div class="digit" id="d7" th:text="${digits[6]}">9</div>
+            <div class="digit" id="d8" th:text="${digits[7]}">9</div>
+            <div class="digit" id="d9" th:text="${digits[8]}">9</div>
+            <div class="digit" id="d2_1" th:text="${#arrays.length(digits) > 9 ? digits[9] : ''}">9</div>
+            <div class="digit" id="d2_2" th:text="${#arrays.length(digits) > 10 ? digits[10] : ''}">9</div>
+            <div class="digit" id="d3_1" th:text="${#arrays.length(digits) > 11 ? digits[11] : ''}">9</div>
+            <div class="digit" id="d3_2" th:text="${#arrays.length(digits) > 12 ? digits[12] : ''}">9</div>
+            <div class="digit" id="d4_1" th:text="${#arrays.length(digits) > 13 ? digits[13] : ''}">9</div>
+            <div class="digit" id="d4_2" th:text="${#arrays.length(digits) > 14 ? digits[14] : ''}">9</div>
+            <div class="digit" id="d5_1" th:text="${#arrays.length(digits) > 15 ? digits[15] : ''}">9</div>
+            <div class="digit" id="d5_2" th:text="${#arrays.length(digits) > 16 ? digits[16] : ''}">9</div>
+            <div class="digit" id="d6_1" th:text="${#arrays.length(digits) > 17 ? digits[17] : ''}">9</div>
+            <div class="digit" id="d6_2" th:text="${#arrays.length(digits) > 18 ? digits[18] : ''}">9</div>
+            <div class="digit" id="d7_1" th:text="${#arrays.length(digits) > 19 ? digits[19] : ''}">9</div>
+            <div class="digit" id="d7_2" th:text="${#arrays.length(digits) > 20 ? digits[20] : ''}">9</div>
+            <div class="digit" id="d8_1" th:text="${#arrays.length(digits) > 21 ? digits[21] : ''}">9</div>
+            <div class="digit" id="d8_2" th:text="${#arrays.length(digits) > 22 ? digits[22] : ''}">9</div>
+            <div class="digit" id="d9_1" th:text="${#arrays.length(digits) > 23 ? digits[23] : ''}">9</div>
+            <div class="digit" id="d9_2" th:text="${#arrays.length(digits) > 24 ? digits[24] : ''}">9</div>
+            <div class="digit" id="d3_3" th:text="${#arrays.length(digits) > 25 ? digits[25] : ''}">9</div>
+            <div class="digit" id="d2_3" th:text="${#arrays.length(digits) > 26 ? digits[26] : ''}">9</div>
+            <div class="digit" id="d8_3" th:text="${#arrays.length(digits) > 27 ? digits[27] : ''}">9</div>
+            <div class="digit" id="d8_4" th:text="${#arrays.length(digits) > 28 ? digits[28] : ''}">9</div>
+            <div class="digit" id="d8_5" th:text="${#arrays.length(digits) > 29 ? digits[29] : ''}">9</div>
+        </div>
+    </div>
+
+    <div id="descriptions" class="descriptions-block" th:if="${descriptionItems != null and !descriptionItems.isEmpty()}">
+        <h3>Расшифровка ключевых цифр:</h3>
+        <div th:each="item : ${descriptionItems}" class="digit-description">
+            <div class="description-card">
+                <div class="description-header">
+                    <span class="digit-badge" th:text="${item.digit()}">1</span>
+                </div>
+                <div class="description-section">
+                    <h5>Основная энергия (в плюсе):</h5>
+                    <p th:text="${item.matrix().essenceEnergyPlus}" style="white-space: pre-line">...</p>
+                </div>
+                <div class="description-section">
+                    <h5>Сильные стороны:</h5>
+                    <p th:text="${item.matrix().strengthsPlus}">...</p>
+                </div>
+                <div class="description-section">
+                    <h5>Риски:</h5>
+                    <p th:text="${item.matrix().risksPlus}">...</p>
+                </div>
+                <div class="description-section negative">
+                    <h5>Основная энергия (в минусе):</h5>
+                    <p th:text="${item.matrix().essenceEnergyMinus}">...</p>
+                </div>
+                <div class="description-section negative">
+                    <h5>В минусе:</h5>
+                    <p th:text="${item.matrix().inMinus}">...</p>
+                </div>
+                <div class="description-section negative">
+                    <h5>Ловушки:</h5>
+                    <p th:text="${item.matrix().trapsMinus}">...</p>
+                </div>
+                <div class="description-section practice">
+                    <h5>Практика:</h5>
+                    <p th:text="${item.matrix().essenceEnergyPractice}">...</p>
+                </div>
+                <div class="description-section practice">
+                    <h5>Дополнительная практика:</h5>
+                    <p th:text="${item.matrix().inPractice}">...</p>
+                </div>
+                <div class="description-section practice money">
+                    <h5>Деньги:</h5>
+                    <p th:text="${item.matrix().moneyPractice}">...</p>
+                </div>
+                <div class="description-section practice relationship">
+                    <h5>Отношения:</h5>
+                    <p th:text="${item.matrix().relationshipPractice}">...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p style="text-align: center; margin: 24px 0;">
+    <a th:href="@{/matrix/history}" class="btn">← К истории раскладов</a>
+</p>
+
+<div th:replace="blocks/footer :: footer"></div>
+</body>
+</html>

@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\domain\\enums\\baseentitytypeenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\domain\\enums\\baseentitytypeenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\domain\\entities\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\domain\\entities\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,40 +27,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Program.cs",
-              "RelativeDocumentMoniker": "Bogdanovich\\Program.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Program.cs",
-              "RelativeToolTip": "Bogdanovich\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAhAAAAAAAAAA==",
+              "Title": "BaseEntityTypeEnum.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Domain\\Enums\\BaseEntityTypeEnum.cs",
+              "RelativeDocumentMoniker": "Bogdanovich\\Domain\\Enums\\BaseEntityTypeEnum.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Domain\\Enums\\BaseEntityTypeEnum.cs",
+              "RelativeToolTip": "Bogdanovich\\Domain\\Enums\\BaseEntityTypeEnum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-17T16:27:58.627Z",
+              "WhenOpened": "2026-02-01T09:50:13.363Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\appsettings.json",
-              "RelativeDocumentMoniker": "Bogdanovich\\appsettings.json",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\appsettings.json",
-              "RelativeToolTip": "Bogdanovich\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-17T16:27:00.091Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Bogdanovich\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Bogdanovich\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-17T16:25:29.523Z",
+              "Title": "Entity.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Domain\\Entities\\Entity.cs",
+              "RelativeDocumentMoniker": "Bogdanovich\\Domain\\Entities\\Entity.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Domain\\Entities\\Entity.cs",
+              "RelativeToolTip": "Bogdanovich\\Domain\\Entities\\Entity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T09:48:50.955Z",
               "EditorCaption": ""
             }
           ]

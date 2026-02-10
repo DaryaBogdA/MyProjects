@@ -12,7 +12,7 @@ public class DayCard {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,5 +52,12 @@ public class DayCard {
             id = new DailyCardId();
         }
         id.setDate(date);
+    }
+
+    public void setUserId(Integer userId) {
+        if (id == null) {
+            id = new DailyCardId();
+        }
+        id.setUserId(userId);
     }
 }

@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|c:\\kollege\\myprojects\\c#\\bogdanovich\\bogdanovich\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58524361-1101-4E18-8689-2CF5A56457F3}|Bogdanovich\\Bogdanovich.csproj|solutionrelative:bogdanovich\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +30,76 @@
       "DocumentGroups": [
         {
           "DockedWidth": 313,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Bogdanovich\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\_ViewStart.cshtml*",
+              "RelativeToolTip": "Bogdanovich\\Views\\_ViewStart.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-31T19:40:31.388Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_Viewimports.cshtml",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\_Viewimports.cshtml",
+              "RelativeDocumentMoniker": "Bogdanovich\\Views\\_Viewimports.cshtml",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\_Viewimports.cshtml",
+              "RelativeToolTip": "Bogdanovich\\Views\\_Viewimports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-31T19:36:43.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Bogdanovich\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Bogdanovich\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-31T19:32:01.428Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Bogdanovich\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Bogdanovich\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-31T19:34:38.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Program.cs",
+              "RelativeDocumentMoniker": "Bogdanovich\\Program.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Bogdanovich\\Bogdanovich\\Program.cs",
+              "RelativeToolTip": "Bogdanovich\\Program.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-31T19:24:58.546Z",
+              "EditorCaption": ""
             }
           ]
         },

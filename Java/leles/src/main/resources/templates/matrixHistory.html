@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>История раскладов — Матрица судьбы</title>
+    <link rel="stylesheet" th:href="@{/css/main.css?v=1}"/>
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}"/>
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="container" style="padding: 40px 0;">
+    <h1 style="margin-bottom: 24px;">История ваших раскладов</h1>
+
+    <p th:if="${#lists.isEmpty(historyList)}" class="muted">У вас пока нет сохранённых раскладов. <a th:href="@{/matrix}">Рассчитайте матрицу</a>.</p>
+
+    <ul class="history-list" th:if="${!#lists.isEmpty(historyList)}">
+        <li th:each="item : ${historyList}" class="history-item card">
+            <div class="history-item__info">
+                <strong>Дата рождения:</strong>
+                <span th:text="${#temporals.format(item.birthDate, 'dd.MM.yyyy')}">01.01.1990</span>
+            </div>
+            <div class="history-item__meta">
+                <span th:text="${#temporals.format(item.createdAt, 'dd.MM.yyyy HH:mm')}">08.02.2025 14:30</span>
+            </div>
+            <a th:href="@{/matrix/history/{id}(id=${item.id})}" class="btn btn-sm">Просмотреть</a>
+        </li>
+    </ul>
+
+    <p style="margin-top: 24px;">
+        <a th:href="@{/matrix}" class="btn">Рассчитать новую матрицу</a>
+        <a th:href="@{/user}" style="margin-left: 12px;">В личный кабинет</a>
+    </p>
+</div>
+
+<div th:replace="blocks/footer :: footer"></div>
+</body>
+</html>

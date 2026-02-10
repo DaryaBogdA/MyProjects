@@ -34,7 +34,8 @@
 
     <section class="card profile-requests fade-in">
         <h2>Ваши расклады по Матрице судьбы</h2>
-        <p th:if="${isVip}">У вас <strong>VIP</strong> — ограничений нет. Сделано: <strong>[[${madeCount}]]</strong></p>
+        <p style="margin-bottom: 12px;"><a th:href="@{/matrix/history}">История раскладов</a></p>
+        <p th:if="${isVip}">У вас <strong>VIP</strong> — ограничений нет.</p>
         <div th:if="${!isVip}">
             <p>Сделано: <strong>[[${madeCount}]]</strong> из [[${maxFree}]]</p>
             <p>Осталось бесплатных: <strong>[[${remaining}]]</strong></p>

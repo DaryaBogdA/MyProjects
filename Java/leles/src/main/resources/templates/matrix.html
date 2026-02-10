@@ -13,63 +13,75 @@
 
 <div class="calc-container">
     <h2>Рассчитай свою матрицу судьбы</h2>
-    <input type="date" id="birthDate">
-    <button id="calcBtn">Рассчитать</button>
 
-    <div id="matrix" class="matrix-visual" style="display:none;">
-        <h3>Твоя матрица:</h3>
-        <div class="matrix-wrapper">
-            <img th:src="@{/img/matrix.jpg}" alt="Матрица" class="matrix-bg"/>
-
-            <div class="digit" id="d1">9</div>
-
-            <div class="digit" id="d2">9</div>
-            <div class="digit" id="d3">9</div>
-            <div class="digit" id="d4">9</div>
-            <div class="digit" id="d5">9</div>
-
-            <div class="digit" id="d6">9</div>
-            <div class="digit" id="d7">9</div>
-            <div class="digit" id="d8">9</div>
-            <div class="digit" id="d9">9</div>
-
-            <div class="digit" id="d2_1">9</div>
-            <div class="digit" id="d2_2">9</div>
-
-            <div class="digit" id="d3_1">9</div>
-            <div class="digit" id="d3_2">9</div>
-
-            <div class="digit" id="d4_1">9</div>
-            <div class="digit" id="d4_2">9</div>
-
-            <div class="digit" id="d5_1">9</div>
-            <div class="digit" id="d5_2">9</div>
-
-            <div class="digit" id="d6_1">9</div>
-            <div class="digit" id="d6_2">9</div>
-
-            <div class="digit" id="d7_1">9</div>
-            <div class="digit" id="d7_2">9</div>
-
-            <div class="digit" id="d8_1">9</div>
-            <div class="digit" id="d8_2">9</div>
-
-            <div class="digit" id="d9_1">9</div>
-            <div class="digit" id="d9_2">9</div>
-
-            <div class="digit" id="d3_3">9</div>
-
-            <div class="digit" id="d2_3">9</div>
-
-            <div class="digit" id="d8_3">9</div>
-            <div class="digit" id="d8_4">9</div>
-            <div class="digit" id="d8_5">9</div>
-
-        </div>
-
+    <div th:if="${!isVip and remaining <= 0}">
+        <p class="muted">Лимит бесплатных расчётов исчерпан (3). Приобретите VIP для неограниченных расчётов.</p>
+        <a th:href="@{/user}" class="btn">Перейти в личный кабинет</a>
     </div>
+    <div th:if="${isVip or remaining > 0}">
+        <input type="date" id="birthDate">
+        <button id="calcBtn">Рассчитать</button>
 
+        <div id="matrix" style="display:none;">
+            <h3>Твоя матрица:</h3>
+            <div class="matrix-wrapper">
+                <img th:src="@{/img/matrix.jpg}" alt="Матрица" class="matrix-bg"/>
 
+                <div class="digit" id="d1">9</div>
+
+                <div class="digit" id="d2">9</div>
+                <div class="digit" id="d3">9</div>
+                <div class="digit" id="d4">9</div>
+                <div class="digit" id="d5">9</div>
+
+                <div class="digit" id="d6">9</div>
+                <div class="digit" id="d7">9</div>
+                <div class="digit" id="d8">9</div>
+                <div class="digit" id="d9">9</div>
+
+                <div class="digit" id="d2_1">9</div>
+                <div class="digit" id="d2_2">9</div>
+
+                <div class="digit" id="d3_1">9</div>
+                <div class="digit" id="d3_2">9</div>
+
+                <div class="digit" id="d4_1">9</div>
+                <div class="digit" id="d4_2">9</div>
+
+                <div class="digit" id="d5_1">9</div>
+                <div class="digit" id="d5_2">9</div>
+
+                <div class="digit" id="d6_1">9</div>
+                <div class="digit" id="d6_2">9</div>
+
+                <div class="digit" id="d7_1">9</div>
+                <div class="digit" id="d7_2">9</div>
+
+                <div class="digit" id="d8_1">9</div>
+                <div class="digit" id="d8_2">9</div>
+
+                <div class="digit" id="d9_1">9</div>
+                <div class="digit" id="d9_2">9</div>
+
+                <div class="digit" id="d3_3">9</div>
+
+                <div class="digit" id="d2_3">9</div>
+
+                <div class="digit" id="d8_3">9</div>
+                <div class="digit" id="d8_4">9</div>
+                <div class="digit" id="d8_5">9</div>
+
+            </div>
+        </div>
+        <div id="descriptions" style="display:none; margin-top: 40px;">
+            <h3>Расшифровка твоих ключевых цифр:</h3>
+            <div class="digit-description" id="desc-d1"></div>
+            <div class="digit-description" id="desc-d2"></div>
+            <div class="digit-description" id="desc-d3"></div>
+            <div class="digit-description" id="desc-d4"></div>
+            <div class="digit-description" id="desc-d5"></div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="blocks/footer :: footer"></div>
@@ -146,11 +158,114 @@
             d2_3, d8_3, d8_4, d8_5];
     }
 
-    document.getElementById('calcBtn').addEventListener('click', () => {
-        const dateStr = document.getElementById('birthDate').value;
+    async function loadDescriptions(digits, birthDate) {
+        try {
+            const response = await fetch('/matrix/descriptions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ digits: digits, birthDate: birthDate || null })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                displayDescriptions(data.descriptions, digits);
+                document.getElementById('descriptions').style.display = 'block';
+            } else {
+                if (data.error === 'limit') {
+                    window.location.href = '/matrix';
+                } else {
+                    console.error('Ошибка загрузки описаний:', data.error);
+                }
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке описаний:', error);
+        }
+    }
+
+    function displayDescriptions(descriptions, digits) {
+        const positions = [
+            {key: 'd1', digit: digits[0]},
+            {key: 'd2', digit: digits[1]},
+            {key: 'd3', digit: digits[2]},
+            {key: 'd4', digit: digits[3]},
+            {key: 'd5', digit: digits[4]}
+        ];
+
+        positions.forEach(pos => {
+            const matrix = descriptions[pos.digit];
+            if (matrix) {
+                const html = `
+                <div class="description-card">
+                    <div class="description-header">
+                        <span class="digit-badge">${pos.digit}</span>
+                    </div>
+
+                    <div class="description-section">
+                        <h5>Основная энергия (в плюсе):</h5>
+                        <p>${matrix.essenceEnergyPlus.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section">
+                        <h5>Сильные стороны:</h5>
+                        <p>${matrix.strengthsPlus.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section">
+                        <h5>Риски:</h5>
+                        <p>${matrix.risksPlus.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section negative">
+                        <h5>Основная энергия (в минусе):</h5>
+                        <p>${matrix.essenceEnergyMinus.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section negative">
+                        <h5>В минусе:</h5>
+                        <p>${matrix.inMinus.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section negative">
+                        <h5>Ловушки:</h5>
+                        <p>${matrix.trapsMinus.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section practice">
+                        <h5>Практика:</h5>
+                        <p>${matrix.essenceEnergyPractice.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section practice">
+                        <h5>Дополнительная практика:</h5>
+                        <p>${matrix.inPractice.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section practice money">
+                        <h5>Деньги:</h5>
+                        <p>${matrix.moneyPractice.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+
+                    <div class="description-section practice relationship">
+                        <h5>Отношения:</h5>
+                        <p>${matrix.relationshipPractice.replace(/\n\n/g, '</p><p>')}</p>
+                    </div>
+                </div>
+            `;
+                document.getElementById(`desc-${pos.key}`).innerHTML = html;
+            }
+        });
+    }
+
+    const calcBtn = document.getElementById('calcBtn');
+    if (calcBtn) calcBtn.addEventListener('click', async () => {
+        let dateStr = document.getElementById('birthDate').value;
         if (!dateStr) return;
 
-        const digits = calculateMatrix(dateStr);
+        let digits = calculateMatrix(dateStr);
+
         document.getElementById('d1').textContent = digits[0];
         document.getElementById('d2').textContent = digits[1];
         document.getElementById('d3').textContent = digits[2];
@@ -194,10 +309,11 @@
         document.getElementById('d8_4').textContent = digits[28];
         document.getElementById('d8_5').textContent = digits[29];
 
-
         document.getElementById('matrix').style.display = 'block';
-    });
 
+        let mainDigits = [digits[0], digits[1], digits[2], digits[3], digits[4]];
+        await loadDescriptions(mainDigits, dateStr);
+    });
 
 </script>
 </body>

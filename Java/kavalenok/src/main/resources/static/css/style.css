@@ -1,0 +1,1853 @@
+:root {
+    --primary-color: #2E7D32;
+    --secondary-color: #FF9800;
+    --background-color: #F5F5F5;
+    --text-color: #212121;
+    --light-gray: #E0E0E0;
+    --primary-light: #4CAF50;
+    --dark-color: #1B5E20;
+    --light-color: #E8F5E9;
+    --gray-color: #f8f9fa;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    background-color: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+}
+
+
+
+
+
+/* Добавь это в свои стили или в style.css */
+.dropdown-menu.show {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.navbar-nav .dropdown-menu {
+    border: 1px solid rgba(0,0,0,.15);
+    min-width: 200px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Исправления для навигации */
+.navbar {
+    z-index: 1030;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2829, 78, 216, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+.dropdown-item {
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin: 2px 10px;
+    font-size: 15px;
+    color: #333;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f9ff;
+    color: var(--primary-color);
+    transform: translateX(3px);
+}
+
+.dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.dropdown-divider {
+    margin: 8px 20px;
+    opacity: 0.2;
+}
+
+/* Аватар в меню */
+.navbar .rounded-circle {
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.navbar .rounded-circle:hover {
+    border-color: var(--primary-color);
+}
+
+.navbar-collapse.collapsing,
+.navbar-collapse.show {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #4CAF50 100%);
+    padding: 80px 0;
+}
+
+.training-card, .coach-card, .stat-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+
+.training-card:hover, .coach-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #1B5E20 0%, var(--primary-color) 100%);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #1B5E20;
+    border-color: #1B5E20;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.section-title {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.login-page body {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #4CAF50 100%) !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    max-width: 440px;
+    width: 100%;
+    animation: slideUp 0.5s ease-out;
+    margin: 80px auto; /* Отступ для header */
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    border: none;
+}
+
+.login-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.login-logo img {
+    height: 50px;
+    border-radius: 8px;
+}
+
+.login-logo-text {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.login-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.login-body {
+    padding: 40px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-control {
+    padding: 14px 16px;
+    border: 2px solid var(--light-gray);
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s;
+    height: 52px;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.input-group-text {
+    background-color: white;
+    border: 2px solid var(--light-gray);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    color: #666;
+}
+
+.password-toggle {
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.btn-login {
+    background: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.btn-login:hover {
+    background: #1B5E20;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.btn-login i {
+    font-size: 20px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+    color: #666;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light-gray);
+}
+
+.divider span {
+    padding: 0 15px;
+    font-size: 14px;
+}
+
+.login-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray);
+    margin-top: 30px;
+}
+
+.login-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.login-footer a:hover {
+    color: #1B5E20;
+    text-decoration: underline;
+}
+
+.alert {
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.alert-danger {
+    background-color: #fee;
+    color: #dc3545;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: var(--primary-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.spinner-border {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+ .register-container {
+     max-width: 440px;
+     width: 100%;
+     animation: slideUp 0.5s ease-out;
+     margin: 80px auto;
+ }
+
+.password-requirements {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.password-strength {
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.strength-weak {
+    background-color: #dc3545;
+}
+
+.strength-medium {
+    background-color: #ffc107;
+}
+
+.strength-strong {
+    background-color: #28a745;
+}
+
+
+/* Стили для страницы настройки профиля */
+.profile-setup-container {
+    max-width: 900px;
+    width: 100%;
+    animation: slideUp 0.5s ease-out;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+.profile-setup-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: none;
+}
+
+.setup-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #4CAF50 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.setup-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.setup-logo img {
+    height: 60px;
+    border-radius: 10px;
+}
+
+.setup-logo-text {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.setup-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.setup-body {
+    padding: 40px;
+}
+
+/* Секции */
+.section-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--light-gray);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Аватар */
+.avatar-upload-container {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 30px;
+    border: 2px dashed var(--light-gray);
+}
+
+.avatar-preview {
+    position: relative;
+}
+
+.avatar-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.avatar-image.avatar-selected {
+    border-color: var(--primary-color);
+}
+
+.upload-options {
+    margin-top: 20px;
+}
+
+.upload-option {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--light-gray);
+    margin-bottom: 20px;
+}
+
+.option-header {
+    display: flex;
+    align-items: center;
+}
+
+.custom-file-upload {
+    position: relative;
+}
+
+.custom-file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-file-label:hover {
+    background: #1B5E20;
+    transform: translateY(-2px);
+}
+
+.custom-file-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Стандартные аватары */
+.default-avatars {
+    margin-top: 15px;
+}
+
+.default-avatar-option {
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 10px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.default-avatar-option:hover {
+    border-color: var(--light-gray);
+    transform: translateY(-3px);
+}
+
+.default-avatar-option.selected {
+    border-color: var(--primary-color);
+    background: rgba(46, 125, 50, 0.1);
+}
+
+.default-avatar-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Волейбольная информация */
+.volleyball-info-section {
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    border-radius: 12px;
+    padding: 25px;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Кнопка сохранения */
+.setup-btn {
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.setup-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+/* Формы */
+.form-control, .form-select {
+    padding: 12px 15px;
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Стили для профиля */
+.profile-section {
+    padding: 40px 0;
+}
+
+.profile-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 30px;
+    transition: var(--transition);
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 30px;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border: 4px solid white;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.profile-role {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+.profile-badge {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 25px 0;
+    background: var(--gray-color);
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Информационные карточки */
+.info-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+}
+
+.info-card h5 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--light-color);
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.info-item:hover {
+    background: var(--light-color);
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--light-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary-color);
+}
+
+.info-content h6 {
+    margin-bottom: 3px;
+    color: #333;
+}
+
+.info-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Кнопки действий */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    flex: 1;
+    min-width: 150px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary-action {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary-action:hover {
+    background: var(--dark-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-secondary-action {
+    background: var(--gray-color);
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.btn-secondary-action:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+/* Бейджи навыков */
+.skill-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 5px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Активность */
+.activity-timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.activity-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--primary-light);
+}
+
+.activity-item {
+    position: relative;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.activity-item::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px var(--light-color);
+}
+
+.activity-time {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.activity-text {
+    color: #555;
+    margin: 0;
+}
+
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+
+/* Стили для страницы тренеров */
+.coaches-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+}
+
+.coaches-header {
+    margin-bottom: 50px;
+}
+
+.coaches-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+}
+
+.coaches-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.coaches-search {
+    max-width: 500px;
+    margin: 0 auto 40px;
+}
+
+.search-input-group {
+    position: relative;
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.search-input {
+    padding: 15px 20px 15px 50px;
+    border: 2px solid var(--light-gray);
+    border-radius: var(--radius);
+    font-size: 16px;
+    transition: var(--transition);
+    height: 56px;
+}
+
+.search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    z-index: 2;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    background: white;
+    border: 2px solid var(--light-gray);
+    border-radius: 30px;
+    color: #666;
+    font-weight: 500;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filter-btn i {
+    margin-right: 8px;
+}
+
+/* Карточка тренера */
+.coach-card-enhanced {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+    margin-bottom: 30px;
+    border: none;
+}
+
+.coach-card-enhanced:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.coach-header {
+    position: relative;
+    padding: 30px 20px 20px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    text-align: center;
+    color: white;
+}
+
+.coach-avatar {
+    width: 140px;
+    height: 140px;
+    border: 4px solid white;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.coach-card-enhanced:hover .coach-avatar {
+    transform: scale(1.05);
+}
+
+.coach-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.coach-specialty {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.coach-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: #FFD700;
+    font-size: 1.1rem;
+}
+
+.rating-value {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.coach-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.coach-status.online {
+    background: rgba(76, 175, 80, 0.8);
+}
+
+.coach-status.offline {
+    background: rgba(158, 158, 158, 0.8);
+}
+
+.coach-body {
+    padding: 25px;
+}
+
+.coach-info {
+    margin-bottom: 20px;
+}
+
+.coach-info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.coach-info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.info-icon {
+    width: 24px;
+    text-align: center;
+    color: var(--primary-color);
+    margin-right: 12px;
+    margin-top: 2px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+}
+
+.info-value {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.coach-skills {
+    margin-bottom: 20px;
+}
+
+.skills-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background: var(--light-color);
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.skill-tag:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.coach-achievements {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.achievements-title {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.achievements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.achievements-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.achievements-list li:before {
+    content: '🏆';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.coach-footer {
+    padding: 20px 25px;
+    background: var(--gray-color);
+    border-top: 1px solid var(--light-gray);
+    text-align: center;
+}
+
+.coach-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-coach-action {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.btn-view-profile {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-view-profile:hover {
+    background: var(--dark-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+.btn-message {
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-message:hover {
+    background: var(--light-color);
+    transform: translateY(-2px);
+}
+
+/* Пагинация */
+.coaches-pagination {
+    margin-top: 50px;
+}
+
+.pagination-custom {
+    justify-content: center;
+}
+
+.page-item .page-link {
+    padding: 10px 18px;
+    margin: 0 5px;
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.page-item .page-link:hover {
+    background: var(--light-color);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.page-item.active .page-link {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.page-item.disabled .page-link {
+    color: #ccc;
+    border-color: var(--light-gray);
+    cursor: not-allowed;
+}
+
+/* Пустой результат */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    color: var(--light-gray);
+    margin-bottom: 20px;
+}
+
+.no-results h3 {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.no-results p {
+    color: #999;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Анимации для фильтров */
+.filter-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.filter-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .coaches-title {
+        font-size: 2rem;
+    }
+
+    .coach-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .coach-actions {
+        flex-direction: column;
+    }
+
+    .btn-coach-action {
+        width: 100%;
+    }
+
+    .filter-buttons {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+    }
+
+    .filter-btn {
+        white-space: nowrap;
+    }
+}
+
+.coach-card-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.coach-card-loading:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+
+
+
+
+.calendar-section {
+    padding: 40px 0;
+}
+
+.calendar-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.calendar-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #398a1e;
+    margin-bottom: 10px;
+}
+
+.calendar-subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-month {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #428a1e;
+}
+
+.btn-calendar-nav {
+    background: linear-gradient(135deg, #468a1e, #3bf63e);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-calendar-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(106, 246, 59, 0.3);
+}
+
+.calendar-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: 700;
+    color: #428a1e;
+    padding: 10px;
+    background: linear-gradient(135deg, #54f63b, #228a1e);
+    color: white;
+    border-radius: 8px;
+}
+
+.calendar-day {
+    min-height: 120px;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.calendar-day:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-day.today {
+    border: 2px solid #4ef63b;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.calendar-day.weekend {
+    background: #f8fafc;
+}
+
+.day-number {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c8a1e;
+}
+
+.day-name {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.training-list {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.training-list h3 {
+    font-size: 1.8rem;
+    color: #1e8a20;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.training-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+    border-left: 4px solid #4ef63b;
+}
+
+.training-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.training-card.full {
+    border-left-color: #ef4444;
+    opacity: 0.7;
+}
+
+.training-card.today {
+    border-left-color: #3ab910;
+    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+}
+
+.training-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.training-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #328a1e;
+    margin: 0;
+}
+
+.training-time {
+    background: linear-gradient(135deg, #41f63b, #328a1e);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.training-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.training-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.training-info-icon {
+    color: #41f63b;
+    font-size: 1.1rem;
+}
+
+.training-info-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.training-info-value {
+    color: #3d8a1e;
+    font-weight: 600;
+}
+
+.training-coach {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.coach-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.training-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-register {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    flex: 1;
+}
+
+.btn-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 185, 16, 0.3);
+}
+
+.btn-register:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-details {
+    background: linear-gradient(135deg, #4ef63b, #1e8a23);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-details:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(78, 246, 59, 0.3);
+}
+
+.no-trainings {
+    text-align: center;
+    padding: 40px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.no-trainings i {
+    font-size: 3rem;
+    color: #9ca3af;
+    margin-bottom: 15px;
+}
+
+.no-trainings h4 {
+    color: #64748b;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.no-trainings p {
+    color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+    .calendar-container {
+        grid-template-columns: 1fr;
+    }
+
+    .training-info {
+        grid-template-columns: 1fr;
+    }
+
+    .training-actions {
+        flex-direction: column;
+    }
+}
+
+
+.btn-add-training {
+    position: static;
+    margin-top: 15px;
+    align-self: center;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-add-training:hover {
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.btn-add-training i {
+    margin-right: 8px;
+}
+
+.calendar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendar-header-actions {
+    margin-top: 15px;
+}
+
+.btn-add-training {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Форма добавления тренировки */
+.training-create-card {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.training-create-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #4CAF50 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.training-create-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.training-create-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.training-create-form {
+    padding: 30px;
+}
+
+.training-create-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.training-create-actions .btn-login {
+    padding: 12px 24px;
+    height: auto;
+}
+
+.my-training-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.my-training-item:last-child {
+    border-bottom: none;
+}
+
+.action-buttons .btn-action.text-decoration-none {
+    color: inherit;
+}
+
+.action-buttons a.btn-primary-action {
+    color: white;
+}
+
+.action-buttons a.btn-secondary-action {
+    color: #333;
+}
