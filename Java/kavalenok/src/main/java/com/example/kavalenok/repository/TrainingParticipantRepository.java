@@ -1,10 +1,12 @@
 package com.example.kavalenok.repository;
 
 import com.example.kavalenok.model.TrainingParticipant;
+import com.example.kavalenok.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +21,14 @@ public interface TrainingParticipantRepository extends JpaRepository<TrainingPar
 
     @Query("SELECT COUNT(tp) FROM TrainingParticipant tp WHERE tp.training.id = :trainingId AND tp.status IN ('PENDING', 'APPROVED', 'ATTENDED')")
     long countByTrainingId(Long trainingId);
+
+
+    @Query("SELECT COUNT(tp) > 0 FROM TrainingParticipant tp " +
+            "JOIN tp.training t " +
+            "WHERE tp.user.id = :userId AND t.coach.id = :coachId " +
+            "AND tp.status IN :statuses")
+    boolean existsByUserIdAndCoachIdAndStatusIn(@Param("userId") Long userId,
+                                                @Param("coachId") Long coachId,
+                                                @Param("statuses") Collection<TrainingParticipant.Status> statuses);
+
 }

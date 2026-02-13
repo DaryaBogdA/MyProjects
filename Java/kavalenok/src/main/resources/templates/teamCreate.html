@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать команду</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="calendar-section">
+    <div class="container">
+        <div class="training-create-card">
+            <div class="training-create-header" style="background: linear-gradient(135deg, #2E7D32, #4CAF50);">
+                <h1 class="training-create-title">
+                    <i class="fas fa-users me-2"></i>Создать команду
+                </h1>
+                <p class="training-create-subtitle">Стань капитаном и собери свою волейбольную команду</p>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger m-3" th:text="${errorMessage}"></div>
+
+            <form th:action="@{/teams/create}" method="post" class="training-create-form">
+                <div class="form-group mb-3">
+                    <label for="name" class="form-label">
+                        <i class="fas fa-tag me-2 text-primary"></i>Название команды *
+                    </label>
+                    <input type="text" id="name" name="name" class="form-control" required
+                           placeholder="Например: «Молния»">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="description" class="form-label">
+                        <i class="fas fa-align-left me-2 text-primary"></i>Описание
+                    </label>
+                    <textarea id="description" name="description" rows="3" class="form-control"
+                              placeholder="Расскажите о команде, требованиях и т.д."></textarea>
+                </div>
+
+                <div class="training-create-actions">
+                    <button type="submit" class="btn btn-primary btn-login">
+                        <i class="fas fa-check me-2"></i>Создать команду
+                    </button>
+                    <a th:href="@{/teams}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

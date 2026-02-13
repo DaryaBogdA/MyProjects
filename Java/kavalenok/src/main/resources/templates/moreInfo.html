@@ -41,7 +41,6 @@
                     </h4>
 
                     <div class="avatar-upload-container">
-                        <!-- Предпросмотр выбранного аватара -->
                         <div class="avatar-preview mb-4 text-center">
                             <img id="avatarPreview"
                                  th:src="@{/img/avatars/1.png}"
@@ -182,8 +181,6 @@
                     </div>
                 </div>
 
-                <!-- Кнопки -->
-                <div class="setup-actions mt-5">
                     <div class="d-flex justify-content-between">
                         <a th:href="@{/}" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Пропустить
@@ -209,7 +206,6 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById('avatarPreview').src = e.target.result;
-                // Сбрасываем выбор готового аватара
                 document.getElementById('selectedDefaultAvatar').value = '';
             };
             reader.readAsDataURL(file);

@@ -18,14 +18,31 @@ public class TeamMember {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "joined_at")
-    private LocalDateTime joinedAt;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TeamRole role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TeamMemberStatus status = TeamMemberStatus.PENDING;
+
+    @Column(name = "applied_at", nullable = false)
+    private LocalDateTime appliedAt;
+
+    @Column(name = "responded_at")
+    private LocalDateTime respondedAt;
 
     public TeamMember() {}
 
-    public TeamMember(Team team, User user) {
+    public TeamMember(Team team, User user, TeamRole role) {
         this.team = team;
         this.user = user;
+        this.role = role;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.appliedAt = LocalDateTime.now();
     }
 
     public Team getTeam() {
@@ -44,60 +61,36 @@ public class TeamMember {
         this.user = user;
     }
 
-    public LocalDateTime getJoinedAt() {
-        return joinedAt;
+    public TeamRole getRole() {
+        return role;
     }
 
-    public void setJoinedAt(LocalDateTime joinedAt) {
-        this.joinedAt = joinedAt;
+    public void setRole(TeamRole role) {
+        this.role = role;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        this.joinedAt = LocalDateTime.now();
-    }
-}
-
-class TeamMemberId implements java.io.Serializable {
-    private Long team;
-    private Long user;
-
-    public TeamMemberId() {}
-
-    public TeamMemberId(Long team, Long user) {
-        this.team = team;
-        this.user = user;
+    public TeamMemberStatus getStatus() {
+        return status;
     }
 
-    public Long getTeam() {
-        return team;
+    public void setStatus(TeamMemberStatus status) {
+        this.status = status;
     }
 
-    public void setTeam(Long team) {
-        this.team = team;
+    public LocalDateTime getAppliedAt() {
+        return appliedAt;
     }
 
-    public Long getUser() {
-        return user;
+    public void setAppliedAt(LocalDateTime appliedAt) {
+        this.appliedAt = appliedAt;
     }
 
-    public void setUser(Long user) {
-        this.user = user;
+    public LocalDateTime getRespondedAt() {
+        return respondedAt;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TeamMemberId that = (TeamMemberId) o;
-        return team.equals(that.team) && user.equals(that.user);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = team.hashCode();
-        result = 31 * result + user.hashCode();
-        return result;
+    public void setRespondedAt(LocalDateTime respondedAt) {
+        this.respondedAt = respondedAt;
     }
 }
+

@@ -1,8 +1,10 @@
 package com.example.kavalenok.controller;
 
+import com.example.kavalenok.model.Friend;
 import com.example.kavalenok.model.Training;
 import com.example.kavalenok.model.TrainingParticipant;
 import com.example.kavalenok.model.User;
+import com.example.kavalenok.repository.FriendRepository;
 import com.example.kavalenok.repository.TrainingParticipantRepository;
 import com.example.kavalenok.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private FriendRepository friendRepository;
+
     @GetMapping("/user")
     public String user(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -45,9 +50,27 @@ public class UserController {
             myTrainings = Collections.emptyList();
         }
 
+        List<User> friends = getFriendsForUser(user);
+
+        model.addAttribute("friends", friends);
         model.addAttribute("user", user);
         model.addAttribute("myTrainings", myTrainings);
         return "user";
+    }
+
+    private List<User> getFriendsForUser(User user) {
+        List<Friend> friendships = friendRepository.findAllFriends(user.getId());
+        List<User> friends = new ArrayList<>();
+
+        for (Friend friendship : friendships) {
+            if (friendship.getUser1().getId().equals(user.getId())) {
+                friends.add(friendship.getUser2());
+            } else {
+                friends.add(friendship.getUser1());
+            }
+        }
+
+        return friends;
     }
 
     @GetMapping("/profile/{id}")

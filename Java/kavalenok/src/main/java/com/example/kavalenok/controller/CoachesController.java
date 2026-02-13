@@ -1,6 +1,5 @@
 package com.example.kavalenok.controller;
 
-import com.example.kavalenok.model.CoachProfile;
 import com.example.kavalenok.model.User;
 import com.example.kavalenok.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;

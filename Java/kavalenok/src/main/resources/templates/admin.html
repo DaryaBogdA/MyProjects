@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Администрирование - VolleyPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="coaches-section">
+    <div class="container">
+        <div class="coaches-header fade-in">
+            <h1 class="coaches-title">Панель администратора</h1>
+            <p class="coaches-subtitle">Управление пользователями и их ролями</p>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Аватар</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Текущая роль</th>
+                    <th>Статус</th>
+                    <th>Изменить роль</th>
+                    <th>Блокировка</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${users}">
+                    <td th:text="${u.id}"></td>
+                    <td>
+                        <img th:src="@{${u.avatarUrl} ?: '/img/avatars/1.png'}"
+                             class="rounded-circle"
+                             style="width: 50px; height: 50px; object-fit: cover;"
+                             onerror="this.src='/img/avatars/1.png'">
+                    </td>
+                    <td th:text="${u.firstName} + ' ' + ${u.lastName}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td>
+            <span th:text="${u.role}"
+                  th:classappend="${u.role.name() == 'ADMIN'} ? 'badge bg-danger' :
+                                   (${u.role.name() == 'COACH'} ? 'badge bg-success' : 'badge bg-primary')">
+            </span>
+                    </td>
+                    <td>
+                        <span th:if="${u.locked}" class="badge bg-danger">Заблокирован</span>
+                        <span th:unless="${u.locked}" class="badge bg-success">Активен</span>
+                    </td>
+                    <td>
+                        <form th:action="@{/admin/user/{id}/role(id=${u.id})}" method="post" class="d-flex gap-2">
+                            <select name="role" class="form-select form-select-sm" style="width: 120px;">
+                                <option th:each="role : ${T(com.example.kavalenok.model.User.Role).values()}"
+                                        th:value="${role}"
+                                        th:text="${role}"
+                                        th:selected="${role == u.role}">
+                                </option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:if="${!u.locked}" th:action="@{/admin/user/{id}/lock(id=${u.id})}" method="post"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-warning"
+                                    th:disabled="${u.id == session.user.id}">
+                                <i class="fas fa-lock"></i> Заблокировать
+                            </button>
+                        </form>
+                        <form th:if="${u.locked}" th:action="@{/admin/user/{id}/unlock(id=${u.id})}" method="post"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-success"
+                                    th:disabled="${u.id == session.user.id}">
+                                <i class="fas fa-lock-open"></i> Разблокировать
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

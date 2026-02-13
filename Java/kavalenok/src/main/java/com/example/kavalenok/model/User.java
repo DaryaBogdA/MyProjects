@@ -55,12 +55,21 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private CoachProfile coachProfile;
 
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean locked = false;
+
+
+
     public User() {}
 
     public User(String email, String passwordHash) {
         this.email = email;
         this.passwordHash = passwordHash;
     }
+
+    public Boolean getLocked() { return locked; }
+
+    public void setLocked(Boolean locked) { this.locked = locked; }
 
     public Long getId() {
         return id;

@@ -36,6 +36,10 @@ public class LoginService {
 
         User user = userOptional.get();
 
+        if (user.getLocked() != null && user.getLocked()) {
+            throw new IllegalArgumentException("Ваш аккаунт заблокирован. Обратитесь к администратору.");
+        }
+
         if (!BCrypt.checkpw(password, user.getPasswordHash())) {
             throw new IllegalArgumentException("Неверный email или пароль");
         }

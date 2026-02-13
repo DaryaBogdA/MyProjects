@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${teamData.team.name}">Команда</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="profile-section">
+    <div class="container">
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <div class="row">
+            <div class="col-lg-5 mb-4">
+                <div class="profile-card">
+                    <div class="profile-header" style="background: linear-gradient(135deg, #2E7D32, #4CAF50);">
+                        <h1 class="profile-name" th:text="${teamData.team.name}">Название команды</h1>
+                        <p class="profile-role">
+                            <i class="fas fa-chalkboard-teacher me-1"></i> Тренер:
+                            <span th:text="${teamData.team.captain.firstName} + ' ' + ${teamData.team.captain.lastName}">
+                                Имя Тренера
+                            </span>
+                        </p>
+                    </div>
+                    <div class="card-body p-4">
+                        <h5><i class="fas fa-info-circle me-2"></i>Описание</h5>
+                        <p th:text="${teamData.team.description ?: 'Нет описания'}" class="text-muted"></p>
+                        <hr>
+                        <h5><i class="fas fa-users me-2"></i>Состав команды</h5>
+
+                        <div th:each="role : ${T(com.example.kavalenok.model.TeamRole).values()}" class="team-role-row">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-bold" th:text="${role.displayName}">Связующий</span>
+                                <span class="badge bg-primary rounded-pill"
+                                      th:text="${teamData.roleCounts.get(role)} + '/' + ${roleLimits.get(role)}">
+                                    0/1
+                                </span>
+                            </div>
+                            <ul class="list-unstyled ms-3 mb-3">
+                                <li th:each="member : ${teamData.approvedMembers}" th:if="${member.role == role}">
+                                    <i class="fas fa-user me-2 text-muted"></i>
+                                    <a th:href="@{/profile/{id}(id=${member.user.id})}" class="text-decoration-none"
+                                       th:text="${member.user.firstName} + ' ' + ${member.user.lastName}">
+                                        Имя Фамилия
+                                    </a>
+                                    <span th:if="${isCaptain && member.user.id != teamData.team.captain.id}">
+                                        <form th:action="@{/teams/{teamId}/remove/{userId}(teamId=${teamData.team.id}, userId=${member.user.id})}"
+                                              method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-link text-danger p-0 ms-2"
+                                                    onclick="return confirm('Удалить участника?')">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div th:if="${currentUser == null}" class="info-card text-center">
+                    <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
+                    <h5>Войдите, чтобы присоединиться к команде</h5>
+                    <a th:href="@{/login}" class="btn btn-primary mt-2">Войти</a>
+                </div>
+
+                <div th:if="${currentUser != null}">
+                    <div th:if="${isCaptain}" class="info-card mb-4">
+                        <h5><i class="fas fa-clock me-2"></i>Входящие заявки</h5>
+                        <div th:if="${#lists.isEmpty(teamData.pendingRequests)}" class="text-muted">
+                            Нет заявок на вступление
+                        </div>
+                        <div th:if="${not #lists.isEmpty(teamData.pendingRequests)}">
+                            <div th:each="req : ${teamData.pendingRequests}" class="border-bottom pb-2 mb-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <a th:href="@{/profile/{id}(id=${req.user.id})}"
+                                           th:text="${req.user.firstName} + ' ' + ${req.user.lastName}">
+                                            Имя Фамилия
+                                        </a>
+                                        <span class="badge bg-secondary ms-2" th:text="${req.role.displayName}"></span>
+                                    </div>
+                                    <div>
+                                        <form th:action="@{/teams/{teamId}/approve/{userId}(teamId=${teamData.team.id}, userId=${req.user.id})}"
+                                              method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success me-1"
+                                                    th:disabled="${!teamData.isRoleAvailable(req.role)}"
+                                                    th:title="${!teamData.isRoleAvailable(req.role)} ? 'Лимит на позицию достигнут' : ''">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                        <form th:action="@{/teams/{teamId}/reject/{userId}(teamId=${teamData.team.id}, userId=${req.user.id})}"
+                                              method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${!isCaptain}" class="info-card mb-4">
+                        <h5><i class="fas fa-hand-paper me-2"></i>Присоединиться к команде</h5>
+                        <div th:if="${existingMembership == null}">
+                            <form th:action="@{/teams/{id}/apply(id=${teamData.team.id})}" method="post">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <select name="role" class="form-select" required>
+                                        <option value="" disabled selected>— Выберите роль —</option>
+                                        <option th:each="role : ${T(com.example.kavalenok.model.TeamRole).values()}"
+                                                th:value="${role}"
+                                                th:text="${role.displayName}"
+                                                th:disabled="${!teamData.isRoleAvailable(role)}">
+                                        </option>
+                                    </select>
+                                    <button type="submit" class="btn btn-success">Отправить заявку</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div th:if="${existingMembership != null}" class="alert alert-info mt-3">
+                            <th:block th:switch="${existingMembership.status.name()}">
+                                <div th:case="'PENDING'">
+                                    Ваша заявка на рассмотрении (роль: <span th:text="${existingMembership.role.displayName}"></span>)
+                                </div>
+                                <div th:case="'APPROVED'">
+                                    Вы уже в команде (роль: <span th:text="${existingMembership.role.displayName}"></span>)
+                                </div>
+                                <div th:case="'REJECTED'">Ваша заявка отклонена</div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

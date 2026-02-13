@@ -27,6 +27,47 @@
             </div>
         </div>
 
+        <div class="filters-card fade-in">
+            <form th:action="@{/trainings}" method="get" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label for="titleFilter" class="form-label fw-semibold">Название</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" id="titleFilter" name="title"
+                               th:value="${filterTitle}" placeholder="Введите название...">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="locationFilter" class="form-label fw-semibold">Место</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt"></i></span>
+                        <input type="text" class="form-control" id="locationFilter" name="location"
+                               th:value="${filterLocation}" placeholder="Где?">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="coachFilter" class="form-label fw-semibold">Тренер</label>
+                    <select class="form-select" id="coachFilter" name="coachId">
+                        <option value="">Все тренеры</option>
+                        <option th:each="coach : ${coaches}"
+                                th:value="${coach.id}"
+                                th:text="${coach.firstName} + ' ' + ${coach.lastName}"
+                                th:selected="${filterCoachId != null && filterCoachId == coach.id}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-fill">
+                        <i class="fas fa-filter me-1"></i>Фильтр
+                    </button>
+                    <a th:href="@{/trainings}" class="btn btn-outline-secondary flex-fill">
+                        <i class="fas fa-undo me-1"></i>Сброс
+                    </a>
+                </div>
+            </form>
+        </div>
+        <br>
+
         <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
         <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 

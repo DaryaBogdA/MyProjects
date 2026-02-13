@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доска объявлений - VolleyPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="coaches-section">
+    <div class="container">
+        <div class="coaches-header fade-in">
+            <h1 class="coaches-title">Доска объявлений</h1>
+            <p class="coaches-subtitle">Ищите команду, игроков или информацию о мероприятиях</p>
+        </div>
+
+        <div th:if="${#lists.isEmpty(announcements)}" class="no-results">
+            <i class="fas fa-bullhorn no-results-icon"></i>
+            <h3>Пока нет объявлений</h3>
+            <p>Скоро здесь появятся новые предложения!</p>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(announcements)}" class="row">
+            <div th:each="announcement : ${announcements}" class="col-lg-6 col-md-12 mb-4">
+                <div class="coach-card-enhanced fade-in">
+                    <div class="coach-header" style="background: linear-gradient(135deg, #2E7D32, #4CAF50);">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h3 class="coach-name mb-0" th:text="${announcement.title}">Название</h3>
+                        </div>
+                        <div class="coach-specialty mt-2">
+                            <i class="fas fa-user me-1"></i>
+                            <span th:text="${announcement.author.firstName} + ' ' + ${announcement.author.lastName}"></span>
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-calendar me-1"></i>
+                            <span th:text="${#temporals.format(announcement.createdAt, 'dd.MM.yyyy')}"></span>
+                        </div>
+                    </div>
+                    <div class="coach-body">
+                        <div class="coach-bio">
+                            <p class="bio-text" th:text="${announcement.content}" style="white-space: pre-line;"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

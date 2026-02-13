@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Команды</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="coaches-section">
+    <div class="container">
+        <div class="coaches-header">
+            <h1 class="coaches-title"><i class="fas fa-users me-2"></i>Команды</h1>
+            <p class="coaches-subtitle">Присоединяйся к существующей команде или создай свою</p>
+
+            <div th:if="${session.user != null and session.user.role.name() == 'COACH'}"
+                 class="text-center mt-4">
+                <a th:href="@{/teams/create}" class="btn btn-success btn-lg">
+                    <i class="fas fa-plus-circle me-2"></i>Создать команду
+                </a>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(teams)}" class="no-results">
+            <i class="fas fa-users no-results-icon"></i>
+            <h3>Пока нет ни одной команды</h3>
+            <p>Будьте первым, кто создаст команду!</p>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(teams)}" class="row">
+            <div th:each="team : ${teams}" class="col-md-6 col-lg-4 mb-4">
+                <div class="coach-card-enhanced">
+                    <div class="coach-header" style="background: linear-gradient(135deg, #2E7D32, #4CAF50);">
+                        <h3 class="coach-name" th:text="${team.name}">Название</h3>
+                        <p class="coach-specialty">
+                            <i class="fas fa-chalkboard-teacher me-1"></i> Тренер:
+                            <span th:text="${team.captain.firstName} + ' ' + ${team.captain.lastName}"></span>
+                        </p>
+                    </div>
+                    <div class="coach-body">
+                        <p th:text="${team.description ?: 'Описание отсутствует'}" class="text-muted">
+                        </p>
+                    </div>
+                    <div class="coach-footer">
+                        <a th:href="@{/teams/{id}(id=${team.id})}" class="btn-coach-action btn-view-profile w-100">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

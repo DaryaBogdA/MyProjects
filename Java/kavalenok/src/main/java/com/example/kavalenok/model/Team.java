@@ -31,6 +31,18 @@ public class Team {
         this.captain = captain;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coach_id")
+    private User coach;
+
+    public User getCoach() {
+        return coach;
+    }
+
+    public void setCoach(User coach) {
+        this.coach = coach;
+    }
+
     public Long getId() {
         return id;
     }

@@ -24,11 +24,6 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
 }
 
-
-
-
-
-/* Добавь это в свои стили или в style.css */
 .dropdown-menu.show {
     display: block;
     animation: fadeIn 0.2s ease;
@@ -44,17 +39,6 @@ h1, h2, h3, h4, h5, h6 {
     min-width: 200px;
 }
 
-
-
-
-
-
-
-
-
-
-
-/* Исправления для навигации */
 .navbar {
     z-index: 1030;
 }
@@ -73,7 +57,6 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2829, 78, 216, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-
 
 .dropdown-item {
     padding: 10px 20px;
@@ -102,7 +85,6 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 0.2;
 }
 
-/* Аватар в меню */
 .navbar .rounded-circle {
     border: 2px solid #e9ecef;
     transition: all 0.3s ease;
@@ -128,28 +110,12 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .hero-section {
     background: linear-gradient(135deg, var(--primary-color) 0%, #4CAF50 100%);
     padding: 80px 0;
 }
 
-.training-card, .coach-card, .stat-card {
+.training-card, .coach-card {
     transition: transform 0.3s, box-shadow 0.3s;
     border: none;
 }
@@ -211,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 440px;
     width: 100%;
     animation: slideUp 0.5s ease-out;
-    margin: 80px auto; /* Отступ для header */
+    margin: 80px auto;
 }
 
 @keyframes slideUp {
@@ -412,21 +378,12 @@ h1, h2, h3, h4, h5, h6 {
     border-width: 2px;
 }
 
-
-
-
-
-
-
-
-
-
- .register-container {
-     max-width: 440px;
-     width: 100%;
-     animation: slideUp 0.5s ease-out;
-     margin: 80px auto;
- }
+.register-container {
+    max-width: 440px;
+    width: 100%;
+    animation: slideUp 0.5s ease-out;
+    margin: 80px auto;
+}
 
 .password-requirements {
     font-size: 12px;
@@ -460,8 +417,6 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #28a745;
 }
 
-
-/* Стили для страницы настройки профиля */
 .profile-setup-container {
     max-width: 900px;
     width: 100%;
@@ -514,7 +469,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 40px;
 }
 
-/* Секции */
 .section-title {
     color: var(--primary-color);
     border-bottom: 2px solid var(--light-gray);
@@ -522,7 +476,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
 }
 
-/* Аватар */
 .avatar-upload-container {
     background: #f8f9fa;
     border-radius: 12px;
@@ -594,7 +547,6 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
 }
 
-/* Стандартные аватары */
 .default-avatars {
     margin-top: 15px;
 }
@@ -627,17 +579,6 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-
-/* Волейбольная информация */
-.volleyball-info-section {
-    background: linear-gradient(to right, #f8f9fa, #ffffff);
-    border-radius: 12px;
-    padding: 25px;
-    border-left: 4px solid var(--primary-color);
-}
-
-/* Кнопка сохранения */
 .setup-btn {
     padding: 12px 30px;
     font-size: 18px;
@@ -651,7 +592,6 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
 }
 
-/* Формы */
 .form-control, .form-select {
     padding: 12px 15px;
     border: 2px solid var(--light-gray);
@@ -673,26 +613,6 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Стили для профиля */
 .profile-section {
     padding: 40px 0;
 }
@@ -775,7 +695,6 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 1px;
 }
 
-/* Информационные карточки */
 .info-card {
     background: white;
     border-radius: var(--radius);
@@ -833,7 +752,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.95rem;
 }
 
-/* Кнопки действий */
 .action-buttons {
     display: flex;
     gap: 10px;
@@ -876,69 +794,6 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-2px);
 }
 
-/* Бейджи навыков */
-.skill-badge {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 5px;
-    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-    color: white;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-/* Активность */
-.activity-timeline {
-    position: relative;
-    padding-left: 30px;
-}
-
-.activity-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--primary-light);
-}
-
-.activity-item {
-    position: relative;
-    margin-bottom: 25px;
-    padding: 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.activity-item::before {
-    content: '';
-    position: absolute;
-    left: -36px;
-    top: 20px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    border: 3px solid white;
-    box-shadow: 0 0 0 3px var(--light-color);
-}
-
-.activity-time {
-    color: var(--primary-color);
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.activity-text {
-    color: #555;
-    margin: 0;
-}
-
-
-/* Анимации */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -954,8 +809,6 @@ h1, h2, h3, h4, h5, h6 {
     animation: fadeIn 0.6s ease-out;
 }
 
-
-/* Стили для страницы тренеров */
 .coaches-section {
     padding: 60px 0;
     background-color: var(--background-color);
@@ -1047,7 +900,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 8px;
 }
 
-/* Карточка тренера */
 .coach-card-enhanced {
     background: white;
     border-radius: var(--radius);
@@ -1181,39 +1033,6 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.4;
 }
 
-.coach-skills {
-    margin-bottom: 20px;
-}
-
-.skills-title {
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-    font-size: 1rem;
-}
-
-.skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.skill-tag {
-    background: var(--light-color);
-    color: var(--primary-color);
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.skill-tag:hover {
-    background: var(--primary-color);
-    color: white;
-    transform: translateY(-2px);
-}
-
 .coach-achievements {
     background: #f8f9fa;
     border-radius: 8px;
@@ -1297,44 +1116,6 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-2px);
 }
 
-/* Пагинация */
-.coaches-pagination {
-    margin-top: 50px;
-}
-
-.pagination-custom {
-    justify-content: center;
-}
-
-.page-item .page-link {
-    padding: 10px 18px;
-    margin: 0 5px;
-    border: 2px solid var(--light-gray);
-    border-radius: 8px;
-    color: var(--primary-color);
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.page-item .page-link:hover {
-    background: var(--light-color);
-    border-color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-.page-item.active .page-link {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: white;
-}
-
-.page-item.disabled .page-link {
-    color: #ccc;
-    border-color: var(--light-gray);
-    cursor: not-allowed;
-}
-
-/* Пустой результат */
 .no-results {
     text-align: center;
     padding: 60px 20px;
@@ -1360,7 +1141,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
-/* Анимации для фильтров */
 .filter-btn {
     position: relative;
     overflow: hidden;
@@ -1394,61 +1174,6 @@ h1, h2, h3, h4, h5, h6 {
         opacity: 0;
     }
 }
-
-@media (max-width: 768px) {
-    .coaches-title {
-        font-size: 2rem;
-    }
-
-    .coach-avatar {
-        width: 120px;
-        height: 120px;
-    }
-
-    .coach-actions {
-        flex-direction: column;
-    }
-
-    .btn-coach-action {
-        width: 100%;
-    }
-
-    .filter-buttons {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        padding-bottom: 10px;
-    }
-
-    .filter-btn {
-        white-space: nowrap;
-    }
-}
-
-.coach-card-loading {
-    position: relative;
-    overflow: hidden;
-}
-
-.coach-card-loading:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-
-
-
 
 .calendar-section {
     padding: 40px 0;
@@ -1497,63 +1222,6 @@ h1, h2, h3, h4, h5, h6 {
 .btn-calendar-nav:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(106, 246, 59, 0.3);
-}
-
-.calendar-container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 15px;
-    margin-bottom: 40px;
-}
-
-.calendar-day-header {
-    text-align: center;
-    font-weight: 700;
-    color: #428a1e;
-    padding: 10px;
-    background: linear-gradient(135deg, #54f63b, #228a1e);
-    color: white;
-    border-radius: 8px;
-}
-
-.calendar-day {
-    min-height: 120px;
-    background: white;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-.calendar-day:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.calendar-day.today {
-    border: 2px solid #4ef63b;
-    background: linear-gradient(135deg, #eff6ff, #dbeafe);
-}
-
-.calendar-day.weekend {
-    background: #f8fafc;
-}
-
-.day-number {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #2c8a1e;
-}
-
-.day-name {
-    font-size: 0.8rem;
-    color: #64748b;
-    margin-bottom: 5px;
 }
 
 .training-list {
@@ -1691,21 +1359,6 @@ h1, h2, h3, h4, h5, h6 {
     transform: none;
 }
 
-.btn-details {
-    background: linear-gradient(135deg, #4ef63b, #1e8a23);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.btn-details:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(78, 246, 59, 0.3);
-}
-
 .no-trainings {
     text-align: center;
     padding: 40px;
@@ -1729,21 +1382,6 @@ h1, h2, h3, h4, h5, h6 {
 .no-trainings p {
     color: #9ca3af;
 }
-
-@media (max-width: 768px) {
-    .calendar-container {
-        grid-template-columns: 1fr;
-    }
-
-    .training-info {
-        grid-template-columns: 1fr;
-    }
-
-    .training-actions {
-        flex-direction: column;
-    }
-}
-
 
 .btn-add-training {
     position: static;
@@ -1769,12 +1407,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 8px;
 }
 
-.calendar-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .calendar-header-actions {
     margin-top: 15px;
 }
@@ -1785,7 +1417,6 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
 }
 
-/* Форма добавления тренировки */
 .training-create-card {
     max-width: 600px;
     margin: 40px auto;
@@ -1851,3 +1482,74 @@ h1, h2, h3, h4, h5, h6 {
 .action-buttons a.btn-secondary-action {
     color: #333;
 }
+
+.coach-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.coach-status.online {
+    background: rgba(76, 175, 80, 0.8);
+}
+
+.coach-status.offline {
+    background: rgba(255, 152, 0, 0.8);
+}
+
+.btn-danger {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
+.flex-fill {
+    flex: 1;
+}
+
+.btn-coach-action {
+    transition: all 0.3s ease;
+}
+
+.btn-coach-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    font-size: 1.5rem;
+}
+
+.star-rating i {
+    color: #ddd;
+    cursor: pointer;
+    margin-right: 0.25rem;
+    transition: color 0.2s;
+}
+
+.star-rating i.fas {
+    color: #ffc107;
+}
+
+.star-rating i:hover,
+.star-rating i:hover ~ i {
+    color: #ffc107;
+}
+
+.chat-container { max-width: 800px; margin: 0 auto; }
+.message-bubble { max-width: 70%; word-wrap: break-word; }
+.message-time { font-size: 0.75rem; opacity: 0.8; }

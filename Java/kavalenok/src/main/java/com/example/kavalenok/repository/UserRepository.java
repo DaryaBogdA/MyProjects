@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
+    List<User> findAllByOrderByIdAsc();
 
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.coachProfile WHERE u.role = 'COACH' ORDER BY u.rating DESC")
     List<User> findAllCoaches();
@@ -20,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "LOWER(u.lastName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
             "LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<User> searchUsers(@Param("query") String query, @Param("excludeId") Long excludeId);
+
+    @Query("SELECT u FROM User u WHERE u.id IN :ids")
+    List<User> findUsersByIds(@Param("ids") List<Long> ids);
 }

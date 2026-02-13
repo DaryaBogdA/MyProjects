@@ -36,99 +36,6 @@
     </div>
 </section>
 
-<!-- Статистика -->
-<!--<section class="stats-section py-5 bg-light">-->
-<!--    <div class="container">-->
-<!--        <div class="row text-center">-->
-<!--            <div class="col-md-4 mb-4">-->
-<!--                <div class="stat-card p-4 rounded shadow-sm">-->
-<!--                    <h2 class="text-primary fw-bold" th:text="${totalTrainings}">150+</h2>-->
-<!--                    <p class="text-muted">Проведённых тренировок</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-md-4 mb-4">-->
-<!--                <div class="stat-card p-4 rounded shadow-sm">-->
-<!--                    <h2 class="text-primary fw-bold" th:text="${totalUsers}">1200+</h2>-->
-<!--                    <p class="text-muted">Активных игроков</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-md-4 mb-4">-->
-<!--                <div class="stat-card p-4 rounded shadow-sm">-->
-<!--                    <h2 class="text-primary fw-bold" th:text="${activeCoaches}">45+</h2>-->
-<!--                    <p class="text-muted>Профессиональных тренеров</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-
-<!--    &lt;!&ndash; Популярные тренировки &ndash;&gt;-->
-<!--    <section class="trainings-section py-5">-->
-<!--                    <div class="container">-->
-<!--                        <div class="d-flex justify-content-between align-items-center mb-5">-->
-<!--                            <h2 class="section-title">Популярные тренировки</h2>-->
-<!--                            <a th:href="@{/trainings}" class="btn btn-outline-primary">Все тренировки →</a>-->
-<!--                        </div>-->
-
-<!--                        <div class="row" th:if="${not trainings.empty}">-->
-<!--                            <div th:each="training : ${trainings}" class="col-md-6 col-lg-4 mb-4">-->
-<!--                                <div class="training-card card h-100 shadow-sm">-->
-<!--                                    <img th:src="${training.imageUrl != null} ? ${training.imageUrl} : @{/images/training-placeholder.jpg}"-->
-<!--                                         class="card-img-top" alt="Тренировка" style="height: 200px; object-fit: cover;">-->
-<!--                                    <div class="card-body d-flex flex-column">-->
-<!--                                        <h5 class="card-title" th:text="${training.title}">Название тренировки</h5>-->
-<!--                                        <p class="card-text flex-grow-1" th:text="${training.description}">Описание...</p>-->
-<!--                                        <div class="d-flex justify-content-between align-items-center">-->
-<!--                                            <small class="text-muted">-->
-<!--                                                <i class="fas fa-calendar-alt me-1"></i>-->
-<!--                                                <span th:text="${#dates.format(training.dateTime, 'dd.MM.yyyy HH:mm')}">01.06.2025 18:00</span>-->
-<!--                                            </small>-->
-<!--                                            <span class="badge bg-success">-->
-<!--                                    <i class="fas fa-users me-1"></i>-->
-<!--                                    <span th:text="${training.currentParticipants} + '/' + ${training.maxParticipants}">0/12</span>-->
-<!--                                </span>-->
-<!--                                        </div>-->
-<!--                                        <a th:href="@{/trainings/{id}(id=${training.id})}" class="btn btn-primary mt-3">Подробнее</a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="row" th:if="${trainings.empty}">-->
-<!--                            <div class="col-12 text-center">-->
-<!--                                <p class="text-muted">Пока нет доступных тренировок. Будь первым!</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--</section>-->
-
-<!-- Топ тренеры -->
-<!--<section class="coaches-section py-5 bg-light">-->
-<!--    <div class="container">-->
-<!--        <h2 class="section-title text-center mb-5">Наши лучшие тренеры</h2>-->
-<!--        <div class="row" th:if="${not topCoaches.empty}">-->
-<!--            <div th:each="coach : ${topCoaches}" class="col-md-6 col-lg-3 mb-4">-->
-<!--                <div class="coach-card card text-center h-100 shadow-sm">-->
-<!--                    <div class="card-body">-->
-<!--                        <img th:src="${coach.avatarUrl != null} ? ${coach.avatarUrl} : @{/images/avatar-placeholder.png}"-->
-<!--                             class="rounded-circle mb-3" alt="Аватар" width="100" height="100">-->
-<!--                        <h5 class="card-title" th:text="${coach.firstName} + ' ' + ${coach.lastName}">Имя Фамилия</h5>-->
-<!--                        <div class="rating mb-2">-->
-<!--                                <span class="text-warning">-->
-<!--                                    <i class="fas fa-star" th:each="i : ${#numbers.sequence(1, 5)}"-->
-<!--                                       th:classappend="${i <= coach.rating} ? 'fas fa-star' : 'far fa-star'"></i>-->
-<!--                                </span>-->
-<!--                            <span class="ms-1" th:text="${coach.rating}">4.8</span>-->
-<!--                        </div>-->
-<!--                        <p class="card-text text-muted small" th:text="${coach.coachProfile?.experienceYears} + ' лет опыта'">5 лет опыта</p>-->
-<!--                        <a th:href="@{/coaches/{id}(id=${coach.id})}" class="btn btn-outline-primary btn-sm">Профиль</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!-- CTA секция -->
 <section class="cta-section py-5 text-white text-center">
     <div class="container">
         <h2 class="mb-4">Готов начать?</h2>
@@ -145,12 +52,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-
-        // Пример: обработка клика по карточке тренировки
         document.querySelectorAll('.training-card').forEach(card => {
             card.addEventListener('click', function(e) {
                 if (!e.target.closest('a, button')) {
@@ -159,7 +60,6 @@
             });
         });
 
-        // Счётчик статистики (анимация)
         function animateCounter(element, finalValue, duration = 2000) {
             let start = 0;
             const increment = finalValue / (duration / 16);
@@ -174,7 +74,6 @@
             }, 16);
         }
 
-        // Запуск анимации при прокрутке
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {

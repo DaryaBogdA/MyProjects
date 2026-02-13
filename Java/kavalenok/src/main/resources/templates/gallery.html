@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея - VolleyPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+    <style>
+        .gallery-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1050;
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<section class="coaches-section">
+    <div class="container">
+        <div class="coaches-header fade-in">
+            <h1 class="coaches-title">Галерея тренировок</h1>
+            <p class="coaches-subtitle">Фотографии с наших волейбольных мероприятий</p>
+        </div>
+
+        <div th:if="${#lists.isEmpty(images)}" class="no-results">
+            <i class="fas fa-images no-results-icon"></i>
+            <h3>Галерея пуста</h3>
+            <p>Пока нет загруженных фотографий. Загляните позже!</p>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(images)}" class="row g-4">
+            <div th:each="img : ${images}" class="col-lg-4 col-md-6 col-sm-12">
+                <img th:src="@{${img}}" class="gallery-img" alt="Фото тренировки"
+                     onclick="openLightbox(this.src)">
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+</script>
+
+</body>
+</html>

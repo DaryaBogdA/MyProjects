@@ -5,6 +5,7 @@ import com.example.kavalenok.model.TrainingParticipant;
 import com.example.kavalenok.model.User;
 import com.example.kavalenok.repository.TrainingParticipantRepository;
 import com.example.kavalenok.repository.TrainingRepository;
+import com.example.kavalenok.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,18 @@ public class TrainingController {
     @Autowired
     private TrainingParticipantRepository trainingParticipantRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/trainings")
-    public String trainings(HttpSession session, Model model) {
-        List<Training> trainings = trainingRepository.findNewTrainings();
+    public String trainings(HttpSession session,
+                            Model model,
+                            @RequestParam(required = false) String title,
+                            @RequestParam(required = false) String location,
+                            @RequestParam(required = false) Long coachId) {
+
+        List<Training> trainings = trainingRepository.findTrainingsWithFilters(title, location, coachId);
+
         User user = (User) session.getAttribute("user");
 
         Set<Long> registeredTrainingIds = new HashSet<>();
@@ -53,9 +63,16 @@ public class TrainingController {
             }
         }
 
+        List<User> coaches = userRepository.findAllCoaches();
+
         model.addAttribute("trainings", trainings);
         model.addAttribute("user", user);
         model.addAttribute("registeredTrainingIds", registeredTrainingIds);
+        model.addAttribute("coaches", coaches);
+
+        model.addAttribute("filterTitle", title);
+        model.addAttribute("filterLocation", location);
+        model.addAttribute("filterCoachId", coachId);
 
         return "trainings";
     }

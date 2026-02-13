@@ -19,7 +19,7 @@ public class Friend {
     private User user2;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('pending', 'accepted', 'blocked') default 'pending'")
+    @Column(columnDefinition = "ENUM('PENDING', 'ACCEPTED', 'BLOCKED') default 'PENDING'")
     private Status status = Status.PENDING;
 
     @Column(name = "created_at")

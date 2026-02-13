@@ -2,7 +2,6 @@ package com.example.kavalenok.service;
 
 import com.example.kavalenok.model.User;
 import com.example.kavalenok.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -96,7 +95,6 @@ public class MoreInfoService {
         String fileExtension = getFileExtension(originalFileName);
         String uniqueFileName = "avatar_" + userId + "_" + UUID.randomUUID() + fileExtension;
 
-        // Создаём директорию если не существует
         Path uploadDir = Paths.get(AVATARS_UPLOAD_DIR);
         if (!Files.exists(uploadDir)) {
             Files.createDirectories(uploadDir);
@@ -134,7 +132,6 @@ public class MoreInfoService {
                 oldAvatarUrl.startsWith(AVATARS_UPLOAD_URL) &&
                 !oldAvatarUrl.isEmpty()) {
             try {
-                // Преобразуем URL в путь к файлу
                 String fileName = oldAvatarUrl.substring(AVATARS_UPLOAD_URL.length());
                 Path oldPath = Paths.get(AVATARS_UPLOAD_DIR + fileName);
                 if (Files.exists(oldPath)) {

@@ -21,9 +21,6 @@ public class Announcement {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('looking_for_team', 'looking_for_player', 'event', 'other')")
-    private Category category;
 
     @Column(name = "is_active")
     private Boolean isActive = true;
@@ -71,14 +68,6 @@ public class Announcement {
         this.content = content;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Boolean getIsActive() {
         return isActive;
     }
@@ -100,10 +89,4 @@ public class Announcement {
         this.createdAt = LocalDateTime.now();
     }
 
-    public enum Category {
-        LOOKING_FOR_TEAM,
-        LOOKING_FOR_PLAYER,
-        EVENT,
-        OTHER
-    }
 }
