@@ -45,13 +45,4 @@ public class DayCardCheckService {
     public Optional<DayCard> findByUserIdAndDate(Integer userId, LocalDate date) {
         return dayCardRepository.findByIdUserIdAndIdDate(userId, date);
     }
-
-    @Transactional
-    public DayCard createForUserAndDate(User user, CardTaro card, LocalDate date) {
-        DayCard newCard = new DayCard();
-        newCard.setUser(user);
-        newCard.setCard(card);
-        newCard.setDate(date);
-        return dayCardRepository.save(newCard);
-    }
 }
