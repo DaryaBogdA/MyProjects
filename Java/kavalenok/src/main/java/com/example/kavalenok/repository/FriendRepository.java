@@ -27,12 +27,4 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     @Query("SELECT f FROM Friend f WHERE f.user1.id = :userId AND f.status = 'PENDING'")
     List<Friend> findSentRequests(@Param("userId") Long userId);
 
-    @Query("SELECT CASE " +
-            "WHEN f.user1.id = :userId THEN f.user2.id " +
-            "WHEN f.user2.id = :userId THEN f.user1.id " +
-            "END " +
-            "FROM Friend f " +
-            "WHERE (f.user1.id = :userId OR f.user2.id = :userId) " +
-            "AND f.status = 'ACCEPTED'")
-    List<Long> findFriendIds(@Param("userId") Long userId);
 }

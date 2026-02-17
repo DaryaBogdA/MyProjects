@@ -8,10 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-
-    @Query("SELECT t FROM Training t WHERE t.dateTime > CURRENT_TIMESTAMP ORDER BY t.dateTime ASC")
-    List<Training> findNewTrainings();
-
     @Query("SELECT t FROM Training t WHERE t.dateTime > CURRENT_TIMESTAMP " +
             "AND (:title IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :title, '%'))) " +
             "AND (:location IS NULL OR LOWER(t.location) LIKE LOWER(CONCAT('%', :location, '%'))) " +

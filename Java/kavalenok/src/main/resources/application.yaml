@@ -1,9 +1,6 @@
 server:
   port: 8084
 spring:
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
   datasource:
     url: jdbc:mysql://MySQL-8.2:3306/kavalenok?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
     username: root

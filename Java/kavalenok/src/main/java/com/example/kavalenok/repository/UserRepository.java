@@ -22,6 +22,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "LOWER(u.email) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<User> searchUsers(@Param("query") String query, @Param("excludeId") Long excludeId);
 
-    @Query("SELECT u FROM User u WHERE u.id IN :ids")
-    List<User> findUsersByIds(@Param("ids") List<Long> ids);
 }
