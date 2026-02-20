@@ -11,8 +11,14 @@
 <div th:replace="blocks/header :: header"></div>
 
 <div class="calc-container">
-    <h2>Матрица по дате рождения [[${#temporals.format(history.birthDate, 'dd.MM.yyyy')}]]</h2>
-    <p class="muted" th:text="${'Сохранено: ' + #temporals.format(history.createdAt, 'dd.MM.yyyy HH:mm')}">Сохранено: 08.02.2025 14:30</p>
+    <div class="history-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Матрица по дате рождения [[${#temporals.format(history.birthDate, 'dd.MM.yyyy')}]]</h2>
+        <a th:href="@{'/matrix/history/' + ${history.id} + '/export'}"
+           class="btn btn-export"
+           style="background: linear-gradient(90deg, var(--accent-2), var(--accent-3)); color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; text-decoration: none;">
+            Экспортировать
+        </a>
+    </div>
 
     <div id="matrix" th:if="${digits != null and #arrays.length(digits) >= 9}">
         <h3>Твоя матрица:</h3>
@@ -23,31 +29,31 @@
             <div class="digit" id="d3" th:text="${digits[2]}">9</div>
             <div class="digit" id="d4" th:text="${digits[3]}">9</div>
             <div class="digit" id="d5" th:text="${digits[4]}">9</div>
-            <div class="digit" id="d6" th:text="${digits[5]}">9</div>
-            <div class="digit" id="d7" th:text="${digits[6]}">9</div>
-            <div class="digit" id="d8" th:text="${digits[7]}">9</div>
-            <div class="digit" id="d9" th:text="${digits[8]}">9</div>
-            <div class="digit" id="d2_1" th:text="${#arrays.length(digits) > 9 ? digits[9] : ''}">9</div>
-            <div class="digit" id="d2_2" th:text="${#arrays.length(digits) > 10 ? digits[10] : ''}">9</div>
-            <div class="digit" id="d3_1" th:text="${#arrays.length(digits) > 11 ? digits[11] : ''}">9</div>
-            <div class="digit" id="d3_2" th:text="${#arrays.length(digits) > 12 ? digits[12] : ''}">9</div>
-            <div class="digit" id="d4_1" th:text="${#arrays.length(digits) > 13 ? digits[13] : ''}">9</div>
-            <div class="digit" id="d4_2" th:text="${#arrays.length(digits) > 14 ? digits[14] : ''}">9</div>
-            <div class="digit" id="d5_1" th:text="${#arrays.length(digits) > 15 ? digits[15] : ''}">9</div>
-            <div class="digit" id="d5_2" th:text="${#arrays.length(digits) > 16 ? digits[16] : ''}">9</div>
-            <div class="digit" id="d6_1" th:text="${#arrays.length(digits) > 17 ? digits[17] : ''}">9</div>
-            <div class="digit" id="d6_2" th:text="${#arrays.length(digits) > 18 ? digits[18] : ''}">9</div>
-            <div class="digit" id="d7_1" th:text="${#arrays.length(digits) > 19 ? digits[19] : ''}">9</div>
-            <div class="digit" id="d7_2" th:text="${#arrays.length(digits) > 20 ? digits[20] : ''}">9</div>
-            <div class="digit" id="d8_1" th:text="${#arrays.length(digits) > 21 ? digits[21] : ''}">9</div>
-            <div class="digit" id="d8_2" th:text="${#arrays.length(digits) > 22 ? digits[22] : ''}">9</div>
-            <div class="digit" id="d9_1" th:text="${#arrays.length(digits) > 23 ? digits[23] : ''}">9</div>
-            <div class="digit" id="d9_2" th:text="${#arrays.length(digits) > 24 ? digits[24] : ''}">9</div>
-            <div class="digit" id="d3_3" th:text="${#arrays.length(digits) > 25 ? digits[25] : ''}">9</div>
-            <div class="digit" id="d2_3" th:text="${#arrays.length(digits) > 26 ? digits[26] : ''}">9</div>
-            <div class="digit" id="d8_3" th:text="${#arrays.length(digits) > 27 ? digits[27] : ''}">9</div>
-            <div class="digit" id="d8_4" th:text="${#arrays.length(digits) > 28 ? digits[28] : ''}">9</div>
-            <div class="digit" id="d8_5" th:text="${#arrays.length(digits) > 29 ? digits[29] : ''}">9</div>
+            <div th:if="${#arrays.length(digits) > 5}" class="digit" id="d6" th:text="${digits[5]}">9</div>
+            <div th:if="${#arrays.length(digits) > 6}" class="digit" id="d7" th:text="${digits[6]}">9</div>
+            <div th:if="${#arrays.length(digits) > 7}" class="digit" id="d8" th:text="${digits[7]}">9</div>
+            <div th:if="${#arrays.length(digits) > 8}" class="digit" id="d9" th:text="${digits[8]}">9</div>
+            <div th:if="${#arrays.length(digits) > 9}" class="digit" id="d2_1" th:text="${digits[9]}">9</div>
+            <div th:if="${#arrays.length(digits) > 10}" class="digit" id="d2_2" th:text="${digits[10]}">9</div>
+            <div th:if="${#arrays.length(digits) > 11}" class="digit" id="d3_1" th:text="${digits[11]}">9</div>
+            <div th:if="${#arrays.length(digits) > 12}" class="digit" id="d3_2" th:text="${digits[12]}">9</div>
+            <div th:if="${#arrays.length(digits) > 13}" class="digit" id="d4_1" th:text="${digits[13]}">9</div>
+            <div th:if="${#arrays.length(digits) > 14}" class="digit" id="d4_2" th:text="${digits[14]}">9</div>
+            <div th:if="${#arrays.length(digits) > 15}" class="digit" id="d5_1" th:text="${digits[15]}">9</div>
+            <div th:if="${#arrays.length(digits) > 16}" class="digit" id="d5_2" th:text="${digits[16]}">9</div>
+            <div th:if="${#arrays.length(digits) > 17}" class="digit" id="d6_1" th:text="${digits[17]}">9</div>
+            <div th:if="${#arrays.length(digits) > 18}" class="digit" id="d6_2" th:text="${digits[18]}">9</div>
+            <div th:if="${#arrays.length(digits) > 19}" class="digit" id="d7_1" th:text="${digits[19]}">9</div>
+            <div th:if="${#arrays.length(digits) > 20}" class="digit" id="d7_2" th:text="${digits[20]}">9</div>
+            <div th:if="${#arrays.length(digits) > 21}" class="digit" id="d8_1" th:text="${digits[21]}">9</div>
+            <div th:if="${#arrays.length(digits) > 22}" class="digit" id="d8_2" th:text="${digits[22]}">9</div>
+            <div th:if="${#arrays.length(digits) > 23}" class="digit" id="d9_1" th:text="${digits[23]}">9</div>
+            <div th:if="${#arrays.length(digits) > 24}" class="digit" id="d9_2" th:text="${digits[24]}">9</div>
+            <div th:if="${#arrays.length(digits) > 25}" class="digit" id="d3_3" th:text="${digits[25]}">9</div>
+            <div th:if="${#arrays.length(digits) > 26}" class="digit" id="d2_3" th:text="${digits[26]}">9</div>
+            <div th:if="${#arrays.length(digits) > 27}" class="digit" id="d8_3" th:text="${digits[27]}">9</div>
+            <div th:if="${#arrays.length(digits) > 28}" class="digit" id="d8_4" th:text="${digits[28]}">9</div>
+            <div th:if="${#arrays.length(digits) > 29}" class="digit" id="d8_5" th:text="${digits[29]}">9</div>
         </div>
     </div>
 
@@ -108,5 +114,13 @@
 </p>
 
 <div th:replace="blocks/footer :: footer"></div>
+
+<style>
+    .btn-export:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(231, 84, 128, 0.35);
+    }
+</style>
+
 </body>
 </html>
