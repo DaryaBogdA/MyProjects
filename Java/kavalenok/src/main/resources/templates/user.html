@@ -72,6 +72,9 @@
                     <div th:if="${myTrainings == null || myTrainings.isEmpty()}" class="text-muted">
                         <p>Вы пока не записаны на тренировки. <a th:href="@{/trainings}">Найти тренировку</a></p>
                     </div>
+                    <a th:href="@{/profile/export-trainings}" class="btn btn-success btn-sm">
+                        <i class="fas fa-download me-1"></i>Экспорт CSV
+                    </a>
                     <div th:if="${myTrainings != null && !myTrainings.isEmpty()}">
                         <div th:each="training : ${myTrainings}" class="my-training-item">
                             <div class="d-flex justify-content-between align-items-center">

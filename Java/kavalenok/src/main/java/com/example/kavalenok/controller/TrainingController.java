@@ -14,9 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDateTime;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ContentDisposition;
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -176,4 +181,56 @@ public class TrainingController {
 
         return "redirect:/user";
     }
+
+    @GetMapping("/profile/export-trainings")
+    public ResponseEntity<byte[]> exportUserTrainings(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header("Location", "/login")
+                    .build();
+        }
+
+        List<TrainingParticipant> participations = trainingParticipantRepository
+                .findByUserIdOrderByAppliedAtDesc(user.getId());
+
+        StringBuilder csv = new StringBuilder();
+        csv.append("Название,Дата,Время,Тренер,Статус\n");
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (TrainingParticipant tp : participations) {
+            Training t = tp.getTraining();
+            String title = escapeCsv(t.getTitle());
+            String date = t.getDateTime() != null ? t.getDateTime().format(dateFormatter) : "";
+            String time = t.getDateTime() != null ? t.getDateTime().format(timeFormatter) : "";
+            String coachName = escapeCsv(t.getCoach().getFirstName() + " " + t.getCoach().getLastName());
+            String status = tp.getStatus() != null ? tp.getStatus().name() : "";
+
+            csv.append(String.format("%s,%s,%s,%s,%s\n", title, date, time, coachName, status));
+        }
+
+        byte[] bytes = csv.toString().getBytes(StandardCharsets.UTF_8);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("text", "plain", StandardCharsets.UTF_8));
+        headers.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename("my_trainings.csv", StandardCharsets.UTF_8)
+                .build());
+
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    private String escapeCsv(String value) {
+        if (value == null) return "";
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            value = value.replace("\"", "\"\"");
+            return "\"" + value + "\"";
+        }
+        return value;
+    }
+
+
+
 }
