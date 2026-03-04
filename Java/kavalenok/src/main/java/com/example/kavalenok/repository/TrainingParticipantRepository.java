@@ -22,4 +22,6 @@ public interface TrainingParticipantRepository extends JpaRepository<TrainingPar
     @Query("SELECT COUNT(tp) FROM TrainingParticipant tp WHERE tp.training.id = :trainingId AND tp.status IN ('PENDING', 'APPROVED', 'ATTENDED')")
     long countByTrainingId(Long trainingId);
 
+    List<TrainingParticipant> findByUserIdAndStatusOrderByAppliedAtDesc(Long userId, TrainingParticipant.Status status);
+
 }
