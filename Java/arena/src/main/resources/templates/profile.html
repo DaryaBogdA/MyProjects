@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - EventArena</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <img src="https://img.freepik.com/premium-vector/abstract-initial-letter-ae-ea-logo-blue-color-isolated-white-background_388320-815.jpg"
+                     alt="EventArena Logo" class="logo-img">
+                <h1 class="gradient-text">EventArena</h1>
+            </div>
+            <div class="nav-buttons">
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container" id="userProfileSection" style="display: none;">
+    <div class="profile-section">
+        <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div>
+                <h2 id="userName">Марк Сацукевич</h2>
+                <p>Зарегистрирован с 2025 года</p>
+            </div>
+            <div class="profile-badges">
+                <span class="badge">👑 Обычный пользователь</span>
+            </div>
+        </div>
+        <div class="profile-tabs">
+            <button class="tab" data-tab="favorites" onclick="switchUserTab('favorites')">Избранное</button>
+            <button class="tab" data-tab="my-events" onclick="switchUserTab('my-events')">Мои мероприятия</button>
+            <button class="tab" data-tab="add-event" onclick="switchUserTab('add-event')">Добавить событие</button>
+        </div>
+        <div class="tab-content" id="favorites-tab">
+            <h3>Избранные мероприятия <span class="badge" id="favoritesCount">0</span></h3>
+            <div class="events-list" id="favoritesList">
+                <p class="info-text">У вас пока нет избранных мероприятий</p>
+            </div>
+        </div>
+        <div class="tab-content" id="my-events-tab">
+            <h3>Мои предстоящие мероприятия</h3>
+            <div class="events-list" id="myEventsList">
+                <p class="info-text">У вас пока нет записей на мероприятия</p>
+            </div>
+        </div>
+        <div class="tab-content" id="add-event-tab">
+            <h3>Добавить новое событие</h3>
+            <p class="info-text">После добавления событие будет отправлено на модерацию администратору</p>
+            <form onsubmit="addNewEvent(event)" class="add-event-form" id="addEventForm">
+                <div class="form-group">
+                    <label>Название мероприятия *</label>
+                    <input type="text" id="newEventTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="newEventDescription" rows="4"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Вид спорта *</label>
+                        <select id="newEventSport" required>
+                            <option value="">Выберите вид спорта</option>
+                            <option value="1">Бег</option>
+                            <option value="2">Велоспорт</option>
+                            <option value="3">Теннис</option>
+                            <option value="4">Футбол</option>
+                            <option value="5">Плавание</option>
+                            <option value="6">Лыжи</option>
+                            <option value="7">Волейбол</option>
+                            <option value="8">Баскетбол</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Город *</label>
+                        <select id="newEventCity" required>
+                            <option value="">Выберите город</option>
+                            <option value="1">Минск</option>
+                            <option value="2">Гомель</option>
+                            <option value="3">Брест</option>
+                            <option value="4">Витебск</option>
+                            <option value="5">Гродно</option>
+                            <option value="6">Могилёв</option>
+                            <option value="7">Солигорск</option>
+                            <option value="8">Бобруйск</option>
+                            <option value="9">Полоцк</option>
+                            <option value="10">Лида</option>
+                            <option value="11">Новополоцк</option>
+                            <option value="12">Барановичи</option>
+                            <option value="13">Пинск</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Дата *</label>
+                        <input type="date" id="newEventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Время</label>
+                        <input type="time" id="newEventTime" value="10:00">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Место проведения *</label>
+                    <input type="text" id="newEventLocation" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Цена участия (BYN)</label>
+                        <input type="number" id="newEventPrice" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Макс. участников *</label>
+                        <input type="number" id="newEventMaxParticipants" min="1" value="50" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Изображение</label>
+                    <div class="file-upload-container">
+                        <input type="file" id="newEventImage" accept="image/*" class="file-input"
+                               onchange="previewImage(event)">
+                        <label for="newEventImage" class="file-upload-label">Выбрать файл</label>
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+                <div class="form-group">
+                    <label>Выберите место на карте *</label>
+                    <div id="eventLocationMap" class="location-map" style="height: 300px;"></div>
+                    <p class="coordinates-display" id="selectedCoordinates">Координаты не выбраны</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить на модерацию</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="eventModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="eventModalTitle">Детали мероприятия</h2>
+            <span class="close" onclick="closeEventModal()">&times;</span>
+        </div>
+        <div id="eventDetails"></div>
+        <div class="modal-actions" id="eventModalActions">
+            <button class="btn btn-primary" onclick="addToFavorites()" id="favBtn">❤️ В избранное</button>
+            <button class="btn btn-primary" onclick="registerForEvent()" id="registerBtn">Записаться</button>
+        </div>
+    </div>
+</div>
+<div class="modal" id="reviewModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Оставить отзыв</h2>
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+        </div>
+        <div class="review-form">
+            <div class="rating">
+                <span class="star" onclick="setRating(1)">★</span>
+                <span class="star" onclick="setRating(2)">★</span>
+                <span class="star" onclick="setRating(3)">★</span>
+                <span class="star" onclick="setRating(4)">★</span>
+                <span class="star" onclick="setRating(5)">★</span>
+            </div>
+            <div class="form-group">
+                <label>Ваш отзыв</label>
+                <textarea id="reviewText" placeholder="Поделитесь впечатлениями..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitReview()">Отправить отзыв</button>
+        </div>
+    </div>
+</div>
+
+<div class="notification" id="notification">
+    <span id="notificationMessage"></span>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EventArena</h3>
+                <p>Ваш надежный помощник в мире спортивных событий</p>
+            </div>
+            <div class="footer-section">
+                <h3>Навигация</h3>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">Календарь</a></li>
+                    <li><a href="#">О проекте</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul>
+                    <li>+375 (29) 123-45-67</li>
+                    <li>info@eventarena.by</li>
+                    <li>Минск, пр. Победителей, 20</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; opacity: 0.8;">
+            &copy; 2026 EventArena. Все права защищены.
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+<script src="../static/js/common.js"></script>
+<script src="../static/js/profile.js"></script>
+</body>
+</html>

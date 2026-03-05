@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - EventArena</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <img src="https://img.freepik.com/premium-vector/abstract-initial-letter-ae-ea-logo-blue-color-isolated-white-background_388320-815.jpg"
+                     alt="EventArena Logo" class="logo-img">
+                <h1 class="gradient-text">EventArena</h1>
+            </div>
+            <div class="nav-buttons">
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container" id="adminProfileSection" style="display: none;">
+    <div class="profile-section admin-panel-full">
+        <div class="profile-header">
+            <div class="profile-avatar admin-avatar">👨‍💼</div>
+            <div>
+                <h2>Администратор</h2>
+                <p>Управление мероприятиями и пользователями</p>
+            </div>
+            <div class="profile-badges">
+                <span class="badge admin-badge">⚡ Администратор</span>
+            </div>
+        </div>
+        <div class="admin-stats">
+            <div class="stat-card">
+                <h3>Всего мероприятий</h3>
+                <div class="stat-number" id="adminTotalEvents">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Активных пользователей</h3>
+                <div class="stat-number" id="adminTotalUsers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Ожидают модерации</h3>
+                <div class="stat-number" id="adminPendingEvents">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Избранных добавлений</h3>
+                <div class="stat-number" id="adminTotalFavorites">0</div>
+            </div>
+        </div>
+        <div class="profile-tabs">
+            <button class="tab active" data-tab="moderation" onclick="switchAdminTab('moderation')">Модерация</button>
+            <button class="tab" data-tab="events-management" onclick="switchAdminTab('events-management')">Управление
+                событиями
+            </button>
+            <button class="tab" data-tab="reports" onclick="switchAdminTab('reports')">Отчеты</button>
+            <button class="tab" data-tab="users" onclick="switchAdminTab('users')">Пользователи</button>
+        </div>
+        <div class="tab-content active" id="moderation">
+            <h3>События на модерации <span class="badge" id="pendingCount">0</span></h3>
+            <div class="moderation-list" id="pendingEventsList"></div>
+        </div>
+        <div class="tab-content" id="events-management">
+            <h3>Управление событиями</h3>
+            <div class="search-box" style="margin-bottom: 20px;">
+                <input type="text" class="search-input" placeholder="Поиск событий..." id="adminSearchInput">
+            </div>
+            <div class="events-management-grid" id="adminEventsList"></div>
+        </div>
+        <div class="tab-content" id="reports">
+            <h3>Генерация отчетов</h3>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <h4>Отчет по участникам</h4>
+                    <p>Количество участников по мероприятиям</p>
+                    <button class="btn btn-primary" onclick="generateReport('participants')">Сгенерировать</button>
+                </div>
+                <div class="report-card">
+                    <h4>Популярные виды спорта</h4>
+                    <p>Статистика по видам спорта</p>
+                    <button class="btn btn-primary" onclick="generateReport('sports')">Сгенерировать</button>
+                </div>
+                <div class="report-card">
+                    <h4>Популярные мероприятия</h4>
+                    <p>Топ мероприятий по популярности</p>
+                    <button class="btn btn-primary" onclick="generateReport('popular')">Сгенерировать</button>
+                </div>
+                <div class="report-card">
+                    <h4>Финансовый отчет</h4>
+                    <p>Доходы от мероприятий</p>
+                    <button class="btn btn-primary" onclick="generateReport('revenue')">Сгенерировать</button>
+                </div>
+            </div>
+            <div class="report-result" id="reportResult" style="display: none;">
+                <h4>Результат отчета:</h4>
+                <pre id="reportData"></pre>
+                <button class="btn btn-primary" onclick="downloadCurrentReport()">Скачать JSON</button>
+            </div>
+        </div>
+        <div class="tab-content" id="users">
+            <h3>Пользователи системы</h3>
+            <div class="users-list" id="usersList"></div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="editEventModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Редактирование события</h2>
+            <span class="close" onclick="closeEditEventModal()">&times;</span>
+        </div>
+        <div class="edit-event-form">
+            <form id="editEventForm">
+                <input type="hidden" id="editEventId">
+                <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" id="editEventTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="editEventDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Вид спорта</label>
+                    <select id="editEventSport" class="form-control" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Город</label>
+                    <select id="editEventCity" class="form-control" required>
+                    </select>
+                </div>
+                <div class="form-row" style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Дата</label>
+                        <input type="date" id="editEventDate" class="form-control" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Время</label>
+                        <input type="time" id="editEventTime" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Место</label>
+                    <input type="text" id="editEventLocation" class="form-control" required>
+                </div>
+                <div class="form-row" style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Цена (BYN)</label>
+                        <input type="number" id="editEventPrice" min="0" step="0.01" class="form-control" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Макс. участников</label>
+                        <input type="number" id="editEventMaxParticipants" min="1" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>URL изображения</label>
+                    <input type="url" id="editEventImageUrl" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 15px;">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="eventModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="eventModalTitle">Детали мероприятия</h2>
+            <span class="close" onclick="closeEventModal()">&times;</span>
+        </div>
+        <div id="eventDetails"></div>
+        <div class="modal-actions" id="eventModalActions">
+            <button class="btn btn-primary" onclick="addToFavorites()" id="favBtn">❤️ В избранное</button>
+            <button class="btn btn-primary" onclick="registerForEvent()" id="registerBtn">Записаться</button>
+        </div>
+    </div>
+</div>
+<div class="modal" id="reviewModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Оставить отзыв</h2>
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+        </div>
+        <div class="review-form">
+            <div class="rating">
+                <span class="star" onclick="setRating(1)">★</span>
+                <span class="star" onclick="setRating(2)">★</span>
+                <span class="star" onclick="setRating(3)">★</span>
+                <span class="star" onclick="setRating(4)">★</span>
+                <span class="star" onclick="setRating(5)">★</span>
+            </div>
+            <div class="form-group">
+                <label>Ваш отзыв</label>
+                <textarea id="reviewText" placeholder="Поделитесь впечатлениями..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitReview()">Отправить отзыв</button>
+        </div>
+    </div>
+</div>
+
+<div class="notification" id="notification">
+    <span id="notificationMessage"></span>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EventArena</h3>
+                <p>Ваш надежный помощник в мире спортивных событий</p>
+            </div>
+            <div class="footer-section">
+                <h3>Навигация</h3>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">Календарь</a></li>
+                    <li><a href="#">О проекте</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul>
+                    <li>+375 (29) 123-45-67</li>
+                    <li>info@eventarena.by</li>
+                    <li>Минск, пр. Победителей, 20</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; opacity: 0.8;">
+            &copy; 2026 EventArena. Все права защищены.
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+<script src="../static/js/common.js"></script>
+<script src="../static/js/admin.js"></script>
+</body>
+</html>

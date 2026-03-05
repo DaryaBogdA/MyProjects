@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventArena - Спортивные мероприятия в Беларуси</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <img src="https://img.freepik.com/premium-vector/abstract-initial-letter-ae-ea-logo-blue-color-isolated-white-background_388320-815.jpg"
+                     alt="EventArena Logo" class="logo-img">
+                <h1 class="gradient-text">EventArena</h1>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="showAuthModal()">Войти</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container">
+        <div class="hero-content">
+            <h2 class="white-text">Спортивные события по всей Беларуси</h2>
+            <p class="white-text">Присоединяйтесь к тысячам активных людей и участвуйте в захватывающих
+                соревнованиях</p>
+            <a href="search.html" class="btn btn-transparent btn-large">Найти мероприятие</a>
+        </div>
+    </div>
+</section>
+
+<section class="events-section">
+    <div class="container">
+        <h2 class="section-title">Актуальные мероприятия в Беларуси</h2>
+        <div class="events-grid" id="eventsGrid"></div>
+    </div>
+</section>
+
+<div class="container">
+    <h2 class="section-title">Карта мероприятий Беларуси</h2>
+    <div class="map-container">
+        <div id="belarus-map" style="height: 500px; width: 100%;"></div>
+    </div>
+</div>
+
+<section class="gallery-section">
+    <div class="container">
+        <h2 class="section-title">Фотогалерея прошедших мероприятий</h2>
+        <div class="gallery-nav">
+            <button class="gallery-nav-btn" onclick="scrollGallery('left')">←</button>
+            <button class="gallery-nav-btn" onclick="scrollGallery('right')">→</button>
+        </div>
+        <div class="gallery-container" id="galleryContainer">
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator"></div>
+    </div>
+</section>
+
+<div class="modal" id="authModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="authModalTitle">Вход</h2>
+            <span class="close" onclick="closeAuthModal()">&times;</span>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
+            <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
+        </div>
+        <form onsubmit="handleAuth(event)" id="authForm">
+            <div class="form-group" id="registerFields" style="display: none;">
+                <label>Имя</label>
+                <input type="text" id="regName" placeholder="Введите имя">
+            </div>
+            <div class="form-group" id="registerFields2" style="display: none;">
+                <label>Фамилия</label>
+                <input type="text" id="regLastName" placeholder="Введите фамилию">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="authEmail" placeholder="Введите email" required>
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="authPassword" placeholder="Введите пароль" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;" id="authSubmitBtn">Войти</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="eventModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="eventModalTitle">Детали мероприятия</h2>
+            <span class="close" onclick="closeEventModal()">&times;</span>
+        </div>
+        <div id="eventDetails"></div>
+        <div class="modal-actions" id="eventModalActions">
+            <button class="btn btn-primary" onclick="addToFavorites()" id="favBtn">❤️ В избранное</button>
+            <button class="btn btn-primary" onclick="showReviewForm()" id="reviewBtn" style="display: none;">✏️ Оставить отзыв</button>
+            <button class="btn btn-primary" onclick="registerForEvent()" id="registerBtn">Записаться</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="reviewModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Оставить отзыв</h2>
+            <span class="close" onclick="closeReviewModal()">&times;</span>
+        </div>
+        <div class="review-form">
+            <div class="rating">
+                <span class="star" onclick="setRating(1)">★</span>
+                <span class="star" onclick="setRating(2)">★</span>
+                <span class="star" onclick="setRating(3)">★</span>
+                <span class="star" onclick="setRating(4)">★</span>
+                <span class="star" onclick="setRating(5)">★</span>
+            </div>
+            <div class="form-group">
+                <label>Ваш отзыв</label>
+                <textarea id="reviewText" placeholder="Поделитесь впечатлениями..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitReview()">Отправить отзыв</button>
+        </div>
+    </div>
+</div>
+
+<div class="notification" id="notification">
+    <span id="notificationMessage"></span>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EventArena</h3>
+                <p>Ваш надежный помощник в мире спортивных событий</p>
+            </div>
+            <div class="footer-section">
+                <h3>Навигация</h3>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">Календарь</a></li>
+                    <li><a href="#">О проекте</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul>
+                    <li>+375 (29) 123-45-67</li>
+                    <li>info@eventarena.by</li>
+                    <li>Минск, пр. Победителей, 20</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; opacity: 0.8;">
+            &copy; 2026 EventArena. Все права защищены.
+        </div>
+    </div>
+</footer>
+
+<script src="../static/js/common.js"></script>
+<script src="../static/js/index.js"></script>
+</body>
+</html>

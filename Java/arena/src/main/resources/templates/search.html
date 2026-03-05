@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск мероприятий - EventArena</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://img.freepik.com/premium-vector/abstract-initial-letter-ae-ea-logo-blue-color-isolated-white-background_388320-815.jpg" alt="EventArena Logo" class="logo-img">
+                    <h1 class="gradient-text">EventArena</h1>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" onclick="showAuthModal()">Войти</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Поиск мероприятий..." id="searchInput">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Вид спорта</label>
+                        <select class="filter-select" id="sportFilter">
+                            <option value="all">Все виды спорта</option>
+                            <option value="бег">Бег</option>
+                            <option value="футбол">Футбол</option>
+                            <option value="баскетбол">Баскетбол</option>
+                            <option value="волейбол">Волейбол</option>
+                            <option value="теннис">Теннис</option>
+                            <option value="плавание">Плавание</option>
+                            <option value="велоспорт">Велоспорт</option>
+                            <option value="лыжи">Лыжи</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Город</label>
+                        <select class="filter-select" id="cityFilter">
+                            <option value="all">Все города</option>
+                            <option value="минск">Минск</option>
+                            <option value="гомель">Гомель</option>
+                            <option value="могилёв">Могилёв</option>
+                            <option value="витебск">Витебск</option>
+                            <option value="гродно">Гродно</option>
+                            <option value="брест">Брест</option>
+                            <option value="бобруйск">Бобруйск</option>
+                            <option value="солигорск">Солигорск</option>
+                            <option value="полоцк">Полоцк</option>
+                            <option value="лида">Лида</option>
+                            <option value="новополоцк">Новополоцк</option>
+                            <option value="барановичи">Барановичи</option>
+                            <option value="пинск">Пинск</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Стоимость участия (BYN)</label>
+                        <div class="price-range">
+                            <span>0 BYN</span>
+                            <input type="range" min="0" max="500" value="500" class="price-input" id="priceRange">
+                            <span id="priceValue">500 BYN</span>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Дата проведения</label>
+                        <input type="date" class="date-input" id="dateFilter">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="applyFilters()" style="width: 100%; margin-top: 20px;">Применить фильтры</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="events-section">
+        <div class="container">
+            <h2 class="section-title">Актуальные мероприятия в Беларуси</h2>
+            <div class="events-grid" id="eventsGrid"></div>
+        </div>
+    </section>
+
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="authModalTitle">Вход</h2>
+                <span class="close" onclick="closeAuthModal()">&times;</span>
+            </div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
+            </div>
+            <form onsubmit="handleAuth(event)" id="authForm">
+                <div class="form-group" id="registerFields" style="display: none;">
+                    <label>Имя</label>
+                    <input type="text" id="regName" placeholder="Введите имя">
+                </div>
+                <div class="form-group" id="registerFields2" style="display: none;">
+                    <label>Фамилия</label>
+                    <input type="text" id="regLastName" placeholder="Введите фамилию">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="authEmail" placeholder="Введите email" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="authPassword" placeholder="Введите пароль" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="authSubmitBtn">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="eventModalTitle">Детали мероприятия</h2>
+                <span class="close" onclick="closeEventModal()">&times;</span>
+            </div>
+            <div id="eventDetails"></div>
+            <div class="modal-actions" id="eventModalActions">
+                <button class="btn btn-primary" onclick="addToFavorites()" id="favBtn">❤️ В избранное</button>
+                <button class="btn btn-primary" onclick="registerForEvent()" id="registerBtn">Записаться</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Оставить отзыв</h2>
+                <span class="close" onclick="closeReviewModal()">&times;</span>
+            </div>
+            <div class="review-form">
+                <div class="rating">
+                    <span class="star" onclick="setRating(1)">★</span>
+                    <span class="star" onclick="setRating(2)">★</span>
+                    <span class="star" onclick="setRating(3)">★</span>
+                    <span class="star" onclick="setRating(4)">★</span>
+                    <span class="star" onclick="setRating(5)">★</span>
+                </div>
+                <div class="form-group">
+                    <label>Ваш отзыв</label>
+                    <textarea id="reviewText" placeholder="Поделитесь впечатлениями..."></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="submitReview()">Отправить отзыв</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <span id="notificationMessage"></span>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EventArena</h3>
+                    <p>Ваш надежный помощник в мире спортивных событий</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Календарь</a></li>
+                        <li><a href="#">О проекте</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li>+375 (29) 123-45-67</li>
+                        <li>info@eventarena.by</li>
+                        <li>Минск, пр. Победителей, 20</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px; opacity: 0.8;">
+                &copy; 2026 EventArena. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/search.js"></script>
+</body>
+</html>
