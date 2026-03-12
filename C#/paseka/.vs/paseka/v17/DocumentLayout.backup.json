@@ -1,0 +1,546 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\kollege\\c#\\paseka\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|c:\\kollege\\c#\\paseka\\paseka\\dataaccess\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\dataaccess\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|c:\\kollege\\c#\\paseka\\paseka\\helpers\\themehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\helpers\\themehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|c:\\kollege\\c#\\paseka\\paseka\\helpers\\textboxwatermark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\helpers\\textboxwatermark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|c:\\kollege\\c#\\paseka\\paseka\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|c:\\kollege\\c#\\paseka\\paseka\\bookingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\bookingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\bookingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\bookingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\usersform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\usersform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\usermainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\usermainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\servicesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\servicesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\selectfoodform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\selectfoodform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\selectfoodform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\selectfoodform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\mybookingsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\mybookingsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\mybookingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\mybookingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\inventoryform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\inventoryform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\inventoryform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\inventoryform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\editbookingitemsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\editbookingitemsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\editbookingitemsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\editbookingitemsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\bookingform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\bookingform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\adminmainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\adminmainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\adminmainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\adminmainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\addeditserviceform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\addeditserviceform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\addeditserviceform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\addeditserviceform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|C:\\kollege\\c#\\paseka\\paseka\\addeditserviceform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{772D1284-7E61-41D8-A636-42D9612CAE5E}|paseka\\paseka.csproj|solutionrelative:paseka\\addeditserviceform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 313,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ThemeHelper.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\Helpers\\ThemeHelper.cs",
+              "RelativeDocumentMoniker": "paseka\\Helpers\\ThemeHelper.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\Helpers\\ThemeHelper.cs",
+              "RelativeToolTip": "paseka\\Helpers\\ThemeHelper.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T19:38:09.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DatabaseHelper.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\DataAccess\\DatabaseHelper.cs",
+              "RelativeDocumentMoniker": "paseka\\DataAccess\\DatabaseHelper.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\DataAccess\\DatabaseHelper.cs",
+              "RelativeToolTip": "paseka\\DataAccess\\DatabaseHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T19:09:38.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\App.config",
+              "RelativeDocumentMoniker": "paseka\\App.config",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\App.config",
+              "RelativeToolTip": "paseka\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-03-06T19:02:11.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\Program.cs",
+              "RelativeDocumentMoniker": "paseka\\Program.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\Program.cs",
+              "RelativeToolTip": "paseka\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:52.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TextBoxWatermark.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\Helpers\\TextBoxWatermark.cs",
+              "RelativeDocumentMoniker": "paseka\\Helpers\\TextBoxWatermark.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\Helpers\\TextBoxWatermark.cs",
+              "RelativeToolTip": "paseka\\Helpers\\TextBoxWatermark.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T19:38:00.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\Models\\User.cs",
+              "RelativeDocumentMoniker": "paseka\\Models\\User.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\Models\\User.cs",
+              "RelativeToolTip": "paseka\\Models\\User.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T19:31:44.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BookingForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\BookingForm.cs",
+              "RelativeDocumentMoniker": "paseka\\BookingForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\BookingForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "paseka\\BookingForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T18:58:24.256Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UsersForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\UsersForm.cs",
+              "RelativeDocumentMoniker": "paseka\\UsersForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\UsersForm.cs",
+              "RelativeToolTip": "paseka\\UsersForm.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAowBgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:05:48.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BookingForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\BookingForm.cs",
+              "RelativeDocumentMoniker": "paseka\\BookingForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\BookingForm.cs",
+              "RelativeToolTip": "paseka\\BookingForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:02:17.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserMainForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\UserMainForm.cs",
+              "RelativeDocumentMoniker": "paseka\\UserMainForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\UserMainForm.cs",
+              "RelativeToolTip": "paseka\\UserMainForm.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowCQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:05:31.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ServicesForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\ServicesForm.cs",
+              "RelativeDocumentMoniker": "paseka\\ServicesForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\ServicesForm.cs",
+              "RelativeToolTip": "paseka\\ServicesForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:05:18.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SelectFoodForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\SelectFoodForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\SelectFoodForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\SelectFoodForm.Designer.cs",
+              "RelativeToolTip": "paseka\\SelectFoodForm.Designer.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:05:12.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SelectFoodForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\SelectFoodForm.cs",
+              "RelativeDocumentMoniker": "paseka\\SelectFoodForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\SelectFoodForm.cs",
+              "RelativeToolTip": "paseka\\SelectFoodForm.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAQwBAAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:04:23.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RegisterForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\RegisterForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\RegisterForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\RegisterForm.Designer.cs",
+              "RelativeToolTip": "paseka\\RegisterForm.Designer.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:04:15.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "RegisterForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "paseka\\RegisterForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\RegisterForm.cs",
+              "RelativeToolTip": "paseka\\RegisterForm.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:04:07.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "packages.config",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\packages.config",
+              "RelativeDocumentMoniker": "paseka\\packages.config",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\packages.config",
+              "RelativeToolTip": "paseka\\packages.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-03-06T19:03:49.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MyBookingsForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\MyBookingsForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\MyBookingsForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\MyBookingsForm.Designer.cs",
+              "RelativeToolTip": "paseka\\MyBookingsForm.Designer.cs",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:46.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MyBookingsForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\MyBookingsForm.cs",
+              "RelativeDocumentMoniker": "paseka\\MyBookingsForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\MyBookingsForm.cs",
+              "RelativeToolTip": "paseka\\MyBookingsForm.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA1wCMAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:21.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "LoginForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\LoginForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\LoginForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\LoginForm.Designer.cs",
+              "RelativeToolTip": "paseka\\LoginForm.Designer.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:17.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\LoginForm.cs",
+              "RelativeDocumentMoniker": "paseka\\LoginForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\LoginForm.cs",
+              "RelativeToolTip": "paseka\\LoginForm.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:14.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "InventoryForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\InventoryForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\InventoryForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\InventoryForm.Designer.cs",
+              "RelativeToolTip": "paseka\\InventoryForm.Designer.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:06.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "InventoryForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\InventoryForm.cs",
+              "RelativeDocumentMoniker": "paseka\\InventoryForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\InventoryForm.cs",
+              "RelativeToolTip": "paseka\\InventoryForm.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:03:03.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "EditBookingItemsForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\EditBookingItemsForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\EditBookingItemsForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\EditBookingItemsForm.Designer.cs",
+              "RelativeToolTip": "paseka\\EditBookingItemsForm.Designer.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:02:58.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "EditBookingItemsForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\EditBookingItemsForm.cs",
+              "RelativeDocumentMoniker": "paseka\\EditBookingItemsForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\EditBookingItemsForm.cs",
+              "RelativeToolTip": "paseka\\EditBookingItemsForm.cs",
+              "ViewState": "AgIAAM4AAAAAAAAAAAAuwGAAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:02:48.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "BookingForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\BookingForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\BookingForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\BookingForm.Designer.cs",
+              "RelativeToolTip": "paseka\\BookingForm.Designer.cs",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:02:39.651Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "AdminMainForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\AdminMainForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\AdminMainForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\AdminMainForm.Designer.cs",
+              "RelativeToolTip": "paseka\\AdminMainForm.Designer.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:02:07.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AdminMainForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\AdminMainForm.cs",
+              "RelativeDocumentMoniker": "paseka\\AdminMainForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\AdminMainForm.cs",
+              "RelativeToolTip": "paseka\\AdminMainForm.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:02:02.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AddEditServiceForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\AddEditServiceForm.Designer.cs",
+              "RelativeDocumentMoniker": "paseka\\AddEditServiceForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\AddEditServiceForm.Designer.cs",
+              "RelativeToolTip": "paseka\\AddEditServiceForm.Designer.cs",
+              "ViewState": "AgIAAM8AAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:01:52.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "AddEditServiceForm.cs",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\AddEditServiceForm.cs",
+              "RelativeDocumentMoniker": "paseka\\AddEditServiceForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\AddEditServiceForm.cs",
+              "RelativeToolTip": "paseka\\AddEditServiceForm.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAcwEYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:01:40.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AddEditServiceForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\kollege\\c#\\paseka\\paseka\\AddEditServiceForm.cs",
+              "RelativeDocumentMoniker": "paseka\\AddEditServiceForm.cs",
+              "ToolTip": "C:\\kollege\\c#\\paseka\\paseka\\AddEditServiceForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "paseka\\AddEditServiceForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T19:01:36.636Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 87,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

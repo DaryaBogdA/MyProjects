@@ -20,17 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private final UsersRepository usersRepository;
-    private final PasswordEncoder passwordEncoder;
 
     /**
      * Конструктор сервиса пользователей.
      * 
      * @param usersRepository репозиторий для работы с пользователями
-     * @param passwordEncoder кодировщик паролей
      */
-    public UserService(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
