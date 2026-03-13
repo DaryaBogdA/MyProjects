@@ -29,7 +29,6 @@ namespace shop.Forms
                 return;
             }
 
-            // Проверка наличия товаров на складе
             foreach (var item in CartService.Items)
             {
                 if (item.Quantity > item.Product.Quantity)
@@ -39,7 +38,6 @@ namespace shop.Forms
                 }
             }
 
-            // Сохраняем заказ в БД (транзакция)
             using (var connection = new MySqlConnection(DatabaseHelper.ConnectionString))
             {
                 connection.Open();
@@ -47,7 +45,6 @@ namespace shop.Forms
                 {
                     try
                     {
-                        // 1. Вставка sales
                         string insertSale = "INSERT INTO sales (user_id, total_amount, customer_name) VALUES (@userId, @total, @customer); SELECT LAST_INSERT_ID();";
                         MySqlCommand cmdSale = new MySqlCommand(insertSale, connection, transaction);
                         cmdSale.Parameters.AddWithValue("@userId", AuthService.CurrentUser.Id);
@@ -55,10 +52,8 @@ namespace shop.Forms
                         cmdSale.Parameters.AddWithValue("@customer", customer);
                         int saleId = Convert.ToInt32(cmdSale.ExecuteScalar());
 
-                        // 2. Вставка sale_items и обновление остатков
                         foreach (var item in CartService.Items)
                         {
-                            // Вставка детали
                             string insertItem = "INSERT INTO sale_items (sale_id, product_id, quantity, price_at_moment) VALUES (@saleId, @productId, @qty, @price)";
                             MySqlCommand cmdItem = new MySqlCommand(insertItem, connection, transaction);
                             cmdItem.Parameters.AddWithValue("@saleId", saleId);
@@ -67,7 +62,6 @@ namespace shop.Forms
                             cmdItem.Parameters.AddWithValue("@price", item.Product.Price);
                             cmdItem.ExecuteNonQuery();
 
-                            // Обновление остатка
                             string updateProduct = "UPDATE products SET quantity = quantity - @qty WHERE id = @id";
                             MySqlCommand cmdUpdate = new MySqlCommand(updateProduct, connection, transaction);
                             cmdUpdate.Parameters.AddWithValue("@qty", item.Quantity);
@@ -79,7 +73,6 @@ namespace shop.Forms
                         CustomerName = customer;
                         DialogResult = DialogResult.OK;
 
-                        // Подготавливаем данные для чека
                         var saleItems = CartService.Items.Select(item => new SaleItem
                         {
                             Product = item.Product,
@@ -95,7 +88,6 @@ namespace shop.Forms
                             CustomerName = customer
                         };
 
-                        // Сохраняем чек в файл
                         ReceiptService.SaveReceiptToFile(sale, saleItems);
 
                         Close();

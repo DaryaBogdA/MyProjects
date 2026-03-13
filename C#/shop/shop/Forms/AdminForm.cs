@@ -3,7 +3,6 @@ using shop.Entities;
 using shop.Services;
 using shop.UI;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace shop.Forms
@@ -25,7 +24,6 @@ namespace shop.Forms
             LoadSales();
         }
 
-        // ----- Вкладка Товары -----
         private void LoadCategories()
         {
             cmbCategory.DataSource = categoryRepo.GetAll();
@@ -40,11 +38,9 @@ namespace shop.Forms
             {
                 var products = productRepo.GetAll();
 
-                // Отключаем авто-генерацию и создаём колонки вручную
                 dataGridViewProducts.AutoGenerateColumns = false;
                 dataGridViewProducts.Columns.Clear();
 
-                // Скрытая колонка ID
                 dataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     DataPropertyName = "Id",
@@ -52,8 +48,6 @@ namespace shop.Forms
                     Name = "Id",
                     Visible = false
                 });
-
-                // Скрытая колонка CategoryId (нужна для редактирования)
                 dataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     DataPropertyName = "CategoryId",
@@ -62,7 +56,6 @@ namespace shop.Forms
                     Visible = false
                 });
 
-                // Видимые колонки
                 dataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     DataPropertyName = "Name",
@@ -235,7 +228,6 @@ namespace shop.Forms
             }
             catch (Exception ex)
             {
-                // Игнорируем ошибки при выборе строки
             }
         }
 
@@ -249,14 +241,12 @@ namespace shop.Forms
             nudQuantity.Value = 0;
         }
 
-        // ----- Вкладка Пользователи -----
         private void LoadUsers()
         {
             try
             {
                 var users = userRepo.GetAll();
 
-                // Настройка DataGridView для пользователей
                 dataGridViewUsers.AutoGenerateColumns = false;
                 dataGridViewUsers.Columns.Clear();
 
@@ -282,7 +272,6 @@ namespace shop.Forms
                     Name = "Role"
                 });
 
-                // Скрываем пароль
                 dataGridViewUsers.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     DataPropertyName = "Password",
@@ -319,7 +308,6 @@ namespace shop.Forms
             }
             catch
             {
-                // игнорируем
             }
         }
 
@@ -345,7 +333,6 @@ namespace shop.Forms
                 return;
             }
 
-            // Получаем выбранную роль из ComboBox
             string selectedRole = cmbUserRole.SelectedItem.ToString();
             user.Role = selectedRole == "admin" ? UserRole.admin : UserRole.user;
 
@@ -364,7 +351,6 @@ namespace shop.Forms
 
             int userId = (int)dataGridViewUsers.CurrentRow.Cells["Id"].Value;
 
-            // Нельзя удалить самого себя
             if (AuthService.CurrentUser != null && AuthService.CurrentUser.Id == userId)
             {
                 MessageBox.Show("Вы не можете удалить себя!");
@@ -380,7 +366,6 @@ namespace shop.Forms
             }
         }
 
-        // ----- Вкладка Продажи -----
         private void LoadSales()
         {
             try

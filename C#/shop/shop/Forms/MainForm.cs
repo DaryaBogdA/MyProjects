@@ -78,7 +78,6 @@ namespace shop.Forms
         {
             CartForm cart = new CartForm();
             cart.ShowDialog();
-            // После закрытия корзины можно обновить отображение (например, если изменились остатки)
             LoadProducts();
         }
 
@@ -91,7 +90,7 @@ namespace shop.Forms
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AuthService.Logout();
-            Application.Restart(); // или вернуться к LoginForm
+            Application.Restart();
         }
     }
 }

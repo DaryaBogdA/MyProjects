@@ -46,7 +46,6 @@ namespace shop.Forms
 
         private void LoadSaleItems(int saleId)
         {
-            // Загружаем детали заказа через прямой запрос или репозиторий
             string query = @"SELECT p.name, si.quantity, si.price_at_moment 
                              FROM sale_items si
                              JOIN products p ON si.product_id = p.id

@@ -66,7 +66,7 @@ namespace shop.Forms
 
         private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 3) // Quantity
+            if (e.ColumnIndex == 3)
             {
                 int productId = Convert.ToInt32(dataGridView.Rows[e.RowIndex].Cells[0].Value);
                 int newQty;
@@ -78,7 +78,7 @@ namespace shop.Forms
                         if (newQty > item.Product.Quantity)
                         {
                             MessageBox.Show($"Нельзя установить количество больше доступного ({item.Product.Quantity}).", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            RefreshCart(); // вернёт старое значение
+                            RefreshCart();
                             return;
                         }
                         CartService.UpdateQuantity(productId, newQty);

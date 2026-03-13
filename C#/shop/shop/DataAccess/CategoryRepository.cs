@@ -8,7 +8,6 @@ namespace shop.DataAccess
 {
     public class CategoryRepository
     {
-        // Добавляем правильный метод GetAll для категорий
         public List<Category> GetAll()
         {
             var list = new List<Category>();

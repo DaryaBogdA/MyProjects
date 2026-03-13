@@ -1,6 +1,8 @@
-﻿using System;
+﻿using shop.Forms;
+using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
-using shop.Forms;
 
 namespace shop
 {
@@ -9,6 +11,10 @@ namespace shop
         [STAThread]
         static void Main()
         {
+            CultureInfo belarusianCulture = new CultureInfo("be-BY");
+            Thread.CurrentThread.CurrentCulture = belarusianCulture;
+            Thread.CurrentThread.CurrentUICulture = belarusianCulture;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());

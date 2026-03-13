@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\shop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|c:\\kollege\\myprojects\\c#\\shop\\shop\\ui\\uitheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\ui\\uitheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|c:\\kollege\\myprojects\\c#\\shop\\shop\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|c:\\kollege\\myprojects\\c#\\shop\\shop\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,28 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UiTheme.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\UI\\UiTheme.cs",
-              "RelativeDocumentMoniker": "shop\\UI\\UiTheme.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\UI\\UiTheme.cs",
-              "RelativeToolTip": "shop\\UI\\UiTheme.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Title": "RegisterForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "shop\\Forms\\RegisterForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\RegisterForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]*",
+              "RelativeToolTip": "shop\\Forms\\RegisterForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T06:41:07.739Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductCardControl.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Controls\\ProductCardControl.cs",
-              "RelativeDocumentMoniker": "shop\\Controls\\ProductCardControl.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Controls\\ProductCardControl.cs",
-              "RelativeToolTip": "shop\\Controls\\ProductCardControl.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-11T09:41:39.515Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T12:10:13.581Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             }
           ]
         },

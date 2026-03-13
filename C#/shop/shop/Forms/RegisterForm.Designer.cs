@@ -41,7 +41,7 @@ namespace shop.Forms
             // 
             this.txtLogin.Location = new System.Drawing.Point(111, 23);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(172, 20);
+            this.txtLogin.Size = new System.Drawing.Size(182, 20);
             this.txtLogin.TabIndex = 1;
             // 
             // txtPassword
@@ -49,7 +49,7 @@ namespace shop.Forms
             this.txtPassword.Location = new System.Drawing.Point(111, 58);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(172, 20);
+            this.txtPassword.Size = new System.Drawing.Size(182, 20);
             this.txtPassword.TabIndex = 3;
             // 
             // txtConfirm
@@ -57,7 +57,7 @@ namespace shop.Forms
             this.txtConfirm.Location = new System.Drawing.Point(111, 92);
             this.txtConfirm.Name = "txtConfirm";
             this.txtConfirm.PasswordChar = '*';
-            this.txtConfirm.Size = new System.Drawing.Size(172, 20);
+            this.txtConfirm.Size = new System.Drawing.Size(182, 20);
             this.txtConfirm.TabIndex = 5;
             // 
             // lblLogin
@@ -94,7 +94,7 @@ namespace shop.Forms
             this.btnRegister.ForeColor = System.Drawing.Color.White;
             this.btnRegister.Location = new System.Drawing.Point(103, 130);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(86, 26);
+            this.btnRegister.Size = new System.Drawing.Size(125, 26);
             this.btnRegister.TabIndex = 6;
             this.btnRegister.Text = "Зарегистрироваться";
             this.btnRegister.UseVisualStyleBackColor = false;
@@ -105,9 +105,9 @@ namespace shop.Forms
             this.btnCancel.BackColor = System.Drawing.Color.Black;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(197, 130);
+            this.btnCancel.Location = new System.Drawing.Point(234, 130);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(86, 26);
+            this.btnCancel.Size = new System.Drawing.Size(59, 26);
             this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Отмена";
             this.btnCancel.UseVisualStyleBackColor = false;

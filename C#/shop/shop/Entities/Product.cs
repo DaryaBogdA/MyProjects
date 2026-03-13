@@ -12,7 +12,7 @@ namespace shop.Entities
         public string Size { get; set; }
         public string Color { get; set; }
         public int Quantity { get; set; }
-        public string ImageUrl { get; set; } // новое поле
+        public string ImageUrl { get; set; }
         public Category Category { get; set; }
         public ICollection<SaleItem> SaleItems { get; set; }
     }
