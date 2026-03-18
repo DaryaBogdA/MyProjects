@@ -1,0 +1,72 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 313,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RegisterForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAYwI0AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:17:27.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegisterForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\RegisterForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\RegisterForm.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:17:22.751Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 87,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
