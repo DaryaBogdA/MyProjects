@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentRadar - найди идеальное жилье</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-container">
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <span class="logo-icon"><i class="fas fa-search-location"></i></span>
+                <span class="logo-text">RentRadar</span>
+            </div>
+        </a>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html" class="active">Аренда</a></li>
+                <li><a href="sale.html">Продажа</a></li>
+                <li><a href="#">Новости</a></li>
+                <li><a href="#">О нас</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-actions">
+            <a href="/login.html" class="btn btn-outline">
+                <i class="fas fa-sign-in-alt"></i> Войти
+            </a>
+            <a href="/login.html" class="btn btn-primary">
+                Регистрация
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Аренда недвижимости</h1>
+            <div class="search-bar">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Поиск по адресу, району, городу..." class="search-input">
+                </div>
+                <button class="btn btn-primary btn-large search-btn">Найти</button>
+            </div>
+            <div class="map-preview">
+                <button class="btn btn-light btn-map">
+                    <i class="fas fa-map-marked-alt"></i> Показать на карте
+                </button>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="listings-section">
+        <div class="container listings-container">
+            
+            <aside class="filters-sidebar">
+                <h3>Фильтры</h3>
+
+                
+                <div class="filter-group">
+                    <label>Тип жилья</label>
+                    <div class="filter-options">
+                        <button class="filter-chip active">Квартира</button>
+                        <button class="filter-chip">Комната</button>
+                        <button class="filter-chip">Дом</button>
+                        <button class="filter-chip">Апартаменты</button>
+                        <button class="filter-chip">Студия</button>
+                        <button class="filter-chip">Дача</button>
+                    </div>
+                </div>
+
+                
+                <div class="filter-group">
+                    <label>Комнат</label>
+                    <div class="room-buttons">
+                        <button class="room-btn">1</button>
+                        <button class="room-btn active">2</button>
+                        <button class="room-btn">3</button>
+                        <button class="room-btn">4</button>
+                        <button class="room-btn">5+</button>
+                    </div>
+                </div>
+
+                
+                <div class="filter-group">
+                    <label>Цена за месяц (BYN)</label>
+                    <div class="price-inputs">
+                        <input type="number" id="min-price" placeholder="от 300">
+                        <span>—</span>
+                        <input type="number" id="max-price" placeholder="до 1500">
+                    </div>
+                </div>
+
+                
+                <div class="filter-group">
+                    <label>Площадь (м²)</label>
+                    <div class="price-inputs">
+                        <input type="number" id="min-area" placeholder="от 10">
+                        <span>—</span>
+                        <input type="number" id="max-area" placeholder="до 300">
+                    </div>
+                </div>
+
+                
+                <div class="filter-group">
+                    <label>Регион поиска</label>
+                    <div class="filter-custom-select">
+                        <select id="region-select">
+                            <option value="">Любая область</option>
+                            <option value="minsk">Минская область</option>
+                            <option value="brest">Брестская область</option>
+                            <option value="vitebsk">Витебская область</option>
+                            <option value="gomel">Гомельская область</option>
+                            <option value="grodno">Гродненская область</option>
+                            <option value="mogilev">Могилёвская область</option>
+                            <option value="minsk-city">г. Минск</option>
+                        </select>
+                    </div>
+                </div>
+
+                
+                <div class="filter-group">
+                    <label>Дополнительно</label>
+                    <div class="filter-checkboxes">
+                        <label class="checkbox-container filter-checkbox">
+                            <input type="checkbox" id="filter-wifi">
+                            <span class="checkmark"></span>
+                            КУ включены в стоимость
+                        </label>
+                        <label class="checkbox-container filter-checkbox">
+                            <input type="checkbox" id="filter-pets">
+                            <span class="checkmark"></span>
+                            Мебель
+                        </label>
+                        <label class="checkbox-container filter-checkbox">
+                            <input type="checkbox" id="filter-children">
+                            <span class="checkmark"></span>
+                            Дети
+                        </label>
+                        <label class="checkbox-container filter-checkbox">
+                            <input type="checkbox" id="filter-washer">
+                            <span class="checkmark"></span>
+                            Животные
+                        </label>
+                        <label class="checkbox-container filter-checkbox">
+                            <input type="checkbox" id="filter-parking">
+                            <span class="checkmark"></span>
+                            Парковка
+                        </label>
+                        <label class="checkbox-container filter-checkbox">
+                            <input type="checkbox" id="filter-elevator">
+                            <span class="checkmark"></span>
+                            Лифт
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label for="move-in-date">Дата заезда</label>
+                    <input type="date" id="move-in-date" value="2026-03-15">
+                </div>
+
+                <button class="btn btn-primary btn-apply-filters">Применить фильтры</button>
+                <button class="btn btn-outline btn-reset-filters" style="margin-top: 10px; width: 100%;" id="resetFiltersBtn">Сбросить фильтры</button>
+            </aside>
+
+            
+            <div class="listings-content">
+                
+                <div class="map-container" style="margin-bottom: 30px; border-radius: 16px; overflow: hidden; height: 400px;">
+                    <div id="map" style="height: 100%; width: 100%;"></div>
+                </div>
+
+                
+                <div class="listings-grid"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <i class="fas fa-search-location"></i>
+                    <span>RentRadar</span>
+                </div>
+                <p class="footer-description">
+                    Крупнейшая площадка недвижимости в Беларуси. Тысячи объявлений от собственников и агентств.
+                </p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-viber"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Разделы</h4>
+                <ul>
+                    <li><a href="#">Аренда</a></li>
+                    <li><a href="#">Продажа</a></li>
+                    <li><a href="#">Новости</a></li>
+                    <li><a href="#">О нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="#">Как сдать</a></li>
+                    <li><a href="#">Как снять</a></li>
+                    <li><a href="#">Безопасность</a></li>
+                    <li><a href="#">Поддержка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <p>&copy; 2026 RentRadar. Все права защищены.</p>
+            </div>
+            <div class="footer-bottom-right">
+                <a href="#">Политика конфиденциальности</a>
+                <a href="#">Пользовательское соглашение</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="/static/js/script.js"></script>
+</body>
+</html>

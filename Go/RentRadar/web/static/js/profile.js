@@ -1,0 +1,238 @@
+let currentUser = null;
+
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof isUserLoggedIn === 'function' && !await isUserLoggedIn()) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    await loadUserData();
+    initTabs();
+    initProfileForm();
+    initPasswordForm();
+    await loadFavorites();
+    await loadMyListings();
+    await updateStats();
+});
+
+function initTabs() {
+    const tabs = document.querySelectorAll('.profile-tab');
+    const contents = document.querySelectorAll('.profile-tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabId = this.dataset.tab;
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            const content = document.getElementById(`${tabId}-tab`);
+            if (content) content.classList.add('active');
+        });
+    });
+}
+
+async function loadUserData() {
+    try {
+        currentUser = await getCurrentUser();
+        if (!currentUser) return;
+
+        document.getElementById('profileFirstName').value = currentUser.first_name || '';
+        document.getElementById('profileLastName').value = currentUser.last_name || '';
+        document.getElementById('profileEmail').value = currentUser.email || '';
+        document.getElementById('profilePhone').value = currentUser.phone || '';
+    } catch (err) {
+        console.error('Failed to load user data:', err);
+    }
+}
+
+function initProfileForm() {
+    const form = document.getElementById('profileForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        try {
+            await updateProfile({
+                first_name: document.getElementById('profileFirstName').value,
+                last_name: document.getElementById('profileLastName').value,
+                phone: document.getElementById('profilePhone').value,
+            });
+            showNotification('Профиль успешно обновлен', 'success');
+            await loadUserData();
+        } catch (err) {
+            showNotification(err.message || 'Ошибка обновления профиля', 'error');
+        }
+    });
+}
+
+function initPasswordForm() {
+    const form = document.getElementById('passwordForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            showNotification('Заполните все поля', 'error');
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            showNotification('Пароли не совпадают', 'error');
+            return;
+        }
+
+        try {
+            await changePassword({
+                current_password: currentPassword,
+                new_password: newPassword,
+            });
+            showNotification('Пароль изменен', 'success');
+            form.reset();
+        } catch (err) {
+            showNotification(err.message || 'Ошибка смены пароля', 'error');
+        }
+    });
+}
+
+async function loadFavorites() {
+    const grid = document.getElementById('favoritesGrid');
+    if (!grid) return;
+
+    try {
+        const favorites = await getFavorites();
+        if (favorites.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <i class="far fa-heart"></i>
+                    <h3>Нет избранных объявлений</h3>
+                    <p>Добавляйте понравившиеся объявления в избранное</p>
+                    <a href="/index.html" class="btn btn-primary">На главную</a>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = favorites.map((listing) => `
+            <div class="favorite-card" data-id="${listing.id}">
+                <div class="favorite-image">
+                    <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop'}" alt="${escapeHtml(listing.title)}">
+                </div>
+                <div class="favorite-content">
+                    <div class="favorite-title">${escapeHtml(listing.title)}</div>
+                    <div class="favorite-price">${listing.price.toLocaleString()} BYN</div>
+                    <div class="favorite-location">${escapeHtml(listing.city || '')}</div>
+                    <div class="favorite-actions">
+                        <button class="btn btn-danger btn-sm remove-favorite" data-id="${listing.id}">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.remove-favorite').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+                try {
+                    await removeFromFavorites(Number(btn.dataset.id));
+                    await loadFavorites();
+                    await updateStats();
+                } catch (err) {
+                    showNotification(err.message || 'Ошибка удаления', 'error');
+                }
+            });
+        });
+    } catch (err) {
+        grid.innerHTML = '<p class="error">Ошибка загрузки избранного</p>';
+    }
+}
+
+async function loadMyListings() {
+    const grid = document.getElementById('myListingsGrid');
+    if (!grid) return;
+
+    try {
+        const listings = await getMyListings();
+        if (listings.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-home"></i>
+                    <h3>У вас нет объявлений</h3>
+                    <p>Разместите первое объявление</p>
+                    <a href="/create-listing.html" class="btn btn-primary">Разместить объявление</a>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = listings.map((listing) => `
+            <div class="my-listing-card" data-id="${listing.id}">
+                <div class="my-listing-image">
+                    <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=120&h=120&fit=crop'}" alt="${escapeHtml(listing.title)}">
+                </div>
+                <div class="my-listing-content">
+                    <div class="my-listing-header">
+                        <div>
+                            <div class="favorite-title">${escapeHtml(listing.title)}</div>
+                            <div class="favorite-price">${listing.price.toLocaleString()} BYN</div>
+                        </div>
+                        <span class="badge">${listing.listing_type === 'rent' ? 'Аренда' : 'Продажа'}</span>
+                    </div>
+                    <div class="listing-details">
+                        <span><i class="fas fa-vector-square"></i> ${listing.area || 0} м²</span>
+                        <span><i class="fas fa-eye"></i> ${listing.views_count || 0} просмотров</span>
+                    </div>
+                    <div class="my-listing-actions">
+                        <button class="btn btn-danger btn-sm delete-listing" data-id="${listing.id}">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.delete-listing').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('Удалить объявление?')) return;
+                try {
+                    await deleteListing(Number(btn.dataset.id));
+                    await loadMyListings();
+                    await loadFavorites();
+                    await updateStats();
+                } catch (err) {
+                    showNotification(err.message || 'Ошибка удаления', 'error');
+                }
+            });
+        });
+    } catch (err) {
+        grid.innerHTML = '<p class="error">Ошибка загрузки объявлений</p>';
+    }
+}
+
+async function deleteListing(listingId) {
+    return await apiRequest(`/listings/${listingId}`, { method: 'DELETE' });
+}
+
+async function updateStats() {
+    try {
+        const [favorites, listings] = await Promise.all([getFavorites(), getMyListings()]);
+        const totalViews = listings.reduce((sum, l) => sum + (l.views_count || 0), 0);
+        document.getElementById('statsFavorites').textContent = String(favorites.length);
+        document.getElementById('statsListings').textContent = String(listings.length);
+        document.getElementById('statsViews').textContent = String(totalViews);
+    } catch {
+        
+    }
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `settings-notification ${type}`;
+    notification.innerHTML = `<span>${message}</span>`;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.classList.add('show'), 10);
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 2500);
+}
