@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentRadar - Разместить объявление</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        
         .listing-type-selector {
             display: flex;
             gap: 16px;
@@ -21,7 +20,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-        
+
         .type-btn {
             flex: 1;
             padding: 14px 24px;
@@ -34,382 +33,484 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .type-btn.active {
             background: linear-gradient(135deg, var(--primary-teal), var(--primary-light));
             color: white;
             box-shadow: 0 4px 10px rgba(44, 120, 115, 0.3);
         }
-        
-        .price-label span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: normal;
-            margin-left: 5px;
-        }
-        
-        
-        .rent-only, .sale-only {
-            transition: all 0.3s ease;
-        }
-        
+
         .hidden {
             display: none !important;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .photo-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .photo-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        .photo-upload-area {
+            background: #f8fafd;
+            border: 2px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 48px 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 24px;
+        }
+
+        .photo-upload-area:hover {
+            border-color: var(--primary-teal);
+            background: white;
+        }
+
+        .photo-upload-area.drag-over {
+            border-color: var(--primary-teal);
+            background: #e8f3f2;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+
+
+        .success-message i {
+            font-size: 1.2rem;
+        }
+
+        .listing-loc-map {
+            height: 280px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            z-index: 1;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo-link">
-                <div class="logo">
-                    <span class="logo-icon"><i class="fas fa-search-location"></i></span>
-                    <span class="logo-text">RentRadar</span>
+<header class="header">
+    <div class="container header-container">
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <span class="logo-icon"><i class="fas fa-search-location"></i></span>
+                <span class="logo-text">RentRadar</span>
+            </div>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Аренда</a></li>
+                <li><a href="sale.html">Продажа</a></li>
+                <li><a href="/news.html">Новости</a></li>
+                <li><a href="/about.html">О нас</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title" id="createPageTitle">Разместить объявление</h1>
+            <p class="page-subtitle" id="createPageSubtitle">Заполните информацию о вашем объекте недвижимости</p>
+        </div>
+
+        <div id="formMessages"></div>
+
+        <div class="listing-type-selector">
+            <button type="button" class="type-btn active" id="rentTypeBtn">
+                <i class="fas fa-calendar-alt"></i> Аренда
+            </button>
+            <button type="button" class="type-btn" id="saleTypeBtn">
+                <i class="fas fa-tag"></i> Продажа
+            </button>
+        </div>
+
+        <form class="listing-form" id="createListingForm">
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-info-circle"></i> Основная информация
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="listingTitle">Название объявления *</label>
+                        <input type="text" id="listingTitle" placeholder="Например: Уютная 1-комнатная квартира в центре">
+                        <div class="error-message" id="titleError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propertyType">Тип жилья *</label>
+                        <select id="propertyType">
+                            <option value="">Выберите тип</option>
+                            <option value="apartment">Квартира</option>
+                            <option value="room">Комната</option>
+                            <option value="house">Дом</option>
+                            <option value="apartments">Апартаменты</option>
+                            <option value="studio">Студия</option>
+                            <option value="cottage">Дача</option>
+                            <option value="land" class="sale-only hidden">Участок</option>
+                            <option value="commercial" class="sale-only hidden">Коммерческая</option>
+                        </select>
+                        <div class="error-message" id="propertyTypeError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rooms">Комнат *</label>
+                        <select id="rooms">
+                            <option value="">Выберите количество</option>
+                            <option value="1">1 комната</option>
+                            <option value="2">2 комнаты</option>
+                            <option value="3">3 комнаты</option>
+                            <option value="4">4 комнаты</option>
+                            <option value="5">5+ комнат</option>
+                            <option value="studio" class="sale-only hidden">Студия</option>
+                            <option value="free" class="sale-only hidden">Свободная планировка</option>
+                        </select>
+                        <div class="error-message" id="roomsError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area">Площадь (м²) *</label>
+                        <input type="number" id="area" placeholder="Например: 42" min="1" step="0.1">
+                        <div class="error-message" id="areaError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="floor">Этаж *</label>
+                        <input type="number" id="floor" placeholder="Например: 7" min="1">
+                        <div class="error-message" id="floorError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalFloors">Этажей в доме *</label>
+                        <input type="number" id="totalFloors" placeholder="Например: 12" min="1">
+                        <div class="error-message" id="totalFloorsError"></div>
+                    </div>
+
+                    <div class="form-group sale-only hidden">
+                        <label for="houseType">Тип дома</label>
+                        <select id="houseType">
+                            <option value="">Выберите тип</option>
+                            <option value="brick">Кирпичный</option>
+                            <option value="panel">Панельный</option>
+                            <option value="monolith">Монолитный</option>
+                            <option value="block">Блочный</option>
+                            <option value="wood">Деревянный</option>
+                        </select>
+                    </div>
                 </div>
-            </a>
-            <nav class="main-nav">
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-map-marker-alt"></i> Адрес и местоположение
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="address">Адрес *</label>
+                        <input type="text" id="address" placeholder="Город, улица, дом">
+                        <div class="error-message" id="addressError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="citySelect">Город *</label>
+                        <select id="citySelect">
+                            <option value="">— Выберите город —</option>
+                        </select>
+                        <div class="error-message" id="cityError"></div>
+                    </div>
+                    <div class="form-group full-width hidden" id="cityCustomWrap">
+                        <label for="cityCustom">Другой город *</label>
+                        <input type="text" id="cityCustom" placeholder="Введите название населённого пункта" autocomplete="address-level2">
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">Показывается, только если выбран пункт «Другой (ввести вручную)».</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">Район</label>
+                        <input type="text" id="district" placeholder="Например: Центральный">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Точка на карте *</label>
+                        <p style="font-size:0.88rem;color:var(--text-muted);margin:0 0 10px;line-height:1.45;">
+                            Нажмите по карте или воспользуйтесь поиском по адресу — так объявление отобразится на карте каталога.
+                        </p>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;align-items:center;">
+                            <button type="button" class="btn btn-outline" id="geocodeAddressBtn"><i class="fas fa-search-location"></i> Найти по адресу</button>
+                            <span id="locationHint" style="font-size:0.85rem;color:var(--text-muted);"></span>
+                        </div>
+                        <div id="listingLocationMap" class="listing-loc-map"></div>
+                        <input type="hidden" id="listingLat" value="">
+                        <input type="hidden" id="listingLng" value="">
+                        <div class="error-message" id="locationMapError"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-ruble-sign"></i> Цена и условия
+                    <span id="pricePeriodLabel" style="font-size: 0.9rem;">(за месяц)</span>
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="price" id="priceLabel">Цена за месяц (BYN) *</label>
+                        <input type="number" id="price" placeholder="Например: 520" min="1">
+                        <div class="error-message" id="priceError"></div>
+                    </div>
+
+                    <div class="form-group rent-only">
+                        <label for="availableFrom">Доступно с *</label>
+                        <input type="date" id="availableFrom">
+                        <div class="error-message" id="availableFromError"></div>
+                    </div>
+
+                    <div class="form-group sale-only hidden">
+                        <label for="condition">Состояние</label>
+                        <select id="condition">
+                            <option value="">Выберите состояние</option>
+                            <option value="new">Новостройка</option>
+                            <option value="renovated">Сделан ремонт</option>
+                            <option value="medium">Среднее</option>
+                            <option value="requires">Требует ремонта</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group sale-only hidden">
+                        <label for="buildingYear">Год постройки</label>
+                        <input type="number" id="buildingYear" placeholder="Например: 2015" min="1900" max="2026">
+                    </div>
+
+                    <div class="form-group full-width rent-only">
+                        <label>Залог</label>
+                        <div class="radio-group">
+                            <label class="radio-container">
+                                <input type="radio" name="deposit" value="none" checked>
+                                <span class="radio-mark"></span> Без залога
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="deposit" value="month">
+                                <span class="radio-mark"></span> 1 месяц
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="deposit" value="half">
+                                <span class="radio-mark"></span> ½ месяца
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width rent-only">
+                        <label>Коммунальные платежи</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="utilitiesIncluded">
+                                <span class="checkmark"></span>
+                                <span id="utilitiesText">Включены в стоимость</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-align-left"></i> Описание
+                </h2>
+                <div class="form-group full-width">
+                    <label for="description">Описание объявления *</label>
+                    <textarea id="description" rows="6" placeholder="Расскажите о вашем жилье..."></textarea>
+                    <div class="textarea-counter">0/1000</div>
+                    <div class="error-message" id="descriptionError"></div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-camera"></i> Фотографии
+                </h2>
+                <div class="photo-upload-area" id="photoUploadArea">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 3rem;"></i>
+                    <p>Перетащите фотографии сюда или нажмите для выбора</p>
+                    <p class="photo-hint">Максимум 10 фото. Первое фото будет обложкой</p>
+                    <p class="photo-hint" id="existingPhotosNote" style="display: none;"></p>
+                    <input type="file" id="photoInput" multiple accept="image/*" style="display: none;">
+                    <button type="button" class="btn btn-outline" id="selectPhotosBtn" style="margin-top: 15px;">
+                        <i class="fas fa-folder-open"></i> Выбрать фотографии
+                    </button>
+                </div>
+                <div class="photo-preview-grid" id="photoPreview"></div>
+                <div class="error-message" id="photosError"></div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-couch"></i> Удобства и особенности
+                </h2>
+                <div class="amenities-grid">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="amenityParking">
+                        <span class="checkmark"></span> Парковка
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="amenityElevator">
+                        <span class="checkmark"></span> Лифт
+                    </label>
+                    <label class="checkbox-container rent-only">
+                        <input type="checkbox" id="amenityFurniture">
+                        <span class="checkmark"></span> Мебель
+                    </label>
+                    <label class="checkbox-container rent-only">
+                        <input type="checkbox" id="amenityChildren">
+                        <span class="checkmark"></span> Можно с детьми
+                    </label>
+                    <label class="checkbox-container rent-only">
+                        <input type="checkbox" id="amenityPets">
+                        <span class="checkmark"></span> Можно с животными
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="amenityBalcony">
+                        <span class="checkmark"></span> Балкон
+                    </label>
+                    <label class="checkbox-container rent-only">
+                        <input type="checkbox" id="amenityWasher">
+                        <span class="checkmark"></span> Стиральная машина
+                    </label>
+                    <label class="checkbox-container rent-only">
+                        <input type="checkbox" id="amenityWifi">
+                        <span class="checkmark"></span> Wi-Fi
+                    </label>
+                    <label class="checkbox-container sale-only hidden">
+                        <input type="checkbox" id="amenityRenovation">
+                        <span class="checkmark"></span> Евроремонт
+                    </label>
+                    <label class="checkbox-container sale-only hidden">
+                        <input type="checkbox" id="amenityNewBuilding">
+                        <span class="checkmark"></span> Новостройка
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <i class="fas fa-phone-alt"></i> Контактная информация
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="contactName">Контактное лицо *</label>
+                        <input type="text" id="contactName" placeholder="Как к вам обращаться">
+                        <div class="error-message" id="contactNameError"></div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="contactPhone">Телефон *</label>
+                        <input type="tel" id="contactPhone" placeholder="+375 (29) 123-45-67">
+                        <div class="error-message" id="contactPhoneError"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="terms-box">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        Я подтверждаю, что имею право на сдачу/продажу данной недвижимости и предоставляю достоверную информацию
+                    </label>
+                    <div class="error-message" id="termsError"></div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline btn-large" onclick="window.location.href='index.html'">
+                    <i class="fas fa-times"></i> Отмена
+                </button>
+                <button type="submit" class="btn btn-primary btn-large" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Опубликовать
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <i class="fas fa-search-location"></i>
+                    <span>RentRadar</span>
+                </div>
+                <p class="footer-description">
+                    Крупнейшая площадка недвижимости в Беларуси. Тысячи объявлений от собственников и агентств.
+                </p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-viber"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Разделы</h4>
                 <ul>
                     <li><a href="index.html">Аренда</a></li>
                     <li><a href="sale.html">Продажа</a></li>
-                    <li><a href="#">Новости</a></li>
-                    <li><a href="#">О нас</a></li>
+                        <li><a href="/news.html">Новости</a></li>
+                        <li><a href="/about.html">О нас</a></li>
                 </ul>
-            </nav>
-            <div class="user-actions">
-                
             </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
-
-    <main>
-        <div class="container">
-            <div class="page-header">
-                <h1 class="page-title">Разместить объявление</h1>
-                <p class="page-subtitle">Заполните информацию о вашем объекте недвижимости</p>
+            <div class="footer-column">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="#">Как сдать</a></li>
+                    <li><a href="#">Как снять</a></li>
+                    <li><a href="#">Безопасность</a></li>
+                    <li><a href="#">Поддержка</a></li>
+                </ul>
             </div>
-
-            
-            <div class="listing-type-selector">
-                <button type="button" class="type-btn active" id="rentTypeBtn">Аренда</button>
-                <button type="button" class="type-btn" id="saleTypeBtn">Продажа</button>
-            </div>
-
-            <form class="listing-form" id="createListingForm">
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">Основная информация</h2>
-                    <div class="form-grid">
-                        <div class="form-group full-width">
-                            <label for="listingTitle">Название объявления *</label>
-                            <input type="text" id="listingTitle" placeholder="Например: Уютная 1-комнатная квартира в центре" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="propertyType">Тип жилья *</label>
-                            <select id="propertyType" required>
-                                <option value="">Выберите тип</option>
-                                <option value="apartment">Квартира</option>
-                                <option value="room">Комната</option>
-                                <option value="house">Дом</option>
-                                <option value="apartments">Апартаменты</option>
-                                <option value="studio">Студия</option>
-                                <option value="cottage">Дача</option>
-                                
-                                <option value="land" class="sale-only-option hidden">Участок</option>
-                                <option value="commercial" class="sale-only-option hidden">Коммерческая</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="rooms">Комнат *</label>
-                            <select id="rooms" required>
-                                <option value="">Выберите количество</option>
-                                <option value="1">1 комната</option>
-                                <option value="2">2 комнаты</option>
-                                <option value="3">3 комнаты</option>
-                                <option value="4">4 комнаты</option>
-                                <option value="5">5+ комнат</option>
-                                <option value="studio" class="sale-only-option hidden">Студия</option>
-                                <option value="free" class="sale-only-option hidden">Свободная планировка</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="area">Площадь (м²) *</label>
-                            <input type="number" id="area" placeholder="Например: 42" min="1" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="floor">Этаж *</label>
-                            <input type="number" id="floor" placeholder="Например: 7" min="1" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="totalFloors">Этажей в доме *</label>
-                            <input type="number" id="totalFloors" placeholder="Например: 12" min="1" required>
-                        </div>
-
-                        
-                        <div class="form-group sale-only hidden" id="houseTypeGroup">
-                            <label for="houseType">Тип дома</label>
-                            <select id="houseType">
-                                <option value="">Выберите тип</option>
-                                <option value="brick">Кирпичный</option>
-                                <option value="panel">Панельный</option>
-                                <option value="monolith">Монолитный</option>
-                                <option value="block">Блочный</option>
-                                <option value="wood">Деревянный</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">Адрес и местоположение</h2>
-                    <div class="form-grid">
-                        <div class="form-group full-width">
-                            <label for="address">Адрес *</label>
-                            <input type="text" id="address" placeholder="Город, улица, дом" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="district">Район *</label>
-                            <input type="text" id="district" placeholder="Например: Центральный" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="city">Город *</label>
-                            <input type="text" id="city" placeholder="Например: Минск" required>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">
-                        Цена и условия <span id="pricePeriodLabel">(за месяц)</span>
-                    </h2>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="price" id="priceLabel">Цена за месяц (BYN) *</label>
-                            <input type="number" id="price" placeholder="Например: 520" min="1" required>
-                        </div>
-
-                        
-                        <div class="form-group rent-only" id="availableFromGroup">
-                            <label for="availableFrom">Доступно с *</label>
-                            <input type="date" id="availableFrom" value="2026-03-15" required>
-                        </div>
-
-                        
-                        <div class="form-group sale-only hidden" id="conditionGroup">
-                            <label for="condition">Состояние</label>
-                            <select id="condition">
-                                <option value="">Выберите состояние</option>
-                                <option value="new">Новостройка</option>
-                                <option value="renovated">Сделан ремонт</option>
-                                <option value="medium">Среднее</option>
-                                <option value="requires">Требует ремонта</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group sale-only hidden" id="buildingYearGroup">
-                            <label for="buildingYear">Год постройки</label>
-                            <input type="number" id="buildingYear" placeholder="Например: 2015" min="1900" max="2026">
-                        </div>
-
-                        
-                        <div class="form-group full-width rent-only" id="depositGroup">
-                            <label>Залог</label>
-                            <div class="radio-group">
-                                <label class="radio-container">
-                                    <input type="radio" name="deposit" value="none" checked>
-                                    <span class="radio-mark"></span> Без залога
-                                </label>
-                                <label class="radio-container">
-                                    <input type="radio" name="deposit" value="month">
-                                    <span class="radio-mark"></span> 1 месяц
-                                </label>
-                                <label class="radio-container">
-                                    <input type="radio" name="deposit" value="half">
-                                    <span class="radio-mark"></span> ½ месяца
-                                </label>
-                            </div>
-                        </div>
-
-                        
-                        <div class="form-group full-width rent-only" id="utilitiesGroup">
-                            <label>Коммунальные платежи</label>
-                            <div class="checkbox-group">
-                                <label class="checkbox-container">
-                                    <input type="checkbox" id="utilitiesIncluded">
-                                    <span class="checkmark"></span>
-                                    <span id="utilitiesText">Включены в стоимость</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">Описание</h2>
-                    <div class="form-group full-width">
-                        <label for="description">Описание объявления *</label>
-                        <textarea id="description" rows="6" placeholder="Расскажите о вашем жилье..." required></textarea>
-                        <div class="textarea-counter">0/1000</div>
-                    </div>
-                </div>
-
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">Фотографии</h2>
-                    <div class="photo-upload-area" id="photoUploadArea">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p>Перетащите фотографии сюда или нажмите для выбора</p>
-                        <input type="file" id="photoInput" multiple accept="image/*" style="display: none;">
-                        <button type="button" class="btn btn-outline" id="selectPhotosBtn">Выбрать фотографии</button>
-                    </div>
-                    <div class="photo-preview-grid" id="photoPreview"></div>
-                </div>
-
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">Удобства и особенности</h2>
-                    <div class="amenities-grid">
-                        
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="amenityParking">
-                            <span class="checkmark"></span> Парковка
-                        </label>
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="amenityElevator">
-                            <span class="checkmark"></span> Лифт
-                        </label>
-                        
-                        
-                        <label class="checkbox-container rent-only" id="amenityFurniture">
-                            <input type="checkbox" id="amenityFurniture">
-                            <span class="checkmark"></span> Мебель
-                        </label>
-                        <label class="checkbox-container rent-only" id="amenityChildren">
-                            <input type="checkbox" id="amenityChildren">
-                            <span class="checkmark"></span> Можно с детьми
-                        </label>
-                        <label class="checkbox-container rent-only" id="amenityPets">
-                            <input type="checkbox" id="amenityPets">
-                            <span class="checkmark"></span> Можно с животными
-                        </label>
-                        <label class="checkbox-container rent-only" id="amenityBalcony">
-                            <input type="checkbox" id="amenityBalcony">
-                            <span class="checkmark"></span> Балкон
-                        </label>
-                        
-                        
-                        <label class="checkbox-container sale-only hidden" id="amenityRenovation">
-                            <input type="checkbox" id="amenityRenovation">
-                            <span class="checkmark"></span> Евроремонт
-                        </label>
-                        <label class="checkbox-container sale-only hidden" id="amenityNewBuilding">
-                            <input type="checkbox" id="amenityNewBuilding">
-                            <span class="checkmark"></span> Новостройка
-                        </label>
-                    </div>
-                </div>
-
-                
-                <div class="form-section">
-                    <h2 class="form-section-title">Контактная информация</h2>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="contactName">Контактное лицо *</label>
-                            <input type="text" id="contactName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactPhone">Телефон *</label>
-                            <input type="tel" id="contactPhone" placeholder="+375 (29) 123-45-67" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactEmail">Email *</label>
-                            <input type="email" id="contactEmail" required>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="form-section">
-                    <div class="terms-box">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="agreeTerms" required>
-                            <span class="checkmark"></span>
-                            Я подтверждаю, что имею право на сдачу/продажу данной недвижимости.
-                        </label>
-                    </div>
-                </div>
-
-                
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline btn-large" onclick="window.location.href='index.html'">Отмена</button>
-                    <button type="submit" class="btn btn-primary btn-large">Опубликовать</button>
-                </div>
-            </form>
-        </div>
-    </main>
-
-    
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-top">
-                <div class="footer-column">
-                    <div class="footer-logo">
-                        <i class="fas fa-search-location"></i>
-                        <span>RentRadar</span>
-                    </div>
-                    <p class="footer-description">
-                        Крупнейшая площадка недвижимости в Беларуси. Тысячи объявлений от собственников и агентств.
-                    </p>
-                    <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-viber"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h4>Разделы</h4>
-                    <ul>
-                        <li><a href="#">Аренда</a></li>
-                        <li><a href="#">Продажа</a></li>
-                        <li><a href="#">Новости</a></li>
-                        <li><a href="#">О нас</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Помощь</h4>
-                    <ul>
-                        <li><a href="#">Как сдать</a></li>
-                        <li><a href="#">Как снять</a></li>
-                        <li><a href="#">Безопасность</a></li>
-                        <li><a href="#">Поддержка</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-            </div>
-            <div class="footer-bottom">
-                <div class="footer-bottom-left">
-                    <p>&copy; 2026 RentRadar. Все права защищены.</p>
-                </div>
-                <div class="footer-bottom-right">
-                    <a href="#">Политика конфиденциальности</a>
-                    <a href="#">Пользовательское соглашение</a>
-                </div>
+            <div class="footer-column">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +375 29 123-45-67</li>
+                    <li><i class="fas fa-envelope"></i> info@rentradar.by</li>
+                    <li><i class="fas fa-clock"></i> Пн-Пт: 9:00 - 21:00</li>
+                </ul>
             </div>
         </div>
-    </footer>
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <p>&copy; 2026 RentRadar. Все права защищены.</p>
+            </div>
+            <div class="footer-bottom-right">
+                <a href="#">Политика конфиденциальности</a>
+                <a href="#">Пользовательское соглашение</a>
+            </div>
+        </div>
+    </div>
+</footer>
 
-    <script src="/static/js/script.js"></script>
-    <script src="/static/js/creating-listing.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="/static/js/belarus-cities.js"></script>
+<script src="/static/js/script.js"></script>
+<script src="/static/js/create-listing.js"></script>
 </body>
 </html>

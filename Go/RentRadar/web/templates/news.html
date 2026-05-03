@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentRadar — Новости</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<header class="header">
+    <div class="container header-container">
+        <a href="/index.html" class="logo-link">
+            <div class="logo"><span class="logo-icon"><i class="fas fa-search-location"></i></span><span class="logo-text">RentRadar</span></div>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/index.html">Аренда</a></li>
+                <li><a href="/sale.html">Продажа</a></li>
+                <li><a href="/news.html" class="active">Новости</a></li>
+                <li><a href="/about.html">О нас</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions"></div>
+    </div>
+</header>
+
+<main class="container" style="padding:32px 0 48px;">
+    <h1 style="margin-bottom:16px;">Новости</h1>
+    <p style="color:var(--text-muted); max-width:720px; margin-bottom:28px;">
+        Здесь будут публиковаться обновления сервиса, изменения в правилах размещения объявлений и полезные материалы для арендодателей и арендаторов.
+    </p>
+    <article style="background:white; border:1px solid var(--border-color); border-radius:16px; padding:20px; margin-bottom:16px; max-width:800px;">
+        <h2 style="font-size:1.1rem; margin:0 0 8px;">Модерация объявлений и отзывов</h2>
+        <p style="margin:0; color:var(--text-muted); font-size:0.9rem;">3 мая 2026</p>
+        <p style="margin-top:12px; line-height:1.55;">
+            Все новые объявления и отзывы проходят проверку. Это помогает поддерживать качество каталога и снижать риск недобросовестных публикаций.
+        </p>
+    </article>
+    <article style="background:white; border:1px solid var(--border-color); border-radius:16px; padding:20px; max-width:800px;">
+        <h2 style="font-size:1.1rem; margin:0 0 8px;">Жалобы на пользователей</h2>
+        <p style="margin:0; color:var(--text-muted); font-size:0.9rem;">3 мая 2026</p>
+        <p style="margin-top:12px; line-height:1.55;">
+            Если вы столкнулись с нарушением правил, вы можете отправить жалобу с карточки объявления или из блока отзывов. Модераторы рассматривают обращения в порядке очереди.
+        </p>
+    </article>
+</main>
+
+<footer class="footer">
+    <div class="container"><div class="footer-bottom"><p>&copy; 2026 RentRadar</p></div></div>
+</footer>
+<script src="/static/js/script.js"></script>
+</body>
+</html>

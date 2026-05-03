@@ -99,21 +99,28 @@ function initPasswordForm() {
     });
 }
 
+function renderEmptyFavorites(grid) {
+    grid.innerHTML = `
+        <div class="empty-favorites-state" style="text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 1px dashed var(--border-color);">
+            <i class="far fa-heart" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 20px; display: inline-block;"></i>
+            <h3 style="font-size: 1.3rem; color: var(--text-dark); margin-bottom: 10px;">Вы ещё не добавили ничего в избранное</h3>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Добавляйте понравившиеся объявления, нажимая на сердечко</p>
+            <a href="/index.html" class="btn btn-primary" style="display: inline-block; padding: 12px 30px;">
+                <i class="fas fa-search"></i> Найти жилье
+            </a>
+        </div>
+    `;
+}
+
 async function loadFavorites() {
     const grid = document.getElementById('favoritesGrid');
     if (!grid) return;
 
     try {
         const favorites = await getFavorites();
-        if (favorites.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-state">
-                    <i class="far fa-heart"></i>
-                    <h3>Нет избранных объявлений</h3>
-                    <p>Добавляйте понравившиеся объявления в избранное</p>
-                    <a href="/index.html" class="btn btn-primary">На главную</a>
-                </div>
-            `;
+
+        if (!Array.isArray(favorites) || favorites.length === 0) {
+            renderEmptyFavorites(grid);
             return;
         }
 
@@ -125,9 +132,10 @@ async function loadFavorites() {
                 <div class="favorite-content">
                     <div class="favorite-title">${escapeHtml(listing.title)}</div>
                     <div class="favorite-price">${listing.price.toLocaleString()} BYN</div>
-                    <div class="favorite-location">${escapeHtml(listing.city || '')}</div>
+                    <div class="favorite-location">${escapeHtml(listing.city || listing.district || '')}</div>
                     <div class="favorite-actions">
                         <button class="btn btn-danger btn-sm remove-favorite" data-id="${listing.id}">Удалить</button>
+                        <a href="/listing-details.html?id=${listing.id}" class="btn btn-outline btn-sm">Подробнее</a>
                     </div>
                 </div>
             </div>
@@ -145,8 +153,22 @@ async function loadFavorites() {
             });
         });
     } catch (err) {
-        grid.innerHTML = '<p class="error">Ошибка загрузки избранного</p>';
+        console.error('Error loading favorites:', err);
+        renderEmptyFavorites(grid);
     }
+}
+function listingStatusBadge(listing) {
+    if (!listing.is_active) {
+        return '<span class="listing-status-badge removed">Снято</span>';
+    }
+    const m = String(listing.moderation_status || '').toLowerCase();
+    if (m === 'pending') {
+        return '<span class="listing-status-badge pending">На модерации</span>';
+    }
+    if (m === 'rejected') {
+        return '<span class="listing-status-badge rejected">Отклонено</span>';
+    }
+    return '<span class="listing-status-badge approved">Опубликовано</span>';
 }
 
 async function loadMyListings() {
@@ -154,7 +176,8 @@ async function loadMyListings() {
     if (!grid) return;
 
     try {
-        const listings = await getMyListings();
+        const raw = await getMyListings();
+        const listings = Array.isArray(raw) ? raw : [];
         if (listings.length === 0) {
             grid.innerHTML = `
                 <div class="empty-state">
@@ -177,6 +200,7 @@ async function loadMyListings() {
                         <div>
                             <div class="favorite-title">${escapeHtml(listing.title)}</div>
                             <div class="favorite-price">${listing.price.toLocaleString()} BYN</div>
+                            <div class="listing-status-row">${listingStatusBadge(listing)}</div>
                         </div>
                         <span class="badge">${listing.listing_type === 'rent' ? 'Аренда' : 'Продажа'}</span>
                     </div>
@@ -185,7 +209,8 @@ async function loadMyListings() {
                         <span><i class="fas fa-eye"></i> ${listing.views_count || 0} просмотров</span>
                     </div>
                     <div class="my-listing-actions">
-                        <button class="btn btn-danger btn-sm delete-listing" data-id="${listing.id}">Удалить</button>
+                        <a href="/create-listing.html?id=${listing.id}" class="btn btn-outline btn-sm">Редактировать</a>
+                        <button type="button" class="btn btn-danger btn-sm delete-listing" data-id="${listing.id}">Удалить</button>
                     </div>
                 </div>
             </div>

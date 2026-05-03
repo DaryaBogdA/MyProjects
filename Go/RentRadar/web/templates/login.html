@@ -5,162 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentRadar - Вход и регистрация</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .error-message {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .form-group .error-message {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body class="auth-page">
-    
-    <header class="header auth-header">
-        <div class="container header-container">
-                <a href="/index.html" class="logo-link">
-                <div class="logo">
-                    <span class="logo-icon"><i class="fas fa-search-location"></i></span>
-                    <span class="logo-text">RentRadar</span>
-                </div>
-            </a>
-               
+
+<header class="header auth-header">
+    <div class="container header-container">
+        <a href="/index.html" class="logo-link">
+            <div class="logo">
+                <span class="logo-icon"><i class="fas fa-search-location"></i></span>
+                <span class="logo-text">RentRadar</span>
+            </div>
+        </a>
         <nav class="main-nav">
             <ul>
                 <li><a href="#">Аренда</a></li>
                 <li><a href="#">Продажа</a></li>
-                <li><a href="#">Новости</a></li>
-                <li><a href="#">О нас</a></li>
+                <li><a href="/news.html">Новости</a></li>
+                <li><a href="/about.html">О нас</a></li>
             </ul>
         </nav>
-            <div class="user-actions">
-                <a href="/index.html" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i> На главную
-                </a>
-            </div>
+        <div class="user-actions">
+            <a href="/index.html" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> На главную
+            </a>
         </div>
-    </header>
-
-    <main class="auth-main">
-        <div class="auth-container">
-            
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="loginTab">Вход</button>
-                <button class="auth-tab" id="registerTab">Регистрация</button>
-            </div>
-
-            
-            <div class="auth-form active" id="loginForm">
-                <h2 class="auth-title">Вход</h2>
-
-                <form id="loginFormElement">
-                    <div class="form-group">
-                        <label for="loginIdentifier">Номер телефона / Email</label>
-                        <div class="input-field">
-                            <input type="text" id="loginIdentifier" placeholder="+375 (29) 123-45-67 или example@mail.com" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-            <label for="loginPassword">Пароль</label>
-            <div class="input-field">
-            <input type="password" id="loginPassword" placeholder="Введите пароль" required> 
-            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">
-            <i class="far fa-eye-slash"></i> 
-        </button>
     </div>
-</div>
+</header>
 
+<main class="auth-main">
+    <div class="auth-container">
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab">Вход</button>
+            <button class="auth-tab" id="registerTab">Регистрация</button>
+        </div>
 
-                    <div class="form-options">
-                        <label class="checkbox-container">
-                            <input type="checkbox" checked>
-                            <span class="checkmark"></span>
-                            Запомнить меня
-                        </label>
-                        <a href="#" class="forgot-password">Забыли пароль?</a>
+        <div class="auth-form active" id="loginForm">
+            <h2 class="auth-title">Вход</h2>
+
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginIdentifier">Номер телефона / Email</label>
+                    <div class="input-field">
+                        <input type="text" id="loginIdentifier" placeholder="+375 (29) 123-45-67 или example@mail.com" required>
                     </div>
-
-                    <button type="submit" class="btn btn-primary btn-block">Войти</button>
-                </form>
-
-                <p class="auth-switch">
-                    Ещё нет аккаунта? 
-                    <a href="#" id="switchToRegister">Зарегистрироваться</a>
-                </p>
-            </div>
-
-           
-<div class="auth-form" id="registerForm">
-    <h2 class="auth-title">Регистрация</h2>
-
-    <form id="registerFormElement">
-        <div class="form-row">
-            <div class="form-group half">
-                <label for="registerFirstName">Имя</label>
-                <div class="input-field">
-                    <input type="text" id="registerFirstName" placeholder="Иван" required>
+                    <div class="error-message" id="loginIdentifierError"></div>
                 </div>
-            </div>
-            <div class="form-group half">
-                <label for="registerLastName">Фамилия</label>
-                <div class="input-field">
-                    <input type="text" id="registerLastName" placeholder="Петров" required>
+
+                <div class="form-group">
+                    <label for="loginPassword">Пароль</label>
+                    <div class="input-field">
+                        <input type="password" id="loginPassword" placeholder="Введите пароль" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">
+                            <i class="far fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="loginPasswordError"></div>
                 </div>
-            </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Запомнить меня
+                    </label>
+                    <a href="#" class="forgot-password">Забыли пароль?</a>
+                </div>
+
+                <div class="error-message" id="loginGeneralError" style="text-align: center; margin-bottom: 15px;"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            </form>
+
+            <p class="auth-switch">
+                Ещё нет аккаунта?
+                <a href="#" id="switchToRegister">Зарегистрироваться</a>
+            </p>
         </div>
 
-        <div class="form-group">
-            <label for="registerIdentifier">Номер телефона / Email</label>
-            <div class="input-field">
-                <input type="text" id="registerIdentifier" placeholder="+375 (29) 123-45-67 или example@mail.com" required>
-            </div>
+        <div class="auth-form" id="registerForm">
+            <h2 class="auth-title">Регистрация</h2>
+
+            <form id="registerFormElement">
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="registerFirstName">Имя</label>
+                        <div class="input-field">
+                            <input type="text" id="registerFirstName" placeholder="Иван" required>
+                        </div>
+                        <div class="error-message" id="registerFirstNameError"></div>
+                    </div>
+                    <div class="form-group half">
+                        <label for="registerLastName">Фамилия</label>
+                        <div class="input-field">
+                            <input type="text" id="registerLastName" placeholder="Петров" required>
+                        </div>
+                        <div class="error-message" id="registerLastNameError"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerIdentifier">Номер телефона / Email</label>
+                    <div class="input-field">
+                        <input type="text" id="registerIdentifier" placeholder="+375 (29) 123-45-67 или example@mail.com" required>
+                    </div>
+                    <div class="error-message" id="registerIdentifierError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Пароль</label>
+                    <div class="input-field">
+                        <input type="password" id="registerPassword" placeholder="Создайте пароль" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('registerPassword', this)">
+                            <i class="far fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="registerPasswordError"></div>
+                    <div class="password-strength-minimal" id="passwordStrength"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Подтверждение пароля</label>
+                    <div class="input-field">
+                        <input type="password" id="registerConfirmPassword" placeholder="Повторите пароль" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('registerConfirmPassword', this)">
+                            <i class="far fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="registerConfirmPasswordError"></div>
+                    <div class="password-match-minimal" id="passwordMatch"></div>
+                </div>
+
+                <div class="form-group terms">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="registerTerms" required>
+                        <span class="checkmark"></span>
+                        Я соглашаюсь с <a href="#">условиями использования</a>
+                    </label>
+                    <div class="error-message" id="registerTermsError"></div>
+                </div>
+
+                <div class="error-message" id="registerGeneralError" style="text-align: center; margin-bottom: 15px;"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+            </form>
+
+            <p class="auth-switch">
+                Уже есть аккаунт?
+                <a href="#" id="switchToLogin">Войти</a>
+            </p>
         </div>
+    </div>
+</main>
 
-        
-        <div class="form-group">
-            <label for="registerPassword">Пароль</label>
-            <div class="input-field">
-                <input type="password" id="registerPassword" placeholder="Создайте пароль" required>
-                <button type="button" class="toggle-password" onclick="togglePassword('registerPassword', this)">
-                    <i class="far fa-eye-slash"></i> 
-                </button>
-            </div>
-            
-            <div class="password-strength-minimal" id="passwordStrength"></div>
-        </div>
+<footer class="auth-footer">
+    <div class="container">
+        <p>&copy; 2026 RentRadar. Все права защищены.</p>
+    </div>
+</footer>
 
-        
-        <div class="form-group">
-            <label for="registerConfirmPassword">Подтверждение пароля</label>
-            <div class="input-field">
-                <input type="password" id="registerConfirmPassword" placeholder="Повторите пароль" required>
-                <button type="button" class="toggle-password" onclick="togglePassword('registerConfirmPassword', this)">
-                    <i class="far fa-eye-slash"></i> 
-                </button>
-            </div>
-            
-            <div class="password-match-minimal" id="passwordMatch"></div>
-        </div>
-
-        <div class="form-group terms">
-            <label class="checkbox-container">
-                <input type="checkbox" required>
-                <span class="checkmark"></span>
-                Я соглашаюсь с <a href="#">условиями использования</a>
-            </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
-    </form>
-
-    <p class="auth-switch">
-        Уже есть аккаунт? 
-        <a href="#" id="switchToLogin">Войти</a>
-    </p>
-</div>
-
-    
-    <footer class="auth-footer">
-        <div class="container">
-            <p>&copy; 2026 RentRadar. Все права защищены.</p>
-        </div>
-    </footer>
-
-    <script src="/static/js/script.js?v=3"></script>
+<script src="/static/js/script.js?v=3"></script>
 </body>
 </html>

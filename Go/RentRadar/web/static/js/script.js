@@ -143,11 +143,20 @@ window.togglePassword = function(inputId, button) {
 };
 
 
-function updateUIForLoggedInUser() {
+async function updateUIForLoggedInUser() {
     const userActions = document.querySelector('.user-actions');
     if (!userActions) return;
 
     const userName = localStorage.getItem('userName') || 'Пользователь';
+
+    let adminNav = '';
+    try {
+        const me = await getCurrentUser();
+        if (me && me.role === 'admin') {
+            adminNav = '<a href="/admin.html"><i class="fas fa-shield-alt"></i> Модерация</a>';
+        }
+    } catch (_) {
+    }
 
     userActions.innerHTML = `
         <div class="user-menu">
@@ -156,10 +165,10 @@ function updateUIForLoggedInUser() {
             </button>
             <div class="user-dropdown">
                 <a href="/profile.html">Мой профиль</a>
-                <a href="my-listings.html">Мои объявления</a>
-                <a href="favorites.html">Избранное</a>
-                <a href="messages.html">Сообщения</a>
+                <a href="/messages.html">Сообщения</a>
+                <a href="/bookings.html">Мои бронирования</a>
                 <a href="/reviews.html">Отзывы</a>
+                ${adminNav}
                 <a href="#" id="logoutBtn">Выйти</a>
             </div>
         </div>
@@ -215,7 +224,6 @@ function initAuthPage() {
     const loginTab = document.getElementById('loginTab');
     if (!loginTab) return;
 
-    
     (async () => {
         if (await isUserLoggedIn()) {
             window.location.href = '/profile.html';
@@ -228,11 +236,72 @@ function initAuthPage() {
     const switchToRegister = document.getElementById('switchToRegister');
     const switchToLogin = document.getElementById('switchToLogin');
 
+    function clearLoginErrors() {
+        document.getElementById('loginIdentifierError').textContent = '';
+        document.getElementById('loginPasswordError').textContent = '';
+        document.getElementById('loginGeneralError').textContent = '';
+        document.getElementById('loginIdentifier').classList.remove('input-error');
+        document.getElementById('loginPassword').classList.remove('input-error');
+    }
+
+    function clearRegisterErrors() {
+        document.getElementById('registerFirstNameError').textContent = '';
+        document.getElementById('registerLastNameError').textContent = '';
+        document.getElementById('registerIdentifierError').textContent = '';
+        document.getElementById('registerPasswordError').textContent = '';
+        document.getElementById('registerConfirmPasswordError').textContent = '';
+        document.getElementById('registerTermsError').textContent = '';
+        document.getElementById('registerGeneralError').textContent = '';
+
+        document.getElementById('registerFirstName').classList.remove('input-error');
+        document.getElementById('registerLastName').classList.remove('input-error');
+        document.getElementById('registerIdentifier').classList.remove('input-error');
+        document.getElementById('registerPassword').classList.remove('input-error');
+        document.getElementById('registerConfirmPassword').classList.remove('input-error');
+        document.getElementById('registerTerms').classList.remove('input-error');
+    }
+
+    function showLoginError(fieldId, message) {
+        if (fieldId === 'general') {
+            const errorDiv = document.getElementById('loginGeneralError');
+            if (errorDiv) errorDiv.textContent = message;
+        } else {
+            const errorDiv = document.getElementById(`${fieldId}Error`);
+            if (errorDiv) errorDiv.textContent = message;
+            const input = document.getElementById(fieldId);
+            if (input) input.classList.add('input-error');
+        }
+    }
+
+    function showRegisterError(fieldId, message) {
+        if (fieldId === 'general') {
+            const errorDiv = document.getElementById('registerGeneralError');
+            if (errorDiv) errorDiv.textContent = message;
+        } else {
+            const errorDiv = document.getElementById(`${fieldId}Error`);
+            if (errorDiv) errorDiv.textContent = message;
+            const input = document.getElementById(fieldId);
+            if (input) input.classList.add('input-error');
+        }
+    }
+
+    function validateEmail(email) {
+        const re = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+        return re.test(email);
+    }
+
+    function validatePhone(phone) {
+        const re = /^[\+\(]?[0-9]{1,4}[\)\-\s]?[\d\-\s]{7,15}$/;
+        return re.test(phone);
+    }
+
     function showLogin() {
         loginTab.classList.add('active');
         registerTab.classList.remove('active');
         loginForm.classList.add('active');
         registerForm.classList.remove('active');
+        clearLoginErrors();
+        clearRegisterErrors();
     }
 
     function showRegister() {
@@ -240,6 +309,8 @@ function initAuthPage() {
         loginTab.classList.remove('active');
         registerForm.classList.add('active');
         loginForm.classList.remove('active');
+        clearLoginErrors();
+        clearRegisterErrors();
     }
 
     loginTab.addEventListener('click', showLogin);
@@ -259,30 +330,43 @@ function initAuthPage() {
         });
     }
 
-    
     const loginFormElement = document.getElementById('loginFormElement');
     if (loginFormElement) {
         loginFormElement.addEventListener('submit', async (e) => {
             e.preventDefault();
+            clearLoginErrors();
 
-            const identifier = document.getElementById('loginIdentifier').value;
+            const identifier = document.getElementById('loginIdentifier').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            if (!identifier || !password) {
-                alert('Заполните все поля');
-                return;
+            let hasError = false;
+
+            if (!identifier) {
+                showLoginError('loginIdentifier', 'Введите email или номер телефона');
+                hasError = true;
             }
+
+            if (!password) {
+                showLoginError('loginPassword', 'Введите пароль');
+                hasError = true;
+            }
+
+            if (hasError) return;
 
             try {
                 await login(identifier, password);
                 window.location.href = '/profile.html';
             } catch (err) {
-                alert(err.message || 'Ошибка входа');
+                let errorMessage = err.message || 'Ошибка входа';
+                if (errorMessage.includes('invalid credentials') || errorMessage.includes('не найден')) {
+                    showLoginError('general', 'Неверный email/телефон или пароль');
+                } else {
+                    showLoginError('general', errorMessage);
+                }
             }
         });
     }
 
-    
     const registerFormElement = document.getElementById('registerFormElement');
     if (registerFormElement) {
         const passwordInput = document.getElementById('registerPassword');
@@ -322,6 +406,9 @@ function initAuthPage() {
                     passwordStrength.textContent = 'Надёжный пароль';
                     passwordStrength.className = 'password-strength-minimal strong';
                 }
+
+                document.getElementById('registerPasswordError').textContent = '';
+                passwordInput.classList.remove('input-error');
             });
         }
 
@@ -338,6 +425,8 @@ function initAuthPage() {
                 if (password === confirm) {
                     passwordMatch.textContent = 'Пароли совпадают';
                     passwordMatch.className = 'password-match-minimal match';
+                    document.getElementById('registerConfirmPasswordError').textContent = '';
+                    confirmInput.classList.remove('input-error');
                 } else {
                     passwordMatch.textContent = 'Пароли не совпадают';
                     passwordMatch.className = 'password-match-minimal';
@@ -348,24 +437,95 @@ function initAuthPage() {
             passwordInput.addEventListener('input', checkPasswordMatch);
         }
 
+        const clearInputErrors = () => {
+            const fields = ['registerFirstName', 'registerLastName', 'registerIdentifier', 'registerPassword', 'registerConfirmPassword'];
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                if (input) {
+                    input.addEventListener('input', () => {
+                        document.getElementById(`${field}Error`).textContent = '';
+                        input.classList.remove('input-error');
+                    });
+                }
+            });
+            const termsCheckbox = document.getElementById('registerTerms');
+            if (termsCheckbox) {
+                termsCheckbox.addEventListener('change', () => {
+                    document.getElementById('registerTermsError').textContent = '';
+                    termsCheckbox.classList.remove('input-error');
+                });
+            }
+        };
+        clearInputErrors();
+
         registerFormElement.addEventListener('submit', async (e) => {
             e.preventDefault();
+            clearRegisterErrors();
 
-            const firstName = document.getElementById('registerFirstName').value;
-            const lastName = document.getElementById('registerLastName').value;
-            const identifier = document.getElementById('registerIdentifier').value;
+            const firstName = document.getElementById('registerFirstName').value.trim();
+            const lastName = document.getElementById('registerLastName').value.trim();
+            const identifier = document.getElementById('registerIdentifier').value.trim();
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const termsChecked = document.getElementById('registerTerms').checked;
 
-            if (password !== confirmPassword) {
-                alert('Пароли не совпадают!');
-                return;
+            let hasError = false;
+
+            if (!firstName) {
+                showRegisterError('registerFirstName', 'Введите имя');
+                hasError = true;
+            } else if (firstName.length < 2) {
+                showRegisterError('registerFirstName', 'Имя должно содержать минимум 2 символа');
+                hasError = true;
             }
 
-            if (checkPasswordStrength(password) < 3) {
-                alert('Пароль слишком слабый. Используйте минимум 8 символов, заглавные и строчные буквы, цифры');
-                return;
+            if (!lastName) {
+                showRegisterError('registerLastName', 'Введите фамилию');
+                hasError = true;
+            } else if (lastName.length < 2) {
+                showRegisterError('registerLastName', 'Фамилия должна содержать минимум 2 символа');
+                hasError = true;
             }
+
+            if (!identifier) {
+                showRegisterError('registerIdentifier', 'Введите email или номер телефона');
+                hasError = true;
+            } else {
+                const isEmail = identifier.includes('@');
+                if (isEmail && !validateEmail(identifier)) {
+                    showRegisterError('registerIdentifier', 'Введите корректный email');
+                    hasError = true;
+                } else if (!isEmail && !validatePhone(identifier)) {
+                    showRegisterError('registerIdentifier', 'Введите корректный номер телефона');
+                    hasError = true;
+                }
+            }
+
+            if (!password) {
+                showRegisterError('registerPassword', 'Введите пароль');
+                hasError = true;
+            } else if (password.length < 6) {
+                showRegisterError('registerPassword', 'Пароль должен содержать минимум 6 символов');
+                hasError = true;
+            } else if (checkPasswordStrength(password) < 3) {
+                showRegisterError('registerPassword', 'Пароль слишком слабый. Используйте заглавные буквы, цифры и спецсимволы');
+                hasError = true;
+            }
+
+            if (!confirmPassword) {
+                showRegisterError('registerConfirmPassword', 'Подтвердите пароль');
+                hasError = true;
+            } else if (password !== confirmPassword) {
+                showRegisterError('registerConfirmPassword', 'Пароли не совпадают');
+                hasError = true;
+            }
+
+            if (!termsChecked) {
+                showRegisterError('registerTerms', 'Необходимо согласиться с условиями использования');
+                hasError = true;
+            }
+
+            if (hasError) return;
 
             const isEmail = identifier.includes('@');
 
@@ -379,21 +539,27 @@ function initAuthPage() {
                 });
                 window.location.href = '/profile.html';
             } catch (err) {
-                alert(err.message || 'Ошибка регистрации');
+                let errorMessage = err.message || 'Ошибка регистрации';
+                if (errorMessage.includes('already exists')) {
+                    showRegisterError('general', 'Пользователь с таким email или телефоном уже зарегистрирован');
+                } else {
+                    showRegisterError('general', errorMessage);
+                }
             }
         });
     }
 }
-
 let currentFilters = {
     type: '',
     propertyType: 'all',
     rooms: 'all',
+    floor: 'all',
     minPrice: '',
     maxPrice: '',
     minArea: '',
     maxArea: '',
     city: '',
+    search: '',
     utilitiesIncluded: false,
     furniture: false,
     children: false,
@@ -420,6 +586,9 @@ async function loadListings() {
 
     if (currentFilters.city && currentFilters.city !== '') {
         appendParam('city', currentFilters.city);
+    }
+    if (currentFilters.search && currentFilters.search !== '') {
+        appendParam('city', currentFilters.search);
     }
 
     if (currentFilters.minPrice && currentFilters.minPrice !== '') {
@@ -452,8 +621,23 @@ async function loadListings() {
                 l.property_type === currentFilters.propertyType ||
                 (currentFilters.propertyType === 'apartment' && l.title?.toLowerCase().includes('квартир')) ||
                 (currentFilters.propertyType === 'house' && l.title?.toLowerCase().includes('дом')) ||
-                (currentFilters.propertyType === 'studio' && l.title?.toLowerCase().includes('студи'))
+                (currentFilters.propertyType === 'studio' && l.title?.toLowerCase().includes('студи')) ||
+                (currentFilters.propertyType === 'room' && l.title?.toLowerCase().includes('комнат')) ||
+                (currentFilters.propertyType === 'land' && (l.title?.toLowerCase().includes('участ') || l.description?.toLowerCase().includes('участ'))) ||
+                (currentFilters.propertyType === 'commercial' && (l.title?.toLowerCase().includes('коммерч') || l.description?.toLowerCase().includes('офис')))
             );
+        }
+
+        if (currentFilters.floor && currentFilters.floor !== 'all') {
+            if (currentFilters.floor === '10+') {
+                filteredListings = filteredListings.filter(l => Number(l.floor || 0) >= 10);
+            } else if (currentFilters.floor === 'not_first') {
+                filteredListings = filteredListings.filter(l => Number(l.floor || 0) > 1);
+            } else if (currentFilters.floor === 'not_last') {
+                filteredListings = filteredListings.filter(l => Number(l.floor || 0) > 0 && Number(l.total_floors || 0) > 0 && Number(l.floor || 0) < Number(l.total_floors || 0));
+            } else {
+                filteredListings = filteredListings.filter(l => String(l.floor || '') === String(currentFilters.floor));
+            }
         }
 
         if (currentFilters.utilitiesIncluded) {
@@ -491,9 +675,12 @@ async function loadListings() {
                         </div>
                         <div class="listing-footer">
                             <span class="available-date"><i class="far fa-calendar-alt"></i> ${listing.available_from ? `Свободно с ${new Date(listing.available_from).toLocaleDateString()}` : 'В продаже'}</span>
+                            <div style="display:flex; gap:8px; align-items:center;">
+                                <a href="/listing-details.html?id=${listing.id}" class="btn btn-outline btn-sm">Подробнее</a>
                                 <button class="btn-like" data-id="${listing.id}">
                                     <i class="far fa-heart"></i>
                                 </button>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -592,84 +779,80 @@ async function initMap() {
         minZoom: 3
     }).addTo(map);
 
-    
     await loadMapMarkers();
+    setTimeout(() => {
+        try {
+            map.invalidateSize();
+        } catch (_) {}
+    }, 200);
 }
 
+
+function mapLatLngForListing(listing) {
+    const lat = listing.latitude != null ? Number(listing.latitude) : NaN;
+    const lng = listing.longitude != null ? Number(listing.longitude) : NaN;
+    if (Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) > 0.01 && Math.abs(lng) > 0.01) {
+        return { lat, lng, approx: false };
+    }
+    const baseLat = 53.9045;
+    const baseLng = 27.5615;
+    const id = Number(listing.id) || 0;
+    const h = ((id * 9301 + 49297) % 100000) / 100000 - 0.5;
+    const h2 = ((id * 11003 + 30011) % 100000) / 100000 - 0.5;
+    return { lat: baseLat + h * 0.12, lng: baseLng + h2 * 0.12, approx: true };
+}
 
 async function loadMapMarkers() {
     if (!map) return;
 
-    
-    mapMarkers.forEach(marker => map.removeLayer(marker));
+    mapMarkers.forEach((marker) => map.removeLayer(marker));
     mapMarkers = [];
 
-    
     const isSalePage = window.location.pathname.includes('sale.html');
     const listingType = isSalePage ? 'sale' : 'rent';
 
-    
-    const mapTitle = isSalePage ? 'Продажа недвижимости' : 'Аренда недвижимости';
-
-    console.log(`Loading map markers for: ${mapTitle}, type: ${listingType}`);
-
     try {
         const listings = await getListings(listingType);
-
-        console.log('Loaded listings for map:', listings);
-
-        
-        const listingsWithCoords = listings.filter(l => l.latitude && l.longitude);
-
-        console.log('Listings with coordinates:', listingsWithCoords);
-
-        if (listingsWithCoords.length === 0) {
-            console.log('Нет объявлений с координатами');
-            
-            const testMarker = L.marker([53.9045, 27.5615]).addTo(map)
-                .bindPopup('Тестовый маркер<br>Координаты работают!');
-            mapMarkers.push(testMarker);
+        const arr = Array.isArray(listings) ? listings : [];
+        if (arr.length === 0) {
             return;
         }
 
-        
-        if (listingsWithCoords.length > 0) {
-            map.setView([listingsWithCoords[0].latitude, listingsWithCoords[0].longitude], 12);
-        }
+        const first = mapLatLngForListing(arr[0]);
+        map.setView([first.lat, first.lng], 12);
 
-        listingsWithCoords.forEach(listing => {
-            console.log('Adding marker for:', listing.title, listing.latitude, listing.longitude);
-
-            
+        arr.forEach((listing) => {
+            const { lat, lng, approx } = mapLatLngForListing(listing);
             const markerHtml = `
-                <div style="background-color: #2c7873; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-size: 12px; font-weight: bold;">
-                    ${Math.round(listing.price).toLocaleString().split(' ')[0]}
+                <div style="background-color: #2c7873; color: white; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-size: 11px; font-weight: bold;">
+                    ${Math.round(Number(listing.price) || 0).toLocaleString().split(' ')[0]}
                 </div>
             `;
 
             const markerIcon = L.divIcon({
                 html: markerHtml,
                 iconSize: [36, 36],
-                popupAnchor: [0, -18],
-                className: 'custom-marker'
+                iconAnchor: [18, 36],
+                popupAnchor: [0, -34],
+                className: 'custom-marker',
             });
 
-            const marker = L.marker([listing.latitude, listing.longitude], { icon: markerIcon }).addTo(map);
+            const marker = L.marker([lat, lng], { icon: markerIcon }).addTo(map);
 
             const popupContent = `
                 <div class="map-popup-listing" style="min-width: 220px;">
                     <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=200&h=100&fit=crop'}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">
                     <h4 style="font-size: 14px; margin-bottom: 4px;">${escapeHtml(listing.title)}</h4>
-                    <div style="color: var(--primary-teal); font-weight: bold;">${listing.price.toLocaleString()} BYN</div>
-                    <div style="font-size: 12px; color: #666;">${escapeHtml(listing.address)}</div>
-                    <a href="/listing?id=${listing.id}" style="color: #2c7873; text-decoration: none; font-size: 12px; margin-top: 5px; display: inline-block;">Подробнее →</a>
+                    <div style="color: var(--primary-teal); font-weight: bold;">${Number(listing.price || 0).toLocaleString()} BYN</div>
+                    <div style="font-size: 12px; color: #666;">${escapeHtml(listing.address || listing.city || '')}</div>
+                    ${approx ? '<div style="font-size:11px;color:#b45309;margin-top:4px;">Приблизительное положение</div>' : ''}
+                    <a href="/listing-details.html?id=${listing.id}" style="color: #2c7873; text-decoration: none; font-size: 12px; margin-top: 5px; display: inline-block;">Подробнее →</a>
                 </div>
             `;
 
             marker.bindPopup(popupContent);
             mapMarkers.push(marker);
         });
-
     } catch (err) {
         console.error('Failed to load map markers:', err);
     }
@@ -682,10 +865,13 @@ async function updateMapMarkers() {
 
 
 function applyFilters() {
-    
-    const activeChip = document.querySelector('.filter-chip.active');
-    if (activeChip && activeChip.textContent !== 'Квартира') {
-        const propertyText = activeChip.textContent;
+    const isSalePage = window.location.pathname.includes('sale.html');
+    const propertyGroup = Array.from(document.querySelectorAll('.filter-group')).find(
+        (group) => group.querySelector('label')?.textContent.trim() === 'Тип жилья'
+    );
+    const activeChip = propertyGroup ? propertyGroup.querySelector('.filter-chip.active') : null;
+    if (activeChip && activeChip.textContent.trim() !== 'Квартира') {
+        const propertyText = activeChip.textContent.trim();
         if (propertyText === 'Дом') currentFilters.propertyType = 'house';
         else if (propertyText === 'Студия') currentFilters.propertyType = 'studio';
         else if (propertyText === 'Комната') currentFilters.propertyType = 'room';
@@ -699,13 +885,16 @@ function applyFilters() {
     }
 
     
-    const activeRoom = document.querySelector('.room-btn.active');
+    const activeRoom = document.querySelector('.room-buttons .room-btn.active');
     if (activeRoom && !activeRoom.classList.contains('active-all')) {
-        const roomText = activeRoom.textContent;
+        const roomText = activeRoom.textContent.trim();
         currentFilters.rooms = roomText === '5+' ? '5' : roomText;
     } else {
         currentFilters.rooms = 'all';
     }
+
+    const searchInput = document.querySelector('.search-input');
+    currentFilters.search = searchInput ? searchInput.value.trim() : '';
 
     
     const minPrice = document.getElementById('min-price');
@@ -719,7 +908,6 @@ function applyFilters() {
     currentFilters.minArea = minArea ? minArea.value : '';
     currentFilters.maxArea = maxArea ? maxArea.value : '';
 
-    
     const regionSelect = document.getElementById('region-select');
     if (regionSelect && regionSelect.value) {
         const regionMap = {
@@ -736,11 +924,25 @@ function applyFilters() {
         currentFilters.city = '';
     }
 
-    
-    currentFilters.utilitiesIncluded = document.getElementById('filter-wifi')?.checked || false;
-    currentFilters.furniture = document.getElementById('filter-pets')?.checked || false;
+    currentFilters.floor = 'all';
+    if (isSalePage) {
+        const floorGroup = Array.from(document.querySelectorAll('.filter-group')).find(
+            (group) => group.querySelector('label')?.textContent.trim() === 'Этаж'
+        );
+        const activeFloor = floorGroup ? floorGroup.querySelector('.filter-chip.active') : null;
+        if (activeFloor) {
+            currentFilters.floor = activeFloor.textContent.trim();
+            if (currentFilters.floor === 'Не первый') currentFilters.floor = 'not_first';
+            if (currentFilters.floor === 'Не последний') currentFilters.floor = 'not_last';
+        }
+    }
+
+    currentFilters.utilitiesIncluded = isSalePage
+        ? (document.getElementById('filter-renovation')?.checked || false)
+        : (document.getElementById('filter-wifi')?.checked || false);
+    currentFilters.furniture = document.getElementById('filter-furniture')?.checked || false;
     currentFilters.children = document.getElementById('filter-children')?.checked || false;
-    currentFilters.pets = document.getElementById('filter-washer')?.checked || false;
+    currentFilters.pets = document.getElementById('filter-pets')?.checked || false;
     currentFilters.parking = document.getElementById('filter-parking')?.checked || false;
     currentFilters.elevator = document.getElementById('filter-elevator')?.checked || false;
 
@@ -776,6 +978,8 @@ function resetFilters() {
     if (maxArea) maxArea.value = '';
     if (moveInDate) moveInDate.value = '2026-03-15';
     if (regionSelect) regionSelect.value = '';
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput) searchInput.value = '';
 
     
     document.querySelectorAll('.filter-checkboxes input[type="checkbox"]').forEach(cb => {
@@ -787,11 +991,13 @@ function resetFilters() {
         type: window.location.pathname.includes('sale.html') ? 'sale' : '',
         propertyType: 'all',
         rooms: 'all',
+        floor: 'all',
         minPrice: '',
         maxPrice: '',
         minArea: '',
         maxArea: '',
         city: '',
+        search: '',
         utilitiesIncluded: false,
         furniture: false,
         children: false,
@@ -887,13 +1093,8 @@ function handleSearch() {
     const searchInput = document.querySelector('.search-input');
     if (searchInput) {
         const query = searchInput.value.trim();
-        if (query) {
-            currentFilters.city = query;
-            loadListings();
-        } else {
-            currentFilters.city = '';
-            loadListings();
-        }
+        currentFilters.search = query;
+        loadListings();
     }
 }
 
@@ -950,7 +1151,10 @@ async function loadSaleListings() {
                     </div>
                     <div class="listing-footer">
                         <span class="available-date"><i class="far fa-calendar-alt"></i> В продаже</span>
-                        <button class="btn-like"><i class="far fa-heart"></i></button>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <a href="/listing-details.html?id=${listing.id}" class="btn btn-outline btn-sm">Подробнее</a>
+                            <button class="btn-like"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -978,8 +1182,16 @@ async function loadSaleListings() {
     }
 }
 
+
 async function getFavorites() {
-    return await apiRequest('/favorites');
+    if (!await isUserLoggedIn()) return [];
+    try {
+        const response = await apiRequest('/favorites');
+        return Array.isArray(response) ? response : [];
+    } catch (err) {
+        console.error('Error fetching favorites:', err);
+        return [];
+    }
 }
 
 
@@ -999,7 +1211,8 @@ async function removeFromFavorites(listingId) {
 
 
 async function getMyListings() {
-    return await apiRequest('/my-listings');
+    const data = await apiRequest('/my-listings');
+    return Array.isArray(data) ? data : [];
 }
 
 
@@ -1017,90 +1230,6 @@ async function changePassword(passwordData) {
         body: JSON.stringify(passwordData),
     });
 }
-
-function initCreateListing() {
-    const form = document.getElementById('createListingForm');
-    if (!form) return;
-
-    
-    (async () => {
-        if (!await isUserLoggedIn()) {
-            window.location.href = '/login.html';
-            return;
-        }
-    })();
-
-    
-    const rentBtn = document.getElementById('rentTypeBtn');
-    const saleBtn = document.getElementById('saleTypeBtn');
-    const rentOnlyFields = document.querySelectorAll('.rent-only');
-    const saleOnlyFields = document.querySelectorAll('.sale-only');
-    const pricePeriodLabel = document.getElementById('pricePeriodLabel');
-    const priceLabel = document.getElementById('priceLabel');
-
-    function updateFormForType(type) {
-        if (type === 'rent') {
-            rentOnlyFields.forEach(field => field.classList.remove('hidden'));
-            saleOnlyFields.forEach(field => field.classList.add('hidden'));
-            if (pricePeriodLabel) pricePeriodLabel.textContent = '(за месяц)';
-            if (priceLabel) priceLabel.textContent = 'Цена за месяц (BYN) *';
-        } else {
-            rentOnlyFields.forEach(field => field.classList.add('hidden'));
-            saleOnlyFields.forEach(field => field.classList.remove('hidden'));
-            if (pricePeriodLabel) pricePeriodLabel.textContent = '(за всё)';
-            if (priceLabel) priceLabel.textContent = 'Цена (BYN) *';
-        }
-
-        if (rentBtn && saleBtn) {
-            rentBtn.classList.toggle('active', type === 'rent');
-            saleBtn.classList.toggle('active', type === 'sale');
-        }
-    }
-
-    if (rentBtn && saleBtn) {
-        rentBtn.addEventListener('click', () => updateFormForType('rent'));
-        saleBtn.addEventListener('click', () => updateFormForType('sale'));
-    }
-
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        if (!document.getElementById('agreeTerms')?.checked) {
-            alert('Необходимо подтвердить право на сдачу/продажу');
-            return;
-        }
-
-        const listingType = rentBtn?.classList.contains('active') ? 'rent' : 'sale';
-
-        const listingData = {
-            title: document.getElementById('listingTitle').value,
-            description: document.getElementById('description').value,
-            listing_type: listingType,
-            price: parseFloat(document.getElementById('price').value),
-            area: parseFloat(document.getElementById('area').value),
-            rooms: parseInt(document.getElementById('rooms').value),
-            floor: parseInt(document.getElementById('floor').value),
-            total_floors: parseInt(document.getElementById('totalFloors').value),
-            address: document.getElementById('address').value,
-            city: document.getElementById('city').value,
-            district: document.getElementById('district').value,
-            available_from: document.getElementById('availableFrom')?.value || '',
-            deposit: document.querySelector('input[name="deposit"]:checked')?.value || 'none',
-            utilities_included: document.getElementById('utilitiesIncluded')?.checked || false,
-            photos: '', 
-        };
-
-        try {
-            await createListing(listingData);
-            alert('Объявление опубликовано!');
-            window.location.href = '/index.html';
-        } catch (err) {
-            alert(err.message || 'Ошибка при публикации');
-        }
-    });
-}
-
 
 function escapeHtml(str) {
     if (!str) return '';
@@ -1167,13 +1296,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 localStorage.setItem('userName', me.first_name || me.email || me.phone || 'Пользователь');
             }
         }
-        updateUIForLoggedInUser();
+        await updateUIForLoggedInUser();
     } else {
         updateUIForLoggedOutUser();
     }
 
     initAuthPage();
-    initCreateListing();
     initMainPage();
     setupMobileMenu();
     setActiveMenuItem();

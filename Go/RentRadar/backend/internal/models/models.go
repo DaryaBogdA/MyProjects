@@ -54,6 +54,7 @@ type Listing struct {
 	UtilitiesIncluded bool       `json:"utilities_included" db:"utilities_included"`
 	Photos            string     `json:"photos,omitempty" db:"photos"`
 	IsActive          bool       `json:"is_active" db:"is_active"`
+	ModerationStatus  string     `json:"moderation_status" db:"moderation_status"`
 	ViewsCount        int        `json:"views_count" db:"views_count"`
 	Latitude          *float64   `json:"latitude,omitempty" db:"latitude"`
 	Longitude         *float64   `json:"longitude,omitempty" db:"longitude"`
@@ -73,33 +74,57 @@ type Booking struct {
 }
 
 type Review struct {
-	ID        int    `json:"id" db:"id"`
-	ListingID int    `json:"listing_id" db:"listing_id"`
-	UserID    int    `json:"user_id" db:"user_id"`
-	Rating    int    `json:"rating" db:"rating"`
-	Comment   string `json:"comment,omitempty" db:"comment"`
+	ID               int       `json:"id" db:"id"`
+	ListingID        int       `json:"listing_id" db:"listing_id"`
+	UserID           int       `json:"user_id" db:"user_id"`
+	Rating           int       `json:"rating" db:"rating"`
+	Comment          string    `json:"comment,omitempty" db:"comment"`
+	ModerationStatus string    `json:"moderation_status,omitempty" db:"moderation_status"`
+	CreatedAt        time.Time `json:"created_at" db:"created_at"`
+	AuthorName       string    `json:"author_name,omitempty"`
 }
 
 type CreateListingRequest struct {
-	Title             string  `json:"title"`
-	Description       string  `json:"description"`
-	ListingType       string  `json:"listing_type"`
-	Price             float64 `json:"price"`
-	Area              float64 `json:"area"`
-	Rooms             int     `json:"rooms"`
-	Floor             int     `json:"floor"`
-	TotalFloors       int     `json:"total_floors"`
-	Address           string  `json:"address"`
-	City              string  `json:"city"`
-	District          string  `json:"district"`
-	AvailableFrom     string  `json:"available_from"`
-	Deposit           string  `json:"deposit"`
-	UtilitiesIncluded bool    `json:"utilities_included"`
-	Photos            string  `json:"photos"`
+	Title             string   `json:"title"`
+	Description       string   `json:"description"`
+	ListingType       string   `json:"listing_type"`
+	Price             float64  `json:"price"`
+	Area              float64  `json:"area"`
+	Rooms             int      `json:"rooms"`
+	Floor             int      `json:"floor"`
+	TotalFloors       int      `json:"total_floors"`
+	Address           string   `json:"address"`
+	City              string   `json:"city"`
+	District          string   `json:"district"`
+	AvailableFrom     string   `json:"available_from"`
+	Deposit           string   `json:"deposit"`
+	UtilitiesIncluded bool     `json:"utilities_included"`
+	Photos            string   `json:"photos"`
+	Latitude          *float64 `json:"latitude"`
+	Longitude         *float64 `json:"longitude"`
 }
 type BookingCreateRequest struct {
 	ListingID int    `json:"listing_id"`
 	UserID    int    `json:"user_id"`
 	CheckIn   string `json:"check_in"`
 	CheckOut  string `json:"check_out"`
+}
+
+type Conversation struct {
+	ID           int       `json:"id"`
+	ListingID    int       `json:"listing_id"`
+	OwnerID      int       `json:"owner_id"`
+	CustomerID   int       `json:"customer_id"`
+	ListingTitle string    `json:"listing_title,omitempty"`
+	LastMessage  string    `json:"last_message,omitempty"`
+	LastAt       time.Time `json:"last_at"`
+}
+
+type ChatMessage struct {
+	ID             int       `json:"id"`
+	ConversationID int       `json:"conversation_id"`
+	SenderID       int       `json:"sender_id"`
+	SenderName     string    `json:"sender_name,omitempty"`
+	Body           string    `json:"body"`
+	CreatedAt      time.Time `json:"created_at"`
 }

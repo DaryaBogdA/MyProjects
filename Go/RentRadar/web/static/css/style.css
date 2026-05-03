@@ -1868,3 +1868,8 @@ main {
     color: #ff5a5f;
     background: #fff5f5;
 }
+
+.leaflet-container .leaflet-div-icon.custom-marker {
+    background: transparent;
+    border: none;
+}

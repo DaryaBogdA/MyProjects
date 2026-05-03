@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RentRadar - Мои отзывы</title>
+    <title>RentRadar — Мои отзывы</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/reviews.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -21,128 +21,46 @@
                 <ul>
                     <li><a href="/index.html">Аренда</a></li>
                     <li><a href="/sale.html">Продажа</a></li>
-                    <li><a href="#">Новости</a></li>
-                    <li><a href="#">О нас</a></li>
+                    <li><a href="/news.html">Новости</a></li>
+                    <li><a href="/about.html">О нас</a></li>
                 </ul>
             </nav>
-            <div class="user-actions">
-                
-            </div>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="user-actions"></div>
         </div>
     </header>
 
     <main>
         <div class="reviews-page">
-            
             <div class="page-header">
-                <h1>
-                    <i class="fas fa-star"></i> Мои отзывы
-                </h1>
-                
-                
-                <div class="reviews-stats">
+                <h1><i class="fas fa-star"></i> Мои отзывы</h1>
+                <div class="reviews-stats" id="reviewsStats">
                     <div class="stat-card">
-                        <div class="stat-number">1</div>
-                        <div class="stat-label">Всего отзывов</div>
+                        <div class="stat-number" id="statWritten">—</div>
+                        <div class="stat-label">Я написал</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">5.0</div>
-                        <div class="stat-label">Средний рейтинг</div>
+                        <div class="stat-number" id="statAbout">—</div>
+                        <div class="stat-label">О моих объявлениях</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statAvg">—</div>
+                        <div class="stat-label">Средняя оценка (мои объявления)</div>
                     </div>
                 </div>
             </div>
 
-            
             <div class="reviews-tabs">
-                <button class="reviews-tab active">
-                    <i class="fas fa-list"></i> Все отзывы
+                <button type="button" class="reviews-tab active" data-tab="written">
+                    <i class="fas fa-pen"></i> Я оставил
                 </button>
-                <button class="reviews-tab">
-                    <i class="fas fa-star"></i> Высокий рейтинг
+                <button type="button" class="reviews-tab" data-tab="about">
+                    <i class="fas fa-home"></i> О моих объявлениях
                 </button>
             </div>
 
-            
-            <div class="reviews-container">
-                <div class="review-card">
-                    
-                    <div class="review-header">
-                        <div class="review-user">
-                            <div class="review-user-avatar">
-                                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Иван Петров">
-                            </div>
-                            <div class="review-user-info">
-                                <h4>Иван Петров</h4>
-                                <div class="review-date">
-                                    <i class="far fa-calendar-alt"></i> 15 марта 2026
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-rating">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="rating-value">5.0</span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="review-listing-info">
-                        <div class="review-listing-image">
-                            <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=300&fit=crop" alt="Квартира">
-                        </div>
-                        <div class="review-listing-details">
-                            <div class="review-listing-title">
-                                <a href="listing-details.html?id=1">1-к квартира, пр. Независимости 45</a>
-                            </div>
-                            <div class="review-listing-meta">
-                                <span><i class="fas fa-tag"></i> 1 920 BYN/мес</span>
-                                <span><i class="fas fa-home"></i> Аренда</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="review-content">
-                        <div class="review-text">
-                            Отличный арендодатель! Квартира полностью соответствует описанию, чистая, уютная. Хозяин встретил, все показал, объяснил. Документы оформили быстро. Рекомендую!
-                        </div>
-                        
-                        
-                        <div class="review-response">
-                            <div class="response-header">
-                                <i class="fas fa-reply"></i>
-                                <strong>Ответ владельца:</strong>
-                            </div>
-                            <p class="response-text">Спасибо, Иван! Рад был помочь. Ждем вас снова!</p>
-                        </div>
-                    </div>
-
-                    
-                    <div class="review-footer">
-                        <div class="review-actions">
-                            <button class="btn-review-action">
-                                <i class="fas fa-edit"></i> Редактировать
-                            </button>
-                            <button class="btn-review-action">
-                                <i class="fas fa-trash"></i> Удалить
-                            </button>
-                            <button class="btn-review-action">
-                                <i class="fas fa-share"></i> Поделиться
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="reviews-container" id="reviewsContainer">
+                <p style="color:var(--text-muted);">Загрузка…</p>
             </div>
-
-            
         </div>
     </main>
 

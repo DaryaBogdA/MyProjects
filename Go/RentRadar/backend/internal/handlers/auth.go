@@ -3,10 +3,13 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"net/http"
+	"strings"
 
 	"rentradar/backend/internal/models"
 
+	"github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -44,12 +47,35 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	emailTrim := strings.TrimSpace(req.Email)
+	phoneTrim := strings.TrimSpace(req.Phone)
+
+	var normalizedEmail string
+	var emailArg any
+	if emailTrim != "" {
+		normalizedEmail = strings.ToLower(emailTrim)
+		emailArg = normalizedEmail
+	} else {
+		emailArg = nil
+	}
+	var phoneArg any
+	if phoneTrim != "" {
+		phoneArg = phoneTrim
+	} else {
+		phoneArg = nil
+	}
+
 	query := `INSERT INTO users (email, phone, password_hash, first_name, last_name, role) 
               VALUES (?, ?, ?, ?, ?, 'user')`
 
-	result, err := h.DB.Exec(query, req.Email, req.Phone, string(hashedPassword), req.FirstName, req.LastName)
+	result, err := h.DB.Exec(query, emailArg, phoneArg, string(hashedPassword), strings.TrimSpace(req.FirstName), strings.TrimSpace(req.LastName))
 	if err != nil {
-		writeJSON(w, http.StatusConflict, map[string]string{"error": "user with this email or phone already exists"})
+		var sqlErr *mysql.MySQLError
+		if errors.As(err, &sqlErr) && sqlErr.Number == 1062 {
+			writeJSON(w, http.StatusConflict, map[string]string{"error": "user with this email or phone already exists"})
+			return
+		}
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
 
@@ -57,10 +83,10 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 	writeJSON(w, http.StatusCreated, models.AuthResponse{
 		UserID:    int(userID),
-		Email:     req.Email,
-		Phone:     req.Phone,
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
+		Email:     normalizedEmail,
+		Phone:     phoneTrim,
+		FirstName: strings.TrimSpace(req.FirstName),
+		LastName:  strings.TrimSpace(req.LastName),
 		Role:      "user",
 	})
 }
@@ -77,6 +103,11 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	identifier := strings.TrimSpace(req.Identifier)
+	if strings.Contains(identifier, "@") {
+		identifier = strings.ToLower(identifier)
+	}
+
 	var user models.User
 	var email sql.NullString
 	var phone sql.NullString
@@ -87,7 +118,7 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	query := `SELECT id, email, phone, password_hash, first_name, last_name, role, is_blocked 
               FROM users WHERE email = ? OR phone = ?`
 
-	err := h.DB.QueryRow(query, req.Identifier, req.Identifier).Scan(
+	err := h.DB.QueryRow(query, identifier, identifier).Scan(
 		&user.ID, &email, &phone, &passwordHash, &firstName, &lastName, &role, &user.IsBlocked,
 	)
 

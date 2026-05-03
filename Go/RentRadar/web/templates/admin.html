@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentRadar — администрирование</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .admin-wrap { max-width: 1200px; margin: 32px auto; padding: 0 16px; }
+        .admin-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        .admin-tab { padding: 10px 18px; border: none; background: #f5f5f5; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--text-muted); }
+        .admin-tab.active { background: #e8f3f2; color: var(--primary-teal); }
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+        .admin-toolbar { margin-bottom: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        .admin-toolbar label { font-size: 0.9rem; color: var(--text-muted); }
+        .admin-toolbar select { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .table-wrap { overflow-x: auto; background: #fff; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+        table.admin-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        table.admin-table th, table.admin-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+        table.admin-table th { background: #f8faf9; font-weight: 600; }
+        .empty-admin { padding: 40px; text-align: center; color: var(--text-muted); }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
+        .modal-overlay.show { display: flex; }
+        .modal-box { background: #fff; border-radius: 16px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .modal-box.wide { max-width: 720px; }
+        .modal-box h2 { margin: 0 0 16px; font-size: 1.2rem; }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .modal-grid .full { grid-column: 1 / -1; }
+        .modal-grid label { display: block; font-size: 0.85rem; margin-bottom: 4px; color: var(--text-muted); }
+        .modal-grid input, .modal-grid select, .modal-grid textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color); font: inherit; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container header-container">
+        <a href="/index.html" class="logo-link">
+            <div class="logo">
+                <span class="logo-icon"><i class="fas fa-search-location"></i></span>
+                <span class="logo-text">RentRadar</span>
+            </div>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/index.html">На сайт</a></li>
+                <li><a href="/profile.html">Профиль</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main class="admin-wrap">
+    <h1><i class="fas fa-user-shield"></i> Панель администратора</h1>
+    <p style="color: var(--text-muted); margin-bottom: 20px;">Пользователи, модерация и объявления</p>
+
+    <div class="admin-tabs">
+        <button type="button" class="admin-tab active" data-panel="users">Пользователи</button>
+        <button type="button" class="admin-tab" data-panel="listings-pending">Очередь модерации</button>
+        <button type="button" class="admin-tab" data-panel="listings-all">Все объявления</button>
+        <button type="button" class="admin-tab" data-panel="reviews-pending">Отзывы</button>
+        <button type="button" class="admin-tab" data-panel="reports">Жалобы</button>
+        <button type="button" class="admin-tab" data-panel="saved-reports">Сохранённые отчёты</button>
+    </div>
+
+    <div id="adminMessage"></div>
+
+    <div id="panel-users" class="admin-panel active">
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>Имя</th><th>Email / телефон</th><th>Роль</th><th>Статус</th><th></th></tr></thead>
+                <tbody id="usersBody"></tbody>
+            </table>
+            <div id="usersEmpty" class="empty-admin" hidden>Нет пользователей</div>
+        </div>
+    </div>
+
+    <div id="panel-listings-pending" class="admin-panel">
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>Автор</th><th>Название</th><th>Город</th><th>Тип / цена</th><th></th></tr></thead>
+                <tbody id="pendingBody"></tbody>
+            </table>
+            <div id="pendingEmpty" class="empty-admin" hidden>Очередь пуста</div>
+        </div>
+    </div>
+
+    <div id="panel-listings-all" class="admin-panel">
+        <div class="admin-toolbar">
+            <label>Статус модерации:
+                <select id="listingsStatusFilter">
+                    <option value="all">Все</option>
+                    <option value="pending">На модерации</option>
+                    <option value="approved">Опубликованные</option>
+                    <option value="rejected">Отклонённые</option>
+                </select>
+            </label>
+            <label><input type="checkbox" id="listingsIncludeInactive"> Показать снятые (is_active=0)</label>
+            <button type="button" class="btn btn-outline btn-sm" id="reloadListingsBtn"><i class="fas fa-sync"></i> Обновить</button>
+        </div>
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>Автор</th><th>Название</th><th>Статус</th><th>Активно</th><th></th></tr></thead>
+                <tbody id="allListingsBody"></tbody>
+            </table>
+            <div id="allListingsEmpty" class="empty-admin" hidden>Нет объявлений</div>
+        </div>
+    </div>
+
+    <div id="panel-reviews-pending" class="admin-panel">
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>Объявление</th><th>Автор</th><th>Оценка</th><th>Текст</th><th></th></tr></thead>
+                <tbody id="pendingReviewsBody"></tbody>
+            </table>
+            <div id="pendingReviewsEmpty" class="empty-admin" hidden>Нет отзывов на проверке</div>
+        </div>
+    </div>
+
+    <div id="panel-reports" class="admin-panel">
+        <div class="admin-toolbar">
+            <label>Статус:
+                <select id="reportsStatusFilter">
+                    <option value="pending">Новые</option>
+                    <option value="all">Все</option>
+                    <option value="resolved">Рассмотрено</option>
+                    <option value="dismissed">Отклонено</option>
+                </select>
+            </label>
+            <button type="button" class="btn btn-outline btn-sm" id="reloadReportsBtn"><i class="fas fa-sync"></i> Обновить</button>
+        </div>
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>Кто пожаловался</th><th>На кого</th><th>Объявление</th><th>Причина</th><th>Статус</th><th></th></tr></thead>
+                <tbody id="reportsBody"></tbody>
+            </table>
+            <div id="reportsEmpty" class="empty-admin" hidden>Нет жалоб</div>
+        </div>
+    </div>
+
+    <div id="panel-saved-reports" class="admin-panel">
+        <div class="admin-toolbar" style="flex-direction:column;align-items:stretch;max-width:720px;">
+            <h3 style="margin:0 0 8px;font-size:1rem;">Новый отчёт</h3>
+            <input type="text" id="savedReportTitle" class="form-control" placeholder="Заголовок" style="margin-bottom:8px;">
+            <textarea id="savedReportBody" class="form-control" rows="5" placeholder="Текст отчёта (заметки модерации, итоги проверки...)"></textarea>
+            <button type="button" class="btn btn-primary" id="saveReportBtn" style="margin-top:10px;align-self:flex-start;">Сохранить отчёт</button>
+            <p style="margin:12px 0 6px;font-size:0.9rem;color:var(--text-muted);">Снимок включает всех пользователей, очереди модерации объявлений и отзывов, все жалобы и сводные счётчики. Текст отчётов сохраняется в файлы в каталоге <code>data/admin_reports/</code> на сервере.</p>
+            <button type="button" class="btn btn-outline" id="saveFullSnapshotBtn" style="align-self:flex-start;">Сохранить полный снимок панели</button>
+        </div>
+        <h3 style="margin:24px 0 12px;font-size:1rem;">Сохранённые</h3>
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead><tr><th>ID</th><th>Заголовок</th><th>Дата</th><th></th></tr></thead>
+                <tbody id="savedReportsBody"></tbody>
+            </table>
+            <div id="savedReportsEmpty" class="empty-admin" hidden>Нет сохранённых отчётов</div>
+        </div>
+    </div>
+</main>
+
+<div class="modal-overlay" id="userModal" aria-hidden="true">
+    <div class="modal-box">
+        <h2>Профиль пользователя</h2>
+        <div id="userModalContent"></div>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-danger" id="userModalBlock"><i class="fas fa-ban"></i> Заблокировать</button>
+            <button type="button" class="btn btn-primary" id="userModalUnblock"><i class="fas fa-unlock"></i> Разблокировать</button>
+            <button type="button" class="btn btn-outline" id="userModalClose">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="listingModal" aria-hidden="true">
+    <div class="modal-box wide">
+        <h2>Редактирование объявления</h2>
+        <form id="listingEditForm">
+            <input type="hidden" id="editListingId">
+            <div class="modal-grid">
+                <div class="full"><label>Название</label><input type="text" id="editTitle" required></div>
+                <div class="full"><label>Описание</label><textarea id="editDescription" rows="4" required></textarea></div>
+                <div><label>Тип</label>
+                    <select id="editListingType"><option value="rent">Аренда</option><option value="sale">Продажа</option></select>
+                </div>
+                <div><label>Модерация</label>
+                    <select id="editModeration"><option value="pending">На модерации</option><option value="approved">Одобрено</option><option value="rejected">Отклонено</option></select>
+                </div>
+                <div><label>Цена (BYN)</label><input type="number" id="editPrice" step="0.01" min="0"></div>
+                <div><label>Комнаты</label><input type="number" id="editRooms" min="0"></div>
+                <div><label>Площадь м²</label><input type="number" id="editArea" step="0.1" min="0"></div>
+                <div><label>Этаж</label><input type="number" id="editFloor" min="0"></div>
+                <div><label>Этажей в доме</label><input type="number" id="editTotalFloors" min="0"></div>
+                <div class="full"><label>Адрес</label><input type="text" id="editAddress"></div>
+                <div><label>Город</label><input type="text" id="editCity"></div>
+                <div><label>Район</label><input type="text" id="editDistrict"></div>
+                <div><label>Доступно с (YYYY-MM-DD)</label><input type="text" id="editAvailableFrom" placeholder="пусто или дата"></div>
+                <div><label>Залог</label><input type="text" id="editDeposit" placeholder="none / month / half"></div>
+                <div><label>Коммунальные включены</label><select id="editUtilities"><option value="false">Нет</option><option value="true">Да</option></select></div>
+                <div class="full"><label>Фото (URL через запятую)</label><textarea id="editPhotos" rows="2" placeholder="/static/uploads/listings/1_0.jpg,..."></textarea></div>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+                <button type="button" class="btn btn-outline" id="listingModalClose">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container"><div class="footer-bottom"><p>&copy; 2026 RentRadar</p></div></div>
+</footer>
+<script src="/static/js/script.js"></script>
+<script src="/static/js/admin.js"></script>
+</body>
+</html>
