@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentRadar - Вход и регистрация</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .error-message {
@@ -26,29 +28,10 @@
 </head>
 <body class="auth-page">
 
-<header class="header auth-header">
-    <div class="container header-container">
-        <a href="/index.html" class="logo-link">
-            <div class="logo">
-                <span class="logo-icon"><i class="fas fa-search-location"></i></span>
-                <span class="logo-text">RentRadar</span>
-            </div>
-        </a>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="#">Аренда</a></li>
-                <li><a href="#">Продажа</a></li>
-                <li><a href="/news.html">Новости</a></li>
-                <li><a href="/about.html">О нас</a></li>
-            </ul>
-        </nav>
-        <div class="user-actions">
-            <a href="/index.html" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> На главную
-            </a>
-        </div>
-    </div>
+<header class="header">
+    <div class="container header-container"></div>
 </header>
+
 
 <main class="auth-main">
     <div class="auth-container">
@@ -80,14 +63,7 @@
                     <div class="error-message" id="loginPasswordError"></div>
                 </div>
 
-                <div class="form-options">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                        Запомнить меня
-                    </label>
-                    <a href="#" class="forgot-password">Забыли пароль?</a>
-                </div>
+                
 
                 <div class="error-message" id="loginGeneralError" style="text-align: center; margin-bottom: 15px;"></div>
 

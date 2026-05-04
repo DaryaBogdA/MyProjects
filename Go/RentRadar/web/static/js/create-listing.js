@@ -244,7 +244,7 @@ async function initCreateListing() {
         }
 
         if (submitBtn) {
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Сохранить изменения';
+            submitBtn.innerHTML = 'Сохранить изменения';
         }
         return true;
     }

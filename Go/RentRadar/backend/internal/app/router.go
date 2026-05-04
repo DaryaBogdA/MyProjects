@@ -47,7 +47,7 @@ func NewRouter(db *sql.DB, projectRoot string) *http.ServeMux {
 	mux.HandleFunc("POST /api/logout", authHandler.Logout)
 	mux.HandleFunc("POST /api/messages/start", middleware.AuthMiddleware(db, messageHandler.StartConversation))
 	mux.HandleFunc("GET /api/messages/conversations", middleware.AuthMiddleware(db, messageHandler.GetConversations))
-	mux.HandleFunc("GET /api/messages/{id}", middleware.AuthMiddleware(db, messageHandler.GetConversationMessages))
+	mux.HandleFunc("GET /api/messages/{id}", middleware.AuthMiddleware(db, messageHandler.GetMessages))
 	mux.HandleFunc("POST /api/messages/{id}", middleware.AuthMiddleware(db, messageHandler.SendMessage))
 
 	mux.HandleFunc("GET /api/reviews/by-me", middleware.AuthMiddleware(db, listingHandler.GetReviewsWrittenByMe))
@@ -84,6 +84,12 @@ func NewRouter(db *sql.DB, projectRoot string) *http.ServeMux {
 	mux.HandleFunc("GET /bookings.html", serveTemplate(filepath.Join(templatesDir, "bookings.html")))
 	mux.HandleFunc("GET /news.html", serveTemplate(filepath.Join(templatesDir, "news.html")))
 	mux.HandleFunc("GET /about.html", serveTemplate(filepath.Join(templatesDir, "about.html")))
+	mux.HandleFunc("GET /privacy.html", serveTemplate(filepath.Join(templatesDir, "privacy.html")))
+	mux.HandleFunc("GET /terms.html", serveTemplate(filepath.Join(templatesDir, "terms.html")))
+	mux.HandleFunc("GET /help-sell.html", serveTemplate(filepath.Join(templatesDir, "help-sell.html")))
+	mux.HandleFunc("GET /help-buy.html", serveTemplate(filepath.Join(templatesDir, "help-buy.html")))
+	mux.HandleFunc("GET /safety.html", serveTemplate(filepath.Join(templatesDir, "safety.html")))
+	mux.HandleFunc("GET /support.html", serveTemplate(filepath.Join(templatesDir, "support.html")))
 
 	mux.HandleFunc("GET /api/favorites", middleware.AuthMiddleware(db, listingHandler.GetFavorites))
 	mux.HandleFunc("POST /api/favorites", middleware.AuthMiddleware(db, listingHandler.AddToFavorites))

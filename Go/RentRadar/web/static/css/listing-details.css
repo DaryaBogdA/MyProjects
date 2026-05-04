@@ -1,4 +1,157 @@
+.booking-date-picker {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
 
+.booking-date-group {
+    flex: 1;
+    min-width: 140px;
+}
+
+.booking-date-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.booking-date-group label i {
+    margin-right: 6px;
+    color: var(--primary-teal);
+}
+
+.booking-date-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    background: #f8fafd;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.booking-date-group input:focus {
+    outline: none;
+    border-color: var(--primary-teal);
+    box-shadow: 0 0 0 3px rgba(44, 120, 115, 0.1);
+    background: white;
+}
+
+.booking-date-group input:hover {
+    border-color: var(--primary-light);
+    background: white;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    background-color: rgba(44, 120, 115, 0.1);
+}
+
+.ld-booking-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-light));
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ld-booking-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(44, 120, 115, 0.3);
+    background: linear-gradient(135deg, var(--primary-medium), var(--primary-teal));
+}
+
+.ld-booking-btn:active {
+    transform: translateY(0);
+}
+
+.ld-booking-msg {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.ld-booking-msg.ld-booking-err {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.ld-booking-msg.ld-booking-ok {
+    background: #d4edda;
+    color: #155724;
+}
+
+.booking-info {
+    background: #e8f3f2;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.booking-info i {
+    color: var(--primary-teal);
+    font-size: 1.1rem;
+}
+
+.chat-simple-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: var(--primary-teal);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.chat-simple-btn:hover {
+    background-color: var(--primary-medium);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(44, 120, 115, 0.3);
+}
+
+.chat-simple-btn i {
+    font-size: 1.1rem;
+}
+
+.divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 16px 0;
+}
 .ld-sidebar-stack {
     display: flex;
     flex-direction: column;

@@ -211,15 +211,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="ld-contact-head">
                             <span class="ld-contact-icon"><i class="fas fa-comments"></i></span>
                             <div>
-                                <h3 class="ld-contact-title">Написать собственнику</h3>
-                                <p class="ld-muted">Задайте вопрос по объявлению — откроется диалог в разделе «Сообщения».</p>
+                                <h3 class="ld-contact-title">Связь с собственником</h3>
+                                <p class="ld-muted">Нажмите на кнопку, чтобы начать диалог</p>
                             </div>
                         </div>
-                        <label class="ld-label" for="firstMessage">Сообщение</label>
-                        <textarea id="firstMessage" rows="4" class="form-control ld-textarea" placeholder="Здравствуйте! Меня интересует…"></textarea>
-                        <button type="button" id="startChatBtn" class="btn btn-primary ld-btn-full"><i class="fas fa-paper-plane"></i> Отправить сообщение</button>
-                        <div id="bookingMount" style="margin-top:16px;"></div>
-                        <div id="reportHostMount" style="margin-top:12px;"></div>
+                        <button type="button" id="startChatBtn" class="chat-simple-btn">
+                            <i class="fas fa-comment-dots"></i> Открыть чат с собственником
+                        </button>
+                        <div id="bookingMount" style="margin-top: 16px;"></div>
+                        <div id="reportHostMount" style="margin-top: 12px;"></div>
                     </div>
                 </div>
             </article>
@@ -232,7 +232,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.location.href = '/login.html';
                 return;
             }
-            const message = document.getElementById('firstMessage').value.trim();
             try {
                 const resp = await fetch('/api/messages/start', {
                     method: 'POST',
@@ -240,7 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         'Content-Type': 'application/json',
                         'X-User-ID': userId,
                     },
-                    body: JSON.stringify({ listing_id: Number(id), message }),
+                    body: JSON.stringify({ listing_id: Number(id) }),
                 });
                 const data = await resp.json();
                 if (!resp.ok) throw new Error(data.error || 'Не удалось начать диалог');
@@ -253,24 +252,52 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bookingMount = document.getElementById('bookingMount');
         if (bookingMount) {
             if (listing.listing_type !== 'rent') {
-                bookingMount.innerHTML = '<p style="margin:0;color:var(--text-muted);font-size:0.92rem;">Бронирование доступно только для аренды.</p>';
+                bookingMount.innerHTML = '<div class="booking-info"><i class="fas fa-info-circle"></i> Бронирование доступно только для аренды.</div>';
             } else if (!uid) {
-                bookingMount.innerHTML = '<p style="margin:0;color:var(--text-muted);font-size:0.92rem;"><a href="/login.html">Войдите</a>, чтобы забронировать.</p>';
+                bookingMount.innerHTML = '<div class="booking-info"><i class="fas fa-lock"></i> <a href="/login.html">Войдите</a>, чтобы забронировать.</div>';
             } else if (String(uid) === String(listing.user_id)) {
                 bookingMount.innerHTML = '';
             } else {
                 const today = new Date();
                 const minDate = today.toISOString().slice(0, 10);
+                const maxDateObj = new Date();
+                maxDateObj.setMonth(maxDateObj.getMonth() + 6);
+                const maxDate = maxDateObj.toISOString().slice(0, 10);
+
                 bookingMount.innerHTML = `
-                    <div class="ld-booking-card" style="border-top:1px solid var(--border-color); padding-top:14px;">
-                        <h4>Бронирование</h4>
-                        <label class="ld-label" for="bookingCheckIn">Заезд</label>
-                        <input id="bookingCheckIn" type="date" class="form-control" min="${minDate}">
-                        <label class="ld-label" for="bookingCheckOut" style="margin-top:10px;">Выезд</label>
-                        <input id="bookingCheckOut" type="date" class="form-control" min="${minDate}">
-                        <button type="button" id="createBookingBtn" class="btn btn-primary ld-btn-full">Забронировать</button>
-                        <p id="bookingMsg" class="ld-booking-msg" role="status"></p>
-                    </div>`;
+            <div class="ld-booking-card">
+                <h4><i class="fas fa-calendar-check"></i> Забронировать даты</h4>
+                <div class="booking-info">
+                    <i class="fas fa-clock"></i> Выберите даты заезда и выезда
+                </div>
+                <div class="booking-date-picker">
+                    <div class="booking-date-group">
+                        <label><i class="fas fa-calendar-alt"></i> Заезд</label>
+                        <input type="date" id="bookingCheckIn" class="form-control" min="${minDate}" max="${maxDate}">
+                    </div>
+                    <div class="booking-date-group">
+                        <label><i class="fas fa-calendar-check"></i> Выезд</label>
+                        <input type="date" id="bookingCheckOut" class="form-control" min="${minDate}" max="${maxDate}">
+                    </div>
+                </div>
+                <button type="button" id="createBookingBtn" class="ld-booking-btn">
+                    <i class="fas fa-paper-plane"></i> Отправить заявку на бронирование
+                </button>
+                <p id="bookingMsg" class="ld-booking-msg" role="status"></p>
+            </div>
+        `;
+
+                const checkInInput = document.getElementById('bookingCheckIn');
+                const checkOutInput = document.getElementById('bookingCheckOut');
+
+                if (checkInInput) {
+                    checkInInput.addEventListener('change', () => {
+                        const checkIn = checkInInput.value;
+                        if (checkIn && checkOutInput) {
+                            checkOutInput.min = checkIn;
+                        }
+                    });
+                }
 
                 document.getElementById('createBookingBtn')?.addEventListener('click', async () => {
                     const checkIn = document.getElementById('bookingCheckIn')?.value || '';
@@ -303,12 +330,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         const data = await resp.json().catch(() => ({}));
                         if (!resp.ok) throw new Error(mapBookingError(data.error));
                         if (msg) {
-                            msg.textContent = 'Заявка отправлена. Собственник получит уведомление.';
+                            msg.innerHTML = '<i class="fas fa-check-circle"></i> Заявка отправлена! Собственник получит уведомление.';
                             msg.classList.add('ld-booking-ok');
                         }
+                        document.getElementById('bookingCheckIn').value = '';
+                        document.getElementById('bookingCheckOut').value = '';
                     } catch (e) {
                         if (msg) {
-                            msg.textContent = mapBookingError(e.message);
+                            msg.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ' + mapBookingError(e.message);
                             msg.classList.add('ld-booking-err');
                         }
                     }

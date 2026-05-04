@@ -153,7 +153,7 @@ async function updateUIForLoggedInUser() {
     try {
         const me = await getCurrentUser();
         if (me && me.role === 'admin') {
-            adminNav = '<a href="/admin.html"><i class="fas fa-shield-alt"></i> Модерация</a>';
+            adminNav = '<a href="/admin.html"> Модерация</a>';
         }
     } catch (_) {
     }
@@ -573,7 +573,7 @@ async function loadListings() {
     if (!listingsGrid) return;
 
     const isSalePage = window.location.pathname.includes('sale.html');
-    const listingType = isSalePage ? 'sale' : currentFilters.type;
+    const listingType = isSalePage ? 'sale' : 'rent';
 
     let url = '/listings';
     if (listingType) {
@@ -647,6 +647,8 @@ async function loadListings() {
         if (listingsGrid) {
             if (filteredListings.length === 0) {
                 listingsGrid.innerHTML = '<p class="no-results">Нет объявлений, соответствующих фильтрам</p>';
+                lastVisibleListings = [];
+                if (map) updateMapMarkers([]);
                 return;
             }
 
@@ -692,6 +694,8 @@ async function loadListings() {
             btn.addEventListener('click', handleLikeClick);
         });
         applyFavoriteStateForCards(favoriteIds);
+        lastVisibleListings = filteredListings;
+        if (map) updateMapMarkers(filteredListings);
 
     } catch (err) {
         console.error('Failed to load listings:', err);
@@ -765,6 +769,7 @@ function applyFavoriteStateForCards(favoriteIds) {
 
 let map = null;
 let mapMarkers = [];
+let lastVisibleListings = [];
 
 async function initMap() {
     const mapContainer = document.getElementById('map');
@@ -802,18 +807,20 @@ function mapLatLngForListing(listing) {
     return { lat: baseLat + h * 0.12, lng: baseLng + h2 * 0.12, approx: true };
 }
 
-async function loadMapMarkers() {
+async function loadMapMarkers(listingsOverride = null) {
     if (!map) return;
 
     mapMarkers.forEach((marker) => map.removeLayer(marker));
     mapMarkers = [];
 
-    const isSalePage = window.location.pathname.includes('sale.html');
-    const listingType = isSalePage ? 'sale' : 'rent';
-
     try {
-        const listings = await getListings(listingType);
-        const arr = Array.isArray(listings) ? listings : [];
+        let arr = Array.isArray(listingsOverride) ? listingsOverride : null;
+        if (!arr) {
+            const isSalePage = window.location.pathname.includes('sale.html');
+            const listingType = isSalePage ? 'sale' : 'rent';
+            const listings = await getListings(listingType);
+            arr = Array.isArray(listings) ? listings : [];
+        }
         if (arr.length === 0) {
             return;
         }
@@ -859,8 +866,8 @@ async function loadMapMarkers() {
 }
 
 
-async function updateMapMarkers() {
-    await loadMapMarkers();
+async function updateMapMarkers(listingsOverride = null) {
+    await loadMapMarkers(listingsOverride);
 }
 
 
@@ -948,7 +955,6 @@ function applyFilters() {
 
     
     loadListings();
-    if (map) updateMapMarkers();
 }
 
 
@@ -1008,7 +1014,6 @@ function resetFilters() {
 
     
     loadListings();
-    if (map) updateMapMarkers();
 }
 
 
@@ -1231,6 +1236,94 @@ async function changePassword(passwordData) {
     });
 }
 
+function standardFooterHtml() {
+    return `
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <i class="fas fa-search-location"></i>
+                    <span>RentRadar</span>
+                </div>
+                <p class="footer-description">
+                    Крупнейшая площадка недвижимости в Беларуси. Тысячи объявлений от собственников и агентств.
+                </p>
+            </div>
+            <div class="footer-column">
+                <h4>Разделы</h4>
+                <ul>
+                    <li><a href="/index.html">Аренда</a></li>
+                    <li><a href="/sale.html">Продажа</a></li>
+                    <li><a href="/news.html">Новости</a></li>
+                    <li><a href="/about.html">О нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="/help-sell.html">Как продать</a></li>
+                    <li><a href="/help-buy.html">Как купить</a></li>
+                    <li><a href="/safety.html">Безопасность</a></li>
+                    <li><a href="/support.html">Поддержка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Контакты</h4>
+                <ul>
+                    <li class="footer-contact-line"><i class="fas fa-phone"></i> +375 29 123-45-67</li>
+                    <li><i class="fas fa-envelope"></i> info@rentradar.by</li>
+                    <li><i class="fas fa-clock"></i> Пн-Пт: 9:00 - 21:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <p>&copy; 2026 RentRadar. Все права защищены.</p>
+            </div>
+            <div class="footer-bottom-right">
+                <a href="/privacy.html">Политика конфиденциальности</a>
+                <a href="/terms.html">Пользовательское соглашение</a>
+            </div>
+        </div>
+    </div>`;
+}
+
+function standardHeaderHtml() {
+    return `
+    <a href="/index.html" class="logo-link">
+        <div class="logo">
+            <span class="logo-icon"><i class="fas fa-search-location"></i></span>
+            <span class="logo-text">RentRadar</span>
+        </div>
+    </a>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/index.html">Аренда</a></li>
+            <li><a href="/sale.html">Продажа</a></li>
+            <li><a href="/news.html">Новости</a></li>
+            <li><a href="/about.html">О нас</a></li>
+        </ul>
+    </nav>
+    <div class="user-actions"></div>
+    <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </button>`;
+}
+
+function injectStandardHeader() {
+    const headerContainer = document.querySelector('header.header .header-container');
+    if (!headerContainer) return;
+    headerContainer.innerHTML = standardHeaderHtml();
+}
+
+function injectStandardFooter() {
+    const path = window.location.pathname || '';
+    if (path.endsWith('/login.html')) return;
+    const footer = document.querySelector('footer.footer');
+    if (!footer) return;
+    footer.innerHTML = standardFooterHtml();
+}
+
 function escapeHtml(str) {
     if (!str) return '';
     return str
@@ -1289,6 +1382,11 @@ async function deleteListing(listingId) {
     });
 }
 document.addEventListener('DOMContentLoaded', async () => {
+    injectStandardHeader();
+    injectStandardFooter();
+    if (typeof initComponents === 'function') {
+        initComponents();
+    }
     if (await isUserLoggedIn()) {
         if (!localStorage.getItem('userName')) {
             const me = await getCurrentUser();

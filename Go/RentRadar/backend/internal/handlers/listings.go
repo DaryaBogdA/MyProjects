@@ -38,7 +38,7 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 	args := []interface{}{}
 
 	if listingType != "" {
-		query += " AND listing_type = ?"
+		query += " AND LOWER(listing_type) = LOWER(?)"
 		args = append(args, listingType)
 	}
 
@@ -816,19 +816,44 @@ func (h *ListingHandler) DeleteListing(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(idStr)
 
 	var ownerID int
-	h.DB.QueryRow("SELECT user_id FROM listings WHERE id = ?", id).Scan(&ownerID)
+	if err := h.DB.QueryRow("SELECT user_id FROM listings WHERE id = ?", id).Scan(&ownerID); err != nil {
+		writeJSON(w, http.StatusNotFound, map[string]string{"error": "listing not found"})
+		return
+	}
 	if ownerID != userID {
 		writeJSON(w, http.StatusForbidden, map[string]string{"error": "access denied"})
 		return
 	}
 
-	_, err := h.DB.Exec("UPDATE listings SET is_active = 0 WHERE id = ?", id)
+	tx, err := h.DB.Begin()
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
+	defer tx.Rollback()
 
-	writeJSON(w, http.StatusOK, map[string]string{"message": "listing deleted"})
+	_, _ = tx.Exec("DELETE FROM favorites WHERE listing_id = ?", id)
+	_, _ = tx.Exec("DELETE FROM reviews WHERE listing_id = ?", id)
+	_, _ = tx.Exec("DELETE FROM bookings WHERE listing_id = ?", id)
+	_, _ = tx.Exec("DELETE FROM user_reports WHERE listing_id = ?", id)
+	_, _ = tx.Exec("DELETE m FROM messages m JOIN conversations c ON c.id = m.conversation_id WHERE c.listing_id = ?", id)
+	_, _ = tx.Exec("DELETE FROM conversations WHERE listing_id = ?", id)
+	res, err := tx.Exec("DELETE FROM listings WHERE id = ? AND user_id = ?", id, userID)
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	n, _ := res.RowsAffected()
+	if n == 0 {
+		writeJSON(w, http.StatusNotFound, map[string]string{"error": "listing not found"})
+		return
+	}
+	if err := tx.Commit(); err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+
+	writeJSON(w, http.StatusOK, map[string]string{"message": "listing deleted permanently"})
 }
 
 func (h *ListingHandler) userHasRole(userID int, want string) bool {

@@ -5,25 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentRadar - Сообщения</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .chat-message-mine {
+            background: var(--primary-teal);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            padding: 10px 14px;
+        }
+        .chat-message-other {
+            background: #f3f4f6;
+            color: var(--text-dark);
+            border-radius: 18px 18px 18px 4px;
+            padding: 10px 14px;
+        }
+        #messageInput:focus {
+            border-color: var(--primary-teal) !important;
+            box-shadow: 0 0 0 2px rgba(44, 120, 115, 0.1);
+        }
+        #sendMessageBtn {
+            transition: all 0.2s;
+        }
+        #sendMessageBtn:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 <body>
 <header class="header">
-    <div class="container header-container">
-        <a href="/index.html" class="logo-link">
-            <div class="logo"><span class="logo-icon"><i class="fas fa-search-location"></i></span><span class="logo-text">RentRadar</span></div>
-        </a>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/index.html">Аренда</a></li>
-                <li><a href="/sale.html">Продажа</a></li>
-                <li><a href="/news.html">Новости</a></li>
-                <li><a href="/about.html">О нас</a></li>
-            </ul>
-        </nav>
-        <div class="user-actions"></div>
-    </div>
+    <div class="container header-container"></div>
 </header>
+
 
 <main class="container" style="padding:24px 0 40px;">
     <h1 style="margin-bottom:14px;">Переписка</h1>
@@ -35,13 +49,13 @@
         <section style="border:1px solid var(--border-color); border-radius:12px; background:white; display:flex; flex-direction:column; min-height:520px;">
             <div id="chatHeader" style="padding:10px 12px; border-bottom:1px solid var(--border-color); font-weight:600;">Выберите диалог</div>
             <div id="chatMessages" style="padding:12px; flex:1; overflow:auto;"></div>
-            <form id="chatForm" style="display:flex; gap:8px; padding:12px; border-top:1px solid var(--border-color);">
-                <input id="chatInput" type="text" placeholder="Введите сообщение..." class="form-control" style="flex:1;">
-                <button class="btn btn-primary" type="submit">Отправить</button>
-            </form>
         </section>
     </div>
 </main>
+
+
+<footer class="footer"></footer>
+<script src="/static/js/components.js"></script>
 
 <script src="/static/js/script.js"></script>
 <script src="/static/js/messages.js"></script>

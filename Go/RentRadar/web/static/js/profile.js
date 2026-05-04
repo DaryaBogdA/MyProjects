@@ -101,7 +101,7 @@ function initPasswordForm() {
 
 function renderEmptyFavorites(grid) {
     grid.innerHTML = `
-        <div class="empty-favorites-state" style="text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 1px dashed var(--border-color);">
+        <div class="empty-favorites-state" style=" text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 1px dashed var(--border-color); max-width: 760px; margin: 0 auto; width: 100%;">
             <i class="far fa-heart" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 20px; display: inline-block;"></i>
             <h3 style="font-size: 1.3rem; color: var(--text-dark); margin-bottom: 10px;">Вы ещё не добавили ничего в избранное</h3>
             <p style="color: var(--text-muted); margin-bottom: 25px;">Добавляйте понравившиеся объявления, нажимая на сердечко</p>

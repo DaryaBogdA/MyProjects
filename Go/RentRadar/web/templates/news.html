@@ -5,25 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RentRadar — Новости</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <header class="header">
-    <div class="container header-container">
-        <a href="/index.html" class="logo-link">
-            <div class="logo"><span class="logo-icon"><i class="fas fa-search-location"></i></span><span class="logo-text">RentRadar</span></div>
-        </a>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/index.html">Аренда</a></li>
-                <li><a href="/sale.html">Продажа</a></li>
-                <li><a href="/news.html" class="active">Новости</a></li>
-                <li><a href="/about.html">О нас</a></li>
-            </ul>
-        </nav>
-        <div class="user-actions"></div>
-    </div>
+    <div class="container header-container"></div>
 </header>
+
 
 <main class="container" style="padding:32px 0 48px;">
     <h1 style="margin-bottom:16px;">Новости</h1>
@@ -46,9 +36,10 @@
     </article>
 </main>
 
-<footer class="footer">
-    <div class="container"><div class="footer-bottom"><p>&copy; 2026 RentRadar</p></div></div>
-</footer>
+
+<footer class="footer"></footer>
+<script src="/static/js/components.js"></script>
+
 <script src="/static/js/script.js"></script>
 </body>
 </html>
