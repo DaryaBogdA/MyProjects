@@ -51,6 +51,13 @@ public class EventController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/events/{id}")
+    public ResponseEntity<?> getEventById(@PathVariable Long id) {
+        return eventRepository.findById(id)
+                .map(event -> ResponseEntity.ok(eventToMap(event)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/events")
     public ResponseEntity<?> createEvent(@AuthenticationPrincipal User user,
                                          @RequestBody Map<String, Object> payload) {
@@ -135,8 +142,8 @@ public class EventController {
         m.put("currentParticipants", e.getCurrentParticipants() != null ? e.getCurrentParticipants() : 0);
         m.put("imageUrl", e.getImageUrl() != null ? e.getImageUrl() : "");
         m.put("status", e.getStatus() != null ? e.getStatus().name() : "approved");
-        m.put("latitude", 0);
-        m.put("longitude", 0);
+        m.put("latitude", e.getLatitude());
+        m.put("longitude", e.getLongitude());
         if (e.getSport() != null) {
             Map<String, Object> sport = new HashMap<>();
             sport.put("id", e.getSport().getId());

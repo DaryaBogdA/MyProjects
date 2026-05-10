@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ панель - EventArena</title>
     <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 </head>
 <body>
 <header>
@@ -177,6 +178,7 @@
         <div class="modal-actions" id="eventModalActions">
             <button class="btn btn-primary" onclick="addToFavorites()" id="favBtn">❤️ В избранное</button>
             <button class="btn btn-primary" onclick="registerForEvent()" id="registerBtn">Записаться</button>
+            <button class="btn btn-primary" onclick="showReviewForm()" id="reviewBtn" style="display: none;">✏️ Оставить отзыв</button>
         </div>
     </div>
 </div>

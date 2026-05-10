@@ -47,9 +47,19 @@ function checkAuth() {
     const token = localStorage.getItem('token');
     if (token) {
         try {
+            if (typeof jwt_decode === 'undefined') {
+                console.error('jwt_decode not loaded');
+                currentUser = null;
+                updateUIBasedOnAuth();
+                return;
+            }
             const decoded = jwt_decode(token);
             if (decoded.exp * 1000 < Date.now()) {
-                logout();
+                console.log('Token expired');
+                localStorage.removeItem('token');
+                localStorage.removeItem('currentUser');
+                currentUser = null;
+                updateUIBasedOnAuth();
                 return;
             }
             currentUser = {
@@ -64,12 +74,25 @@ function checkAuth() {
             loadUserProfileData();
         } catch (e) {
             console.error('Invalid token', e);
-            logout();
+            localStorage.removeItem('token');
+            localStorage.removeItem('currentUser');
+            currentUser = null;
         }
     } else {
         currentUser = null;
     }
     updateUIBasedOnAuth();
+}
+
+function scrollGallery(direction) {
+    const container = document.getElementById('galleryContainer');
+    if (!container) return;
+    const scrollAmount = 300;
+    if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
 }
 
 function updateUIBasedOnAuth() {
@@ -337,6 +360,7 @@ async function toggleFavorite(eventId) {
     }
     const isFav = favorites.includes(eventId);
     const method = isFav ? 'DELETE' : 'POST';
+    console.log(`Sending ${method} to ${API_BASE}/favorites/${eventId} with headers:`, getAuthHeaders());
     try {
         const response = await fetch(`${API_BASE}/favorites/${eventId}`, {
             method: method,
@@ -344,6 +368,7 @@ async function toggleFavorite(eventId) {
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok) {
+            console.error('Server error response:', data);
             showNotification(data.error || 'Ошибка', 'warning');
             return;
         }
@@ -355,15 +380,21 @@ async function toggleFavorite(eventId) {
             showNotification('Добавлено в избранное', 'success');
         }
         updateFavoritesCount();
-        displayEvents(events.filter(e => e.status === 'approved'));
+
+        // Обновляем отображение на главной/поиске, только если есть сетка
+        if (document.getElementById('eventsGrid')) {
+            displayEvents(events.filter(e => e.status === 'approved'));
+        }
+
+        // Если мы на странице профиля, обновляем список избранного
         if (window.location.pathname.includes('profile.html') && typeof displayFavorites === 'function') {
             displayFavorites();
         }
     } catch (e) {
+        console.error('Network error:', e);
         showNotification('Ошибка соединения', 'warning');
     }
 }
-
 async function registerForEvent() {
     if (!currentUser) {
         closeEventModal();
@@ -468,50 +499,106 @@ function showEventDetails(eventId) {
     const registerBtn = document.getElementById('registerBtn');
     const reviewBtn = document.getElementById('reviewBtn');
     currentEventId = eventId;
-    const event = events.find(e => e.id === eventId);
-    if (!event) return;
 
-    loadReviewsForEvent(eventId).then(reviewsHtml => {
-        const isRegistered = myEvents.includes(eventId);
-        const isFull = event.currentParticipants >= event.maxParticipants;
-        details.innerHTML = `
-            <div style="margin:15px 0;">
-                <img src="${event.imageUrl}" alt="${event.title}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;">
-                <h3>${event.title}</h3>
-                <p><strong>📅 Дата:</strong> ${event.dateDisplay}</p>
-                <p><strong>⏰ Время:</strong> ${event.time}</p>
-                <p><strong>📍 Место:</strong> ${event.location}</p>
-                <p><strong>💰 Стоимость:</strong> ${event.price} BYN</p>
-                <p><strong>👥 Участников:</strong> ${event.currentParticipants} / ${event.maxParticipants}</p>
-                <p><strong>📝 Описание:</strong> ${event.description}</p>
-                <hr>
-                <h4>Отзывы</h4>
-                <div id="reviewsContainer">${reviewsHtml}</div>
-            </div>
-        `;
-        if (currentUser && !currentUser.isAdmin) {
-            favBtn.style.display = 'block';
-            favBtn.textContent = favorites.includes(eventId) ? '❤️ В избранном' : '🤍 В избранное';
-            if (isRegistered) {
-                registerBtn.style.display = 'block';
-                registerBtn.textContent = '✅ Вы записаны';
-                registerBtn.disabled = true;
-            } else if (isFull) {
-                registerBtn.style.display = 'block';
-                registerBtn.textContent = '❌ Все места заняты';
-                registerBtn.disabled = true;
+    // Попробуем найти событие в глобальном массиве
+    let event = events.find(e => e.id === eventId);
+
+    if (!event) {
+        // Если не нашли, загружаем с сервера
+        fetch(`${API_BASE}/events/${eventId}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Событие не найдено');
+                return res.json();
+            })
+            .then(data => {
+                // Преобразуем в формат, ожидаемый функцией отображения
+                const loadedEvent = {
+                    ...data,
+                    sport: data.sport?.name?.toLowerCase() || '',
+                    sportName: data.sport?.name || '',
+                    city: data.city?.name?.toLowerCase() || '',
+                    cityName: data.city?.name || '',
+                    dateDisplay: new Date(data.date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    icon: getSportIcon(data.sport?.name),
+                    badge: data.sport?.name || '',
+                    coordinates: [data.latitude, data.longitude]
+                };
+                showEventDetailsWithEvent(loadedEvent);
+            })
+            .catch(err => {
+                showNotification('Не удалось загрузить событие', 'warning');
+                console.error(err);
+            });
+        return;
+    }
+
+    // Если нашли локально, используем его
+    showEventDetailsWithEvent(event);
+}
+
+// Новая вспомогательная функция для отображения деталей (выносим логику сюда)
+function showEventDetailsWithEvent(event) {
+    console.log('showEventDetailsWithEvent called with event:', event);
+    const modal = document.getElementById('eventModal');
+    const details = document.getElementById('eventDetails');
+    const favBtn = document.getElementById('favBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const reviewBtn = document.getElementById('reviewBtn');
+
+    if (!modal || !details) {
+        console.error('Modal or details element not found');
+        return;
+    }
+
+    loadReviewsForEvent(event.id).then(reviewsHtml => {
+        try {
+            const isRegistered = myEvents.includes(event.id);
+            const isFull = event.currentParticipants >= event.maxParticipants;
+            details.innerHTML = `
+                <div style="margin:15px 0;">
+                    <img src="${event.imageUrl || ''}" alt="${event.title || ''}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;">
+                    <h3>${event.title || ''}</h3>
+                    <p><strong>📅 Дата:</strong> ${event.dateDisplay || ''}</p>
+                    <p><strong>⏰ Время:</strong> ${event.time || ''}</p>
+                    <p><strong>📍 Место:</strong> ${event.location || ''}</p>
+                    <p><strong>💰 Стоимость:</strong> ${event.price || 0} BYN</p>
+                    <p><strong>👥 Участников:</strong> ${event.currentParticipants || 0} / ${event.maxParticipants || 0}</p>
+                    <p><strong>📝 Описание:</strong> ${event.description || ''}</p>
+                    <hr>
+                    <h4>Отзывы</h4>
+                    <div id="reviewsContainer">${reviewsHtml}</div>
+                </div>
+            `;
+            if (currentUser && !currentUser.isAdmin) {
+                favBtn.style.display = 'block';
+                favBtn.textContent = favorites.includes(event.id) ? '❤️ В избранном' : '🤍 В избранное';
+                if (isRegistered) {
+                    registerBtn.style.display = 'block';
+                    registerBtn.textContent = '✅ Вы записаны';
+                    registerBtn.disabled = true;
+                } else if (isFull) {
+                    registerBtn.style.display = 'block';
+                    registerBtn.textContent = '❌ Все места заняты';
+                    registerBtn.disabled = true;
+                } else {
+                    registerBtn.style.display = 'block';
+                    registerBtn.textContent = '✅ Записаться';
+                    registerBtn.disabled = false;
+                }
+                reviewBtn.style.display = 'block';
             } else {
-                registerBtn.style.display = 'block';
-                registerBtn.textContent = '✅ Записаться';
-                registerBtn.disabled = false;
+                favBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                reviewBtn.style.display = 'none';
             }
-            reviewBtn.style.display = 'block';
-        } else {
-            favBtn.style.display = 'none';
-            registerBtn.style.display = 'none';
-            reviewBtn.style.display = 'none';
+            modal.style.display = 'block';
+        } catch (e) {
+            console.error('Error rendering event details:', e);
+            showNotification('Ошибка отображения деталей', 'warning');
         }
-        modal.style.display = 'block';
+    }).catch(err => {
+        console.error('Error loading reviews:', err);
+        showNotification('Ошибка загрузки отзывов', 'warning');
     });
 }
 
@@ -746,52 +833,68 @@ function switchAuthTab(tab) {
         document.getElementById('authModalTitle').textContent = 'Регистрация';
     }
 }
-function handleAuth(event) {
+
+async function handleAuth(event) {
     event.preventDefault();
     const email = document.getElementById('authEmail').value;
     const password = document.getElementById('authPassword').value;
     const activeTab = document.querySelector('.auth-tab.active');
     const isLogin = activeTab ? activeTab.textContent === 'Вход' : true;
-    if (email === 'admin@eventarena.by' && password === 'admin123') {
-        currentUser = { id: 'admin', name: 'Администратор', email, isAdmin: true };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        showNotification('Добро пожаловать, Администратор!', 'success');
-        closeAuthModal();
-        window.location.href = 'admin.html';
-        return;
-    }
+
     if (isLogin) {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.email === email && u.password === password);
-        if (user) {
-            currentUser = { id: user.id, name: user.name, lastName: user.lastName || '', email, isAdmin: false };
+        try {
+            const response = await fetch(`${API_BASE}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                showNotification(data.error || 'Ошибка входа', 'warning');
+                return;
+            }
+            localStorage.setItem('token', data.token);
+            const decoded = jwt_decode(data.token);
+            currentUser = {
+                id: decoded.userId || decoded.sub,
+                email: decoded.sub,
+                firstName: decoded.firstName || '',
+                lastName: decoded.lastName || '',
+                role: decoded.role || 'USER',
+                isAdmin: decoded.role === 'ADMIN'
+            };
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             showNotification('Добро пожаловать!', 'success');
             closeAuthModal();
-            window.location.href = 'profile.html';
-        } else {
-            showNotification('Неверный email или пароль', 'warning');
+            window.location.href = currentUser.isAdmin ? 'admin.html' : 'profile.html';
+        } catch (e) {
+            showNotification('Ошибка соединения', 'warning');
         }
     } else {
-        const name = document.getElementById('regName').value;
+        const firstName = document.getElementById('regName').value;
         const lastName = document.getElementById('regLastName').value;
-        if (!name || !lastName) {
+        if (!firstName || !lastName) {
             showNotification('Заполните все поля', 'warning');
             return;
         }
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.find(u => u.email === email)) {
-            showNotification('Пользователь с таким email уже существует', 'warning');
-            return;
+        try {
+            const response = await fetch(`${API_BASE}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ firstName, lastName, email, password })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                showNotification(data.error || 'Ошибка регистрации', 'warning');
+                return;
+            }
+            showNotification('Регистрация прошла успешно! Теперь вы можете войти.', 'success');
+            switchAuthTab('login');
+            document.getElementById('authEmail').value = email;
+            document.getElementById('authPassword').value = '';
+        } catch (e) {
+            showNotification('Ошибка соединения', 'warning');
         }
-        const newUser = { id: Date.now(), name, lastName, email, password };
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-        currentUser = { id: newUser.id, name, lastName, email, isAdmin: false };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        showNotification('Регистрация прошла успешно!', 'success');
-        closeAuthModal();
-        window.location.href = 'profile.html';
     }
 }
 

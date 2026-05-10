@@ -7,6 +7,7 @@ import com.event.arena.repository.EventRepository;
 import com.event.arena.repository.FavoriteRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,6 +58,7 @@ public class FavoriteController {
         return ResponseEntity.ok(Map.of("message", "Добавлено в избранное"));
     }
 
+    @Transactional
     @DeleteMapping("/{eventId}")
     public ResponseEntity<?> removeFavorite(@AuthenticationPrincipal User user, @PathVariable Long eventId) {
         if (user == null) {
