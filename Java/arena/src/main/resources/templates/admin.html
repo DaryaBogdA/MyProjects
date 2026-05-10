@@ -59,6 +59,7 @@
             </button>
             <button class="tab" data-tab="reports" onclick="switchAdminTab('reports')">Отчеты</button>
             <button class="tab" data-tab="users" onclick="switchAdminTab('users')">Пользователи</button>
+            <button class="tab" data-tab="chat" onclick="switchAdminTab('chat')">Чат</button>
         </div>
         <div class="tab-content active" id="moderation">
             <h3>События на модерации <span class="badge" id="pendingCount">0</span></h3>
@@ -98,12 +99,25 @@
             <div class="report-result" id="reportResult" style="display: none;">
                 <h4>Результат отчета:</h4>
                 <pre id="reportData"></pre>
-                <button class="btn btn-primary" onclick="downloadCurrentReport()">Скачать JSON</button>
+                <button class="btn btn-primary" onclick="downloadCurrentReport()">Скачать таблицу (CSV)</button>
             </div>
         </div>
         <div class="tab-content" id="users">
             <h3>Пользователи системы</h3>
             <div class="users-list" id="usersList"></div>
+        </div>
+        <div class="tab-content" id="chat">
+            <h3>Чат с пользователями</h3>
+            <div class="chat-admin-layout">
+                <div class="chat-user-list" id="chatUserList"></div>
+                <div>
+                    <div class="chat-window" id="adminChatMessages"></div>
+                    <form class="chat-form" onsubmit="sendSupportMessage(event, 'admin')">
+                        <textarea id="adminChatInput" placeholder="Введите сообщение пользователю..." rows="3" required></textarea>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -208,6 +222,15 @@
 <div class="notification" id="notification">
     <span id="notificationMessage"></span>
 </div>
+<div class="modal" id="footerInfoModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="footerInfoTitle">Информация</h2>
+            <span class="close" onclick="closeFooterInfoModal()">&times;</span>
+        </div>
+        <div id="footerInfoBody"></div>
+    </div>
+</div>
 
 <footer>
     <div class="container">
@@ -219,10 +242,10 @@
             <div class="footer-section">
                 <h3>Навигация</h3>
                 <ul>
-                    <li><a href="#">Главная</a></li>
-                    <li><a href="#">Календарь</a></li>
-                    <li><a href="#">О проекте</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="#" data-footer-action="calendar">Календарь</a></li>
+                    <li><a href="#" data-footer-action="about">О проекте</a></li>
+                    <li><a href="#" data-footer-action="contacts">Контакты</a></li>
                 </ul>
             </div>
             <div class="footer-section">

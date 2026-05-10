@@ -140,6 +140,15 @@
 <div class="notification" id="notification">
     <span id="notificationMessage"></span>
 </div>
+<div class="modal" id="footerInfoModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="footerInfoTitle">Информация</h2>
+            <span class="close" onclick="closeFooterInfoModal()">&times;</span>
+        </div>
+        <div id="footerInfoBody"></div>
+    </div>
+</div>
 
 <footer>
     <div class="container">
@@ -151,10 +160,10 @@
             <div class="footer-section">
                 <h3>Навигация</h3>
                 <ul>
-                    <li><a href="#">Главная</a></li>
-                    <li><a href="#">Календарь</a></li>
-                    <li><a href="#">О проекте</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="#" data-footer-action="calendar">Календарь</a></li>
+                    <li><a href="#" data-footer-action="about">О проекте</a></li>
+                    <li><a href="#" data-footer-action="contacts">Контакты</a></li>
                 </ul>
             </div>
             <div class="footer-section">

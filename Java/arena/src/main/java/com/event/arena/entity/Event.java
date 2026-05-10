@@ -1,7 +1,6 @@
 package com.event.arena.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -48,7 +47,8 @@ public class Event {
     @Column(name = "current_participants", nullable = false)
     private Integer currentParticipants = 0;
 
-    @Column(name = "image_url")
+    @Lob
+    @Column(name = "image_url", columnDefinition = "LONGTEXT")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)

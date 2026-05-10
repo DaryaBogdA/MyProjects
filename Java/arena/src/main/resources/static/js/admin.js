@@ -64,15 +64,16 @@ async function loadStats() {
     }
 }
 
-window.onclick = function(event) {
+window.addEventListener('click', function(event) {
     const modal = document.getElementById('editEventModal');
     if (event.target === modal) {
         modal.style.display = 'none';
     }
-};
+});
 
 async function loadPendingEvents() {
     const list = document.getElementById('pendingEventsList');
+    const countBadge = document.getElementById('pendingCount');
     if (!list) return;
     try {
         const response = await fetch(`${API_BASE}/admin/events/pending`, {
@@ -80,6 +81,7 @@ async function loadPendingEvents() {
         });
         if (!response.ok) throw new Error();
         const pending = await response.json();
+        if (countBadge) countBadge.textContent = pending.length;
         if (pending.length === 0) {
             list.innerHTML = '<p class="info-text">Нет событий на модерации</p>';
             return;
@@ -92,6 +94,7 @@ async function loadPendingEvents() {
                     <div class="moderation-header">
                         <h4>${event.title}</h4>
                         <div class="moderation-actions">
+                            <button class="btn-edit" onclick="showEventDetails(${event.id})">Подробнее</button>
                             <button class="btn-approve" onclick="approveEvent(${event.id})">✓ Одобрить</button>
                             <button class="btn-reject" onclick="rejectEvent(${event.id})">✗ Отклонить</button>
                         </div>
@@ -107,6 +110,7 @@ async function loadPendingEvents() {
             `;
         });
     } catch (e) {
+        if (countBadge) countBadge.textContent = '0';
         list.innerHTML = '<p class="info-text error">Ошибка загрузки</p>';
     }
 }
@@ -172,8 +176,8 @@ async function loadAdminEvents() {
                         <p>${dateDisplay} • ${event.location} • Участников: ${event.currentParticipants}/${event.maxParticipants}</p>
                     </div>
                     <div class="admin-event-actions">
-                        <button class="btn-edit" onclick="editEvent(${event.id})">✏️ Ред.</button>
-                        <button class="btn-delete" onclick="deleteEvent(${event.id})">🗑️ Удалить</button>
+                        <button class="btn-edit" onclick="editEvent(${event.id})"> Ред.</button>
+                        <button class="btn-delete" onclick="deleteEvent(${event.id})"> Удалить</button>
                     </div>
                 </div>
             `;
@@ -193,18 +197,6 @@ function filterAdminEvents(searchTerm) {
             item.style.display = 'none';
         }
     });
-}
-
-function downloadReport(data, filename) {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
 }
 
 async function editEvent(eventId) {
@@ -380,27 +372,71 @@ async function generateReport(type) {
         const data = await response.json();
         currentReportData = data;
         currentReportType = type;
-        displayReport(data, type);
+        downloadCurrentReport();
+        showNotification('Отчёт сохранён (таблица CSV)', 'success');
     } catch (e) {
-        showNotification('Ошибка загрузки отчета', 'warning');
+        showNotification(`Ошибка загрузки отчета: ${e.message || 'неизвестно'}`, 'warning');
         console.error(e);
     }
 }
 
-function displayReport(data, type) {
-    const container = document.getElementById('reportResult');
-    const pre = document.getElementById('reportData');
-    container.style.display = 'block';
-    pre.innerHTML = JSON.stringify(data, null, 2);
+function escapeCsvCell(value) {
+    const s = String(value ?? '');
+    if (/[",;\n\r]/.test(s)) {
+        return `"${s.replace(/"/g, '""')}"`;
+    }
+    return s;
 }
 
+/** Табличный отчёт UTF-8 (с BOM) — открывается в Excel с корректной кириллицей. Разделитель «;» для локали RU. */
 function downloadCurrentReport() {
     if (!currentReportData) {
         showNotification('Нет данных для скачивания', 'warning');
         return;
     }
-    const filename = `report_${currentReportType}_${new Date().toISOString().slice(0, 10)}.json`;
-    downloadReport(currentReportData, filename);
+    const datePart = new Date().toISOString().slice(0, 10);
+    const filename = `report_${currentReportType}_${datePart}.csv`;
+    const titleMap = {
+        participants: 'Отчет по участникам',
+        sports: 'Популярные виды спорта',
+        popular: 'Популярные мероприятия',
+        revenue: 'Финансовый отчет'
+    };
+    const title = `${titleMap[currentReportType] || 'Отчет'} (${datePart})`;
+    const rows = [];
+    if (currentReportType === 'participants' && Array.isArray(currentReportData)) {
+        rows.push(['Мероприятие', 'Участников', 'Лимит']);
+        currentReportData.forEach(item => rows.push([item.title, String(item.participants), String(item.maxParticipants)]));
+    } else if (currentReportType === 'sports' && Array.isArray(currentReportData)) {
+        rows.push(['Вид спорта', 'Всего участников']);
+        currentReportData.forEach(item => rows.push([item.sport, String(item.totalParticipants)]));
+    } else if (currentReportType === 'popular' && Array.isArray(currentReportData)) {
+        rows.push(['#', 'Мероприятие', 'Участников']);
+        currentReportData.forEach((item, index) => rows.push([String(index + 1), item.title, String(item.participants)]));
+    } else if (currentReportType === 'revenue' && currentReportData) {
+        rows.push(['Показатель', 'Значение']);
+        rows.push(['Общая выручка', `${currentReportData.totalRevenue} BYN`]);
+        Object.entries(currentReportData.byEvent || {}).forEach(([name, value]) => rows.push([name, `${value} BYN`]));
+    } else {
+        rows.push(['Данные']);
+        rows.push([JSON.stringify(currentReportData, null, 2)]);
+    }
+    if (rows.length === 0) {
+        rows.push(['Данные']);
+        rows.push(['Нет данных для отчета']);
+    }
+    const bom = '\uFEFF';
+    const tableLines = rows.map(row => row.map(escapeCsvCell).join(';'));
+    const csv = bom + escapeCsvCell(title) + '\r\n\r\n' + tableLines.join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.rel = 'noopener';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(link.href), 0);
 }
 
 function switchAdminTab(tabId) {
@@ -411,4 +447,5 @@ function switchAdminTab(tabId) {
     const content = document.getElementById(tabId);
     if (button) button.classList.add('active');
     if (content) content.classList.add('active');
+    if (tabId === 'chat') initSupportChat();
 }

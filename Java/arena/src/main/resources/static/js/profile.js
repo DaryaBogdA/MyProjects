@@ -33,6 +33,9 @@ function switchUserTab(tabId) {
         case 'add-event':
             setTimeout(() => initLocationMap(), 100);
             break;
+        case 'chat':
+            initSupportChat();
+            break;
     }
 }
 

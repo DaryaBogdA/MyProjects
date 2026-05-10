@@ -1,4 +1,3 @@
-/* ========== ОБНУЛЕНИЕ И ПЕРЕМЕННЫЕ ========== */
 * {
     margin: 0;
     padding: 0;
@@ -25,7 +24,6 @@ body {
     margin: 0 auto;
     padding: 0 20px;
 }
-/* ========== ШАПКА ========== */
 header {
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     color: white;
@@ -62,7 +60,6 @@ header {
     display: flex;
     gap: 15px;
 }
-/* ========== КНОПКИ ========== */
 .btn {
     padding: 10px 24px;
     border: none;
@@ -84,7 +81,7 @@ header {
     background-color: transparent;
     border: 2px solid white;
     color: white;
-    text-decoration: none; /* для ссылок */
+    text-decoration: none;
     display: inline-block;
 }
 .btn-outline:hover {
@@ -198,7 +195,6 @@ a.btn {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
 }
-/* ========== ТЕКСТ ========== */
 .white-text {
     color: white !important;
 }
@@ -208,7 +204,6 @@ a.btn {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
-/* ========== ПОИСК И ФИЛЬТРЫ ========== */
 .search-section {
     background-color: var(--background);
     padding: 40px 0;
@@ -267,7 +262,6 @@ a.btn {
     border: 1px solid #ddd;
     border-radius: 6px;
 }
-/* ========== КАРТОЧКИ СОБЫТИЙ ========== */
 .events-section {
     background-color: var(--background);
     padding: 40px 0;
@@ -422,7 +416,6 @@ a.btn {
     max-width: 60%;
     font-size: 14px;
 }
-/* ========== ГАЛЕРЕЯ ========== */
 .gallery-section {
     padding: 60px 0;
     background-color: var(--background);
@@ -541,7 +534,6 @@ a.btn {
     border-radius: 10px;
     background-color: var(--primary);
 }
-/* ========== КАРТЫ ========== */
 .map-container {
     margin: 40px 0;
     border-radius: 12px;
@@ -571,7 +563,6 @@ a.btn {
     transform: scale(1.1);
     z-index: 1000 !important;
 }
-/* ========== ЛИЧНЫЙ КАБИНЕТ И ПРОФИЛЬ ========== */
 .profile-section {
     background-color: var(--white);
     padding: 30px;
@@ -696,7 +687,6 @@ a.btn {
     display: flex;
     gap: 12px;
 }
-/* ========== ФОРМА ДОБАВЛЕНИЯ СОБЫТИЯ ========== */
 .add-event-form {
     background-color: #f8f9fa;
     padding: 20px;
@@ -727,6 +717,10 @@ a.btn {
     border-radius: 6px;
     font-family: inherit;
 }
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
 .coord-input {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -747,7 +741,6 @@ a.btn {
     margin-right: 20px;
     cursor: pointer;
 }
-/* ========== ЗАГРУЗКА ФАЙЛОВ ========== */
 .file-upload-container {
     position: relative;
     margin-bottom: 20px;
@@ -789,7 +782,6 @@ a.btn {
 .image-preview.active {
     display: block;
 }
-/* ========== КАРТА ВЫБОРА МЕСТА ========== */
 .location-map {
     width: 100%;
     height: 350px;
@@ -806,7 +798,6 @@ a.btn {
     color: var(--text-light);
     border-left: 4px solid var(--accent);
 }
-/* ========== КНОПКА ИЗБРАННОГО ========== */
 .favorite-btn {
     position: absolute;
     top: 15px;
@@ -833,7 +824,6 @@ a.btn {
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
     color: white;
 }
-/* ========== ГЕРОЙ СЕКЦИЯ ========== */
 .hero-section {
     background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
@@ -870,7 +860,6 @@ a.btn {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     color: white;
 }
-/* ========== СПОРТИВНЫЕ ИКОНКИ ========== */
 .sports-icons-section {
     padding: 40px 0;
     background-color: var(--background);
@@ -907,7 +896,6 @@ a.btn {
 .sport-icon:hover {
     transform: scale(1.1);
 }
-/* ========== АДМИН ПАНЕЛЬ ========== */
 .admin-panel-full {
     border: 2px solid var(--accent);
 }
@@ -945,7 +933,6 @@ a.btn {
     color: var(--accent);
     line-height: 1.2;
 }
-/* ========== МОДЕРАЦИЯ ========== */
 .moderation-list {
     display: flex;
     flex-direction: column;
@@ -1002,7 +989,6 @@ a.btn {
     line-height: 1.6;
     color: var(--text-dark);
 }
-/* ========== УПРАВЛЕНИЕ СОБЫТИЯМИ (АДМИН) ========== */
 .events-management-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1039,7 +1025,6 @@ a.btn {
     display: flex;
     gap: 12px;
 }
-/* ========== ПОЛЬЗОВАТЕЛИ (АДМИН) ========== */
 .users-list {
     display: flex;
     flex-direction: column;
@@ -1087,7 +1072,6 @@ a.btn {
     display: flex;
     gap: 10px;
 }
-/* ========== ОТЧЁТЫ ========== */
 .reports-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1136,7 +1120,6 @@ a.btn {
     line-height: 1.6;
     border: 1px solid rgba(65, 105, 225, 0.1);
 }
-/* ========== МОДАЛЬНЫЕ ОКНА (только event и review) ========== */
 .modal {
     display: none;
     position: fixed;
@@ -1154,6 +1137,9 @@ a.btn {
     max-width: 500px;
     border-radius: 12px;
     position: relative;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .modal-header {
     display: flex;
@@ -1174,6 +1160,98 @@ a.btn {
     gap: 10px;
     margin-top: 20px;
 }
+#eventDetails,
+#reviewsContainer {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+#eventDetails img {
+    max-width: 100%;
+}
+.chat-window {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    height: 340px;
+    overflow-y: auto;
+    padding: 12px;
+    margin: 15px 0;
+}
+.chat-form textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 90px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+.chat-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 85%;
+}
+.chat-message.mine {
+    margin-left: auto;
+    background: #e9f0ff;
+}
+.chat-message.theirs {
+    background: #f1f1f1;
+}
+.chat-admin-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 16px;
+}
+.chat-user-list {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-height: 460px;
+    overflow-y: auto;
+    padding: 8px;
+}
+.chat-user-item {
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+.chat-user-item.active {
+    border-color: var(--primary);
+    background: #eef3ff;
+}
+.calendar-intro {
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+.calendar-dates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+}
+.calendar-date-card {
+    background: linear-gradient(135deg, #f8f9ff, #eef2ff);
+    border: 1px solid #dbe3ff;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+.calendar-day {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+}
+.calendar-month {
+    font-size: 14px;
+    text-transform: capitalize;
+    color: var(--text-dark);
+}
+.calendar-year {
+    font-size: 12px;
+    color: var(--text-light);
+}
 .rating {
     display: flex;
     gap: 5px;
@@ -1189,7 +1267,6 @@ a.btn {
 .star:hover {
     color: #ffc107;
 }
-/* ========== УВЕДОМЛЕНИЯ ========== */
 .notification {
     position: fixed;
     top: 20px;
@@ -1213,7 +1290,6 @@ a.btn {
         opacity: 1;
     }
 }
-/* ========== ПОДВАЛ ========== */
 footer {
     background: linear-gradient(135deg, #2E2B5C, var(--primary));
     color: white;
@@ -1248,7 +1324,6 @@ footer {
 .footer-section ul li a:hover {
     opacity: 1;
 }
-/* ========== БЕЙДЖИ ========== */
 .badge {
     display: inline-block;
     padding: 4px 12px;
@@ -1259,7 +1334,6 @@ footer {
     font-weight: 600;
     margin-left: 10px;
 }
-/* ========== АДАПТИВНОСТЬ ========== */
 @media (max-width: 1024px) {
     .admin-stats {
         grid-template-columns: repeat(2, 1fr);
@@ -1366,6 +1440,9 @@ footer {
         justify-content: center;
     }
     .reports-grid {
+        grid-template-columns: 1fr;
+    }
+    .chat-admin-layout {
         grid-template-columns: 1fr;
     }
 }

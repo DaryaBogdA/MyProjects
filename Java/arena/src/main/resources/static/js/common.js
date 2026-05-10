@@ -11,6 +11,9 @@ let myEvents = [];
 let locationMap = null;
 let locationMarker = null;
 let selectedCoordinates = null;
+let supportMessages = [];
+let chatPolling = null;
+let selectedChatUserId = null;
 
 const API_BASE = 'http://localhost:8079/api';
 
@@ -40,6 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logo) {
         logo.style.cursor = 'pointer';
         logo.addEventListener('click', () => window.location.href = 'index.html');
+    }
+
+    bindFooterLinks();
+    if (document.getElementById('belarus-map') && typeof L !== 'undefined') {
+        initMap();
     }
 });
 
@@ -166,9 +174,10 @@ function displayEvents(eventsToShow) {
         const placesLeft = event.maxParticipants - event.currentParticipants;
         const isFavorite = favorites.includes(event.id);
 
+        const imageUrl = normalizeImageUrl(event.imageUrl);
         const card = `
             <div class="event-card" data-sport="${event.sport}" data-city="${event.city}" data-price="${event.price}" data-date="${event.date}">
-                <div class="event-image" style="background-image: url('${event.imageUrl}')">
+                <div class="event-image" style="background-image: url('${imageUrl}')">
                     <span class="event-badge">${event.badge}</span>
                     ${currentUser && !currentUser.isAdmin ? `<button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${event.id})">${isFavorite ? '❤️' : '🤍'}</button>` : ''}
                 </div>
@@ -263,6 +272,10 @@ function filterBySport(sport) {
 
 function initMap() {
     if (!document.getElementById('belarus-map')) return;
+    if (map) {
+        map.remove();
+        map = null;
+    }
     map = L.map('belarus-map', { attributionControl: false }).setView([53.7098, 27.9534], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: false }).addTo(map);
     updateMapMarkers(events.filter(e => e.status === 'approved'));
@@ -301,6 +314,11 @@ function getAuthHeaders() {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
     } : {};
+}
+
+function getBearerAuthHeader() {
+    const token = localStorage.getItem('token');
+    return token ? { 'Authorization': 'Bearer ' + token } : {};
 }
 
 async function loadUserFavorites() {
@@ -381,12 +399,10 @@ async function toggleFavorite(eventId) {
         }
         updateFavoritesCount();
 
-        // Обновляем отображение на главной/поиске, только если есть сетка
         if (document.getElementById('eventsGrid')) {
             displayEvents(events.filter(e => e.status === 'approved'));
         }
 
-        // Если мы на странице профиля, обновляем список избранного
         if (window.location.pathname.includes('profile.html') && typeof displayFavorites === 'function') {
             displayFavorites();
         }
@@ -481,7 +497,7 @@ async function loadReviewsForEvent(eventId) {
             html += `
                 <div style="border-bottom:1px solid #ccc; padding:10px;">
                     <strong>${r.user?.firstName || 'Пользователь'}</strong> (${r.rating}★)
-                    <p>${r.comment}</p>
+                    <p>${escapeHtml(r.comment || '')}</p>
                     <small>${new Date(r.createdAt).toLocaleDateString()}</small>
                 </div>
             `;
@@ -500,18 +516,15 @@ function showEventDetails(eventId) {
     const reviewBtn = document.getElementById('reviewBtn');
     currentEventId = eventId;
 
-    // Попробуем найти событие в глобальном массиве
     let event = events.find(e => e.id === eventId);
 
     if (!event) {
-        // Если не нашли, загружаем с сервера
         fetch(`${API_BASE}/events/${eventId}`)
             .then(res => {
                 if (!res.ok) throw new Error('Событие не найдено');
                 return res.json();
             })
             .then(data => {
-                // Преобразуем в формат, ожидаемый функцией отображения
                 const loadedEvent = {
                     ...data,
                     sport: data.sport?.name?.toLowerCase() || '',
@@ -532,11 +545,9 @@ function showEventDetails(eventId) {
         return;
     }
 
-    // Если нашли локально, используем его
     showEventDetailsWithEvent(event);
 }
 
-// Новая вспомогательная функция для отображения деталей (выносим логику сюда)
 function showEventDetailsWithEvent(event) {
     console.log('showEventDetailsWithEvent called with event:', event);
     const modal = document.getElementById('eventModal');
@@ -556,14 +567,14 @@ function showEventDetailsWithEvent(event) {
             const isFull = event.currentParticipants >= event.maxParticipants;
             details.innerHTML = `
                 <div style="margin:15px 0;">
-                    <img src="${event.imageUrl || ''}" alt="${event.title || ''}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;">
+                    <img src="${normalizeImageUrl(event.imageUrl || '')}" alt="${event.title || ''}" style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;">
                     <h3>${event.title || ''}</h3>
                     <p><strong>📅 Дата:</strong> ${event.dateDisplay || ''}</p>
                     <p><strong>⏰ Время:</strong> ${event.time || ''}</p>
-                    <p><strong>📍 Место:</strong> ${event.location || ''}</p>
+                    <p><strong>🏠 Адрес:</strong> ${event.location || 'Не указан'}</p>
                     <p><strong>💰 Стоимость:</strong> ${event.price || 0} BYN</p>
                     <p><strong>👥 Участников:</strong> ${event.currentParticipants || 0} / ${event.maxParticipants || 0}</p>
-                    <p><strong>📝 Описание:</strong> ${event.description || ''}</p>
+                    <p><strong>📝 Описание:</strong> ${escapeHtml(event.description || '')}</p>
                     <hr>
                     <h4>Отзывы</h4>
                     <div id="reviewsContainer">${reviewsHtml}</div>
@@ -700,11 +711,15 @@ async function addNewEvent(event) {
     const maxParticipants = parseInt(document.getElementById('newEventMaxParticipants').value) || 50;
     const description = document.getElementById('newEventDescription').value;
     const imageFile = document.getElementById('newEventImage').files[0];
-    let imageBase64 = '';
+    const defaultImage = 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+    let imageBase64 = defaultImage;
     if (imageFile) {
-        imageBase64 = await fileToBase64(imageFile);
-    } else {
-        imageBase64 = 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+        try {
+            imageBase64 = await uploadEventImage(imageFile);
+        } catch (e) {
+            showNotification('Не удалось загрузить картинку, будет использована стандартная', 'warning');
+            imageBase64 = defaultImage;
+        }
     }
 
     const newEventData = {
@@ -749,6 +764,32 @@ async function addNewEvent(event) {
     } catch (e) {
         showNotification('Ошибка соединения', 'warning');
     }
+}
+
+async function uploadEventImage(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch(`${API_BASE}/files/upload`, {
+        method: 'POST',
+        headers: getBearerAuthHeader(),
+        body: formData
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+        throw new Error(data.error || 'Ошибка загрузки файла');
+    }
+    return data.url;
+}
+
+function normalizeImageUrl(url) {
+    if (!url) return '';
+    if (typeof url === 'string' && url.includes('/api/api/files/')) {
+        url = url.replace('/api/api/files/', '/api/files/');
+    }
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
+    const base = window.location.origin;
+    if (url.startsWith('/')) return `${base}${url}`;
+    return `${base}/${url}`;
 }
 
 function previewImage(event) {
@@ -834,6 +875,140 @@ function switchAuthTab(tab) {
     }
 }
 
+function bindFooterLinks() {
+    document.querySelectorAll('[data-footer-action]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            openFooterInfo(link.dataset.footerAction);
+        });
+    });
+}
+
+function closeFooterInfoModal() {
+    const modal = document.getElementById('footerInfoModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function openFooterInfo(action) {
+    const modal = document.getElementById('footerInfoModal');
+    const title = document.getElementById('footerInfoTitle');
+    const body = document.getElementById('footerInfoBody');
+    if (!modal || !title || !body) return;
+    if (action === 'calendar') {
+        const approvedDates = [...new Set(events.filter(e => e.status === 'approved').map(e => e.date))].sort();
+        title.textContent = 'Календарь мероприятий';
+        body.innerHTML = approvedDates.length
+            ? `
+                <p class="calendar-intro">Ближайшие даты, где уже запланированы события:</p>
+                <div class="calendar-dates-grid">
+                    ${approvedDates.map(d => {
+                        const date = new Date(d);
+                        return `<div class="calendar-date-card">
+                            <div class="calendar-day">${date.toLocaleDateString('ru-RU', { day: '2-digit' })}</div>
+                            <div class="calendar-month">${date.toLocaleDateString('ru-RU', { month: 'long' })}</div>
+                            <div class="calendar-year">${date.toLocaleDateString('ru-RU', { year: 'numeric' })}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            `
+            : '<p>Пока нет подтвержденных дат мероприятий.</p>';
+    } else if (action === 'about') {
+        title.textContent = 'О проекте';
+        body.innerHTML = '<p>EventArena помогает находить, публиковать и модерировать спортивные мероприятия по всей Беларуси.</p>';
+    } else {
+        title.textContent = 'Контакты';
+        body.innerHTML = '<p>Телефон: +375 (29) 123-45-67</p><p>Email: info@eventarena.by</p><p>Адрес: Минск, пр. Победителей, 20</p>';
+    }
+    modal.style.display = 'block';
+}
+
+function escapeHtml(text) {
+    return text
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
+async function loadSupportMessages() {
+    if (!currentUser) return;
+    let url = `${API_BASE}/chat/messages`;
+    if (currentUser.isAdmin && selectedChatUserId) {
+        url += `?userId=${selectedChatUserId}`;
+    }
+    const response = await fetch(url, { headers: getAuthHeaders() });
+    if (!response.ok) return;
+    supportMessages = await response.json();
+    renderSupportMessages();
+}
+
+async function loadChatUsers() {
+    if (!currentUser || !currentUser.isAdmin) return;
+    const list = document.getElementById('chatUserList');
+    if (!list) return;
+    const response = await fetch(`${API_BASE}/chat/conversations`, { headers: getAuthHeaders() });
+    if (!response.ok) return;
+    const users = await response.json();
+    if (!selectedChatUserId && users.length) selectedChatUserId = users[0].id;
+    list.innerHTML = users.length ? '' : '<p>Пока нет сообщений от пользователей</p>';
+    users.forEach(user => {
+        list.innerHTML += `<div class="chat-user-item ${selectedChatUserId === user.id ? 'active' : ''}" onclick="selectChatUser(${user.id})">${user.fullName}<br><small>${user.email}</small></div>`;
+    });
+}
+
+function selectChatUser(userId) {
+    selectedChatUserId = userId;
+    loadChatUsers();
+    loadSupportMessages();
+}
+
+function renderSupportMessages() {
+    const container = currentUser?.isAdmin ? document.getElementById('adminChatMessages') : document.getElementById('userChatMessages');
+    if (!container) return;
+    container.innerHTML = supportMessages.length ? '' : '<p>Сообщений пока нет</p>';
+    supportMessages.forEach(msg => {
+        const mine = msg.mine ? 'mine' : 'theirs';
+        container.innerHTML += `<div class="chat-message ${mine}"><div>${escapeHtml(msg.message)}</div><small>${new Date(msg.createdAt).toLocaleString('ru-RU')}</small></div>`;
+    });
+    container.scrollTop = container.scrollHeight;
+}
+
+async function sendSupportMessage(event, role) {
+    event.preventDefault();
+    const input = role === 'admin' ? document.getElementById('adminChatInput') : document.getElementById('userChatInput');
+    if (!input) return;
+    const message = input.value.trim();
+    if (!message) return;
+    const payload = { message };
+    if (currentUser?.isAdmin && selectedChatUserId) payload.userId = selectedChatUserId;
+    const response = await fetch(`${API_BASE}/chat/messages`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload)
+    });
+    if (!response.ok) {
+        showNotification('Не удалось отправить сообщение', 'warning');
+        return;
+    }
+    input.value = '';
+    await loadSupportMessages();
+}
+
+function initSupportChat() {
+    if (!document.getElementById('userChatMessages') && !document.getElementById('adminChatMessages')) return;
+    if (chatPolling) clearInterval(chatPolling);
+    if (currentUser?.isAdmin) {
+        loadChatUsers().then(() => loadSupportMessages());
+    } else {
+        loadSupportMessages();
+    }
+    chatPolling = setInterval(async () => {
+        if (currentUser?.isAdmin) await loadChatUsers();
+        await loadSupportMessages();
+    }, 10000);
+}
+
 async function handleAuth(event) {
     event.preventDefault();
     const email = document.getElementById('authEmail').value;
@@ -910,6 +1085,8 @@ function showNotification(message, type = 'info') {
 window.onclick = function(event) {
     const eventModal = document.getElementById('eventModal');
     const reviewModal = document.getElementById('reviewModal');
+    const footerInfoModal = document.getElementById('footerInfoModal');
     if (event.target === eventModal) eventModal.style.display = 'none';
     if (event.target === reviewModal) reviewModal.style.display = 'none';
+    if (event.target === footerInfoModal) footerInfoModal.style.display = 'none';
 };

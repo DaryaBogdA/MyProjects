@@ -39,6 +39,7 @@
             <button class="tab" data-tab="favorites" onclick="switchUserTab('favorites')">Избранное</button>
             <button class="tab" data-tab="my-events" onclick="switchUserTab('my-events')">Мои мероприятия</button>
             <button class="tab" data-tab="add-event" onclick="switchUserTab('add-event')">Добавить событие</button>
+            <button class="tab" data-tab="chat" onclick="switchUserTab('chat')">Чат с админом</button>
         </div>
         <div class="tab-content" id="favorites-tab">
             <h3>Избранные мероприятия <span class="badge" id="favoritesCount">0</span></h3>
@@ -140,6 +141,14 @@
                 <button type="submit" class="btn btn-primary">Отправить на модерацию</button>
             </form>
         </div>
+        <div class="tab-content" id="chat-tab">
+            <h3>Чат с администратором</h3>
+            <div class="chat-window" id="userChatMessages"></div>
+            <form class="chat-form" onsubmit="sendSupportMessage(event, 'user')">
+                <textarea id="userChatInput" placeholder="Введите сообщение..." rows="3" required></textarea>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -183,6 +192,15 @@
 <div class="notification" id="notification">
     <span id="notificationMessage"></span>
 </div>
+<div class="modal" id="footerInfoModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="footerInfoTitle">Информация</h2>
+            <span class="close" onclick="closeFooterInfoModal()">&times;</span>
+        </div>
+        <div id="footerInfoBody"></div>
+    </div>
+</div>
 
 <footer>
     <div class="container">
@@ -194,10 +212,10 @@
             <div class="footer-section">
                 <h3>Навигация</h3>
                 <ul>
-                    <li><a href="#">Главная</a></li>
-                    <li><a href="#">Календарь</a></li>
-                    <li><a href="#">О проекте</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="#" data-footer-action="calendar">Календарь</a></li>
+                    <li><a href="#" data-footer-action="about">О проекте</a></li>
+                    <li><a href="#" data-footer-action="contacts">Контакты</a></li>
                 </ul>
             </div>
             <div class="footer-section">
