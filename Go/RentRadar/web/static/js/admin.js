@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (btn.dataset.panel === 'listings-all') loadAllListings();
             if (btn.dataset.panel === 'reviews-pending') loadPendingReviews();
             if (btn.dataset.panel === 'reports') loadReports();
-            if (btn.dataset.panel === 'saved-reports') loadSavedReports();
+            if (btn.dataset.panel === 'exports') initExportsPanel();
         });
     });
 
@@ -524,93 +524,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('reloadReportsBtn')?.addEventListener('click', loadReports);
     document.getElementById('reportsStatusFilter')?.addEventListener('change', loadReports);
 
-    async function loadSavedReports() {
-        const tbody = document.getElementById('savedReportsBody');
-        const empty = document.getElementById('savedReportsEmpty');
-        try {
-            const res = await fetch('/api/admin/saved-reports', { headers: { 'X-User-ID': uid } });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'Ошибка');
-            const items = Array.isArray(data) ? data : [];
-            tbody.innerHTML = '';
-            if (items.length === 0) {
-                empty.hidden = false;
-                return;
-            }
-            empty.hidden = true;
-            items.forEach((row) => {
-                const tr = document.createElement('tr');
-                const when = row.created_at ? new Date(row.created_at).toLocaleString('ru-RU') : '';
-                const fileHint = row.file ? `<span style="color:var(--text-muted);font-size:0.75rem;"> ${escapeHtml(row.file)}</span>` : '';
-                tr.innerHTML = `
-                    <td>#${row.id}</td>
-                    <td>${escapeHtml(row.title || '')}${fileHint}</td>
-                    <td>${escapeHtml(when)}</td>
-                    <td><button type="button" class="btn btn-outline btn-xs sr-view" data-id="${row.id}">Открыть</button></td>`;
-                tbody.appendChild(tr);
-            });
-            tbody.querySelectorAll('.sr-view').forEach((b) =>
-                b.addEventListener('click', async () => {
-                    const id = Number(b.dataset.id);
-                    try {
-                        const r = await fetch(`/api/admin/saved-reports/${id}`, { headers: { 'X-User-ID': uid } });
-                        const d = await r.json().catch(() => ({}));
-                        if (!r.ok) throw new Error(d.error || 'Ошибка');
-                        alert(`${d.title || ''}\n\n${d.body || ''}`);
-                    } catch (e) {
-                        alert(e.message);
-                    }
-                })
-            );
-        } catch (e) {
-            showMsg(e.message, true);
-        }
+    function downloadTextFile(filename, content, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
     }
 
-    document.getElementById('saveFullSnapshotBtn')?.addEventListener('click', async () => {
-        if (
-            !confirm(
-                'Сохранить полный JSON-снимок (пользователи, модерация объявлений и отзывов, жалобы)? Это может занять несколько секунд.'
-            )
-        )
-            return;
-        try {
-            const res = await fetch('/api/admin/saved-reports/snapshot', {
-                method: 'POST',
-                headers: headers(),
-            });
-            const d = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(d.error || 'Ошибка');
-            showMsg('Полный снимок сохранён в списке отчётов');
-            loadSavedReports();
-        } catch (e) {
-            alert(e.message);
-        }
-    });
+    async function fetchAdminJson(path) {
+        const r = await fetch(path, { headers: { 'X-User-ID': uid } });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(d.error || 'Ошибка экспорта');
+        return Array.isArray(d) ? d : [];
+    }
 
-    document.getElementById('saveReportBtn')?.addEventListener('click', async () => {
-        const title = document.getElementById('savedReportTitle')?.value?.trim() || '';
-        const body = document.getElementById('savedReportBody')?.value?.trim() || '';
-        if (!title || !body) {
-            alert('Укажите заголовок и текст отчёта');
-            return;
-        }
-        try {
-            const res = await fetch('/api/admin/saved-reports', {
-                method: 'POST',
-                headers: headers(),
-                body: JSON.stringify({ title, body }),
-            });
-            const d = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(d.error || 'Ошибка');
-            showMsg('Отчёт сохранён');
-            document.getElementById('savedReportTitle').value = '';
-            document.getElementById('savedReportBody').value = '';
-            loadSavedReports();
-        } catch (e) {
-            alert(e.message);
-        }
-    });
+    let exportsInitialized = false;
+    function initExportsPanel() {
+        if (exportsInitialized) return;
+        exportsInitialized = true;
+        document.getElementById('exportUsersJsonBtn')?.addEventListener('click', async () => {
+            const data = await fetchAdminJson('/api/admin/users');
+            downloadTextFile('users.json', JSON.stringify(data, null, 2), 'application/json;charset=utf-8');
+        });
+        document.getElementById('exportPopularityJsonBtn')?.addEventListener('click', async () => {
+            const data = await fetchAdminJson('/api/admin/listings?include_inactive=1');
+            data.sort((a, b) => Number(b.views_count || 0) - Number(a.views_count || 0));
+            downloadTextFile('listing_popularity.json', JSON.stringify(data, null, 2), 'application/json;charset=utf-8');
+        });
+        document.getElementById('exportReportsJsonBtn')?.addEventListener('click', async () => {
+            const data = await fetchAdminJson('/api/admin/reports?status=all');
+            downloadTextFile('user_reports.json', JSON.stringify(data, null, 2), 'application/json;charset=utf-8');
+        });
+        document.getElementById('exportReviewsJsonBtn')?.addEventListener('click', async () => {
+            const data = await fetchAdminJson('/api/admin/reviews/pending');
+            downloadTextFile('reviews_pending.json', JSON.stringify(data, null, 2), 'application/json;charset=utf-8');
+        });
+    }
 
     await loadUsers();
 });

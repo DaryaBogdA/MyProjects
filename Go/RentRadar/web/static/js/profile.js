@@ -56,9 +56,13 @@ function initProfileForm() {
             await updateProfile({
                 first_name: document.getElementById('profileFirstName').value,
                 last_name: document.getElementById('profileLastName').value,
+                email: document.getElementById('profileEmail').value.trim(),
                 phone: document.getElementById('profilePhone').value,
             });
             showNotification('Профиль успешно обновлен', 'success');
+            const msg = document.getElementById('profileSaveMessage');
+            if (msg) msg.textContent = 'Изменения сохранены.';
+            alert('Данные профиля успешно сохранены.');
             await loadUserData();
         } catch (err) {
             showNotification(err.message || 'Ошибка обновления профиля', 'error');

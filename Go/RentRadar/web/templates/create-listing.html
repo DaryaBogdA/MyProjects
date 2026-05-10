@@ -105,6 +105,38 @@
             border: 1px solid var(--border-color);
             z-index: 1;
         }
+
+        #citySelect:invalid {
+            color: var(--text-muted);
+        }
+
+        #citySelect option {
+            color: var(--text-dark);
+        }
+
+        .price-period-switch {
+            display: inline-flex;
+            gap: 8px;
+            background: #f4f7f7;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 4px;
+        }
+
+        .price-period-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .price-period-btn.active {
+            background: var(--primary-teal);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -150,9 +182,6 @@
                             <option value="apartment">Квартира</option>
                             <option value="room">Комната</option>
                             <option value="house">Дом</option>
-                            <option value="apartments">Апартаменты</option>
-                            <option value="studio">Студия</option>
-                            <option value="cottage">Дача</option>
                             <option value="land" class="sale-only hidden">Участок</option>
                             <option value="commercial" class="sale-only hidden">Коммерческая</option>
                         </select>
@@ -180,7 +209,7 @@
                         <div class="error-message" id="areaError"></div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="floorFormGroup">
                         <label for="floor">Этаж *</label>
                         <input type="number" id="floor" placeholder="Например: 7" min="1">
                         <div class="error-message" id="floorError"></div>
@@ -218,8 +247,8 @@
                     </div>
                     <div class="form-group">
                         <label for="citySelect">Город *</label>
-                        <select id="citySelect">
-                            <option value="">— Выберите город —</option>
+                        <select id="citySelect" required>
+                            <option value="" selected disabled hidden>Выберите город</option>
                         </select>
                         <div class="error-message" id="cityError"></div>
                     </div>
@@ -238,7 +267,7 @@
                             Нажмите по карте или воспользуйтесь поиском по адресу — так объявление отобразится на карте каталога.
                         </p>
                         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;align-items:center;">
-                            <button type="button" class="btn btn-outline" id="geocodeAddressBtn"><i class="fas fa-search-location"></i> Найти по адресу</button>
+                            <button type="button" class="btn btn-outline" id="geocodeAddressBtn">Найти по адресу</button>
                             <span id="locationHint" style="font-size:0.85rem;color:var(--text-muted);"></span>
                         </div>
                         <div id="listingLocationMap" class="listing-loc-map"></div>
@@ -255,6 +284,13 @@
                     <span id="pricePeriodLabel" style="font-size: 0.9rem;">(за месяц)</span>
                 </h2>
                 <div class="form-grid">
+                    <div class="form-group rent-only">
+                        <label>Период цены *</label>
+                        <div class="price-period-switch" id="pricePeriodSwitch">
+                            <button type="button" class="price-period-btn active" data-period="month">За месяц</button>
+                            <button type="button" class="price-period-btn" data-period="day">За сутки</button>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="price" id="priceLabel">Цена за месяц (BYN) *</label>
                         <input type="number" id="price" placeholder="Например: 520" min="1">

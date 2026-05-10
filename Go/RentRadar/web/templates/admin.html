@@ -51,7 +51,7 @@
         <button type="button" class="admin-tab" data-panel="listings-all">Все объявления</button>
         <button type="button" class="admin-tab" data-panel="reviews-pending">Отзывы</button>
         <button type="button" class="admin-tab" data-panel="reports">Жалобы</button>
-        <button type="button" class="admin-tab" data-panel="saved-reports">Сохранённые отчёты</button>
+        <button type="button" class="admin-tab" data-panel="exports">Экспорт статистики</button>
     </div>
 
     <div id="adminMessage"></div>
@@ -86,8 +86,8 @@
                     <option value="rejected">Отклонённые</option>
                 </select>
             </label>
-            <label><input type="checkbox" id="listingsIncludeInactive"> Показать снятые (is_active=0)</label>
-            <button type="button" class="btn btn-outline btn-sm" id="reloadListingsBtn"><i class="fas fa-sync"></i> Обновить</button>
+            <label><input type="checkbox" id="listingsIncludeInactive"> Показать снятые </label>
+            <button type="button" class="btn btn-outline btn-sm" id="reloadListingsBtn"> Обновить</button>
         </div>
         <div class="table-wrap">
             <table class="admin-table">
@@ -118,7 +118,7 @@
                     <option value="dismissed">Отклонено</option>
                 </select>
             </label>
-            <button type="button" class="btn btn-outline btn-sm" id="reloadReportsBtn"><i class="fas fa-sync"></i> Обновить</button>
+            <button type="button" class="btn btn-outline btn-sm" id="reloadReportsBtn"> Обновить</button>
         </div>
         <div class="table-wrap">
             <table class="admin-table">
@@ -129,22 +129,16 @@
         </div>
     </div>
 
-    <div id="panel-saved-reports" class="admin-panel">
-        <div class="admin-toolbar" style="flex-direction:column;align-items:stretch;max-width:720px;">
-            <h3 style="margin:0 0 8px;font-size:1rem;">Новый отчёт</h3>
-            <input type="text" id="savedReportTitle" class="form-control" placeholder="Заголовок" style="margin-bottom:8px;">
-            <textarea id="savedReportBody" class="form-control" rows="5" placeholder="Текст отчёта (заметки модерации, итоги проверки...)"></textarea>
-            <button type="button" class="btn btn-primary" id="saveReportBtn" style="margin-top:10px;align-self:flex-start;">Сохранить отчёт</button>
-            <p style="margin:12px 0 6px;font-size:0.9rem;color:var(--text-muted);">Снимок включает всех пользователей, очереди модерации объявлений и отзывов, все жалобы и сводные счётчики. Текст отчётов сохраняется в файлы в каталоге <code>data/admin_reports/</code> на сервере.</p>
-            <button type="button" class="btn btn-outline" id="saveFullSnapshotBtn" style="align-self:flex-start;">Сохранить полный снимок панели</button>
-        </div>
-        <h3 style="margin:24px 0 12px;font-size:1rem;">Сохранённые</h3>
-        <div class="table-wrap">
-            <table class="admin-table">
-                <thead><tr><th>ID</th><th>Заголовок</th><th>Дата</th><th></th></tr></thead>
-                <tbody id="savedReportsBody"></tbody>
-            </table>
-            <div id="savedReportsEmpty" class="empty-admin" hidden>Нет сохранённых отчётов</div>
+    <div id="panel-exports" class="admin-panel">
+        <div class="table-wrap" style="padding:20px;">
+            <h3 style="margin-top:0;">Скачать статистику</h3>
+            <p style="color:var(--text-muted); margin-bottom:16px;">Экспортируется отдельно в JSON.</p>
+            <div class="row-actions" style="display:flex;flex-direction:column;align-items:flex-start;gap:10px;">
+                <button type="button" class="btn btn-primary btn-sm" id="exportUsersJsonBtn">Пользователи JSON</button>
+                <button type="button" class="btn btn-primary btn-sm" id="exportPopularityJsonBtn">Популярность объявлений JSON</button>
+                <button type="button" class="btn btn-primary btn-sm" id="exportReportsJsonBtn">Жалобы JSON</button>
+                <button type="button" class="btn btn-primary btn-sm" id="exportReviewsJsonBtn">Отзывы JSON</button>
+            </div>
         </div>
     </div>
 </main>
@@ -154,8 +148,8 @@
         <h2>Профиль пользователя</h2>
         <div id="userModalContent"></div>
         <div class="modal-actions">
-            <button type="button" class="btn btn-danger" id="userModalBlock"><i class="fas fa-ban"></i> Заблокировать</button>
-            <button type="button" class="btn btn-primary" id="userModalUnblock"><i class="fas fa-unlock"></i> Разблокировать</button>
+            <button type="button" class="btn btn-danger" id="userModalBlock">Заблокировать</button>
+            <button type="button" class="btn btn-primary" id="userModalUnblock">Разблокировать</button>
             <button type="button" class="btn btn-outline" id="userModalClose">Закрыть</button>
         </div>
     </div>
@@ -189,7 +183,7 @@
                 <div class="full"><label>Фото (URL через запятую)</label><textarea id="editPhotos" rows="2" placeholder="/static/uploads/listings/1_0.jpg,..."></textarea></div>
             </div>
             <div class="modal-actions">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
                 <button type="button" class="btn btn-outline" id="listingModalClose">Отмена</button>
             </div>
         </form>

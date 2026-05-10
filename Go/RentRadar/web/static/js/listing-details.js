@@ -28,6 +28,14 @@ function initReviewStarPicker(mount) {
     setRating(Number(hidden.value) || 5);
 }
 
+function extractPricePeriodMeta(rawDescription) {
+    const raw = String(rawDescription || '');
+    const m = raw.match(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i);
+    const period = m ? (String(m[1]).toLowerCase() === 'day' ? 'day' : 'month') : 'month';
+    const description = raw.replace(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i, '');
+    return { period, description };
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const root = document.getElementById('detailsRoot');
     const id = new URLSearchParams(window.location.search).get('id');
@@ -189,22 +197,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!res.ok) throw new Error(listing.error || 'Ошибка загрузки');
 
         const photos = (listing.photos || '').split(',').map((s) => s.trim()).filter(Boolean);
-        const img = photos[0] || 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=900&h=500&fit=crop';
+        const images = photos.length > 0 ? photos : ['https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=900&h=500&fit=crop'];
+        const meta = extractPricePeriodMeta(listing.description || '');
+        const rentSuffix = listing.listing_type === 'rent' ? (meta.period === 'day' ? '/ сутки' : '/ месяц') : '';
         root.innerHTML = `
             <div style="display:flex;flex-direction:column;gap:20px;">
             <article class="ld-article-grid" style="display:grid; grid-template-columns:1.4fr 1fr; gap:18px;">
                 <div>
-                    <img src="${escapeHtml(img)}" alt="${escapeHtml(listing.title || '')}" style="width:100%; max-height:440px; object-fit:cover; border-radius:12px;">
+                    <div class="ld-carousel" data-index="0">
+                        <button type="button" class="ld-carousel-arrow prev" aria-label="Предыдущее фото"><i class="fas fa-chevron-left"></i></button>
+                        <img id="ldCarouselImage" src="${escapeHtml(images[0])}" alt="${escapeHtml(listing.title || '')}" style="width:100%; max-height:440px; object-fit:cover; border-radius:12px;">
+                        <button type="button" class="ld-carousel-arrow next" aria-label="Следующее фото"><i class="fas fa-chevron-right"></i></button>
+                        <div class="ld-carousel-counter" id="ldCarouselCounter">1 / ${images.length}</div>
+                    </div>
                     <div style="margin-top:14px; background:white; border:1px solid var(--border-color); border-radius:12px; padding:14px;">
                         <h2 style="margin:0 0 10px;">${escapeHtml(listing.title || '')}</h2>
                         <p style="margin:0 0 8px;"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(listing.address || listing.city || '')}</p>
-                        <p style="margin:0 0 8px;">${escapeHtml(listing.description || '')}</p>
+                        <p style="margin:0 0 8px;">${escapeHtml(meta.description || '')}</p>
                         <p style="margin:0; color:var(--text-muted);">${listing.rooms || 0} комн. · ${listing.area || 0} м² · ${listing.floor || 0}/${listing.total_floors || 0} эт.</p>
                     </div>
                 </div>
                 <div class="ld-sidebar-stack">
                     <div class="ld-sidebar-card">
-                        <div class="ld-price-tag">${Number(listing.price || 0).toLocaleString()} <span style="font-size:1rem;font-weight:600;">BYN</span></div>
+                        <div class="ld-price-tag">${Number(listing.price || 0).toLocaleString()} <span style="font-size:1rem;font-weight:600;">BYN ${rentSuffix}</span></div>
                         <p class="ld-meta-line">Тип: <strong>${listing.listing_type === 'sale' ? 'Продажа' : 'Аренда'}</strong></p>
                     </div>
                     <div class="ld-sidebar-card ld-contact-card">
@@ -225,6 +240,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             </article>
             <section id="reviewsMount" class="ld-reviews-section">Загрузка отзывов…</section>
             </div>`;
+
+        const carousel = root.querySelector('.ld-carousel');
+        const carouselImage = document.getElementById('ldCarouselImage');
+        const carouselCounter = document.getElementById('ldCarouselCounter');
+        function setCarouselIndex(nextIdx) {
+            if (!carousel || !carouselImage || images.length === 0) return;
+            let i = Number(nextIdx) || 0;
+            if (i < 0) i = images.length - 1;
+            if (i >= images.length) i = 0;
+            carousel.dataset.index = String(i);
+            carouselImage.src = images[i];
+            if (carouselCounter) carouselCounter.textContent = `${i + 1} / ${images.length}`;
+        }
+        carousel?.querySelector('.prev')?.addEventListener('click', () => {
+            setCarouselIndex(Number(carousel.dataset.index || 0) - 1);
+        });
+        carousel?.querySelector('.next')?.addEventListener('click', () => {
+            setCarouselIndex(Number(carousel.dataset.index || 0) + 1);
+        });
 
         document.getElementById('startChatBtn')?.addEventListener('click', async () => {
             const userId = localStorage.getItem('userId');

@@ -152,6 +152,43 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     background: var(--border-color);
     margin: 16px 0;
 }
+
+.ld-carousel {
+    position: relative;
+}
+
+.ld-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(17, 24, 39, 0.55);
+    color: #fff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.ld-carousel-arrow.prev {
+    left: 12px;
+}
+
+.ld-carousel-arrow.next {
+    right: 12px;
+}
+
+.ld-carousel-counter {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    background: rgba(17, 24, 39, 0.6);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+}
 .ld-sidebar-stack {
     display: flex;
     flex-direction: column;

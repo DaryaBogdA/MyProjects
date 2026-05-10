@@ -29,11 +29,13 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 	maxArea := r.URL.Query().Get("maxArea")
 	rooms := r.URL.Query().Get("rooms")
 
-	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
-          FLOOR, total_floors, address, city, district, available_from, deposit, 
-          utilities_included, photos, is_active, moderation_status, views_count,
-          latitude, longitude
-          FROM listings WHERE is_active = 1 AND moderation_status = 'approved'`
+	query := `SELECT l.id, l.user_id, l.title, l.description, l.listing_type, l.price, l.AREA, l.rooms, 
+          l.FLOOR, l.total_floors, l.address, l.city, l.district, l.available_from, l.deposit, 
+          l.utilities_included, l.photos, l.is_active, l.moderation_status, l.views_count,
+          l.latitude, l.longitude,
+          COALESCE((SELECT AVG(r.rating) FROM reviews r WHERE r.listing_id = l.id AND COALESCE(r.moderation_status, 'approved') = 'approved'), 0) as average_rating,
+          COALESCE((SELECT COUNT(*) FROM reviews r2 WHERE r2.listing_id = l.id AND COALESCE(r2.moderation_status, 'approved') = 'approved'), 0) as reviews_count
+          FROM listings l WHERE l.is_active = 1 AND l.moderation_status = 'approved'`
 
 	args := []interface{}{}
 
@@ -102,7 +104,7 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 		err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
 			&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive,
-			&l.ModerationStatus, &l.ViewsCount, &lat, &lng)
+			&l.ModerationStatus, &l.ViewsCount, &lat, &lng, &l.AverageRating, &l.ReviewsCount)
 
 		if err != nil {
 			continue

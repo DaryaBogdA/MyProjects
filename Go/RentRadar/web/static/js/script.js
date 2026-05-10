@@ -664,7 +664,7 @@ async function loadListings() {
                     <div class="listing-content">
                         <div class="listing-header">
                             <h4 class="listing-title">${escapeHtml(listing.title)}</h4>
-                            <div class="listing-price">${listing.price.toLocaleString()} BYN <span>${listing.listing_type === 'rent' ? '/ месяц' : ''}</span></div>
+                            <div class="listing-price">${listing.price.toLocaleString()} BYN <span>${listingPriceSuffix(listing)}</span></div>
                         </div>
                         <div class="listing-location">
                             <i class="fas fa-map-marker-alt"></i> ${escapeHtml(listing.district || listing.city)}
@@ -673,7 +673,7 @@ async function loadListings() {
                             <span><i class="fas fa-vector-square"></i> ${listing.area} м²</span>
                             <span><i class="fas fa-layer-group"></i> ${listing.floor}/${listing.total_floors} эт.</span>
                             ${listing.listing_type === 'rent' ? '<span><i class="fas fa-bed"></i> ' + listing.rooms + ' комн.</span>' : ''}
-                            <span class="rating"><i class="fas fa-star"></i> 4.8 (15)</span>
+                            <span class="rating"><i class="fas fa-star"></i> ${listingRatingLabel(listing)}</span>
                         </div>
                         <div class="listing-footer">
                             <span class="available-date"><i class="far fa-calendar-alt"></i> ${listing.available_from ? `Свободно с ${new Date(listing.available_from).toLocaleDateString()}` : 'В продаже'}</span>
@@ -1332,6 +1332,27 @@ function escapeHtml(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+
+function extractListingMetaFromDescription(rawDescription) {
+    const raw = String(rawDescription || '');
+    const m = raw.match(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i);
+    const pricePeriod = m ? (String(m[1]).toLowerCase() === 'day' ? 'day' : 'month') : 'month';
+    const description = raw.replace(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i, '');
+    return { description, pricePeriod };
+}
+
+function listingPriceSuffix(listing) {
+    if (listing.listing_type !== 'rent') return '';
+    const meta = extractListingMetaFromDescription(listing.description || '');
+    return meta.pricePeriod === 'day' ? '/ сутки' : '/ месяц';
+}
+
+function listingRatingLabel(listing) {
+    const avg = Number(listing.average_rating || 0);
+    const cnt = Number(listing.reviews_count || 0);
+    if (cnt <= 0) return 'нет отзывов';
+    return `${avg.toFixed(1)} (${cnt})`;
 }
 
 function setupMobileMenu() {

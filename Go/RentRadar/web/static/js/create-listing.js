@@ -15,6 +15,7 @@ async function initCreateListing() {
 
     let selectedFiles = [];
     let currentType = 'rent';
+    let currentRentPricePeriod = 'month';
     let editListingId = null;
     let existingPhotoCount = 0;
     const params = new URLSearchParams(window.location.search);
@@ -31,6 +32,9 @@ async function initCreateListing() {
     const cityCustomWrap = document.getElementById('cityCustomWrap');
     const cityCustom = document.getElementById('cityCustom');
     const existingPhotosNote = document.getElementById('existingPhotosNote');
+    const floorFormGroup = document.getElementById('floorFormGroup');
+    const floorInput = document.getElementById('floor');
+    const propertyTypeSelect = document.getElementById('propertyType');
 
     function fillCitySelect() {
         if (!citySelect || !window.BELARUS_CITIES) return;
@@ -62,6 +66,23 @@ async function initCreateListing() {
             return (cityCustom && cityCustom.value.trim()) ? cityCustom.value.trim() : '';
         }
         return citySelect.value.trim();
+    }
+
+    function parsePricePeriodFromDescription(raw) {
+        const txt = String(raw || '');
+        const m = txt.match(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i);
+        if (!m) return { period: 'month', description: txt };
+        return {
+            period: String(m[1] || 'month').toLowerCase() === 'day' ? 'day' : 'month',
+            description: txt.replace(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i, ''),
+        };
+    }
+
+    function withPricePeriodMarker(description) {
+        const clean = String(description || '').replace(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i, '');
+        if (currentType !== 'rent') return clean;
+        const p = currentRentPricePeriod === 'day' ? 'day' : 'month';
+        return `[[RR_PRICE_PERIOD:${p}]] ${clean}`;
     }
 
     fillCitySelect();
@@ -176,7 +197,9 @@ async function initCreateListing() {
         if (subEl) subEl.textContent = 'Внесите изменения и сохраните. Объявление снова уйдёт на модерацию.';
 
         document.getElementById('listingTitle').value = L.title || '';
-        document.getElementById('description').value = L.description || '';
+        const parsedPeriod = parsePricePeriodFromDescription(L.description || '');
+        currentRentPricePeriod = parsedPeriod.period;
+        document.getElementById('description').value = parsedPeriod.description;
         if (L.rooms != null) document.getElementById('rooms').value = String(L.rooms);
         if (L.area != null) document.getElementById('area').value = String(L.area);
         if (L.floor != null) document.getElementById('floor').value = String(L.floor);
@@ -295,8 +318,8 @@ async function initCreateListing() {
         if (type === 'rent') {
             rentOnlyFields.forEach(field => field.classList.remove('hidden'));
             saleOnlyFields.forEach(field => field.classList.add('hidden'));
-            if (pricePeriodLabel) pricePeriodLabel.textContent = '(за месяц)';
-            if (priceLabel) priceLabel.textContent = 'Цена за месяц (BYN) *';
+            if (pricePeriodLabel) pricePeriodLabel.textContent = currentRentPricePeriod === 'day' ? '(за сутки)' : '(за месяц)';
+            if (priceLabel) priceLabel.textContent = currentRentPricePeriod === 'day' ? 'Цена за сутки (BYN) *' : 'Цена за месяц (BYN) *';
             if (utilitiesText) utilitiesText.textContent = 'Включены в стоимость';
             document.getElementById('availableFrom')?.setAttribute('required', 'required');
         } else {
@@ -313,13 +336,56 @@ async function initCreateListing() {
             saleBtn.classList.toggle('active', type === 'sale');
         }
         currentType = type;
+        updateFloorFieldByPropertyType();
+        updateRentPricePeriodButtons();
+    }
+
+    function updateRentPricePeriodButtons() {
+        document.querySelectorAll('#pricePeriodSwitch .price-period-btn').forEach((btn) => {
+            btn.classList.toggle('active', btn.dataset.period === currentRentPricePeriod);
+        });
+        const pricePeriodLabel = document.getElementById('pricePeriodLabel');
+        const priceLabel = document.getElementById('priceLabel');
+        if (currentType === 'rent') {
+            if (pricePeriodLabel) pricePeriodLabel.textContent = currentRentPricePeriod === 'day' ? '(за сутки)' : '(за месяц)';
+            if (priceLabel) priceLabel.textContent = currentRentPricePeriod === 'day' ? 'Цена за сутки (BYN) *' : 'Цена за месяц (BYN) *';
+        }
+    }
+
+    function updateFloorFieldByPropertyType() {
+        const isHouse = propertyTypeSelect?.value === 'house';
+        if (floorFormGroup) {
+            floorFormGroup.classList.toggle('hidden', !!isHouse);
+            floorFormGroup.style.display = isHouse ? 'none' : '';
+        }
+        if (floorInput) {
+            if (isHouse) {
+                floorInput.removeAttribute('required');
+                floorInput.disabled = true;
+                floorInput.value = '';
+            } else {
+                floorInput.setAttribute('required', 'required');
+                floorInput.disabled = false;
+            }
+        }
     }
 
     if (rentBtn && saleBtn) {
         rentBtn.addEventListener('click', () => updateFormForType('rent'));
         saleBtn.addEventListener('click', () => updateFormForType('sale'));
     }
-    updateFormForType('rent');
+    document.querySelectorAll('#pricePeriodSwitch .price-period-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentRentPricePeriod = btn.dataset.period === 'day' ? 'day' : 'month';
+            updateRentPricePeriodButtons();
+        });
+    });
+    propertyTypeSelect?.addEventListener('change', updateFloorFieldByPropertyType);
+    propertyTypeSelect?.addEventListener('input', updateFloorFieldByPropertyType);
+    updateRentPricePeriodButtons();
+    updateFloorFieldByPropertyType();
+    updateFormForType(currentType);
 
     const photoInput = document.getElementById('photoInput');
     const selectPhotosBtn = document.getElementById('selectPhotosBtn');
@@ -457,20 +523,23 @@ async function initCreateListing() {
             isValid = false;
         }
 
+        const isHouse = propertyTypeSelect?.value === 'house';
         const floor = document.getElementById('floor')?.value;
-        if (!floor) {
-            showError('floor', 'Введите этаж');
-            isValid = false;
-        } else if (parseInt(floor) < 1) {
-            showError('floor', 'Этаж должен быть больше 0');
-            isValid = false;
+        if (!isHouse) {
+            if (!floor) {
+                showError('floor', 'Введите этаж');
+                isValid = false;
+            } else if (parseInt(floor) < 1) {
+                showError('floor', 'Этаж должен быть больше 0');
+                isValid = false;
+            }
         }
 
         const totalFloors = document.getElementById('totalFloors')?.value;
         if (!totalFloors) {
             showError('totalFloors', 'Введите количество этажей в доме');
             isValid = false;
-        } else if (parseInt(totalFloors) < parseInt(floor || 1)) {
+        } else if (!isHouse && parseInt(totalFloors) < parseInt(floor || 1)) {
             showError('totalFloors', 'Этажей в доме не может быть меньше текущего этажа');
             isValid = false;
         }
@@ -579,13 +648,13 @@ async function initCreateListing() {
             formData.append('property_type', document.getElementById('propertyType').value);
             formData.append('rooms', document.getElementById('rooms').value);
             formData.append('area', document.getElementById('area').value);
-            formData.append('floor', document.getElementById('floor').value);
+            formData.append('floor', propertyTypeSelect?.value === 'house' ? '0' : document.getElementById('floor').value);
             formData.append('total_floors', document.getElementById('totalFloors').value);
             formData.append('address', document.getElementById('address').value.trim());
             formData.append('city', getResolvedCity());
             formData.append('district', document.getElementById('district').value.trim());
             formData.append('price', document.getElementById('price').value);
-            formData.append('description', document.getElementById('description').value.trim());
+            formData.append('description', withPricePeriodMarker(document.getElementById('description').value.trim()));
             formData.append('listing_type', currentType);
             formData.append('contact_name', document.getElementById('contactName').value.trim());
             formData.append('contact_phone', document.getElementById('contactPhone').value.trim());

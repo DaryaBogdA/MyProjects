@@ -56,6 +56,8 @@ type Listing struct {
 	IsActive          bool       `json:"is_active" db:"is_active"`
 	ModerationStatus  string     `json:"moderation_status" db:"moderation_status"`
 	ViewsCount        int        `json:"views_count" db:"views_count"`
+	AverageRating     float64    `json:"average_rating,omitempty" db:"average_rating"`
+	ReviewsCount      int        `json:"reviews_count,omitempty" db:"reviews_count"`
 	Latitude          *float64   `json:"latitude,omitempty" db:"latitude"`
 	Longitude         *float64   `json:"longitude,omitempty" db:"longitude"`
 }

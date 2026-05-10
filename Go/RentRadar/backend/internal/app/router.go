@@ -63,11 +63,6 @@ func NewRouter(db *sql.DB, projectRoot string) *http.ServeMux {
 	mux.HandleFunc("GET /api/admin/reviews/pending", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.AdminListPendingReviews)))
 	mux.HandleFunc("PUT /api/admin/reviews/{id}/moderation", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.AdminSetReviewModeration)))
 
-	mux.HandleFunc("POST /api/admin/saved-reports/snapshot", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.AdminCreateSnapshotReport)))
-	mux.HandleFunc("POST /api/admin/saved-reports", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.AdminCreateSavedReport)))
-	mux.HandleFunc("GET /api/admin/saved-reports/{id}", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.AdminGetSavedReport)))
-	mux.HandleFunc("GET /api/admin/saved-reports", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.AdminListSavedReports)))
-
 	templatesDir := filepath.Join(projectRoot, "web", "templates")
 
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir(staticRoot))))

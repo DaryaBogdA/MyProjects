@@ -224,6 +224,7 @@ func (h *AuthHandler) UpdateProfile(w http.ResponseWriter, r *http.Request) {
 	var req struct {
 		FirstName string `json:"first_name"`
 		LastName  string `json:"last_name"`
+		Email     string `json:"email"`
 		Phone     string `json:"phone"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -231,9 +232,19 @@ func (h *AuthHandler) UpdateProfile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := h.DB.Exec("UPDATE users SET first_name = ?, last_name = ?, phone = ? WHERE id = ?",
-		req.FirstName, req.LastName, req.Phone, userID)
+	email := strings.TrimSpace(strings.ToLower(req.Email))
+	if email == "" {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "email required"})
+		return
+	}
+	_, err := h.DB.Exec("UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?",
+		req.FirstName, req.LastName, email, req.Phone, userID)
 	if err != nil {
+		var sqlErr *mysql.MySQLError
+		if errors.As(err, &sqlErr) && sqlErr.Number == 1062 {
+			writeJSON(w, http.StatusConflict, map[string]string{"error": "email already used"})
+			return
+		}
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
