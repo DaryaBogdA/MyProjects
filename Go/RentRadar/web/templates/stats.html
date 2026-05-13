@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentRadar — Статистика</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .stats-page h1 { margin-bottom: 8px; }
+        .stats-page .lead { color: var(--text-muted); margin-bottom: 28px; max-width: 720px; line-height: 1.5; }
+        .stats-section {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+        .stats-section h2 {
+            margin: 0 0 18px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .stats-section-grid .listings-grid {
+            margin-top: 0;
+        }
+        .stats-listing-card .listing-image {
+            position: relative;
+        }
+        .stats-card-rank {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            background: rgba(17, 24, 39, 0.75);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.02em;
+        }
+        .stats-empty { color: var(--text-muted); margin: 0; }
+        .stats-sort-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .stats-sort-label { font-weight: 600; color: var(--text-dark); margin-right: 4px; }
+        .stats-sort-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .stats-sort-btn:hover { border-color: var(--primary-teal); color: var(--primary-teal); }
+        .stats-sort-btn.active {
+            background: #e8f3f2;
+            border-color: var(--primary-teal);
+            color: var(--primary-teal);
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container header-container"></div>
+</header>
+<main class="container stats-page" style="padding: 28px 0 48px;">
+    <h1 class="page-title">Статистика каталога</h1>
+    <p class="lead">Полный список объявлений: по рейтингу — сначала с отзывами (по убыванию оценки), затем без отзывов по алфавиту названия; по просмотрам — по убыванию числа просмотров.</p>
+    <div id="statsSortToolbar"></div>
+    <div id="statsRoot">
+        <p class="stats-empty">Загрузка…</p>
+    </div>
+</main>
+<footer class="footer"></footer>
+<script src="/static/js/components.js"></script>
+<script src="/static/js/script.js"></script>
+<script src="/static/js/stats.js"></script>
+</body>
+</html>

@@ -47,7 +47,12 @@
             <div id="convList"></div>
         </aside>
         <section style="border:1px solid var(--border-color); border-radius:12px; background:white; display:flex; flex-direction:column; min-height:520px;">
-            <div id="chatHeader" style="padding:10px 12px; border-bottom:1px solid var(--border-color); font-weight:600;">Выберите диалог</div>
+            <div id="chatHeader" style="padding:10px 12px; border-bottom:1px solid var(--border-color); font-weight:600;">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;">
+                    <span id="chatHeaderTitle">Выберите диалог</span>
+                    <button type="button" id="deleteConvBtn" class="btn btn-outline btn-sm" style="display:none;flex-shrink:0;">Удалить диалог</button>
+                </div>
+            </div>
             <div id="chatMessages" style="padding:12px; flex:1; overflow:auto;"></div>
         </section>
     </div>

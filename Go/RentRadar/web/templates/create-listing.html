@@ -182,8 +182,6 @@
                             <option value="apartment">Квартира</option>
                             <option value="room">Комната</option>
                             <option value="house">Дом</option>
-                            <option value="land" class="sale-only hidden">Участок</option>
-                            <option value="commercial" class="sale-only hidden">Коммерческая</option>
                         </select>
                         <div class="error-message" id="propertyTypeError"></div>
                     </div>
@@ -197,8 +195,6 @@
                             <option value="3">3 комнаты</option>
                             <option value="4">4 комнаты</option>
                             <option value="5">5+ комнат</option>
-                            <option value="studio" class="sale-only hidden">Студия</option>
-                            <option value="free" class="sale-only hidden">Свободная планировка</option>
                         </select>
                         <div class="error-message" id="roomsError"></div>
                     </div>
@@ -389,7 +385,7 @@
                         <input type="checkbox" id="amenityParking">
                         <span class="checkmark"></span> Парковка
                     </label>
-                    <label class="checkbox-container">
+                    <label class="checkbox-container" id="amenityElevatorWrap">
                         <input type="checkbox" id="amenityElevator">
                         <span class="checkmark"></span> Лифт
                     </label>
@@ -405,14 +401,6 @@
                         <input type="checkbox" id="amenityPets">
                         <span class="checkmark"></span> Можно с животными
                     </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="amenityBalcony">
-                        <span class="checkmark"></span> Балкон
-                    </label>
-                    <label class="checkbox-container rent-only">
-                        <input type="checkbox" id="amenityWasher">
-                        <span class="checkmark"></span> Стиральная машина
-                    </label>
                     <label class="checkbox-container rent-only">
                         <input type="checkbox" id="amenityWifi">
                         <span class="checkmark"></span> Wi-Fi
@@ -421,7 +409,7 @@
                         <input type="checkbox" id="amenityRenovation">
                         <span class="checkmark"></span> Евроремонт
                     </label>
-                    <label class="checkbox-container sale-only hidden">
+                    <label class="checkbox-container sale-only hidden" id="amenityNewBuildingWrap">
                         <input type="checkbox" id="amenityNewBuilding">
                         <span class="checkmark"></span> Новостройка
                     </label>

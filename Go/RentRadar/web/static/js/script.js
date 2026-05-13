@@ -565,11 +565,12 @@ let currentFilters = {
     children: false,
     pets: false,
     parking: false,
-    elevator: false
+    elevator: false,
+    rentPricePeriod: 'month'
 };
 
 async function loadListings() {
-    const listingsGrid = document.querySelector('.listings-grid');
+    const listingsGrid = document.querySelector('.listings-section .listings-grid');
     if (!listingsGrid) return;
 
     const isSalePage = window.location.pathname.includes('sale.html');
@@ -592,10 +593,10 @@ async function loadListings() {
     }
 
     if (currentFilters.minPrice && currentFilters.minPrice !== '') {
-        appendParam('minPrice', currentFilters.minPrice);
+        if (isSalePage) appendParam('minPrice', currentFilters.minPrice);
     }
     if (currentFilters.maxPrice && currentFilters.maxPrice !== '') {
-        appendParam('maxPrice', currentFilters.maxPrice);
+        if (isSalePage) appendParam('maxPrice', currentFilters.maxPrice);
     }
 
     if (currentFilters.minArea && currentFilters.minArea !== '') {
@@ -617,14 +618,12 @@ async function loadListings() {
         let filteredListings = listings;
 
         if (currentFilters.propertyType && currentFilters.propertyType !== 'all') {
-            filteredListings = filteredListings.filter(l =>
-                l.property_type === currentFilters.propertyType ||
-                (currentFilters.propertyType === 'apartment' && l.title?.toLowerCase().includes('квартир')) ||
-                (currentFilters.propertyType === 'house' && l.title?.toLowerCase().includes('дом')) ||
-                (currentFilters.propertyType === 'studio' && l.title?.toLowerCase().includes('студи')) ||
-                (currentFilters.propertyType === 'room' && l.title?.toLowerCase().includes('комнат')) ||
-                (currentFilters.propertyType === 'land' && (l.title?.toLowerCase().includes('участ') || l.description?.toLowerCase().includes('участ'))) ||
-                (currentFilters.propertyType === 'commercial' && (l.title?.toLowerCase().includes('коммерч') || l.description?.toLowerCase().includes('офис')))
+            filteredListings = filteredListings.filter(
+                (l) =>
+                    l.property_type === currentFilters.propertyType ||
+                    (currentFilters.propertyType === 'apartment' && l.title?.toLowerCase().includes('квартир')) ||
+                    (currentFilters.propertyType === 'house' && l.title?.toLowerCase().includes('дом')) ||
+                    (currentFilters.propertyType === 'room' && l.title?.toLowerCase().includes('комнат'))
             );
         }
 
@@ -644,6 +643,21 @@ async function loadListings() {
             filteredListings = filteredListings.filter(l => l.utilities_included === true);
         }
 
+        if (!isSalePage) {
+            const rp = currentFilters.rentPricePeriod || 'month';
+            const minP = currentFilters.minPrice !== '' ? Number(currentFilters.minPrice) : null;
+            const maxP = currentFilters.maxPrice !== '' ? Number(currentFilters.maxPrice) : null;
+            filteredListings = filteredListings.filter((l) => {
+                if (l.listing_type !== 'rent') return true;
+                const meta = extractListingMetaFromDescription(l.description || '');
+                if (meta.pricePeriod !== rp) return false;
+                const price = Number(l.price || 0);
+                if (minP != null && !Number.isNaN(minP) && price < minP) return false;
+                if (maxP != null && !Number.isNaN(maxP) && price > maxP) return false;
+                return true;
+            });
+        }
+
         if (listingsGrid) {
             if (filteredListings.length === 0) {
                 listingsGrid.innerHTML = '<p class="no-results">Нет объявлений, соответствующих фильтрам</p>';
@@ -653,7 +667,12 @@ async function loadListings() {
             }
 
             listingsGrid.innerHTML = filteredListings.map(listing => {
-                const badge = listing.listing_type === 'sale' ? '<span class="badge">Продажа</span>' : '';
+                const badge =
+                    listing.listing_type === 'sale'
+                        ? '<span class="badge badge-sale">Продажа</span>'
+                        : listing.listing_type === 'rent'
+                          ? '<span class="badge badge-rent">Аренда</span>'
+                          : '';
 
                 return `
                 <article class="listing-card">
@@ -880,15 +899,10 @@ function applyFilters() {
     if (activeChip && activeChip.textContent.trim() !== 'Квартира') {
         const propertyText = activeChip.textContent.trim();
         if (propertyText === 'Дом') currentFilters.propertyType = 'house';
-        else if (propertyText === 'Студия') currentFilters.propertyType = 'studio';
         else if (propertyText === 'Комната') currentFilters.propertyType = 'room';
-        else if (propertyText === 'Апартаменты') currentFilters.propertyType = 'apartments';
-        else if (propertyText === 'Дача') currentFilters.propertyType = 'cottage';
-        else if (propertyText === 'Участок') currentFilters.propertyType = 'land';
-        else if (propertyText === 'Коммерческая') currentFilters.propertyType = 'commercial';
         else currentFilters.propertyType = 'all';
     } else {
-        currentFilters.propertyType = 'all'; 
+        currentFilters.propertyType = 'all';
     }
 
     
@@ -953,7 +967,15 @@ function applyFilters() {
     currentFilters.parking = document.getElementById('filter-parking')?.checked || false;
     currentFilters.elevator = document.getElementById('filter-elevator')?.checked || false;
 
-    
+    const rentPeriodGroup = document.getElementById('rent-price-period-group');
+    if (rentPeriodGroup) {
+        const activeRP = rentPeriodGroup.querySelector('.filter-chip.active');
+        const dp = activeRP?.getAttribute('data-rent-price-period');
+        currentFilters.rentPricePeriod = dp === 'day' ? 'day' : 'month';
+    } else {
+        currentFilters.rentPricePeriod = 'month';
+    }
+
     loadListings();
 }
 
@@ -1009,11 +1031,31 @@ function resetFilters() {
         children: false,
         pets: false,
         parking: false,
-        elevator: false
+        elevator: false,
+        rentPricePeriod: 'month'
     };
 
-    
+    activateDefaultFilterChips();
+
     loadListings();
+}
+
+
+function activateDefaultFilterChips() {
+    const isSalePage = window.location.pathname.includes('sale.html');
+    document.querySelectorAll('.filter-chip').forEach((chip) => chip.classList.remove('active'));
+    if (isSalePage) {
+        const first = document.querySelector('.filter-chip');
+        if (first) first.classList.add('active');
+    } else {
+        document.querySelectorAll('.filter-group').forEach((g) => {
+            const lab = g.querySelector('label')?.textContent?.trim();
+            if (lab === 'Тип жилья' || lab === 'Период цены') {
+                const fc = g.querySelector('.filter-chip');
+                if (fc) fc.classList.add('active');
+            }
+        });
+    }
 }
 
 
@@ -1029,15 +1071,7 @@ function initMainPage() {
     }
 
     
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-        chip.classList.remove('active');
-    });
-
-    
-    if (isSalePage) {
-        const firstChip = document.querySelector('.filter-chip');
-        if (firstChip) firstChip.classList.add('active');
-    }
+    activateDefaultFilterChips();
 
     
     document.querySelectorAll('.room-btn').forEach(btn => {
@@ -1121,7 +1155,7 @@ function showMap() {
 
 
 async function loadSaleListings() {
-    const listingsGrid = document.querySelector('.listings-grid');
+    const listingsGrid = document.querySelector('.listings-section .listings-grid');
     if (!listingsGrid) return;
 
     
@@ -1139,7 +1173,7 @@ async function loadSaleListings() {
             <article class="listing-card">
                 <div class="listing-image">
                     <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop'}" alt="${listing.title}">
-                    <span class="badge">Продажа</span>
+                    <span class="badge badge-sale">Продажа</span>
                 </div>
                 <div class="listing-content">
                     <div class="listing-header">
@@ -1256,6 +1290,7 @@ function standardFooterHtml() {
                     <li><a href="/sale.html">Продажа</a></li>
                     <li><a href="/news.html">Новости</a></li>
                     <li><a href="/about.html">О нас</a></li>
+                    <li><a href="/stats.html">Статистика</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -1302,6 +1337,7 @@ function standardHeaderHtml() {
             <li><a href="/sale.html">Продажа</a></li>
             <li><a href="/news.html">Новости</a></li>
             <li><a href="/about.html">О нас</a></li>
+            <li><a href="/stats.html">Статистика</a></li>
         </ul>
     </nav>
     <div class="user-actions"></div>
@@ -1391,6 +1427,8 @@ function setActiveMenuItem() {
         if (currentPage === 'index.html' && (href === 'index.html' || href === '#')) {
             link.classList.add('active');
         } else if (currentPage === 'sale.html' && href === 'sale.html') {
+            link.classList.add('active');
+        } else if (currentPage === 'stats.html' && href === 'stats.html') {
             link.classList.add('active');
         } else if (href === currentPage) {
             link.classList.add('active');

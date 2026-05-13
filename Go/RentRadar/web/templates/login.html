@@ -24,6 +24,29 @@
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .auth-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .auth-modal-overlay.show { display: flex; }
+        .auth-modal-box {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .auth-modal-box h3 { margin: 0 0 12px; font-size: 1.15rem; }
+        .auth-modal-box p { margin: 0 0 12px; color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
     </style>
 </head>
 <body class="auth-page">
@@ -133,7 +156,7 @@
                     <label class="checkbox-container">
                         <input type="checkbox" id="registerTerms" required>
                         <span class="checkmark"></span>
-                        Я соглашаюсь с <a href="#">условиями использования</a>
+                        Я соглашаюсь с <a href="/terms.html" id="termsOfUseTrigger">условиями использования</a>
                     </label>
                     <div class="error-message" id="registerTermsError"></div>
                 </div>
@@ -151,6 +174,16 @@
     </div>
 </main>
 
+<div class="auth-modal-overlay" id="termsPreviewModal" aria-hidden="true">
+    <div class="auth-modal-box" role="dialog" aria-labelledby="termsPreviewTitle">
+        <h3 id="termsPreviewTitle">Условия использования RentRadar</h3>
+        <p>Регистрируясь, вы принимаете правила платформы: достоверные данные в объявлениях, добросовестное общение, соблюдение законодательства РБ.</p>
+        <p>Полный текст пользовательского соглашения находится на отдельной странице — его можно сохранить или распечатать.</p>
+        <button type="button" class="btn btn-primary" id="termsPreviewClose">Понятно</button>
+        <a href="/terms.html" class="btn btn-outline" style="margin-left:8px;display:inline-block;margin-top:8px;">Открыть полный текст</a>
+    </div>
+</div>
+
 <footer class="auth-footer">
     <div class="container">
         <p>&copy; 2026 RentRadar. Все права защищены.</p>
@@ -158,5 +191,32 @@
 </footer>
 
 <script src="/static/js/script.js?v=3"></script>
+<script>
+(function () {
+    var overlay = document.getElementById('termsPreviewModal');
+    var trigger = document.getElementById('termsOfUseTrigger');
+    var closeBtn = document.getElementById('termsPreviewClose');
+    function openTermsPreview(e) {
+        if (e) e.preventDefault();
+        if (!overlay) return;
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden', 'false');
+    }
+    function closeTermsPreview() {
+        if (!overlay) return;
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+    }
+    if (trigger) {
+        trigger.addEventListener('click', openTermsPreview);
+    }
+    if (closeBtn) closeBtn.addEventListener('click', closeTermsPreview);
+    if (overlay) {
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) closeTermsPreview();
+        });
+    }
+})();
+</script>
 </body>
 </html>

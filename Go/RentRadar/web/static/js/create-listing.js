@@ -338,6 +338,7 @@ async function initCreateListing() {
         currentType = type;
         updateFloorFieldByPropertyType();
         updateRentPricePeriodButtons();
+        updateHouseSensitiveAmenities();
     }
 
     function updateRentPricePeriodButtons() {
@@ -349,6 +350,38 @@ async function initCreateListing() {
         if (currentType === 'rent') {
             if (pricePeriodLabel) pricePeriodLabel.textContent = currentRentPricePeriod === 'day' ? '(за сутки)' : '(за месяц)';
             if (priceLabel) priceLabel.textContent = currentRentPricePeriod === 'day' ? 'Цена за сутки (BYN) *' : 'Цена за месяц (BYN) *';
+        }
+    }
+
+    function updateHouseSensitiveAmenities() {
+        const isHouse = propertyTypeSelect?.value === 'house';
+        const elevatorWrap = document.getElementById('amenityElevatorWrap');
+        const elevator = document.getElementById('amenityElevator');
+        if (elevatorWrap) {
+            elevatorWrap.classList.toggle('hidden', !!isHouse);
+        }
+        if (elevator) {
+            if (isHouse) {
+                elevator.checked = false;
+                elevator.disabled = true;
+            } else {
+                elevator.disabled = false;
+            }
+        }
+        const nbWrap = document.getElementById('amenityNewBuildingWrap');
+        const nb = document.getElementById('amenityNewBuilding');
+        if (nbWrap && currentType === 'sale') {
+            if (isHouse) {
+                nbWrap.classList.add('hidden');
+                if (nb) nb.checked = false;
+            } else {
+                nbWrap.classList.remove('hidden');
+            }
+        }
+        if (nb && currentType === 'sale' && isHouse) {
+            nb.disabled = true;
+        } else if (nb) {
+            nb.disabled = false;
         }
     }
 
@@ -368,6 +401,7 @@ async function initCreateListing() {
                 floorInput.disabled = false;
             }
         }
+        updateHouseSensitiveAmenities();
     }
 
     if (rentBtn && saleBtn) {
@@ -676,8 +710,6 @@ async function initCreateListing() {
             if (document.getElementById('amenityFurniture')?.checked) amenities.push('furniture');
             if (document.getElementById('amenityChildren')?.checked) amenities.push('children');
             if (document.getElementById('amenityPets')?.checked) amenities.push('pets');
-            if (document.getElementById('amenityBalcony')?.checked) amenities.push('balcony');
-            if (document.getElementById('amenityWasher')?.checked) amenities.push('washer');
             if (document.getElementById('amenityWifi')?.checked) amenities.push('wifi');
             if (document.getElementById('amenityRenovation')?.checked) amenities.push('renovation');
             if (document.getElementById('amenityNewBuilding')?.checked) amenities.push('new_building');

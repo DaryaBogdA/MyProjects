@@ -86,19 +86,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!res.ok) throw new Error(data.error || 'Не удалось обновить статус');
     }
 
+    async function cancelGuestBooking(id) {
+        const res = await fetch(`/api/bookings/${id}`, {
+            method: 'DELETE',
+            headers: { 'X-User-ID': uid },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Не удалось отменить бронирование');
+    }
+
+    async function startChatWithGuest(listingId, guestId) {
+        const res = await fetch('/api/messages/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-User-ID': uid },
+            body: JSON.stringify({ listing_id: listingId, guest_id: guestId }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Не удалось открыть чат');
+        window.location.href = `/messages.html?conversation=${data.conversation_id}`;
+    }
+
     function renderBookingCard(booking, isIncoming = false) {
         const firstPhoto = booking.photos ? booking.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop';
+
+        const chatGuestBtn =
+            isIncoming && booking.guest_id
+                ? `<button type="button" class="btn-booking btn-booking-outline" data-action="chat-guest" data-listing-id="${booking.listing_id}" data-guest-id="${booking.guest_id}">
+                        <i class="fas fa-comment-dots"></i> Написать гостю
+                    </button>`
+                : '';
 
         let actionsHtml = '';
         if (isIncoming && booking.status === 'pending') {
             actionsHtml = `
-                <div class="booking-actions">
+                <div class="booking-actions" style="flex-wrap:wrap;">
                     <button class="btn-booking btn-booking-primary" data-action="approve" data-id="${booking.id}">
                         <i class="fas fa-check"></i> Подтвердить
                     </button>
                     <button class="btn-booking btn-booking-danger" data-action="reject" data-id="${booking.id}">
                         <i class="fas fa-times"></i> Отклонить
                     </button>
+                    ${chatGuestBtn}
+                </div>
+            `;
+        } else if (isIncoming) {
+            actionsHtml = `
+                <div class="booking-actions" style="flex-wrap:wrap;">
+                    <a href="/listing-details.html?id=${booking.listing_id}" class="btn-booking btn-booking-outline" style="text-decoration: none;">
+                        <i class="fas fa-info-circle"></i> К объявлению
+                    </a>
+                    ${chatGuestBtn}
                 </div>
             `;
         } else if (!isIncoming && booking.status === 'pending') {
@@ -264,13 +301,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btn = e.target.closest('[data-action="cancel"]');
         if (!btn) return;
         const id = Number(btn.dataset.id);
-        if (confirm('Отменить заявку на бронирование?')) {
+        if (confirm('Отменить заявку на бронирование? Запись будет удалена.')) {
             try {
-                await updateStatus(id, 'cancelled');
+                await cancelGuestBooking(id);
                 await render();
             } catch (err) {
                 alert(err.message || 'Ошибка при отмене');
             }
+        }
+    });
+
+    document.addEventListener('click', async (e) => {
+        const chatBtn = e.target.closest('[data-action="chat-guest"]');
+        if (!chatBtn) return;
+        const listingId = Number(chatBtn.dataset.listingId);
+        const guestId = Number(chatBtn.dataset.guestId);
+        if (!listingId || !guestId) return;
+        try {
+            await startChatWithGuest(listingId, guestId);
+        } catch (err) {
+            alert(err.message || 'Ошибка');
         }
     });
 

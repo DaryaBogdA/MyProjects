@@ -35,11 +35,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const convList = document.getElementById('convList');
-    const chatHeader = document.getElementById('chatHeader');
+    const chatHeaderTitle = document.getElementById('chatHeaderTitle');
+    const deleteConvBtn = document.getElementById('deleteConvBtn');
     const chatMessages = document.getElementById('chatMessages');
     const openListingBtn = document.getElementById('openListingBtn');
     let currentConversationId = String(new URLSearchParams(window.location.search).get('conversation') || '').trim();
     let currentListingId = null;
+    let currentListingTitle = '';
+
+    function setChatHeader(title, showDelete) {
+        if (chatHeaderTitle) chatHeaderTitle.textContent = title;
+        if (deleteConvBtn) deleteConvBtn.style.display = showDelete ? '' : 'none';
+    }
 
     function setOpenListingEnabled(on, listingId) {
         if (!openListingBtn) return;
@@ -55,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showNoDialogsYet() {
-        chatHeader.textContent = 'Нет диалогов';
+        setChatHeader('Нет диалогов', false);
         chatMessages.innerHTML =
             '<div style="padding:16px;"><p style="margin:0 0 10px;color:var(--text-color);">' +
             'У вас пока нет диалогов.</p><p style="margin:0;font-size:0.92rem;color:var(--text-muted);">' +
@@ -67,8 +74,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     function clearConversationSelection() {
         currentConversationId = '';
         currentListingId = null;
+        currentListingTitle = '';
         replaceMessagesHistory('');
-        chatHeader.textContent = 'Выберите диалог';
+        setChatHeader('Выберите диалог', false);
         chatMessages.innerHTML =
             '<p style="color:var(--text-muted); padding:16px;">Выберите диалог в списке слева.</p>';
         setOpenListingEnabled(false);
@@ -211,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 item.addEventListener('click', () => {
                     currentConversationId = cid;
                     currentListingId = c.listing_id;
+                    currentListingTitle = c.listing_title || '';
                     convList.querySelectorAll('button[data-conversation-id]').forEach((b) => {
                         b.style.background = b.dataset.conversationId === cid ? '#eef8f6' : 'white';
                     });
@@ -233,6 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const selected = data.find((c) => String(c.id) === String(currentConversationId));
             setOpenListingEnabled(!!selected, selected?.listing_id);
             currentListingId = selected?.listing_id;
+            currentListingTitle = selected?.listing_title || '';
             createMessageInput();
         } catch (e) {
             console.error('Load conversations error:', e);
@@ -251,7 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Не удалось загрузить сообщения');
 
-            chatHeader.textContent = `Диалог #${currentConversationId}`;
+            setChatHeader(currentListingTitle || 'Диалог', true);
             chatMessages.innerHTML = '';
 
             if (!Array.isArray(data) || data.length === 0) {
@@ -282,6 +292,35 @@ document.addEventListener('DOMContentLoaded', async () => {
             chatMessages.innerHTML = `<p class="error">${esc(e.message || 'Ошибка загрузки сообщений')}</p>`;
         }
     }
+
+    deleteConvBtn?.addEventListener('click', async () => {
+        if (!currentConversationId) return;
+        if (
+            !confirm(
+                'Удалить диалог со всей перепиской? Он исчезнет у вас и у собеседника. Это действие нельзя отменить.'
+            )
+        ) {
+            return;
+        }
+        try {
+            deleteConvBtn.disabled = true;
+            const resp = await fetch(`/api/messages/${encodeURIComponent(currentConversationId)}`, {
+                method: 'DELETE',
+                headers: { 'X-User-ID': uid },
+            });
+            const data = await resp.json().catch(() => ({}));
+            if (!resp.ok) throw new Error(data.error || 'Не удалось удалить диалог');
+            currentConversationId = '';
+            currentListingId = null;
+            currentListingTitle = '';
+            replaceMessagesHistory('');
+            await loadConversations();
+        } catch (err) {
+            alert(esc(err.message || 'Ошибка'));
+        } finally {
+            deleteConvBtn.disabled = false;
+        }
+    });
 
     try {
         await loadConversations();

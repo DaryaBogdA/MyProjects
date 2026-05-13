@@ -26,6 +26,7 @@ func (h *MessageHandler) StartConversation(w http.ResponseWriter, r *http.Reques
 
 	var req struct {
 		ListingID int    `json:"listing_id"`
+		GuestID   int    `json:"guest_id"`
 		Message   string `json:"message"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -45,27 +46,51 @@ func (h *MessageHandler) StartConversation(w http.ResponseWriter, r *http.Reques
 	}
 
 	if ownerID == userID {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "cannot chat with yourself"})
-		return
+		if req.GuestID <= 0 || req.GuestID == ownerID {
+			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "cannot chat with yourself"})
+			return
+		}
+		var hasBooking int
+		err = h.DB.QueryRow(
+			`SELECT 1 FROM bookings b WHERE b.listing_id = ? AND b.user_id = ? LIMIT 1`,
+			req.ListingID, req.GuestID,
+		).Scan(&hasBooking)
+		if err == sql.ErrNoRows {
+			writeJSON(w, http.StatusForbidden, map[string]string{"error": "no booking with this guest for this listing"})
+			return
+		}
+		if err != nil {
+			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+			return
+		}
+	}
+
+	customerID := userID
+	if ownerID == userID {
+		customerID = req.GuestID
 	}
 
 	var conversationID int
 	err = h.DB.QueryRow(`
 		SELECT id FROM conversations 
-		WHERE listing_id = ? AND (owner_id = ? AND customer_id = ? OR owner_id = ? AND customer_id = ?)
-	`, req.ListingID, userID, ownerID, ownerID, userID).Scan(&conversationID)
+		WHERE listing_id = ? AND owner_id = ? AND customer_id = ?
+	`, req.ListingID, ownerID, customerID).Scan(&conversationID)
 
 	if err == sql.ErrNoRows {
 		res, err := h.DB.Exec(`
 			INSERT INTO conversations (listing_id, owner_id, customer_id, created_at)
 			VALUES (?, ?, ?, NOW())
-		`, req.ListingID, ownerID, userID)
+		`, req.ListingID, ownerID, customerID)
 		if err != nil {
 			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 			return
 		}
 		conversationID64, _ := res.LastInsertId()
 		conversationID = int(conversationID64)
+	}
+	if err != nil && err != sql.ErrNoRows {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
 	}
 
 	if strings.TrimSpace(req.Message) != "" {
@@ -253,4 +278,55 @@ func (h *MessageHandler) SendMessage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, map[string]string{"message": "message sent"})
+}
+
+func (h *MessageHandler) DeleteConversation(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
+		return
+	}
+	userID, ok := r.Context().Value("user_id").(int)
+	if !ok {
+		writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "unauthorized"})
+		return
+	}
+	conversationID, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil || conversationID <= 0 {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid conversation id"})
+		return
+	}
+	var ownerID, customerID int
+	err = h.DB.QueryRow("SELECT owner_id, customer_id FROM conversations WHERE id = ?", conversationID).Scan(&ownerID, &customerID)
+	if err == sql.ErrNoRows {
+		writeJSON(w, http.StatusNotFound, map[string]string{"error": "conversation not found"})
+		return
+	}
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	if userID != ownerID && userID != customerID {
+		writeJSON(w, http.StatusForbidden, map[string]string{"error": "access denied"})
+		return
+	}
+
+	tx, err := h.DB.Begin()
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	defer tx.Rollback()
+	if _, err := tx.Exec("DELETE FROM messages WHERE conversation_id = ?", conversationID); err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	if _, err := tx.Exec("DELETE FROM conversations WHERE id = ?", conversationID); err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	if err := tx.Commit(); err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]string{"message": "conversation deleted"})
 }

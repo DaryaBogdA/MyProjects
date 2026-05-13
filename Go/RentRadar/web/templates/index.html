@@ -43,9 +43,6 @@
                         <button class="filter-chip active">Квартира</button>
                         <button class="filter-chip">Комната</button>
                         <button class="filter-chip">Дом</button>
-                        <button class="filter-chip">Апартаменты</button>
-                        <button class="filter-chip">Студия</button>
-                        <button class="filter-chip">Дача</button>
                     </div>
                 </div>
 
@@ -62,12 +59,21 @@
                 </div>
 
                 
+                <div class="filter-group" id="rent-price-period-group">
+                    <label>Период цены</label>
+                    <div class="filter-options">
+                        <button type="button" class="filter-chip active" data-rent-price-period="month">За месяц</button>
+                        <button type="button" class="filter-chip" data-rent-price-period="day">За сутки</button>
+                    </div>
+                </div>
+
+                
                 <div class="filter-group">
-                    <label>Цена за месяц (BYN)</label>
+                    <label>Цена (BYN), от — до</label>
                     <div class="price-inputs">
-                        <input type="number" id="min-price" placeholder="от 300">
+                        <input type="number" id="min-price" placeholder="от">
                         <span>—</span>
-                        <input type="number" id="max-price" placeholder="до 1500">
+                        <input type="number" id="max-price" placeholder="до">
                     </div>
                 </div>
 

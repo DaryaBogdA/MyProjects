@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
                 .join('');
             formHtml = `
-                <div class="ld-review-card">
+                <div class="ld-review-card ld-review-form-card">
                     <div class="ld-review-card-head">
                         <i class="fas fa-star"></i>
                         <div>
@@ -123,7 +123,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="ld-star-picker" role="group" aria-label="Оценка из пяти">${starsBtns}</div>
                     <input type="hidden" id="reviewRating" value="5">
                     <label class="ld-label" for="reviewComment">Комментарий</label>
-                    <textarea id="reviewComment" rows="4" class="form-control ld-textarea" placeholder="Что понравилось, что стоит учесть…"></textarea>
+                    <div class="ld-review-textarea-wrap">
+                        <textarea id="reviewComment" rows="5" class="form-control ld-textarea ld-review-textarea" placeholder="Что понравилось, что стоит учесть…"></textarea>
+                    </div>
                     <button type="button" id="submitReviewBtn" class="btn btn-primary ld-submit-review"><i class="fas fa-paper-plane"></i> Отправить отзыв</button>
                 </div>`;
         }
@@ -206,6 +208,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div>
                     <div class="ld-carousel" data-index="0">
                         <button type="button" class="ld-carousel-arrow prev" aria-label="Предыдущее фото"><i class="fas fa-chevron-left"></i></button>
+                        ${
+                            listing.listing_type === 'sale'
+                                ? '<span class="badge badge-sale" style="position:absolute;top:12px;left:12px;z-index:3;">Продажа</span>'
+                                : '<span class="badge badge-rent" style="position:absolute;top:12px;left:12px;z-index:3;">Аренда</span>'
+                        }
                         <img id="ldCarouselImage" src="${escapeHtml(images[0])}" alt="${escapeHtml(listing.title || '')}" style="width:100%; max-height:440px; object-fit:cover; border-radius:12px;">
                         <button type="button" class="ld-carousel-arrow next" aria-label="Следующее фото"><i class="fas fa-chevron-right"></i></button>
                         <div class="ld-carousel-counter" id="ldCarouselCounter">1 / ${images.length}</div>
@@ -290,7 +297,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (!uid) {
                 bookingMount.innerHTML = '<div class="booking-info"><i class="fas fa-lock"></i> <a href="/login.html">Войдите</a>, чтобы забронировать.</div>';
             } else if (String(uid) === String(listing.user_id)) {
-                bookingMount.innerHTML = '';
+                bookingMount.innerHTML = `
+                    <div class="ld-booking-card ld-owner-booking-hint">
+                        <p class="ld-muted" style="margin:0 0 10px;line-height:1.45;">
+                            <i class="fas fa-calendar-check"></i> Заявки на бронирование этого жилья смотрите в разделе «Мои бронирования» — там можно подтвердить заявку и <strong>написать гостю в чат</strong>.
+                        </p>
+                        <a href="/bookings.html" class="btn btn-outline" style="width:100%;text-align:center;">Открыть бронирования</a>
+                    </div>`;
             } else {
                 const today = new Date();
                 const minDate = today.toISOString().slice(0, 10);

@@ -171,6 +171,10 @@
         }
 
         .listing-status-row { margin-top: 8px; }
+        .my-listing-header .badge {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
         .listing-status-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -221,6 +225,21 @@
             font-size: 0.9rem;
             margin-top: 5px;
         }
+
+        .password-change-form .form-group {
+            margin-bottom: 18px;
+        }
+        .password-change-form .form-group:last-of-type {
+            margin-bottom: 20px;
+        }
+        .password-change-form > .btn-primary {
+            margin-top: 0;
+        }
+        .password-change-form .password-strength-minimal,
+        .password-change-form .password-match-minimal {
+            margin-top: 6px;
+            min-height: 0;
+        }
     </style>
 </head>
 <body>
@@ -246,6 +265,9 @@
             <button class="profile-tab" data-tab="my-listings">
                 <i class="fas fa-list"></i> Мои объявления
             </button>
+            <a href="/stats.html" class="profile-tab" style="text-decoration:none;color:inherit;">
+                <i class="fas fa-chart-bar"></i> Статистика
+            </a>
         </div>
 
         
@@ -294,8 +316,8 @@
 
                 
                 <div class="settings-section">
-                    <h2>Смена пароля</h2><br>
-                    <form id="passwordForm">
+                    <h2>Смена пароля</h2>
+                    <form id="passwordForm" class="password-change-form">
                         <div class="form-group">
                             <div class="input-field">
                                 <input type="password" id="currentPassword" placeholder="Текущий пароль">

@@ -21,6 +21,7 @@ function initTabs() {
 
     tabs.forEach(tab => {
         tab.addEventListener('click', function() {
+            if (this.tagName === 'A' || !this.dataset.tab) return;
             const tabId = this.dataset.tab;
             tabs.forEach(t => t.classList.remove('active'));
             contents.forEach(c => c.classList.remove('active'));
@@ -206,7 +207,7 @@ async function loadMyListings() {
                             <div class="favorite-price">${listing.price.toLocaleString()} BYN</div>
                             <div class="listing-status-row">${listingStatusBadge(listing)}</div>
                         </div>
-                        <span class="badge">${listing.listing_type === 'rent' ? 'Аренда' : 'Продажа'}</span>
+                        <span class="badge ${listing.listing_type === 'rent' ? 'badge-rent' : 'badge-sale'}">${listing.listing_type === 'rent' ? 'Аренда' : 'Продажа'}</span>
                     </div>
                     <div class="listing-details">
                         <span><i class="fas fa-vector-square"></i> ${listing.area || 0} м²</span>

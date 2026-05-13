@@ -275,3 +275,45 @@ func (h *ListingHandler) UpdateBookingStatus(w http.ResponseWriter, r *http.Requ
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"message": "booking updated", "status": req.Status})
 }
+
+func (h *ListingHandler) DeleteBooking(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodDelete {
+		writeJSON(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
+		return
+	}
+	userID, ok := r.Context().Value("user_id").(int)
+	if !ok {
+		writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "unauthorized"})
+		return
+	}
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil || id <= 0 {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid booking id"})
+		return
+	}
+	var bookUserID int
+	var status string
+	err = h.DB.QueryRow(`SELECT user_id, status FROM bookings WHERE id = ?`, id).Scan(&bookUserID, &status)
+	if err == sql.ErrNoRows {
+		writeJSON(w, http.StatusNotFound, map[string]string{"error": "booking not found"})
+		return
+	}
+	if err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	if bookUserID != userID {
+		writeJSON(w, http.StatusForbidden, map[string]string{"error": "only your booking can be cancelled"})
+		return
+	}
+	st := strings.ToLower(strings.TrimSpace(status))
+	if st != "pending" && st != "approved" {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "this booking cannot be cancelled"})
+		return
+	}
+	if _, err := h.DB.Exec(`DELETE FROM bookings WHERE id = ?`, id); err != nil {
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]string{"message": "booking cancelled"})
+}
