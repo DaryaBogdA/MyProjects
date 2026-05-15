@@ -513,14 +513,16 @@ async function initCreateListing() {
     const description = document.getElementById('description');
     const counter = document.querySelector('.textarea-counter');
     if (description && counter) {
-        description.addEventListener('input', function() {
-            const len = this.value.length;
-            counter.textContent = `${len}/1000`;
+        function syncDescriptionCounter() {
+            let len = description.value.length;
             if (len > 1000) {
-                this.value = this.value.substring(0, 1000);
-                counter.textContent = '1000/1000';
+                description.value = description.value.substring(0, 1000);
+                len = 1000;
             }
-        });
+            counter.textContent = `${len}/1000`;
+        }
+        description.addEventListener('input', syncDescriptionCounter);
+        syncDescriptionCounter();
     }
 
     function validateForm() {
@@ -628,6 +630,9 @@ async function initCreateListing() {
             isValid = false;
         } else if (descriptionText.length < 20) {
             showError('description', 'Описание должно содержать минимум 20 символов');
+            isValid = false;
+        } else if (descriptionText.length > 1000) {
+            showError('description', 'Описание не длиннее 1000 символов');
             isValid = false;
         }
 

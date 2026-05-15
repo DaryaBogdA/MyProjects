@@ -185,19 +185,24 @@ async function loadMyListings() {
         const listings = Array.isArray(raw) ? raw : [];
         if (listings.length === 0) {
             grid.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-home"></i>
-                    <h3>У вас нет объявлений</h3>
-                    <p>Разместите первое объявление</p>
-                    <a href="/create-listing.html" class="btn btn-primary">Разместить объявление</a>
+                <div class="empty-favorites-state" style=" text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 1px dashed var(--border-color); max-width: 760px; margin: 0 auto; width: 100%;">
+                    <i class="fas fa-home" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 20px; display: inline-block;"></i>
+                    <h3 style="font-size: 1.3rem; color: var(--text-dark); margin-bottom: 10px;">У вас нет объявлений</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 25px;">Разместите первое объявление</p>
+                    <a href="/create-listing.html" class="btn btn-primary" style="display: inline-block; padding: 12px 30px;">Разместить объявление</a>
                 </div>
             `;
             return;
         }
 
-        grid.innerHTML = listings.map((listing) => `
+        grid.innerHTML = listings.map((listing) => {
+            const isRent = String(listing.listing_type || '').toLowerCase() === 'rent';
+            const typeLabel = isRent ? 'Аренда' : 'Продажа';
+            const typeClass = isRent ? 'badge-rent' : 'badge-sale';
+            return `
             <div class="my-listing-card" data-id="${listing.id}">
                 <div class="my-listing-image">
+                    <span class="my-listing-type-badge ${typeClass}">${typeLabel}</span>
                     <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=120&h=120&fit=crop'}" alt="${escapeHtml(listing.title)}">
                 </div>
                 <div class="my-listing-content">
@@ -207,7 +212,6 @@ async function loadMyListings() {
                             <div class="favorite-price">${listing.price.toLocaleString()} BYN</div>
                             <div class="listing-status-row">${listingStatusBadge(listing)}</div>
                         </div>
-                        <span class="badge ${listing.listing_type === 'rent' ? 'badge-rent' : 'badge-sale'}">${listing.listing_type === 'rent' ? 'Аренда' : 'Продажа'}</span>
                     </div>
                     <div class="listing-details">
                         <span><i class="fas fa-vector-square"></i> ${listing.area || 0} м²</span>
@@ -219,7 +223,8 @@ async function loadMyListings() {
                     </div>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
 
         document.querySelectorAll('.delete-listing').forEach((btn) => {
             btn.addEventListener('click', async () => {

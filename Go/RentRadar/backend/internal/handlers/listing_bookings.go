@@ -19,6 +19,13 @@ type bookingRow struct {
 	CheckOut     time.Time `json:"check_out"`
 	Status       string    `json:"status"`
 	CreatedAt    time.Time `json:"created_at"`
+	Photos       string    `json:"photos,omitempty"`
+	Price        float64   `json:"price,omitempty"`
+}
+
+func calendarDate(t time.Time) time.Time {
+	t = t.In(time.Local)
+	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local)
 }
 
 func (h *ListingHandler) CreateListingBooking(w http.ResponseWriter, r *http.Request) {
@@ -43,35 +50,38 @@ func (h *ListingHandler) CreateListingBooking(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	checkIn, err := time.Parse("2006-01-02", strings.TrimSpace(req.CheckIn))
+	checkIn, err := time.ParseInLocation("2006-01-02", strings.TrimSpace(req.CheckIn), time.Local)
 	if err != nil {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Укажите корректную дату заезда."})
 		return
 	}
-	checkOut, err := time.Parse("2006-01-02", strings.TrimSpace(req.CheckOut))
+	checkOut, err := time.ParseInLocation("2006-01-02", strings.TrimSpace(req.CheckOut), time.Local)
 	if err != nil {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Укажите корректную дату выезда."})
 		return
 	}
-	if !checkOut.After(checkIn) {
+	checkInDay := calendarDate(checkIn)
+	checkOutDay := calendarDate(checkOut)
+	if !checkOutDay.After(checkInDay) {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Дата выезда должна быть позже даты заезда."})
 		return
 	}
 
-	today := time.Now().Truncate(24 * time.Hour)
-	if checkIn.Before(today) {
+	today := calendarDate(time.Now())
+	if checkInDay.Before(today) {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "Дата заезда не может быть в прошлом."})
 		return
 	}
 
 	var ownerID int
 	var listingType string
+	var availableFrom sql.NullTime
 	err = h.DB.QueryRow(
-		`SELECT user_id, listing_type
+		`SELECT user_id, listing_type, available_from
 		 FROM listings
 		 WHERE id = ? AND is_active = 1 AND moderation_status = 'approved'`,
 		listingID,
-	).Scan(&ownerID, &listingType)
+	).Scan(&ownerID, &listingType, &availableFrom)
 	if err == sql.ErrNoRows {
 		writeJSON(w, http.StatusNotFound, map[string]string{"error": "Объявление не найдено."})
 		return
@@ -87,6 +97,16 @@ func (h *ListingHandler) CreateListingBooking(w http.ResponseWriter, r *http.Req
 	if ownerID == userID {
 		writeJSON(w, http.StatusForbidden, map[string]string{"error": "Нельзя забронировать своё объявление."})
 		return
+	}
+
+	if availableFrom.Valid {
+		availDay := calendarDate(availableFrom.Time)
+		if checkInDay.Before(availDay) {
+			writeJSON(w, http.StatusBadRequest, map[string]string{
+				"error": "Дата заезда не может быть раньше даты «Свободно с», указанной в объявлении.",
+			})
+			return
+		}
 	}
 
 	var overlapCount int
@@ -168,7 +188,8 @@ func (h *ListingHandler) GetIncomingBookings(w http.ResponseWriter, r *http.Requ
 	rows, err := h.DB.Query(
 		`SELECT b.id, b.listing_id, l.title, b.user_id,
 		        COALESCE(NULLIF(TRIM(u.first_name), ''), u.email, u.phone, 'Пользователь'),
-		        b.check_in, b.check_out, b.status, b.created_at
+		        b.check_in, b.check_out, b.status, b.created_at,
+		        COALESCE(l.photos, ''), l.price
 		 FROM bookings b
 		 JOIN listings l ON l.id = b.listing_id
 		 JOIN users u ON u.id = b.user_id
@@ -185,7 +206,7 @@ func (h *ListingHandler) GetIncomingBookings(w http.ResponseWriter, r *http.Requ
 	out := make([]bookingRow, 0)
 	for rows.Next() {
 		var row bookingRow
-		if err := rows.Scan(&row.ID, &row.ListingID, &row.ListingTitle, &row.GuestID, &row.GuestName, &row.CheckIn, &row.CheckOut, &row.Status, &row.CreatedAt); err != nil {
+		if err := rows.Scan(&row.ID, &row.ListingID, &row.ListingTitle, &row.GuestID, &row.GuestName, &row.CheckIn, &row.CheckOut, &row.Status, &row.CreatedAt, &row.Photos, &row.Price); err != nil {
 			continue
 		}
 		out = append(out, row)

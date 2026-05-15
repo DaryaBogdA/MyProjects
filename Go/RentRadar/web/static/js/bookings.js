@@ -73,7 +73,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         const res = await fetch('/api/bookings/incoming', { headers: { 'X-User-ID': uid } });
         const data = await res.json().catch(() => []);
         if (!res.ok) throw new Error(data.error || 'Не удалось загрузить входящие заявки');
-        return Array.isArray(data) ? data : [];
+
+        const enriched = [];
+        for (const item of (Array.isArray(data) ? data : [])) {
+            if (item.photos) {
+                enriched.push(item);
+                continue;
+            }
+            try {
+                const listingRes = await fetch(`/api/listings/${item.listing_id}`, {
+                    headers: { 'X-User-ID': uid },
+                });
+                const listing = await listingRes.json();
+                enriched.push({
+                    ...item,
+                    price: listing.price ?? item.price,
+                    photos: listing.photos || item.photos,
+                    listing_title: listing.title || item.listing_title,
+                });
+            } catch {
+                enriched.push(item);
+            }
+        }
+        return enriched;
     }
 
     async function updateStatus(id, status) {

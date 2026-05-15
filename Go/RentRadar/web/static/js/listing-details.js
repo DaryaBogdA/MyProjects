@@ -1,3 +1,10 @@
+function localDateISO(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+}
+
 function mapBookingError(msg) {
     const s = String(msg || '').trim();
     const ru = {
@@ -8,6 +15,23 @@ function mapBookingError(msg) {
         'selected dates are already booked': 'На эти даты уже есть бронирование. Выберите другие даты.',
     };
     return ru[s] || s || 'Не удалось оформить бронирование. Проверьте даты.';
+}
+
+function mapChatStartError(msg) {
+    const s = String(msg || '').trim().toLowerCase();
+    if (s === 'cannot chat with yourself') {
+        return 'Вы не можете написать сами себе. Чтобы связаться с гостем по бронированию, откройте раздел «Мои бронирования» и нажмите «Перейти в чат» в карточке заявки.';
+    }
+    if (s === 'no booking with this guest for this listing') {
+        return 'Нет подтверждённой заявки на бронирование с этим пользователем по этому объявлению.';
+    }
+    if (s === 'listing not found') {
+        return 'Объявление не найдено или снято с публикации.';
+    }
+    if (s === 'unauthorized') {
+        return 'Войдите в аккаунт, чтобы написать в чат.';
+    }
+    return String(msg || '').trim() || 'Не удалось открыть чат. Попробуйте позже.';
 }
 
 function initReviewStarPicker(mount) {
@@ -221,7 +245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <h2 style="margin:0 0 10px;">${escapeHtml(listing.title || '')}</h2>
                         <p style="margin:0 0 8px;"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(listing.address || listing.city || '')}</p>
                         <p style="margin:0 0 8px;">${escapeHtml(meta.description || '')}</p>
-                        <p style="margin:0; color:var(--text-muted);">${listing.rooms || 0} комн. · ${listing.area || 0} м² · ${listing.floor || 0}/${listing.total_floors || 0} эт.</p>
+                        <p style="margin:0; color:var(--text-muted);">${listing.rooms || 0} комн. · ${listing.area || 0} м² · ${Number(listing.floor ?? 0)}/${Number(listing.total_floors ?? 0)} эт.</p>
                     </div>
                 </div>
                 <div class="ld-sidebar-stack">
@@ -237,6 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <p class="ld-muted">Нажмите на кнопку, чтобы начать диалог</p>
                             </div>
                         </div>
+                        <p id="chatStartMsg" class="ld-booking-msg" role="alert" style="display:none;margin:0 0 10px;"></p>
                         <button type="button" id="startChatBtn" class="chat-simple-btn">
                             <i class="fas fa-comment-dots"></i> Открыть чат с собственником
                         </button>
@@ -269,10 +294,28 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.getElementById('startChatBtn')?.addEventListener('click', async () => {
             const userId = localStorage.getItem('userId');
+            const chatStartMsg = document.getElementById('chatStartMsg');
+            const showChatErr = (text) => {
+                if (!chatStartMsg) {
+                    alert(text);
+                    return;
+                }
+                chatStartMsg.textContent = text;
+                chatStartMsg.style.display = 'block';
+                chatStartMsg.className = 'ld-booking-msg ld-booking-err';
+                chatStartMsg.setAttribute('role', 'alert');
+            };
+            const clearChatErr = () => {
+                if (!chatStartMsg) return;
+                chatStartMsg.style.display = 'none';
+                chatStartMsg.textContent = '';
+                chatStartMsg.className = 'ld-booking-msg';
+            };
             if (!userId) {
                 window.location.href = '/login.html';
                 return;
             }
+            clearChatErr();
             try {
                 const resp = await fetch('/api/messages/start', {
                     method: 'POST',
@@ -286,7 +329,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!resp.ok) throw new Error(data.error || 'Не удалось начать диалог');
                 window.location.href = `/messages.html?conversation=${data.conversation_id}`;
             } catch (e) {
-                alert(e.message || 'Ошибка');
+                showChatErr(mapChatStartError(e.message));
             }
         });
 
@@ -306,25 +349,44 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
             } else {
                 const today = new Date();
-                const minDate = today.toISOString().slice(0, 10);
+                let minBookDate = localDateISO(today);
+                let availFromLabel = '';
+                if (listing.available_from) {
+                    const avail = new Date(listing.available_from);
+                    if (!Number.isNaN(avail.getTime())) {
+                        const availIso = localDateISO(avail);
+                        if (availIso > minBookDate) {
+                            minBookDate = availIso;
+                        }
+                        availFromLabel = avail.toLocaleDateString('ru-RU', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                        });
+                    }
+                }
                 const maxDateObj = new Date();
                 maxDateObj.setMonth(maxDateObj.getMonth() + 6);
-                const maxDate = maxDateObj.toISOString().slice(0, 10);
+                const maxDate = localDateISO(maxDateObj);
+                const availHint = availFromLabel
+                    ? `<div class="booking-info"><i class="far fa-calendar-alt"></i> Свободно с <strong>${availFromLabel}</strong> — заезд не раньше этой даты.</div>`
+                    : '';
 
                 bookingMount.innerHTML = `
             <div class="ld-booking-card">
                 <h4><i class="fas fa-calendar-check"></i> Забронировать даты</h4>
+                ${availHint}
                 <div class="booking-info">
                     <i class="fas fa-clock"></i> Выберите даты заезда и выезда
                 </div>
                 <div class="booking-date-picker">
                     <div class="booking-date-group">
                         <label><i class="fas fa-calendar-alt"></i> Заезд</label>
-                        <input type="date" id="bookingCheckIn" class="form-control" min="${minDate}" max="${maxDate}">
+                        <input type="date" id="bookingCheckIn" class="form-control" min="${minBookDate}" max="${maxDate}">
                     </div>
                     <div class="booking-date-group">
                         <label><i class="fas fa-calendar-check"></i> Выезд</label>
-                        <input type="date" id="bookingCheckOut" class="form-control" min="${minDate}" max="${maxDate}">
+                        <input type="date" id="bookingCheckOut" class="form-control" min="${minBookDate}" max="${maxDate}">
                     </div>
                 </div>
                 <button type="button" id="createBookingBtn" class="ld-booking-btn">
@@ -364,6 +426,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (checkOut <= checkIn) {
                         if (msg) {
                             msg.textContent = 'Дата выезда должна быть позже даты заезда.';
+                            msg.classList.add('ld-booking-err');
+                        }
+                        return;
+                    }
+                    if (checkIn < minBookDate) {
+                        if (msg) {
+                            msg.textContent = availFromLabel
+                                ? `Дата заезда не может быть раньше ${availFromLabel} (дата «Свободно с» в объявлении).`
+                                : 'Дата заезда не может быть в прошлом.';
                             msg.classList.add('ld-booking-err');
                         }
                         return;

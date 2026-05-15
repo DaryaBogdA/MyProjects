@@ -91,13 +91,33 @@ func (h *ListingHandler) GetPublicStats(w http.ResponseWriter, r *http.Request) 
 	for rows.Next() {
 		var row statsListingRow
 		var avail sql.NullTime
+		var price sql.NullFloat64
+		var area sql.NullFloat64
+		var rooms sql.NullInt64
+		var floor sql.NullInt64
+		var totalFloors sql.NullInt64
 		if err := rows.Scan(
 			&row.ID, &row.Title, &row.ListingType, &row.ViewsCount,
 			&row.AverageRating, &row.ReviewsCount, &row.City,
-			&row.Photos, &row.Price, &row.Area, &row.Rooms, &row.Floor, &row.TotalFloors,
+			&row.Photos, &price, &area, &rooms, &floor, &totalFloors,
 			&row.District, &row.Description, &avail,
 		); err != nil {
 			continue
+		}
+		if price.Valid {
+			row.Price = price.Float64
+		}
+		if area.Valid {
+			row.Area = area.Float64
+		}
+		if rooms.Valid {
+			row.Rooms = int(rooms.Int64)
+		}
+		if floor.Valid {
+			row.Floor = int(floor.Int64)
+		}
+		if totalFloors.Valid {
+			row.TotalFloors = int(totalFloors.Int64)
 		}
 		if avail.Valid {
 			t := avail.Time

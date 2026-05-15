@@ -630,14 +630,15 @@ body {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.3px;
+    z-index: 2;
 }
 
 .badge-sale {
-    background: #2e8b57;
+    background: #2c7873;
 }
 
 .badge-rent {
-    background: var(--primary-teal);
+    background: #2c7873;
 }
 
 .listing-content {
@@ -1848,20 +1849,6 @@ main {
 
 .filter-custom-select select:focus + .filter-custom-select::after {
     border-top-color: var(--primary-teal);
-}
-
-.badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: var(--primary-teal);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    z-index: 2;
 }
 
 

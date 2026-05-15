@@ -100,15 +100,19 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 		var photos sql.NullString
 		var lat sql.NullFloat64
 		var lng sql.NullFloat64
+		var utilities sql.NullBool
+		var active sql.NullBool
 
 		err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive,
-			&l.ModerationStatus, &l.ViewsCount, &lat, &lng, &l.AverageRating, &l.ReviewsCount)
+			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus, &l.ViewsCount, &lat, &lng, &l.AverageRating, &l.ReviewsCount)
 
 		if err != nil {
 			continue
 		}
+
+		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
+		l.IsActive = active.Valid && active.Bool
 
 		if description.Valid {
 			l.Description = description.String
@@ -175,6 +179,8 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 	var photos sql.NullString
 	var lat sql.NullFloat64
 	var lng sql.NullFloat64
+	var utilities sql.NullBool
+	var active sql.NullBool
 	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
               FLOOR, total_floors, address, city, district, available_from, deposit, 
               utilities_included, photos, is_active, moderation_status, views_count,
@@ -183,13 +189,16 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 
 	err = h.DB.QueryRow(query, id).Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType,
 		&l.Price, &area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-		&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive,
+		&availableFrom, &deposit, &utilities, &photos, &active,
 		&l.ModerationStatus, &l.ViewsCount, &lat, &lng)
 
 	if err != nil {
 		writeJSON(w, http.StatusNotFound, map[string]string{"error": "listing not found"})
 		return
 	}
+
+	l.UtilitiesIncluded = utilities.Valid && utilities.Bool
+	l.IsActive = active.Valid && active.Bool
 
 	viewerID := 0
 	if hdr := strings.TrimSpace(r.Header.Get("X-User-ID")); hdr != "" {
@@ -474,13 +483,18 @@ func (h *ListingHandler) AdminListListings(w http.ResponseWriter, r *http.Reques
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
+		var utilities sql.NullBool
+		var active sql.NullBool
 
 		if err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive, &l.ModerationStatus,
+			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus,
 			&l.ViewsCount); err != nil {
 			continue
 		}
+
+		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
+		l.IsActive = active.Valid && active.Bool
 		if description.Valid {
 			l.Description = description.String
 		}
@@ -638,14 +652,19 @@ func (h *ListingHandler) GetFavorites(w http.ResponseWriter, r *http.Request) {
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
+		var utilities sql.NullBool
+		var active sql.NullBool
 
 		err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive,
+			&availableFrom, &deposit, &utilities, &photos, &active,
 			&l.ModerationStatus, &l.ViewsCount)
 		if err != nil {
 			continue
 		}
+
+		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
+		l.IsActive = active.Valid && active.Bool
 
 		if description.Valid {
 			l.Description = description.String
@@ -767,12 +786,17 @@ func (h *ListingHandler) GetMyListings(w http.ResponseWriter, r *http.Request) {
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
+		var utilities sql.NullBool
+		var active sql.NullBool
 
 		if err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive, &l.ModerationStatus, &l.ViewsCount); err != nil {
+			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus, &l.ViewsCount); err != nil {
 			continue
 		}
+
+		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
+		l.IsActive = active.Valid && active.Bool
 
 		if description.Valid {
 			l.Description = description.String
@@ -907,13 +931,18 @@ func (h *ListingHandler) AdminListPending(w http.ResponseWriter, r *http.Request
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
+		var utilities sql.NullBool
+		var active sql.NullBool
 
 		if err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &l.UtilitiesIncluded, &photos, &l.IsActive, &l.ModerationStatus,
+			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus,
 			&l.ViewsCount); err != nil {
 			continue
 		}
+
+		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
+		l.IsActive = active.Valid && active.Bool
 		if description.Valid {
 			l.Description = description.String
 		}

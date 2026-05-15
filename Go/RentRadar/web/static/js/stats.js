@@ -3,6 +3,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const toolbar = document.getElementById('statsSortToolbar');
     if (!root) return;
 
+    const uid = localStorage.getItem('userId');
+    if (!uid) {
+        window.location.href = '/login.html';
+        return;
+    }
+    try {
+        const meRes = await fetch('/api/me', { headers: { 'X-User-ID': uid } });
+        const me = await meRes.json().catch(() => ({}));
+        if (!meRes.ok || me.role !== 'admin') {
+            window.location.href = '/index.html';
+            return;
+        }
+    } catch {
+        window.location.href = '/index.html';
+        return;
+    }
+
     let currentSort = 'rating';
 
     const esc =
@@ -59,6 +76,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             listing.listing_type === 'rent'
                 ? `<span><i class="fas fa-bed"></i> ${listing.rooms} комн.</span>`
                 : '';
+        const floorsLabel =
+            typeof listingFloorsLabel === 'function'
+                ? listingFloorsLabel(listing)
+                : `${Number(listing.floor ?? 0)}/${Number(listing.total_floors ?? 0)} эт.`;
 
         return `
                 <article class="listing-card stats-listing-card">
@@ -77,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                         <div class="listing-details">
                             <span><i class="fas fa-vector-square"></i> ${listing.area || 0} м²</span>
-                            <span><i class="fas fa-layer-group"></i> ${listing.floor || 0}/${listing.total_floors || 0} эт.</span>
+                            <span><i class="fas fa-layer-group"></i> ${floorsLabel}</span>
                             ${rentRooms}
                             <span><i class="fas fa-eye"></i> ${listing.views_count || 0} просм.</span>
                             <span class="rating"><i class="fas fa-star"></i> ${esc(ratingLabel)}</span>
@@ -96,7 +117,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         root.innerHTML = '<p class="stats-empty">Загрузка…</p>';
         renderToolbar();
         try {
-            const res = await fetch(`/api/stats/overview?sort=${encodeURIComponent(currentSort)}`);
+            const res = await fetch(`/api/stats/overview?sort=${encodeURIComponent(currentSort)}`, {
+                headers: { 'X-User-ID': uid },
+            });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) throw new Error(data.error || 'Не удалось загрузить статистику');
 

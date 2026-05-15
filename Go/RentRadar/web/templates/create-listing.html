@@ -87,6 +87,14 @@
             background: #e8f3f2;
         }
 
+        #description {
+            resize: none;
+            min-height: 120px;
+            max-height: 18rem;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+
         .amenities-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -352,7 +360,7 @@
                 </h2>
                 <div class="form-group full-width">
                     <label for="description">Описание объявления *</label>
-                    <textarea id="description" rows="6" placeholder="Расскажите о вашем жилье..."></textarea>
+                    <textarea id="description" name="description" rows="8" maxlength="1000" placeholder="Расскажите о вашем жилье..."></textarea>
                     <div class="textarea-counter">0/1000</div>
                     <div class="error-message" id="descriptionError"></div>
                 </div>

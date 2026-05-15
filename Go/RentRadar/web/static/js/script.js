@@ -153,7 +153,9 @@ async function updateUIForLoggedInUser() {
     try {
         const me = await getCurrentUser();
         if (me && me.role === 'admin') {
-            adminNav = '<a href="/admin.html"> Модерация</a>';
+            adminNav =
+                '<a href="/admin.html">Модерация</a>' +
+                '<a href="/stats.html">Статистика</a>';
         }
     } catch (_) {
     }
@@ -566,7 +568,7 @@ let currentFilters = {
     pets: false,
     parking: false,
     elevator: false,
-    rentPricePeriod: 'month'
+    rentPricePeriod: 'all'
 };
 
 async function loadListings() {
@@ -644,13 +646,16 @@ async function loadListings() {
         }
 
         if (!isSalePage) {
-            const rp = currentFilters.rentPricePeriod || 'month';
+            const rp = currentFilters.rentPricePeriod || 'all';
             const minP = currentFilters.minPrice !== '' ? Number(currentFilters.minPrice) : null;
             const maxP = currentFilters.maxPrice !== '' ? Number(currentFilters.maxPrice) : null;
             filteredListings = filteredListings.filter((l) => {
                 if (l.listing_type !== 'rent') return true;
-                const meta = extractListingMetaFromDescription(l.description || '');
-                if (meta.pricePeriod !== rp) return false;
+                const desc = l.description || '';
+                if (rp !== 'all' && listingHasExplicitRentPricePeriod(desc)) {
+                    const meta = extractListingMetaFromDescription(desc);
+                    if (meta.pricePeriod !== rp) return false;
+                }
                 const price = Number(l.price || 0);
                 if (minP != null && !Number.isNaN(minP) && price < minP) return false;
                 if (maxP != null && !Number.isNaN(maxP) && price > maxP) return false;
@@ -689,9 +694,9 @@ async function loadListings() {
                             <i class="fas fa-map-marker-alt"></i> ${escapeHtml(listing.district || listing.city)}
                         </div>
                         <div class="listing-details">
-                            <span><i class="fas fa-vector-square"></i> ${listing.area} м²</span>
-                            <span><i class="fas fa-layer-group"></i> ${listing.floor}/${listing.total_floors} эт.</span>
-                            ${listing.listing_type === 'rent' ? '<span><i class="fas fa-bed"></i> ' + listing.rooms + ' комн.</span>' : ''}
+                            <span><i class="fas fa-vector-square"></i> ${Number(listing.area ?? 0) || 0} м²</span>
+                            <span><i class="fas fa-layer-group"></i> ${listingFloorsLabel(listing)}</span>
+                            ${listing.listing_type === 'rent' ? '<span><i class="fas fa-bed"></i> ' + (Number(listing.rooms ?? 0) || 0) + ' комн.</span>' : ''}
                             <span class="rating"><i class="fas fa-star"></i> ${listingRatingLabel(listing)}</span>
                         </div>
                         <div class="listing-footer">
@@ -971,9 +976,11 @@ function applyFilters() {
     if (rentPeriodGroup) {
         const activeRP = rentPeriodGroup.querySelector('.filter-chip.active');
         const dp = activeRP?.getAttribute('data-rent-price-period');
-        currentFilters.rentPricePeriod = dp === 'day' ? 'day' : 'month';
+        if (dp === 'day') currentFilters.rentPricePeriod = 'day';
+        else if (dp === 'month') currentFilters.rentPricePeriod = 'month';
+        else currentFilters.rentPricePeriod = 'all';
     } else {
-        currentFilters.rentPricePeriod = 'month';
+        currentFilters.rentPricePeriod = 'all';
     }
 
     loadListings();
@@ -1032,7 +1039,7 @@ function resetFilters() {
         pets: false,
         parking: false,
         elevator: false,
-        rentPricePeriod: 'month'
+        rentPricePeriod: 'all'
     };
 
     activateDefaultFilterChips();
@@ -1184,8 +1191,8 @@ async function loadSaleListings() {
                         <i class="fas fa-map-marker-alt"></i> ${escapeHtml(listing.district || listing.city)}
                     </div>
                     <div class="listing-details">
-                        <span><i class="fas fa-vector-square"></i> ${listing.area} м²</span>
-                        <span><i class="fas fa-layer-group"></i> ${listing.floor}/${listing.total_floors} эт.</span>
+                        <span><i class="fas fa-vector-square"></i> ${Number(listing.area ?? 0) || 0} м²</span>
+                        <span><i class="fas fa-layer-group"></i> ${listingFloorsLabel(listing)}</span>
                         <span><i class="fas fa-building"></i> Панельный</span>
                     </div>
                     <div class="listing-footer">
@@ -1290,7 +1297,6 @@ function standardFooterHtml() {
                     <li><a href="/sale.html">Продажа</a></li>
                     <li><a href="/news.html">Новости</a></li>
                     <li><a href="/about.html">О нас</a></li>
-                    <li><a href="/stats.html">Статистика</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -1337,7 +1343,6 @@ function standardHeaderHtml() {
             <li><a href="/sale.html">Продажа</a></li>
             <li><a href="/news.html">Новости</a></li>
             <li><a href="/about.html">О нас</a></li>
-            <li><a href="/stats.html">Статистика</a></li>
         </ul>
     </nav>
     <div class="user-actions"></div>
@@ -1391,6 +1396,19 @@ function listingRatingLabel(listing) {
     return `${avg.toFixed(1)} (${cnt})`;
 }
 
+function listingHasExplicitRentPricePeriod(rawDescription) {
+    return /^\[\[RR_PRICE_PERIOD:(day|month)\]\]/i.test(String(rawDescription || '').trim());
+}
+
+function listingFloorsLabel(listing) {
+    const f = Number(listing?.floor ?? 0);
+    const t = Number(listing?.total_floors ?? 0);
+    const fv = Number.isFinite(f) ? f : 0;
+    const tv = Number.isFinite(t) ? t : 0;
+    if (fv === 0 && tv === 0) return '—';
+    return `${fv}/${tv} эт.`;
+}
+
 function setupMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     if (mobileMenuBtn) {
@@ -1427,8 +1445,6 @@ function setActiveMenuItem() {
         if (currentPage === 'index.html' && (href === 'index.html' || href === '#')) {
             link.classList.add('active');
         } else if (currentPage === 'sale.html' && href === 'sale.html') {
-            link.classList.add('active');
-        } else if (currentPage === 'stats.html' && href === 'stats.html') {
             link.classList.add('active');
         } else if (href === currentPage) {
             link.classList.add('active');
@@ -1478,4 +1494,5 @@ window.updateProfile = updateProfile;
 window.changePassword = changePassword;
 window.addToFavorites = addToFavorites;
 window.removeFromFavorites = removeFromFavorites;
-window.deleteListing = deleteListing
+window.deleteListing = deleteListing;
+window.listingFloorsLabel = listingFloorsLabel;

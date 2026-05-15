@@ -127,8 +127,30 @@
             width: 120px;
             height: 120px;
             flex-shrink: 0;
+            position: relative;
         }
 
+        .my-listing-type-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 2;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.02em;
+            pointer-events: none;
+        }
+
+        .my-listing-type-badge.badge-rent {
+            background: #2c7873;
+        }
+
+        .my-listing-type-badge.badge-sale {
+            background: #2c7873;
+        }
 
         .my-listing-image img {
             width: 100%;
@@ -171,10 +193,6 @@
         }
 
         .listing-status-row { margin-top: 8px; }
-        .my-listing-header .badge {
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
         .listing-status-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -265,9 +283,6 @@
             <button class="profile-tab" data-tab="my-listings">
                 <i class="fas fa-list"></i> Мои объявления
             </button>
-            <a href="/stats.html" class="profile-tab" style="text-decoration:none;color:inherit;">
-                <i class="fas fa-chart-bar"></i> Статистика
-            </a>
         </div>
 
         
@@ -316,7 +331,7 @@
 
                 
                 <div class="settings-section">
-                    <h2>Смена пароля</h2>
+                    <h2>Смена пароля</h2><br>
                     <form id="passwordForm" class="password-change-form">
                         <div class="form-group">
                             <div class="input-field">

@@ -44,8 +44,8 @@ type Listing struct {
 	Price             float64    `json:"price" db:"price"`
 	Area              float64    `json:"area,omitempty" db:"area"`
 	Rooms             int        `json:"rooms,omitempty" db:"rooms"`
-	Floor             int        `json:"floor,omitempty" db:"floor"`
-	TotalFloors       int        `json:"total_floors,omitempty" db:"total_floors"`
+	Floor             int        `json:"floor" db:"floor"`
+	TotalFloors       int        `json:"total_floors" db:"total_floors"`
 	Address           string     `json:"address" db:"address"`
 	City              string     `json:"city" db:"city"`
 	District          string     `json:"district,omitempty" db:"district"`

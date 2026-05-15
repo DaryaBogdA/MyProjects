@@ -23,7 +23,7 @@ func NewRouter(db *sql.DB, projectRoot string) *http.ServeMux {
 	mux.HandleFunc("POST /api/register", authHandler.Register)
 	mux.HandleFunc("POST /api/login", authHandler.Login)
 	mux.HandleFunc("GET /api/listings", listingHandler.GetListings)
-	mux.HandleFunc("GET /api/stats/overview", listingHandler.GetPublicStats)
+	mux.HandleFunc("GET /api/stats/overview", middleware.AuthMiddleware(db, middleware.AdminOnly(listingHandler.GetPublicStats)))
 	mux.HandleFunc("GET /api/geocode", middleware.AuthMiddleware(db, listingHandler.GeocodeQuery))
 	mux.HandleFunc("GET /api/listings/{id}/reviews", listingHandler.GetListingReviews)
 	mux.HandleFunc("POST /api/listings/{id}/reviews", middleware.AuthMiddleware(db, listingHandler.CreateListingReview))
