@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Прогноз на год</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/img/main.png}"/>
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="calc-container">
+    <h2>Прогноз на год</h2>
+    <p class="muted" th:if="${isVip}">VIP-функция: энергия личного года и прогноз по месяцам.</p>
+    <p class="muted" th:if="${!isVip}">Прогноз на год доступен только пользователям с VIP-статусом.</p>
+
+    <div th:if="${vipRequired}" class="vip-message vip-message--error" style="margin-bottom: 20px;">
+        <span>Для просмотра прогноза на год необходим VIP. <a th:href="@{/user}">Перейти в личный кабинет</a></span>
+    </div>
+
+    <form th:action="@{/forecast/year}" method="post">
+        <div>
+            <label for="birthDate">Дата рождения:</label>
+            <input type="date" id="birthDate" name="birthDate" th:value="${birthDate}" required>
+
+            <label for="forecastYear" style="margin-top: 12px; display: block;">Год прогноза:</label>
+            <input type="number" id="forecastYear" name="forecastYear"
+                   th:value="${forecastYear}" min="1900" max="2100" required>
+
+            <button type="submit" style="margin-top: 16px;">Показать прогноз</button>
+        </div>
+    </form>
+
+    <div th:if="${personalYear != null and isVip}" class="year-forecast-result fade-in">
+        <h3>Личный год <span th:text="${forecastYear}"></span></h3>
+        <div class="year-forecast-year-card">
+            <span class="digit-badge" th:text="${personalYear}"></span>
+            <div th:if="${personalYearMatrix != null}" class="year-forecast-summary">
+                <p th:text="${personalYearMatrix.essenceEnergyPlus}"></p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 32px;">Прогноз по месяцам</h3>
+        <div class="year-forecast-months">
+            <article th:each="item : ${monthItems}" class="year-forecast-month-card">
+                <div class="year-forecast-month-header">
+                    <h4 th:text="${item.monthName}"></h4>
+                    <span class="digit-badge" th:text="${item.energy}"></span>
+                </div>
+                <div th:if="${item.matrix != null}">
+                    <p class="year-forecast-month-text" th:text="${item.matrix.essenceEnergyPlus}"></p>
+                </div>
+                <p th:if="${item.matrix == null}" class="muted">Описание для энергии [[${item.energy}]] не найдено.</p>
+            </article>
+        </div>
+    </div>
+</div>
+
+<div th:replace="blocks/footer :: footer"></div>
+</body>
+</html>

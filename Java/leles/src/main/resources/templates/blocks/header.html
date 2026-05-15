@@ -22,6 +22,9 @@
 
                 <li class="btn"><a th:href="@{/matrix}">Рассчитать матрицу</a></li>
                 <li class="btn"><a th:href="@{/compatibility}">Проверить совместимость</a></li>
+                <li th:if="${user != null and user.isVip}" class="btn">
+                    <a th:href="@{/forecast/year}">Прогноз на год</a>
+                </li>
 
                 <li th:if="${login != null}">
                     <a th:href="@{/logout}" class="logout-btn">Выйти</a>

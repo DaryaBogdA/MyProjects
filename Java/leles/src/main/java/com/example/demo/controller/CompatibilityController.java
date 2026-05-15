@@ -24,6 +24,8 @@ public class CompatibilityController {
 
     @PostMapping("/compatibility")
     public String calculate(
+            @RequestParam String name1,
+            @RequestParam String name2,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate1,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate2,
             Model model) {
@@ -35,6 +37,8 @@ public class CompatibilityController {
         model.addAttribute("description", description);
         model.addAttribute("date1", birthDate1);
         model.addAttribute("date2", birthDate2);
+        model.addAttribute("name1", name1);
+        model.addAttribute("name2", name2);
 
         return "compatibility";
     }

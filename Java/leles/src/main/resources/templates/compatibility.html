@@ -17,6 +17,16 @@
         <div>
             <div>
                 <div>
+                    <label for="name1">Имя первого партнёра:</label>
+                    <input type="text" th:value="${name1}" id="name1" name="name1" required maxlength="100" autocomplete="name">
+                </div>
+
+                <div>
+                    <label for="name2">Имя второго партнёра:</label>
+                    <input type="text" th:value="${name2}" id="name2" name="name2" required maxlength="100" autocomplete="name">
+                </div>
+
+                <div>
                     <label for="birthDate1">Дата рождения первого партнёра:</label>
                     <input type="date" th:value="${date1}" id="birthDate1" name="birthDate1" required>
                 </div>
@@ -27,7 +37,7 @@
                 </div>
             </div>
 
-            <button type="submit" >Рассчитать совместимость</button>
+            <button type="submit">Рассчитать совместимость</button>
         </div>
     </form>
 

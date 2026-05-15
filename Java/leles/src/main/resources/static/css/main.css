@@ -1388,3 +1388,65 @@ a:hover {
 .admin-dashboard .logout-btn:hover {
     background: rgba(231, 84, 128, 0.1);
 }
+
+.year-forecast-result {
+    margin-top: 32px;
+}
+
+.year-forecast-year-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 16px var(--shadow);
+    margin-top: 16px;
+}
+
+.year-forecast-summary p {
+    white-space: pre-line;
+}
+
+.year-forecast-months {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.year-forecast-month-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 12px var(--shadow);
+}
+
+.year-forecast-month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.year-forecast-month-header h4 {
+    margin: 0;
+    color: var(--accent-3);
+}
+
+.year-forecast-month-text {
+    white-space: pre-line;
+    font-size: 14px;
+}
+
+.calc-container input[type="text"],
+.calc-container input[type="number"] {
+    padding: 10px 12px;
+    border: 1px solid var(--accent-2);
+    border-radius: 8px;
+    font-family: inherit;
+    margin-top: 6px;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+}

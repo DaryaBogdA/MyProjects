@@ -32,6 +32,12 @@
         </div>
     </section>
 
+    <section th:if="${isVip}" class="card fade-in">
+        <h2>Прогноз на год</h2>
+        <p>Посмотрите энергию личного года и прогноз по каждому месяцу.</p>
+        <a th:href="@{/forecast/year}" class="btn">Открыть прогноз на год</a>
+    </section>
+
     <section class="card profile-requests fade-in">
         <h2>Ваши расклады по Матрице судьбы</h2>
         <p style="margin-bottom: 12px;"><a th:href="@{/matrix/history}">История раскладов</a></p>
