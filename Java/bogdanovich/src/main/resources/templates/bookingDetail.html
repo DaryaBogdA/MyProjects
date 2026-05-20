@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelCanvas — Бронирование</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
+</head>
+<body>
+<div id="header"></div>
+<div class="container mt-4 mb-5" id="content">Загрузка...</div>
+<div id="footer"></div>
+<script>
+    const bid = new URLSearchParams(location.search).get('id');
+    function render(b) {
+        const st = b.status || 'PENDING';
+        let body = `<a href="myBookings.html"><i class="fas fa-arrow-left"></i> Назад</a>
+        <h1 class="fw-bold mt-3">Бронирование #${b.id}</h1>
+        <p><span class="badge bg-secondary">${statusLabel(st)}</span> · <strong>${b.totalPrice || '—'} €</strong></p>`;
+        if (b.kind === 'TOUR') {
+            body += `<div class="card border-0 shadow-sm p-4 mt-3">
+                <h4>${b.tourName || 'Тур'}</h4>
+                ${b.travelDate ? '<p class="text-muted"><i class="fas fa-calendar me-1"></i>Начало: ' + b.travelDate + (b.dateTo ? ' → ' + b.dateTo : '') + '</p>' : ''}
+                <p>${b.tourDescription || ''}</p>
+                <p class="text-muted">${b.countryName || ''} ${b.cityName || ''}</p>
+                ${b.tourPhotoUrl ? '<img class="img-fluid rounded mt-2" style="max-height:280px;object-fit:cover" src="'+normalizeImage(b.tourPhotoUrl)+'">' : ''}
+            </div>`;
+        } else {
+            body += `<div class="card border-0 shadow-sm p-4 mt-3">
+                <h4>${b.tripTitle || 'Собственный тур'}</h4>
+                <p>${b.dateFrom || '—'} → ${b.dateTo || '—'} · ${b.peopleCount || '—'} чел.</p>
+                <p class="text-muted">${b.countryName || ''} ${b.cityName || ''}</p>
+                <ul>${(b.tripItems || []).map(i => '<li>'+i+'</li>').join('')}</ul>
+            </div>`;
+        }
+        if (canDownloadBookingDoc(st)) {
+            body += `<button type="button" class="btn mt-3 me-2" id="downloadBtn"><i class="fas fa-download me-1"></i>Скачать информацию о туре</button>`;
+        } else if (st === 'PENDING') {
+            body += `<p class="text-muted small mt-3 mb-0">Файл с информацией о туре будет доступен после одобрения заявки.</p>`;
+        }
+        if (st !== 'CANCELLED') {
+            body += `<button class="btn btn-outline-danger mt-3" id="cancelBtn">Отменить заявку</button>`;
+        }
+        $('#content').html(body);
+        if ($('#downloadBtn').length) {
+            $('#downloadBtn').on('click', function () { downloadBookingDocument(b.id); });
+        }
+        if ($('#cancelBtn').length) {
+            $('#cancelBtn').on('click', async function () {
+                await $.ajax({ url: API_BASE + '/bookings/' + b.id + '/cancel', method: 'POST', headers: authHeaders() });
+                location.href = 'myBookings.html';
+            });
+        }
+    }
+    $(document).ready(function () {
+        if (!requireAuth('login.html')) return;
+        if (!bid) return;
+        $.ajax({ url: API_BASE + '/bookings/' + bid, headers: authHeaders() }).done(render).fail(() => $('#content').html('<p class="text-danger">Не найдено</p>'));
+    });
+</script>
+</body>
+</html>

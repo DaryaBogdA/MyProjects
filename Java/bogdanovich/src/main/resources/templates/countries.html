@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -9,9 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap"
           rel="stylesheet">
-    <link href="../static/css/style.css" rel="stylesheet">
-    <link rel="icon" href="../static/img/logo.png">
-    <script src="../static/js/js.js"></script>
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
 
 </head>
 <body>
@@ -27,7 +29,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:8087/api/countries',
+            url: API_BASE + '/countries?page=0&size=100',
             type: 'GET',
             contentType: 'application/json',
             success: function (response) {
@@ -44,7 +46,7 @@
                            style="transition: transform 0.3s, box-shadow 0.3s;"
                            onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.15)'"
                            onmouseout="this.style.transform='';this.style.boxShadow=''">
-                            <img src="${country.path_url}" class="card-img-top" alt="${country.name}" style="height: 200px; object-fit: cover;">
+                            <img src="${normalizeImage(country.path_url)}" class="card-img-top" alt="${country.name}" style="height: 200px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80'">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title fw-bold mb-2">${country.name}</h5>
                                 <p class="card-text description small text-secondary-emphasis mb-3">${country.description || ''}</p>

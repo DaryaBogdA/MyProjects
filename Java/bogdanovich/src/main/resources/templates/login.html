@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -9,9 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap"
           rel="stylesheet">
-    <link href="../static/css/style.css" rel="stylesheet">
-    <link rel="icon" href="../static/img/logo.png">
-    <script src="../static/js/js.js"></script>
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
 </head>
 <body>
 <div id="header"></div>
@@ -51,16 +53,6 @@
                 <button type="submit" class="btn">
                 <i class="fas fa-user-plus"></i>Войти
                 </button>
-
-                <div class="divider">
-                    <span>или</span>
-                </div>
-
-                <div class="social-register">
-                    <button type="button" class="social-btn">
-                        <i class="fab fa-google"></i>Google
-                    </button>
-                </div>
 
                 <div class="login-link">
                     <p>Еще нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
@@ -110,7 +102,7 @@
         }
 
         $.ajax({
-            url: 'http://localhost:8087/api/auth/login',
+            url: API_BASE + '/auth/login',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({email, password}),

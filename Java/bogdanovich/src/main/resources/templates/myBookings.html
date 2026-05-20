@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelCanvas — Мои бронирования</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
+    <style>
+        .booking-card { border: 1px solid #eef2f6; border-radius: 16px; padding: 16px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+        .status-pill { padding: 4px 12px; border-radius: 999px; font-size: .8rem; font-weight: 700; }
+        .status-PENDING { background: #fff3cd; color: #856404; }
+        .status-CONFIRMED { background: #d1e7dd; color: #0f5132; }
+        .status-CANCELLED { background: #f8d7da; color: #842029; }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+<div class="container mt-4 mb-5">
+    <h1 class="fw-bold">Мои бронирования</h1>
+    <p class="text-muted">Заявки на туры и собственные маршруты</p>
+    <div id="list" class="d-grid gap-3 mt-3"></div>
+    <p id="empty" class="text-muted" style="display:none;">Пока нет бронирований. <a href="chooseTour.html">Выбрать тур</a></p>
+</div>
+<div id="footer"></div>
+<script>
+    $(document).ready(async function () {
+        if (!requireAuth()) return;
+        try {
+            const items = await $.ajax({ url: API_BASE + '/bookings/me', headers: authHeaders() });
+            const box = $('#list');
+            box.empty();
+            if (!items.length) { $('#empty').show(); return; }
+            items.forEach(b => {
+                const title = b.tourName ? ('Тур: ' + b.tourName) : (b.tripTitle || ('Мой тур #' + b.tripId));
+                const st = b.status || 'PENDING';
+                box.append(`
+                    <div class="booking-card d-flex flex-wrap justify-content-between align-items-center gap-3">
+                        <div>
+                            <div class="fw-bold">${title}</div>
+                            <span class="status-pill status-${st}">${statusLabel(st)}</span>
+                            <div class="text-muted small mt-1">${b.travelDate ? 'Дата: ' + b.travelDate + ' · ' : ''}${b.totalPrice != null ? b.totalPrice + ' €' : ''}</div>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="bookingDetail.html?id=${b.id}" class="btn btn-sm">Подробнее</a>
+                            ${canDownloadBookingDoc(st) ? `<button type="button" class="btn btn-sm" data-download="${b.id}"><i class="fas fa-download"></i> Скачать</button>` : ''}
+                            ${st !== 'CANCELLED' ? `<button class="btn btn-sm btn-outline-danger" data-cancel="${b.id}">Отменить</button>` : ''}
+                        </div>
+                    </div>`);
+            });
+            box.on('click', '[data-download]', function () {
+                downloadBookingDocument($(this).data('download'));
+            }).on('click', '[data-cancel]', async function () {
+                const id = $(this).data('cancel');
+                if (!confirm('Отменить заявку?')) return;
+                await $.ajax({ url: API_BASE + '/bookings/' + id + '/cancel', method: 'POST', headers: authHeaders() });
+                location.reload();
+            });
+        } catch (e) { $('#empty').text('Не удалось загрузить').show(); }
+    });
+</script>
+</body>
+</html>

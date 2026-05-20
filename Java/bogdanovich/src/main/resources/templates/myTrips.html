@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelCanvas — Мои туры</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
+    <style>
+        .trip-card { border: 1px solid #eef2f6; border-radius: 16px; padding: 18px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Мои туры</h1>
+            <p class="text-muted mb-0">Собранные вами маршруты — можно забронировать или изменить</p>
+        </div>
+        <a href="tourCreate.html" class="btn"><i class="fas fa-plus me-2"></i>Собрать новый</a>
+    </div>
+    <div id="list" class="d-grid gap-3"></div>
+    <p id="empty" class="text-muted" style="display:none;">У вас пока нет сохранённых туров. <a href="tourCreate.html">Собрать тур</a></p>
+</div>
+<div id="footer"></div>
+<script>
+    function isPastDate(iso) {
+        if (!iso) return true;
+        return iso < todayIso();
+    }
+
+    $(document).ready(async function () {
+        if (!requireAuth()) return;
+        try {
+            const trips = await $.ajax({ url: API_BASE + '/trips/me', headers: authHeaders() });
+            const box = $('#list');
+            box.empty();
+            if (!trips.length) { $('#empty').show(); return; }
+            trips.forEach(t => {
+                const past = isPastDate(t.dateFrom);
+                const dates = (t.dateFrom || '—') + ' → ' + (t.dateTo || '—');
+                box.append(`
+                    <div class="trip-card">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                            <div>
+                                <h5 class="fw-bold mb-1">${t.title || ('Мой тур #' + t.id)}</h5>
+                                <p class="text-muted small mb-1">${t.countryName || ''}${t.cityName ? ' · ' + t.cityName : ''}</p>
+                                <p class="small mb-1"><i class="fas fa-calendar me-1"></i>${dates}</p>
+                                <p class="small mb-0"><i class="fas fa-users me-1"></i>${t.peopleCount || 1} чел. · <strong>${t.totalPrice || '—'} €</strong></p>
+                                ${past ? '<p class="text-danger small mt-2 mb-0">Даты в прошлом — бронирование недоступно</p>' : ''}
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tourCreate.html" class="btn btn-sm btn-outline-secondary">Изменить</a>
+                                <button class="btn btn-sm" data-book="${t.id}" ${past ? 'disabled' : ''}>Забронировать</button>
+                            </div>
+                        </div>
+                    </div>`);
+            });
+            box.on('click', '[data-book]', async function () {
+                const id = $(this).data('book');
+                try {
+                    await $.ajax({ url: API_BASE + '/bookings/trips/' + id, method: 'POST', headers: authHeaders() });
+                    alert('Заявка отправлена!');
+                    window.location.href = 'myBookings.html';
+                } catch (e) {
+                    alert(e.responseJSON?.message || 'Не удалось забронировать');
+                }
+            });
+        } catch (e) {
+            $('#empty').text('Не удалось загрузить туры').show();
+        }
+    });
+</script>
+</body>
+</html>

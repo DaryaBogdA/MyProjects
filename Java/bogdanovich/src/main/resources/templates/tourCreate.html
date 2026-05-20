@@ -1,59 +1,527 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelCanvas</title>
+    <title>TravelCanvas — Собрать тур</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap"
-          rel="stylesheet">
-    <link href="../static/css/style.css" rel="stylesheet">
-    <link rel="icon" href="../static/img/logo.png">
-    <script src="../static/js/js.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #3d4f6e 100%);
+            color: #fff;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+        }
+        .page-title { font-size: 2rem; font-weight: 800; margin: 0; }
+        .page-subtitle { opacity: 0.85; margin-top: 6px; }
+        .card-soft {
+            border: 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.25rem;
+        }
+        .card-soft .card-header {
+            border: 0;
+            background: transparent;
+            padding: 18px 22px 0;
+            font-weight: 800;
+        }
+        .card-soft .card-body { padding: 18px 22px 22px; }
+        .pick-row {
+            border: 1px solid #eef2f6;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .pick-row label { margin: 0; cursor: pointer; flex: 1; }
+        .cart-box {
+            position: sticky;
+            top: 90px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .cart-total { font-size: 1.5rem; font-weight: 800; color: var(--coral, #ff6b6b); }
+        .muted { color: #6b7280; }
+        #builderAlert { display: none; }
+    </style>
 </head>
 <body>
 <div id="header"></div>
 
-<main>
-    <div class="container">
-        <div class="section-title">
-            <h2>Собери тур сам</h2>
-            <p class="text-muted" style="font-size: 1.2rem; margin-top: 15px;">Выбери город, отель, транспорт для своего идеального путешествия</p>
-        </div>
+<div class="container mt-4 mb-5">
+    <div class="page-hero mb-4">
+        <div class="page-title">Собрать тур</div>
+        <div class="page-subtitle">Выберите направление, отель, транспорт и активности — сохраните и забронируйте</div>
+    </div>
 
-        <ul class="nav nav-pills justify-content-center mb-5" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-paris-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-paris" type="button" role="tab"
-                        aria-controls="pills-paris" aria-selected="true">
-                    Общее планирование
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-nice-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-nice" type="button" role="tab"
-                        aria-controls="pills-nice" aria-selected="false">
-                    Полное почасовое планирование
-                </button>
-            </li>
-        </ul>
+    <div id="builderAlert" class="alert"></div>
 
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-paris" role="tabpanel" aria-labelledby="pills-paris-tab">
-
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card card-soft">
+                <div class="card-header"><i class="fas fa-map-marker-alt me-2"></i>Основное</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Название тура</label>
+                            <input type="text" class="form-control" id="tripTitle" placeholder="Мой отпуск в Италии">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Дата начала</label>
+                            <input type="date" class="form-control" id="dateFrom">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Дата окончания</label>
+                            <input type="date" class="form-control" id="dateTo">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Страна</label>
+                            <select class="form-select" id="countryId"><option value="">— выберите —</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Город</label>
+                            <select class="form-select" id="cityId" disabled><option value="">— сначала страна —</option></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Кол-во людей</label>
+                            <input type="number" class="form-control" id="peopleCount" min="1" value="2">
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="tab-pane fade" id="pills-nice" role="tabpanel" aria-labelledby="pills-nice-tab">
+            <div class="card card-soft">
+                <div class="card-header"><i class="fas fa-hotel me-2"></i>Отель и номер</div>
+                <div class="card-body" id="hotelsBox"><p class="muted mb-0">Выберите город, чтобы загрузить отели.</p></div>
+            </div>
 
+            <div class="card card-soft">
+                <div class="card-header"><i class="fas fa-bus me-2"></i>Транспорт между городами</div>
+                <div class="card-body">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Откуда</label>
+                            <select class="form-select" id="transportFrom"><option value="">— город —</option></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Куда</label>
+                            <select class="form-select" id="transportTo"><option value="">— город —</option></select>
+                        </div>
+                    </div>
+                    <div id="transportBox"><p class="muted mb-0">Укажите города отправления и прибытия.</p></div>
+                </div>
+            </div>
+
+            <div class="card card-soft">
+                <div class="card-header"><i class="fas fa-walking me-2"></i>Экскурсии</div>
+                <div class="card-body" id="excursionsBox"><p class="muted mb-0">Выберите город.</p></div>
+            </div>
+
+            <div class="card card-soft">
+                <div class="card-header"><i class="fas fa-landmark me-2"></i>Достопримечательности</div>
+                <div class="card-body" id="attractionsBox"><p class="muted mb-0">Выберите город.</p></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="cart-box">
+                <h5 class="fw-bold mb-3">Ваш тур</h5>
+                <ul id="cartList" class="list-unstyled small mb-3"></ul>
+                <div class="cart-total mb-3">≈ <span id="cartTotal">0</span> €</div>
+                <p class="muted small">Стоимость: цена × люди (для отеля ещё × ночи). Точная сумма — на сервере.</p>
+                <button type="button" class="btn w-100 mb-2" id="saveTripBtn"><i class="fas fa-save"></i> Сохранить тур</button>
+                <button type="button" class="btn btn-outline-secondary w-100" id="bookTripBtn" disabled><i class="fas fa-check"></i> Забронировать</button>
+                <p class="muted small mt-2 mb-0" id="savedTripHint"></p>
             </div>
         </div>
     </div>
-</main>
+</div>
 
 <div id="footer"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const API_BASE = window.API_BASE || 'http://localhost:8087/api';
+    let allCities = [];
+    let cart = [];
+    let savedTripId = null;
 
+    function authHeaders() {
+        const token = localStorage.getItem('token');
+        return token ? { 'Authorization': 'Bearer ' + token } : {};
+    }
+
+    function showAlert(type, text) {
+        const el = $('#builderAlert');
+        el.removeClass('alert-success alert-danger alert-warning').addClass('alert-' + type).text(text).show();
+        setTimeout(() => el.fadeOut(), 4000);
+    }
+
+    function requireAuth() {
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+            return false;
+        }
+        return true;
+    }
+
+    function nightsCount() {
+        const from = $('#dateFrom').val();
+        const to = $('#dateTo').val();
+        if (!from || !to) return 1;
+        const d1 = new Date(from);
+        const d2 = new Date(to);
+        const diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
+        return Math.max(1, diff || 1);
+    }
+
+    function peopleCountVal() {
+        return Math.max(1, parseInt($('#peopleCount').val(), 10) || 1);
+    }
+
+    function quantityForType(type) {
+        const people = peopleCountVal();
+        if (type === 'HOTEL') return nightsCount() * people;
+        if (type === 'TRANSPORT' || type === 'EXCURSION') return people;
+        return 1;
+    }
+
+    function recalcCartQuantities() {
+        const people = peopleCountVal();
+        const nights = nightsCount();
+        cart.forEach(c => {
+            if (c.itemType === 'HOTEL') {
+                c.quantity = nights * people;
+            } else if (c.itemType === 'TRANSPORT' || c.itemType === 'EXCURSION') {
+                c.quantity = people;
+            }
+        });
+        renderCart();
+    }
+
+    function setCartItem(type, itemId, label, unitPrice, qty) {
+        if (type === 'HOTEL') {
+            cart = cart.filter(c => c.itemType !== 'HOTEL');
+        } else {
+            cart = cart.filter(c => !(c.itemType === type && c.itemId === itemId));
+        }
+        if (qty > 0) {
+            cart.push({ itemType: type, itemId: itemId, quantity: qty, label: label, unitPrice: unitPrice });
+            recalcCartQuantities();
+        } else {
+            renderCart();
+        }
+    }
+
+    function renderCart() {
+        const list = $('#cartList');
+        list.empty();
+        let total = 0;
+        cart.forEach(c => {
+            const line = (c.unitPrice || 0) * c.quantity;
+            total += line;
+            list.append('<li class="mb-2">' + c.label + ' × ' + c.quantity + ' — ' + line.toFixed(2) + ' €</li>');
+        });
+        if (cart.length === 0) {
+            list.append('<li class="muted">Пока ничего не выбрано</li>');
+        }
+        $('#cartTotal').text(total.toFixed(2));
+    }
+
+    function fillCitySelects() {
+        const countryId = parseInt($('#countryId').val(), 10);
+        const citySelect = $('#cityId');
+        citySelect.empty().append('<option value="">— выберите город —</option>');
+        const filtered = countryId
+            ? allCities.filter(c => c.countryId === countryId)
+            : allCities;
+        filtered.forEach(c => {
+            citySelect.append('<option value="' + c.id + '">' + c.name + '</option>');
+        });
+        citySelect.prop('disabled', !countryId);
+
+        const transportFrom = $('#transportFrom');
+        const transportTo = $('#transportTo');
+        transportFrom.empty().append('<option value="">— город —</option>');
+        transportTo.empty().append('<option value="">— город —</option>');
+        allCities.forEach(c => {
+            transportFrom.append('<option value="' + c.id + '">' + c.name + '</option>');
+            transportTo.append('<option value="' + c.id + '">' + c.name + '</option>');
+        });
+    }
+
+    async function loadCountries() {
+        const page = await $.get(API_BASE + '/countries?page=0&size=100');
+        const countries = page.content || page;
+        const sel = $('#countryId');
+        countries.forEach(c => {
+            sel.append('<option value="' + c.id + '">' + c.name + '</option>');
+        });
+    }
+
+    async function loadCities() {
+        allCities = await $.get(API_BASE + '/cities');
+        fillCitySelects();
+    }
+
+    async function loadHotels(cityId) {
+        const box = $('#hotelsBox');
+        if (!cityId) {
+            box.html('<p class="muted mb-0">Выберите город.</p>');
+            return;
+        }
+        box.html('<p class="muted">Загрузка...</p>');
+        try {
+            const hotels = await $.get(API_BASE + '/hotels/byCity/' + cityId);
+            if (!hotels.length) {
+                box.html('<p class="muted mb-0">Нет отелей в этом городе.</p>');
+                return;
+            }
+            box.empty();
+            const nights = nightsCount();
+            hotels.forEach(h => {
+                const rooms = h.roomTypes || [];
+                if (!rooms.length) return;
+                box.append('<p class="fw-bold mb-2">' + h.name + (h.stars ? ' (' + h.stars + '★)' : '') + '</p>');
+                rooms.forEach(rt => {
+                    const price = parseFloat(rt.priceNight) || 0;
+                    const id = 'room-' + rt.id;
+                    box.append(
+                        '<div class="pick-row">' +
+                        '<label for="' + id + '">' + rt.name + ' — ' + price + ' €/ночь</label>' +
+                        '<input type="checkbox" class="form-check-input hotel-pick" id="' + id + '"' +
+                        ' data-id="' + rt.id + '" data-label="Номер: ' + h.name + ', ' + rt.name + '"' +
+                        ' data-price="' + price + '">' +
+                        '</div>'
+                    );
+                });
+            });
+            box.off('change', '.hotel-pick').on('change', '.hotel-pick', function () {
+                $('.hotel-pick').not(this).prop('checked', false);
+                if (this.checked) {
+                    const label = $(this).data('label');
+                    setCartItem('HOTEL', parseInt($(this).data('id'), 10), label, parseFloat($(this).data('price')), quantityForType('HOTEL'));
+                } else {
+                    cart = cart.filter(c => c.itemType !== 'HOTEL');
+                    renderCart();
+                }
+            });
+        } catch (e) {
+            box.html('<p class="text-danger">Не удалось загрузить отели</p>');
+        }
+    }
+
+    async function loadTransport() {
+        const fromId = $('#transportFrom').val();
+        const toId = $('#transportTo').val();
+        const box = $('#transportBox');
+        cart = cart.filter(c => c.itemType !== 'TRANSPORT');
+        renderCart();
+        if (!fromId || !toId) {
+            box.html('<p class="muted mb-0">Укажите города.</p>');
+            return;
+        }
+        if (fromId === toId) {
+            box.html('<p class="muted mb-0">Выберите разные города для перелёта/поезда.</p>');
+            return;
+        }
+        box.html('<p class="muted">Загрузка...</p>');
+        try {
+            const list = await $.get(API_BASE + '/transport/between?fromCityId=' + fromId + '&toCityId=' + toId);
+            if (!list.length) {
+                box.html('<p class="muted mb-0">Маршрутов не найдено.</p>');
+                return;
+            }
+            box.empty();
+            list.forEach(t => {
+                const price = parseFloat(t.price) || 0;
+                const label = (t.type || 'Транспорт') + (t.company ? ' · ' + t.company : '') + ' — ' + price + ' €';
+                const id = 'tr-' + t.id;
+                box.append(
+                    '<div class="pick-row">' +
+                    '<label for="' + id + '">' + label + '</label>' +
+                    '<input type="checkbox" class="form-check-input transport-pick" id="' + id + '"' +
+                    ' data-id="' + t.id + '" data-label="' + label + '" data-price="' + price + '">' +
+                    '</div>'
+                );
+            });
+            $('.transport-pick').on('change', function () {
+                $('.transport-pick').not(this).prop('checked', false);
+                cart = cart.filter(c => c.itemType !== 'TRANSPORT');
+                if (this.checked) {
+                    cart.push({
+                        itemType: 'TRANSPORT',
+                        itemId: parseInt($(this).data('id'), 10),
+                        quantity: quantityForType('TRANSPORT'),
+                        label: $(this).data('label'),
+                        unitPrice: parseFloat($(this).data('price'))
+                    });
+                    recalcCartQuantities();
+                } else {
+                    renderCart();
+                }
+            });
+        } catch (e) {
+            box.html('<p class="text-danger">Ошибка загрузки транспорта</p>');
+        }
+    }
+
+    function renderChecks(containerId, items, type, nameField, priceField) {
+        const box = $('#' + containerId);
+        if (!items || !items.length) {
+            box.html('<p class="muted mb-0">Нет вариантов.</p>');
+            return;
+        }
+        box.empty();
+        items.forEach(item => {
+            const price = parseFloat(item[priceField]) || 0;
+            const name = item[nameField] || ('#' + item.id);
+            const id = type + '-' + item.id;
+            box.append(
+                '<div class="pick-row">' +
+                '<label for="' + id + '">' + name + (price > 0 ? ' — ' + price + ' €' : ' — бесплатно') + '</label>' +
+                '<input type="checkbox" class="form-check-input activity-pick" id="' + id + '"' +
+                ' data-type="' + type + '" data-id="' + item.id + '" data-label="' + name + '" data-price="' + price + '">' +
+                '</div>'
+            );
+        });
+        $('.activity-pick').off('change').on('change', function () {
+            const t = $(this).data('type');
+            const id = parseInt($(this).data('id'), 10);
+            if (this.checked) {
+                setCartItem(t, id, $(this).data('label'), parseFloat($(this).data('price')), quantityForType(t));
+            } else {
+                setCartItem(t, id, '', 0, 0);
+            }
+        });
+    }
+
+    async function loadActivities(cityId) {
+        if (!cityId) return;
+        $('#excursionsBox').html('<p class="muted">Загрузка...</p>');
+        $('#attractionsBox').html('<p class="muted">Загрузка...</p>');
+        try {
+            const [excursions, attractions] = await Promise.all([
+                $.get(API_BASE + '/excursions/byCity/' + cityId),
+                $.get(API_BASE + '/attractions/byCity/' + cityId)
+            ]);
+            renderChecks('excursionsBox', excursions, 'EXCURSION', 'name', 'price');
+            renderChecks('attractionsBox', attractions, 'ATTRACTION', 'name', 'price');
+        } catch (e) {
+            $('#excursionsBox').html('<p class="text-danger">Ошибка</p>');
+            $('#attractionsBox').html('<p class="text-danger">Ошибка</p>');
+        }
+    }
+
+    function buildPayload() {
+        recalcCartQuantities();
+        return {
+            countryId: parseInt($('#countryId').val(), 10) || null,
+            cityId: parseInt($('#cityId').val(), 10) || null,
+            dateFrom: $('#dateFrom').val() || null,
+            dateTo: $('#dateTo').val() || null,
+            peopleCount: parseInt($('#peopleCount').val(), 10) || 1,
+            title: $('#tripTitle').val() || null,
+            items: cart.map(c => ({
+                itemType: c.itemType,
+                itemId: c.itemId,
+                quantity: c.quantity
+            }))
+        };
+    }
+
+    $('#countryId').on('change', function () {
+        fillCitySelects();
+        $('#cityId').val('');
+        loadHotels(null);
+    });
+
+    $('#cityId').on('change', function () {
+        const cityId = $(this).val();
+        if (cityId) {
+            $('#transportTo').val(cityId);
+        }
+        loadHotels(cityId);
+        loadActivities(cityId);
+    });
+
+    $('#transportFrom, #transportTo').on('change', loadTransport);
+    $('#dateFrom, #dateTo, #peopleCount').on('change input', function () {
+        recalcCartQuantities();
+    });
+
+    $('#saveTripBtn').on('click', async function () {
+        recalcCartQuantities();
+        if (!requireAuth()) return;
+        const payload = buildPayload();
+        if (!payload.countryId || !payload.cityId) {
+            showAlert('warning', 'Выберите страну и город');
+            return;
+        }
+        if (!payload.dateFrom || !payload.dateTo) {
+            showAlert('warning', 'Укажите даты поездки');
+            return;
+        }
+        if (payload.dateFrom < todayIso()) {
+            showAlert('warning', 'Дата начала не может быть в прошлом');
+            return;
+        }
+        if (payload.dateTo < payload.dateFrom) {
+            showAlert('warning', 'Дата окончания раньше даты начала');
+            return;
+        }
+        try {
+            const res = await $.ajax({
+                url: API_BASE + '/trips',
+                method: 'POST',
+                contentType: 'application/json',
+                headers: authHeaders(),
+                data: JSON.stringify(payload)
+            });
+            savedTripId = res.tripId;
+            $('#bookTripBtn').prop('disabled', false);
+            $('#savedTripHint').text('Тур сохранён (№' + savedTripId + '). Итого: ' + (res.totalPrice || '—') + ' €');
+            showAlert('success', 'Тур сохранён');
+        } catch (e) {
+            showAlert('danger', 'Не удалось сохранить. Войдите в аккаунт и проверьте данные.');
+        }
+    });
+
+    $('#bookTripBtn').on('click', async function () {
+        if (!requireAuth() || !savedTripId) return;
+        try {
+            await $.ajax({
+                url: API_BASE + '/bookings/trips/' + savedTripId,
+                method: 'POST',
+                headers: authHeaders()
+            });
+            showAlert('success', 'Бронирование оформлено');
+            setTimeout(() => { window.location.href = 'profile.html'; }, 1200);
+        } catch (e) {
+            showAlert('danger', 'Не удалось забронировать');
+        }
+    });
+
+    $(document).ready(async function () {
+        setMinDateToday('#dateFrom, #dateTo');
+        await loadCountries();
+        await loadCities();
+        renderCart();
+    });
+</script>
 </body>
 </html>

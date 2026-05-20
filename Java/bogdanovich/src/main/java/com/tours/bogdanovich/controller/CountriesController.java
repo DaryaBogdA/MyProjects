@@ -7,6 +7,7 @@ import com.tours.bogdanovich.entity.Attraction;
 import com.tours.bogdanovich.entity.City;
 import com.tours.bogdanovich.entity.Country;
 import com.tours.bogdanovich.service.CountryService;
+import com.tours.bogdanovich.util.MediaUrlUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class CountriesController {
         dto.setId(country.getId());
         dto.setName(country.getName());
         dto.setPopularity(country.getPopularity());
-        dto.setPath_url(country.getPath_url());
+        dto.setPath_url(MediaUrlUtil.normalizePhotoUrl(country.getPath_url()));
         dto.setDescription(country.getDescription());
         return dto;
     }
@@ -80,7 +81,7 @@ public class CountriesController {
         dto.setName(attraction.getName());
         dto.setPopularity(attraction.getPopularity());
         dto.setDescription(attraction.getDescription());
-        dto.setPhoto_url(attraction.getPhoto_url());
+        dto.setPhoto_url(MediaUrlUtil.normalizePhotoUrl(attraction.getPhoto_url()));
         return dto;
     }
 }

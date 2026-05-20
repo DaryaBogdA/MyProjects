@@ -133,7 +133,6 @@ header {
     width: 100%;
 }
 
-/* Active link style */
 .nav-links a.active {
     color: var(--coral);
 }

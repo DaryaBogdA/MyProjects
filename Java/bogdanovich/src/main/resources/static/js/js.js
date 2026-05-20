@@ -1,8 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
-    $("#header").load("blocks/header.html", function() {
+    const siteBase = window.SITE_BASE || '/api/site/';
+
+    $('#header').load(siteBase + 'blocks/header.html', function (_response, status) {
+        if (status === 'error') {
+            console.error('Не удалось загрузить header:', siteBase + 'blocks/header.html');
+            return;
+        }
         updateMenu();
+        bindMobileMenu();
     });
-    $("#footer").load("blocks/footer.html");
+
+    $('#footer').load(siteBase + 'blocks/footer.html');
 
     function updateMenu() {
         const token = localStorage.getItem('token');
@@ -10,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const registerLink = document.getElementById('register-link');
         const profileLink = document.getElementById('profile-link');
         const logoutLink = document.getElementById('logout-link');
+        const adminLink = document.getElementById('admin-link');
+
+        if (!loginLink || !registerLink || !profileLink || !logoutLink) {
+            return;
+        }
 
         if (token) {
             loginLink.style.display = 'none';
@@ -17,12 +30,20 @@ document.addEventListener('DOMContentLoaded', function () {
             profileLink.style.display = 'list-item';
             logoutLink.style.display = 'list-item';
 
+            if (typeof loadCurrentUser === 'function') {
+                loadCurrentUser().then(function (user) {
+                    if (adminLink && user && user.role === 'ADMIN') {
+                        adminLink.style.display = 'list-item';
+                    }
+                });
+            }
+
             const logoutBtn = document.getElementById('logout-btn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function (e) {
                     e.preventDefault();
                     localStorage.removeItem('token');
-                    window.location.href = 'main.html';
+                    window.location.href = siteBase + 'main.html';
                 });
             }
         } else {
@@ -30,6 +51,25 @@ document.addEventListener('DOMContentLoaded', function () {
             registerLink.style.display = 'list-item';
             profileLink.style.display = 'none';
             logoutLink.style.display = 'none';
+            if (adminLink) adminLink.style.display = 'none';
         }
+    }
+
+    function bindMobileMenu() {
+        const header = document.querySelector('header');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (!header || !menuToggle || !navLinks) return;
+
+        menuToggle.addEventListener('click', function () {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (!icon) return;
+            if (navLinks.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
     }
 });

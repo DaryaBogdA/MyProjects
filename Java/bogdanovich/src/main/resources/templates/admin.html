@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelCanvas — Админ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
+    <style>
+        .admin-card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,.08); margin-bottom: 1.5rem; }
+        .photo-preview { max-height: 120px; border-radius: 12px; margin-top: 8px; display: none; }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+<div class="container mt-4 mb-5">
+    <h1 class="fw-bold">Панель администратора</h1>
+    <p class="text-muted">Публикация туров и модерация заявок</p>
+    <div id="denied" class="alert alert-danger" style="display:none;">Доступ только для администратора</div>
+
+    <div id="panel" style="display:none;">
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabBookings">Заявки</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-target="#tabTours" data-bs-toggle="tab">Туры</button></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tabBookings">
+                <div class="admin-card">
+                    <h5 class="fw-bold">Ожидают подтверждения</h5>
+                    <div id="pendingList" class="d-grid gap-2 mt-3"></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabTours">
+                <div class="admin-card">
+                    <h5 class="fw-bold mb-3">Новый тур</h5>
+                    <form id="tourForm" class="row g-2">
+                        <div class="col-md-6"><input class="form-control" id="tName" placeholder="Название" required></div>
+                        <div class="col-md-3"><input type="number" class="form-control" id="tDays" placeholder="Дней"></div>
+                        <div class="col-md-3"><input type="number" step="0.01" class="form-control" id="tPrice" placeholder="Цена €" required></div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Фото тура</label>
+                            <input type="file" class="form-control" id="tPhotoFile" accept="image/*">
+                            <img id="photoPreview" class="photo-preview" alt="">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Страна</label>
+                            <select class="form-select" id="tCountry" required><option value="">— выберите страну —</option></select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Город</label>
+                            <select class="form-select" id="tCity" disabled required><option value="">— выберите город —</option></select>
+                        </div>
+                        <div class="col-md-3"><input type="number" class="form-control" id="tPop" placeholder="Популярность"></div>
+                        <div class="col-12"><textarea class="form-control" id="tDesc" rows="2" placeholder="Описание"></textarea></div>
+                        <div class="col-12"><textarea class="form-control" id="tProg" rows="2" placeholder="Программа по дням"></textarea></div>
+                        <div class="col-12"><label><input type="checkbox" id="tPub" checked> Опубликовать сразу</label></div>
+                        <div class="col-12"><button class="btn" type="submit">Создать тур</button></div>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h5 class="fw-bold">Все туры</h5>
+                    <div id="allTours" class="d-grid gap-2 mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function adminHeaders() { return authHeaders(); }
+    let countriesCache = [];
+    let pendingPhotoFile = null;
+
+    async function ensureAdmin() {
+        const u = await loadCurrentUser();
+        if (!u || u.role !== 'ADMIN') {
+            $('#denied').show();
+            return false;
+        }
+        $('#panel').show();
+        return true;
+    }
+
+    async function loadCountries() {
+        const page = await $.get(API_BASE + '/countries?page=0&size=100');
+        countriesCache = page.content || page;
+        const sel = $('#tCountry');
+        sel.find('option:not(:first)').remove();
+        countriesCache.forEach(c => sel.append(`<option value="${c.id}">${c.name}</option>`));
+    }
+
+    $('#tCountry').on('change', async function () {
+        const cid = $(this).val();
+        const citySel = $('#tCity');
+        citySel.empty().prop('disabled', true);
+        if (!cid) {
+            citySel.append('<option value="">— сначала страна —</option>');
+            return;
+        }
+        const cities = await $.get(API_BASE + '/cities/byCountry/' + cid);
+        citySel.prop('disabled', false).append('<option value="">— выберите город —</option>');
+        cities.forEach(c => citySel.append(`<option value="${c.id}">${c.name}</option>`));
+    });
+
+    $('#tPhotoFile').on('change', function () {
+        pendingPhotoFile = this.files[0] || null;
+        const preview = $('#photoPreview');
+        if (!pendingPhotoFile) {
+            preview.hide();
+            return;
+        }
+        preview.attr('src', URL.createObjectURL(pendingPhotoFile)).show();
+    });
+
+    async function uploadPhotoIfNeeded() {
+        const file = pendingPhotoFile || ($('#tPhotoFile')[0] && $('#tPhotoFile')[0].files[0]);
+        if (!file) return null;
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await $.ajax({
+            url: API_BASE + '/admin/upload',
+            method: 'POST',
+            headers: adminHeaders(),
+            data: fd,
+            processData: false,
+            contentType: false
+        });
+        if (!res || !res.url) {
+            throw new Error('Сервер не вернул URL фото');
+        }
+        return res.url;
+    }
+
+    async function loadPending() {
+        const list = await $.ajax({ url: API_BASE + '/admin/bookings/pending', headers: adminHeaders() });
+        const box = $('#pendingList');
+        box.empty();
+        if (!list.length) { box.html('<p class="text-muted">Нет заявок</p>'); return; }
+        list.forEach(b => {
+            const t = b.tourName ? ('Тур: ' + b.tourName) : (b.tripTitle || 'Свой тур');
+            box.append(`<div class="border rounded p-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div><strong>${t}</strong><br><small>${b.userEmail || ''} · ${b.totalPrice} €</small></div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="adminBookingDetail.html?id=${b.id}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                    <button class="btn btn-sm" data-ok="${b.id}">Одобрить</button>
+                    <button class="btn btn-sm btn-outline-danger" data-no="${b.id}">Отклонить</button>
+                </div>
+            </div>`);
+        });
+        box.off('click').on('click', '[data-ok]', async function () {
+            await $.ajax({ url: API_BASE + '/admin/bookings/' + $(this).data('ok') + '/approve', method: 'POST', headers: adminHeaders() });
+            loadPending();
+        }).on('click', '[data-no]', async function () {
+            await $.ajax({ url: API_BASE + '/admin/bookings/' + $(this).data('no') + '/reject', method: 'POST', headers: adminHeaders() });
+            loadPending();
+        });
+    }
+
+    async function loadTours() {
+        const tours = await $.ajax({ url: API_BASE + '/admin/tours', headers: adminHeaders() });
+        const box = $('#allTours');
+        box.empty();
+        tours.forEach(t => {
+            box.append(`<div class="border rounded p-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <span style="color: red; font-weight: bold">${t.name} · ${t.published ? 'опубликован' : 'черновик'}</span>
+                <span>
+                    ${t.published ? '' : `<button class="btn btn-sm" data-pub="${t.id}">Опубликовать</button>`}
+                    <button class="btn btn-sm btn-outline-danger" data-del="${t.id}">Удалить</button>
+                </span>
+            </div>`);
+        });
+        box.off('click').on('click', '[data-pub]', async function () {
+            await $.ajax({ url: API_BASE + '/admin/tours/' + $(this).data('pub') + '/publish', method: 'POST', headers: adminHeaders() });
+            loadTours();
+        }).on('click', '[data-del]', async function () {
+            if (!confirm('Удалить?')) return;
+            await $.ajax({ url: API_BASE + '/admin/tours/' + $(this).data('del'), method: 'DELETE', headers: adminHeaders() });
+            loadTours();
+        });
+    }
+
+    $('#tourForm').on('submit', async function (e) {
+        e.preventDefault();
+        try {
+            const photoUrl = await uploadPhotoIfNeeded();
+            const countryVal = $('#tCountry').val();
+            const cityVal = $('#tCity').val();
+            if (!countryVal || !cityVal) {
+                alert('Выберите страну и город');
+                return;
+            }
+            const body = {
+                name: $('#tName').val(),
+                description: $('#tDesc').val(),
+                type: 'SINGLE_COUNTRY',
+                durationDays: parseInt($('#tDays').val(), 10) || 5,
+                priceTotal: parseFloat($('#tPrice').val()),
+                popularity: parseInt($('#tPop').val(), 10) || 0,
+                cityId: cityVal ? parseInt(cityVal, 10) : null,
+                programInfo: $('#tProg').val(),
+                published: $('#tPub').is(':checked')
+            };
+            if (photoUrl) body.photoUrl = photoUrl;
+            await $.ajax({ url: API_BASE + '/admin/tours', method: 'POST', contentType: 'application/json', headers: adminHeaders(), data: JSON.stringify(body) });
+            this.reset();
+            pendingPhotoFile = null;
+            $('#photoPreview').hide();
+            $('#tCity').empty().prop('disabled', true).append('<option value="">— сначала страна —</option>');
+            loadTours();
+            alert('Тур создан');
+        } catch (err) {
+            const msg = err.responseJSON?.message || err.message || 'Ошибка при создании тура';
+            alert(msg);
+        }
+    });
+
+    $(document).ready(async function () {
+        if (!requireAuth()) return;
+        if (await ensureAdmin()) {
+            await loadCountries();
+            loadPending();
+            loadTours();
+        }
+    });
+</script>
+</body>
+</html>

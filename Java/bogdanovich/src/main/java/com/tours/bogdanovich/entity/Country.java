@@ -22,7 +22,7 @@ public class Country {
     @Column(nullable = false)
     private String path_url;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
