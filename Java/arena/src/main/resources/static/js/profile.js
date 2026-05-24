@@ -76,10 +76,7 @@ function displayMyEvents() {
     }
     list.innerHTML = '';
     myRegisteredEvents.forEach(event => {
-        const eventDate = new Date(event.date);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const isPast = eventDate < today;
+        const isPast = isEventPast(event);
         list.innerHTML += `
             <div class="profile-event-item">
                 <div>

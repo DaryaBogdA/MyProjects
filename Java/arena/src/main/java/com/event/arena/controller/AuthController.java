@@ -9,6 +9,7 @@ import com.event.arena.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegistrationRequestDto dto) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequestDto dto) {
         try {
             User user = userService.registerUser(dto);
             return ResponseEntity.ok(Map.of(

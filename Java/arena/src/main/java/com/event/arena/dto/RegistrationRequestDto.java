@@ -7,11 +7,11 @@ import jakarta.validation.constraints.Size;
 public class RegistrationRequestDto {
 
     @NotBlank(message = "Имя обязательно")
-    @Size(max = 100, message = "Имя не должно превышать 100 символов")
+    @Size(max = 32, message = "Имя не должно превышать 32 символа")
     private String firstName;
 
     @NotBlank(message = "Фамилия обязательна")
-    @Size(max = 100, message = "Фамилия не должна превышать 100 символов")
+    @Size(max = 32, message = "Фамилия не должна превышать 32 символа")
     private String lastName;
 
     @NotBlank(message = "Email обязателен")
@@ -20,7 +20,7 @@ public class RegistrationRequestDto {
     private String email;
 
     @NotBlank(message = "Пароль обязателен")
-    @Size(min = 8, message = "Пароль должен содержать минимум 8 символов")
+    @Size(min = 8, max = 32, message = "Пароль от 8 до 32 символов")
     private String password;
 
     public RegistrationRequestDto() {

@@ -1,6 +1,7 @@
 package com.event.arena.controller;
 
 import com.event.arena.entity.Event;
+import com.event.arena.entity.EventStatus;
 import com.event.arena.entity.Registration;
 import com.event.arena.entity.RegistrationStatus;
 import com.event.arena.entity.User;
@@ -44,6 +45,15 @@ public class RegistrationController {
         Event event = eventRepository.findById(eventId).orElse(null);
         if (event == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (event.getStatus() != EventStatus.approved) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Мероприятие недоступно для записи"));
+        }
+
+        LocalDateTime eventStart = LocalDateTime.of(event.getDate(), event.getTime());
+        if (eventStart.isBefore(LocalDateTime.now())) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Мероприятие уже прошло — запись недоступна"));
         }
 
         if (registrationRepository.existsByUserAndEventAndStatus(user, event, RegistrationStatus.registered)) {

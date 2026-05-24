@@ -14,6 +14,7 @@ let selectedCoordinates = null;
 let supportMessages = [];
 let chatPolling = null;
 let selectedChatUserId = null;
+let detailsRenderSeq = 0;
 
 const API_BASE = 'http://localhost:8079/api';
 
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('belarus-map') && typeof L !== 'undefined') {
         initMap();
     }
+    openEventFromUrlParam();
 });
 
 function checkAuth() {
@@ -411,6 +413,17 @@ async function toggleFavorite(eventId) {
         showNotification('Ошибка соединения', 'warning');
     }
 }
+/** Старт мероприятия уже в прошлом относительно текущего момента (дата+время клиента). */
+function isEventPast(event) {
+    if (!event || event.date == null) return false;
+    const dateStr = typeof event.date === 'string' ? event.date : String(event.date);
+    let timeStr = event.time != null ? String(event.time) : '23:59:59';
+    if (timeStr.length === 5) timeStr += ':00';
+    const parsed = Date.parse(`${dateStr}T${timeStr}`);
+    if (Number.isNaN(parsed)) return false;
+    return Date.now() > parsed;
+}
+
 async function registerForEvent() {
     if (!currentUser) {
         closeEventModal();
@@ -422,8 +435,22 @@ async function registerForEvent() {
         showNotification('Администратор не может записываться на мероприятия', 'warning');
         return;
     }
-    const event = events.find(e => e.id === currentEventId);
-    if (!event) return;
+    let event = events.find(e => e.id === currentEventId);
+    if (!event) {
+        try {
+            const res = await fetch(`${API_BASE}/events/${currentEventId}`);
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            event = { ...data };
+        } catch (e) {
+            showNotification('Не удалось загрузить мероприятие', 'warning');
+            return;
+        }
+    }
+    if (isEventPast(event)) {
+        showNotification('Мероприятие уже прошло — запись недоступна', 'warning');
+        return;
+    }
     if (event.currentParticipants >= event.maxParticipants) {
         showNotification('Все места заняты', 'warning');
         return;
@@ -486,40 +513,53 @@ async function unregisterFromEvent(eventId) {
     }
 }
 
+function getReviewAuthorName(review) {
+    const u = review?.user;
+    if (!u) return 'Пользователь';
+    const name = `${u.firstName || ''} ${u.lastName || ''}`.trim();
+    return name || 'Пользователь';
+}
+
+function formatReviewDate(createdAt) {
+    if (!createdAt) return '';
+    const date = new Date(createdAt);
+    if (Number.isNaN(date.getTime())) return '';
+    return date.toLocaleDateString('ru-RU');
+}
+
+function renderReviewsHtml(reviews) {
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+        return '<p>Пока нет отзывов</p>';
+    }
+    return reviews.map(r => `
+        <div class="review-item">
+            <strong>${escapeHtml(getReviewAuthorName(r))}</strong> (${r.rating || 0}★)
+            <p>${escapeHtml(r.comment || '')}</p>
+            <small>${formatReviewDate(r.createdAt)}</small>
+        </div>
+    `).join('');
+}
+
 async function loadReviewsForEvent(eventId) {
     try {
         const response = await fetch(`${API_BASE}/reviews/event/${eventId}`);
         if (!response.ok) return '<p>Не удалось загрузить отзывы</p>';
         const reviews = await response.json();
-        if (reviews.length === 0) return '<p>Пока нет отзывов</p>';
-        let html = '';
-        reviews.forEach(r => {
-            html += `
-                <div style="border-bottom:1px solid #ccc; padding:10px;">
-                    <strong>${r.user?.firstName || 'Пользователь'}</strong> (${r.rating}★)
-                    <p>${escapeHtml(r.comment || '')}</p>
-                    <small>${new Date(r.createdAt).toLocaleDateString()}</small>
-                </div>
-            `;
-        });
-        return html;
+        return renderReviewsHtml(reviews);
     } catch (e) {
+        console.error('loadReviewsForEvent', e);
         return '<p>Ошибка загрузки отзывов</p>';
     }
 }
 
 function showEventDetails(eventId) {
-    const modal = document.getElementById('eventModal');
-    const details = document.getElementById('eventDetails');
-    const favBtn = document.getElementById('favBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const reviewBtn = document.getElementById('reviewBtn');
-    currentEventId = eventId;
+    const numericId = Number(eventId);
+    currentEventId = numericId;
 
-    let event = events.find(e => e.id === eventId);
+    let event = events.find(e => Number(e.id) === numericId);
 
     if (!event) {
-        fetch(`${API_BASE}/events/${eventId}`)
+        fetch(`${API_BASE}/events/${numericId}`)
             .then(res => {
                 if (!res.ok) throw new Error('Событие не найдено');
                 return res.json();
@@ -549,7 +589,6 @@ function showEventDetails(eventId) {
 }
 
 function showEventDetailsWithEvent(event) {
-    console.log('showEventDetailsWithEvent called with event:', event);
     const modal = document.getElementById('eventModal');
     const details = document.getElementById('eventDetails');
     const favBtn = document.getElementById('favBtn');
@@ -561,9 +600,14 @@ function showEventDetailsWithEvent(event) {
         return;
     }
 
+    const requestId = ++detailsRenderSeq;
+    details.innerHTML = '<p>Загрузка...</p>';
+
     loadReviewsForEvent(event.id).then(reviewsHtml => {
+        if (requestId !== detailsRenderSeq) return;
         try {
             const isRegistered = myEvents.includes(event.id);
+            const isPast = isEventPast(event);
             const isFull = event.currentParticipants >= event.maxParticipants;
             details.innerHTML = `
                 <div style="margin:15px 0;">
@@ -581,26 +625,34 @@ function showEventDetailsWithEvent(event) {
                 </div>
             `;
             if (currentUser && !currentUser.isAdmin) {
-                favBtn.style.display = 'block';
-                favBtn.textContent = favorites.includes(event.id) ? '❤️ В избранном' : '🤍 В избранное';
-                if (isRegistered) {
-                    registerBtn.style.display = 'block';
-                    registerBtn.textContent = '✅ Вы записаны';
-                    registerBtn.disabled = true;
-                } else if (isFull) {
-                    registerBtn.style.display = 'block';
-                    registerBtn.textContent = '❌ Все места заняты';
-                    registerBtn.disabled = true;
-                } else {
-                    registerBtn.style.display = 'block';
-                    registerBtn.textContent = '✅ Записаться';
-                    registerBtn.disabled = false;
+                if (favBtn) {
+                    favBtn.style.display = 'block';
+                    favBtn.textContent = favorites.includes(event.id) ? '❤️ В избранном' : '🤍 В избранное';
                 }
-                reviewBtn.style.display = 'block';
+                if (registerBtn) {
+                    if (isRegistered) {
+                        registerBtn.style.display = 'block';
+                        registerBtn.textContent = '✅ Вы записаны';
+                        registerBtn.disabled = true;
+                    } else if (isPast) {
+                        registerBtn.style.display = 'block';
+                        registerBtn.textContent = '⏳ Мероприятие уже прошло';
+                        registerBtn.disabled = true;
+                    } else if (isFull) {
+                        registerBtn.style.display = 'block';
+                        registerBtn.textContent = '❌ Все места заняты';
+                        registerBtn.disabled = true;
+                    } else {
+                        registerBtn.style.display = 'block';
+                        registerBtn.textContent = '✅ Записаться';
+                        registerBtn.disabled = false;
+                    }
+                }
+                if (reviewBtn) reviewBtn.style.display = 'block';
             } else {
-                favBtn.style.display = 'none';
-                registerBtn.style.display = 'none';
-                reviewBtn.style.display = 'none';
+                if (favBtn) favBtn.style.display = 'none';
+                if (registerBtn) registerBtn.style.display = 'none';
+                if (reviewBtn) reviewBtn.style.display = 'none';
             }
             modal.style.display = 'block';
         } catch (e) {
@@ -608,8 +660,10 @@ function showEventDetailsWithEvent(event) {
             showNotification('Ошибка отображения деталей', 'warning');
         }
     }).catch(err => {
+        if (requestId !== detailsRenderSeq) return;
         console.error('Error loading reviews:', err);
-        showNotification('Ошибка загрузки отзывов', 'warning');
+        details.innerHTML = '<p>Не удалось загрузить отзывы</p>';
+        modal.style.display = 'block';
     });
 }
 
@@ -862,14 +916,17 @@ function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
     const activeTab = document.querySelector(tab === 'login' ? '#loginTab' : '#registerTab');
     if (activeTab) activeTab.classList.add('active');
+    const termsWrap = document.getElementById('registerTermsWrap');
     if (tab === 'login') {
         loginFields.style.display = 'none';
         loginFields2.style.display = 'none';
+        if (termsWrap) termsWrap.style.display = 'none';
         submitBtn.textContent = 'Войти';
         document.getElementById('authModalTitle').textContent = 'Вход';
     } else {
         loginFields.style.display = 'block';
         loginFields2.style.display = 'block';
+        if (termsWrap) termsWrap.style.display = 'block';
         submitBtn.textContent = 'Зарегистрироваться';
         document.getElementById('authModalTitle').textContent = 'Регистрация';
     }
@@ -889,29 +946,133 @@ function closeFooterInfoModal() {
     if (modal) modal.style.display = 'none';
 }
 
-function openFooterInfo(action) {
+function normalizeEventDateKey(dateValue) {
+    if (!dateValue) return '';
+    if (typeof dateValue === 'string') return dateValue.split('T')[0];
+    return String(dateValue);
+}
+
+function getApprovedEventsGroupedByDate() {
+    const grouped = {};
+    events.filter(e => e.status === 'approved').forEach(event => {
+        const key = normalizeEventDateKey(event.date);
+        if (!key) return;
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(event);
+    });
+    return grouped;
+}
+
+function buildCalendarHtml() {
+    const grouped = getApprovedEventsGroupedByDate();
+    const dates = Object.keys(grouped).sort();
+    if (!dates.length) {
+        return '<p>Пока нет подтвержденных дат мероприятий.</p>';
+    }
+    return `
+        <p class="calendar-intro">Нажмите на дату, чтобы открыть мероприятие:</p>
+        <div class="calendar-dates-grid">
+            ${dates.map(dateKey => {
+                const date = new Date(dateKey);
+                const dayEvents = grouped[dateKey];
+                const titles = dayEvents.map(e => escapeHtml(e.title)).join(', ');
+                return `<button type="button" class="calendar-date-card" data-date-key="${dateKey}" title="${titles}">
+                    <div class="calendar-day">${date.toLocaleDateString('ru-RU', { day: '2-digit' })}</div>
+                    <div class="calendar-month">${date.toLocaleDateString('ru-RU', { month: 'long' })}</div>
+                    <div class="calendar-year">${date.toLocaleDateString('ru-RU', { year: 'numeric' })}</div>
+                    <div class="calendar-events-count">${dayEvents.length} меропр.</div>
+                </button>`;
+            }).join('')}
+        </div>
+    `;
+}
+
+function bindCalendarDateCards(container) {
+    if (!container) return;
+    container.querySelectorAll('.calendar-date-card[data-date-key]').forEach(card => {
+        card.addEventListener('click', () => openCalendarDate(card.dataset.dateKey));
+    });
+}
+
+function openCalendarDate(dateKey) {
+    const grouped = getApprovedEventsGroupedByDate();
+    const dayEvents = grouped[dateKey] || [];
+    if (!dayEvents.length) {
+        showNotification('На эту дату нет мероприятий', 'info');
+        return;
+    }
+    if (dayEvents.length === 1) {
+        openEventFromCalendar(dayEvents[0].id);
+        return;
+    }
+    const modal = document.getElementById('footerInfoModal');
+    const title = document.getElementById('footerInfoTitle');
+    const body = document.getElementById('footerInfoBody');
+    if (!modal || !title || !body) return;
+    const date = new Date(dateKey);
+    title.textContent = `Мероприятия ${date.toLocaleDateString('ru-RU')}`;
+    body.innerHTML = `
+        <p class="calendar-intro">Выберите мероприятие:</p>
+        <div class="calendar-events-list">
+            ${dayEvents.map(e => `
+                <button type="button" class="calendar-event-item" data-event-id="${e.id}">
+                    <strong>${escapeHtml(e.title)}</strong>
+                    <span>${e.time || ''} • ${escapeHtml(e.location || '')}</span>
+                </button>
+            `).join('')}
+        </div>
+    `;
+    body.querySelectorAll('.calendar-event-item[data-event-id]').forEach(btn => {
+        btn.addEventListener('click', () => openEventFromCalendar(Number(btn.dataset.eventId)));
+    });
+    modal.style.display = 'block';
+}
+
+function openEventFromCalendar(eventId) {
+    closeFooterInfoModal();
+    const modal = document.getElementById('eventModal');
+    if (modal) {
+        showEventDetails(eventId);
+        return;
+    }
+    window.location.href = `index.html?event=${eventId}`;
+}
+
+function openEventFromUrlParam() {
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('event');
+    if (!eventId) return;
+    const openWhenReady = () => {
+        if (!events.length) return;
+        showEventDetails(Number(eventId));
+        const cleanUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, '', cleanUrl);
+    };
+    if (events.length) {
+        openWhenReady();
+        return;
+    }
+    const interval = setInterval(() => {
+        if (events.length) {
+            clearInterval(interval);
+            openWhenReady();
+        }
+    }, 200);
+    setTimeout(() => clearInterval(interval), 8000);
+}
+
+async function openFooterInfo(action) {
     const modal = document.getElementById('footerInfoModal');
     const title = document.getElementById('footerInfoTitle');
     const body = document.getElementById('footerInfoBody');
     if (!modal || !title || !body) return;
     if (action === 'calendar') {
-        const approvedDates = [...new Set(events.filter(e => e.status === 'approved').map(e => e.date))].sort();
+        if (!events.length) {
+            await loadEvents();
+        }
         title.textContent = 'Календарь мероприятий';
-        body.innerHTML = approvedDates.length
-            ? `
-                <p class="calendar-intro">Ближайшие даты, где уже запланированы события:</p>
-                <div class="calendar-dates-grid">
-                    ${approvedDates.map(d => {
-                        const date = new Date(d);
-                        return `<div class="calendar-date-card">
-                            <div class="calendar-day">${date.toLocaleDateString('ru-RU', { day: '2-digit' })}</div>
-                            <div class="calendar-month">${date.toLocaleDateString('ru-RU', { month: 'long' })}</div>
-                            <div class="calendar-year">${date.toLocaleDateString('ru-RU', { year: 'numeric' })}</div>
-                        </div>`;
-                    }).join('')}
-                </div>
-            `
-            : '<p>Пока нет подтвержденных дат мероприятий.</p>';
+        body.innerHTML = buildCalendarHtml();
+        bindCalendarDateCards(body);
     } else if (action === 'about') {
         title.textContent = 'О проекте';
         body.innerHTML = '<p>EventArena помогает находить, публиковать и модерировать спортивные мероприятия по всей Беларуси.</p>';
@@ -920,6 +1081,27 @@ function openFooterInfo(action) {
         body.innerHTML = '<p>Телефон: +375 (29) 123-45-67</p><p>Email: info@eventarena.by</p><p>Адрес: Минск, пр. Победителей, 20</p>';
     }
     modal.style.display = 'block';
+}
+
+function showTermsInfo(event) {
+    if (event) event.preventDefault();
+    const modal = document.getElementById('footerInfoModal');
+    const title = document.getElementById('footerInfoTitle');
+    const body = document.getElementById('footerInfoBody');
+    if (modal && title && body) {
+        title.textContent = 'Условия пользования EventArena';
+        body.innerHTML = `
+            <p><strong>1. Назначение сервиса.</strong> EventArena помогает находить и публиковать спортивные мероприятия. Пользователь обязан указывать достоверные данные.</p>
+            <p><strong>2. Ответственность пользователя.</strong> Нельзя публиковать запрещенный контент, ложную информацию, рекламу мошеннических услуг и материалы, нарушающие права третьих лиц.</p>
+            <p><strong>3. Запись на мероприятия.</strong> Запись возможна только при наличии мест и только на актуальные события. На прошедшие мероприятия запись недоступна.</p>
+            <p><strong>4. Контент и отзывы.</strong> Отзывы должны быть корректными и по теме мероприятия. Оскорбления, спам и токсичный контент могут быть удалены администратором.</p>
+            <p><strong>5. Персональные данные.</strong> Email, имя и другие данные используются для авторизации, связи и работы функций платформы.</p>
+            <p><strong>6. Модерация.</strong> Администрация вправе отклонять или удалять материалы, если они нарушают правила платформы или законодательство.</p>
+        `;
+        modal.style.display = 'block';
+        return;
+    }
+    showNotification('Откройте страницу с модальным окном условий пользования.', 'info');
 }
 
 function escapeHtml(text) {
@@ -1046,10 +1228,27 @@ async function handleAuth(event) {
             showNotification('Ошибка соединения', 'warning');
         }
     } else {
-        const firstName = document.getElementById('regName').value;
-        const lastName = document.getElementById('regLastName').value;
+        const firstName = document.getElementById('regName').value.trim();
+        const lastName = document.getElementById('regLastName').value.trim();
+        const terms = document.getElementById('termsAgree');
         if (!firstName || !lastName) {
             showNotification('Заполните все поля', 'warning');
+            return;
+        }
+        if (firstName.length > 32 || lastName.length > 32) {
+            showNotification('Имя и фамилия — не более 32 символов', 'warning');
+            return;
+        }
+        if (password.length > 32) {
+            showNotification('Пароль — не более 32 символов', 'warning');
+            return;
+        }
+        if (password.length < 8) {
+            showNotification('Пароль должен содержать минимум 8 символов', 'warning');
+            return;
+        }
+        if (terms && !terms.checked) {
+            showNotification('Нужно принять условия пользования', 'warning');
             return;
         }
         try {

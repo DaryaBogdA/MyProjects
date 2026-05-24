@@ -139,11 +139,11 @@
             <form id="registerForm" class="auth-form" onsubmit="return handleRegister(event)">
                 <div class="form-group">
                     <label>Имя</label>
-                    <input type="text" id="regName" placeholder="Введите имя" required>
+                    <input type="text" id="regName" placeholder="Введите имя" required maxlength="32" autocomplete="given-name">
                 </div>
                 <div class="form-group">
                     <label>Фамилия</label>
-                    <input type="text" id="regLastName" placeholder="Введите фамилию" required>
+                    <input type="text" id="regLastName" placeholder="Введите фамилию" required maxlength="32" autocomplete="family-name">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
@@ -151,7 +151,13 @@
                 </div>
                 <div class="form-group">
                     <label>Пароль</label>
-                    <input type="password" id="regPassword" placeholder="Введите пароль" required>
+                    <input type="password" id="regPassword" placeholder="8–32 символа" required minlength="8" maxlength="32" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label class="terms-label" style="display:flex;gap:10px;align-items:flex-start;font-weight:normal;cursor:pointer;">
+                        <input type="checkbox" id="termsAgreeAuth" style="margin-top:4px;">
+                        <span>Я ознакомлен(а) и согласен(а) с <a href="#" onclick="showTermsInfo(event)" style="color:var(--primary);">условиями пользования</a></span>
+                    </label>
                 </div>
                 <button type="submit" class="btn-submit">Зарегистрироваться</button>
             </form>
@@ -170,8 +176,9 @@
                     <ul>
                         <li><a href="index.html">Главная</a></li>
                         <li><a href="search.html">Поиск</a></li>
-                        <li><a href="#">О проекте</a></li>
-                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#" data-footer-action="calendar">Календарь</a></li>
+                        <li><a href="#" data-footer-action="about">О проекте</a></li>
+                        <li><a href="#" data-footer-action="contacts">Контакты</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -189,8 +196,19 @@
         </div>
     </footer>
 
+    <div class="modal" id="footerInfoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="footerInfoTitle">Информация</h2>
+                <span class="close" onclick="closeFooterInfoModal()">&times;</span>
+            </div>
+            <div id="footerInfoBody"></div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+    <script src="../static/js/common.js"></script>
     <script src="../static/js/auth.js"></script>
 </body>
 </html>

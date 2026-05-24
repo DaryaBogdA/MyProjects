@@ -11,8 +11,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/reviews")
@@ -27,8 +29,10 @@ public class ReviewController {
     }
 
     @GetMapping("/event/{eventId}")
-    public List<Review> getReviewsForEvent(@PathVariable Long eventId) {
-        return reviewRepository.findByEventId(eventId);
+    public List<Map<String, Object>> getReviewsForEvent(@PathVariable Long eventId) {
+        return reviewRepository.findByEventIdWithUser(eventId).stream()
+                .map(this::reviewToMap)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -38,7 +42,7 @@ public class ReviewController {
             return ResponseEntity.status(401).body(Map.of("error", "Необходимо войти в систему"));
         }
         Long eventId = Long.valueOf(payload.get("eventId").toString());
-        Integer rating = (Integer) payload.get("rating");
+        Integer rating = parseRating(payload.get("rating"));
         String comment = (String) payload.get("comment");
 
         if (rating == null || rating < 1 || rating > 5) {
@@ -65,7 +69,35 @@ public class ReviewController {
         review.setCreatedAt(LocalDateTime.now());
 
         reviewRepository.save(review);
-        return ResponseEntity.ok(Map.of("message", "Отзыв добавлен"));
+        return ResponseEntity.ok(Map.of("message", "Отзыв добавлен", "review", reviewToMap(review)));
+    }
+
+    private Integer parseRating(Object ratingObj) {
+        if (ratingObj == null) return null;
+        if (ratingObj instanceof Number) {
+            return ((Number) ratingObj).intValue();
+        }
+        try {
+            return Integer.parseInt(ratingObj.toString());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private Map<String, Object> reviewToMap(Review review) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", review.getId());
+        map.put("rating", review.getRating());
+        map.put("comment", review.getComment());
+        map.put("createdAt", review.getCreatedAt());
+        User user = review.getUser();
+        if (user != null) {
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("firstName", user.getFirstName());
+            userMap.put("lastName", user.getLastName());
+            map.put("user", userMap);
+        }
+        return map;
     }
 
     @DeleteMapping("/{reviewId}")

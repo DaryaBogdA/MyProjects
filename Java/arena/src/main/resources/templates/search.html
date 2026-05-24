@@ -106,11 +106,11 @@
             <form onsubmit="handleAuth(event)" id="authForm">
                 <div class="form-group" id="registerFields" style="display: none;">
                     <label>Имя</label>
-                    <input type="text" id="regName" placeholder="Введите имя">
+                    <input type="text" id="regName" placeholder="Введите имя" maxlength="32" autocomplete="given-name">
                 </div>
                 <div class="form-group" id="registerFields2" style="display: none;">
                     <label>Фамилия</label>
-                    <input type="text" id="regLastName" placeholder="Введите фамилию">
+                    <input type="text" id="regLastName" placeholder="Введите фамилию" maxlength="32" autocomplete="family-name">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
@@ -118,7 +118,13 @@
                 </div>
                 <div class="form-group">
                     <label>Пароль</label>
-                    <input type="password" id="authPassword" placeholder="Введите пароль" required>
+                    <input type="password" id="authPassword" placeholder="Пароль (при регистрации — 8–32 символа)" required autocomplete="current-password">
+                </div>
+                <div class="form-group" id="registerTermsWrap" style="display: none;">
+                    <label class="terms-label" style="display:flex;gap:10px;align-items:flex-start;font-weight:normal;cursor:pointer;">
+                        <input type="checkbox" id="termsAgree" style="margin-top:4px;">
+                        <span>Я ознакомлен(а) и согласен(а) с <a href="#" onclick="showTermsInfo(event)" style="color:var(--primary);">условиями пользования</a></span>
+                    </label>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;" id="authSubmitBtn">Войти</button>
             </form>

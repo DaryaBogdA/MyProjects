@@ -17,7 +17,7 @@ function switchAuthTab(tab) {
     }
 }
 
-const API_BASE = 'http://localhost:8079/api';
+const AUTH_API_BASE = 'http://localhost:8079/api';
 
 function showNotification(message, type) {
     const el = document.getElementById('notification');
@@ -37,7 +37,7 @@ function handleLogin(event) {
     const password = $('#loginPassword').val();
 
     $.ajax({
-        url: API_BASE + '/auth/login',
+        url: AUTH_API_BASE + '/auth/login',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ email, password }),
@@ -93,13 +93,22 @@ function handleRegister(event) {
         showNotification('Заполните все поля', 'warning');
         return;
     }
-    if (password.length < 8) {
-        showNotification('Пароль должен содержать минимум 8 символов', 'warning');
+    if (firstName.length > 32 || lastName.length > 32) {
+        showNotification('Имя и фамилия — не более 32 символов', 'warning');
+        return;
+    }
+    if (password.length < 8 || password.length > 32) {
+        showNotification('Пароль — от 8 до 32 символов', 'warning');
+        return;
+    }
+    const termsEl = $('#termsAgreeAuth');
+    if (termsEl.length && !termsEl.is(':checked')) {
+        showNotification('Нужно принять условия пользования', 'warning');
         return;
     }
 
     $.ajax({
-        url: API_BASE + '/auth/register',
+        url: AUTH_API_BASE + '/auth/register',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ firstName, lastName, email, password }),
