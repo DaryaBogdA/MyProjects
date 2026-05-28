@@ -22,6 +22,9 @@ import org.springframework.http.ContentDisposition;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.Locale;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,9 +46,28 @@ public class TrainingController {
                             Model model,
                             @RequestParam(required = false) String title,
                             @RequestParam(required = false) String location,
-                            @RequestParam(required = false) Long coachId) {
+                            @RequestParam(required = false) Long coachId,
+                            @RequestParam(required = false) String dateFrom,
+                            @RequestParam(required = false) String dateTo,
+                            @RequestParam(required = false) String month) {
 
-        List<Training> trainings = trainingRepository.findTrainingsWithFilters(title, location, coachId);
+        String normalizedTitle = normalizeFilterValue(title);
+        String normalizedLocation = normalizeFilterValue(location);
+        YearMonth selectedMonth = parseMonthOrNow(month);
+
+        LocalDateTime monthStart = selectedMonth.atDay(1).atStartOfDay();
+        LocalDateTime monthEndExclusive = selectedMonth.plusMonths(1).atDay(1).atStartOfDay();
+
+        LocalDateTime normalizedDateFrom = maxDateTime(parseDateStart(dateFrom), monthStart);
+        LocalDateTime normalizedDateTo = minDateTime(parseDateEndExclusive(dateTo), monthEndExclusive);
+
+        List<Training> trainings = trainingRepository.findTrainingsWithFilters(
+                normalizedTitle,
+                normalizedLocation,
+                coachId,
+                normalizedDateFrom,
+                normalizedDateTo
+        );
 
         User user = (User) session.getAttribute("user");
 
@@ -75,9 +97,15 @@ public class TrainingController {
         model.addAttribute("registeredTrainingIds", registeredTrainingIds);
         model.addAttribute("coaches", coaches);
 
-        model.addAttribute("filterTitle", title);
-        model.addAttribute("filterLocation", location);
+        model.addAttribute("filterTitle", normalizedTitle != null ? normalizedTitle : "");
+        model.addAttribute("filterLocation", normalizedLocation != null ? normalizedLocation : "");
         model.addAttribute("filterCoachId", coachId);
+        model.addAttribute("filterDateFrom", dateFrom != null ? dateFrom : "");
+        model.addAttribute("filterDateTo", dateTo != null ? dateTo : "");
+        model.addAttribute("selectedMonth", selectedMonth.toString());
+        model.addAttribute("prevMonth", selectedMonth.minusMonths(1).toString());
+        model.addAttribute("nextMonth", selectedMonth.plusMonths(1).toString());
+        model.addAttribute("monthLabel", selectedMonth.format(DateTimeFormatter.ofPattern("LLLL yyyy", new Locale("ru"))));
 
         return "trainings";
     }
@@ -136,6 +164,10 @@ public class TrainingController {
         }
 
         Training training = trainingOpt.get();
+        if (training.getDateTime() != null && training.getDateTime().isBefore(LocalDateTime.now())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Нельзя записаться на прошедшую тренировку");
+            return "redirect:/trainings";
+        }
         if (trainingParticipantRepository.existsByTrainingIdAndUserId(trainingId, user.getId())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Вы уже записаны на эту тренировку");
             return "redirect:/trainings";
@@ -229,6 +261,64 @@ public class TrainingController {
             return "\"" + value + "\"";
         }
         return value;
+    }
+
+    private String normalizeFilterValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
+    }
+
+    private LocalDateTime parseDateStart(String date) {
+        String normalizedDate = normalizeFilterValue(date);
+        if (normalizedDate == null) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(normalizedDate).atStartOfDay();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private LocalDateTime parseDateEndExclusive(String date) {
+        String normalizedDate = normalizeFilterValue(date);
+        if (normalizedDate == null) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(normalizedDate).plusDays(1).atStartOfDay();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private YearMonth parseMonthOrNow(String month) {
+        String normalized = normalizeFilterValue(month);
+        if (normalized == null) {
+            return YearMonth.now();
+        }
+        try {
+            return YearMonth.parse(normalized);
+        } catch (Exception e) {
+            return YearMonth.now();
+        }
+    }
+
+    private LocalDateTime maxDateTime(LocalDateTime value, LocalDateTime floor) {
+        if (value == null) {
+            return floor;
+        }
+        return value.isBefore(floor) ? floor : value;
+    }
+
+    private LocalDateTime minDateTime(LocalDateTime value, LocalDateTime ceilExclusive) {
+        if (value == null) {
+            return ceilExclusive;
+        }
+        return value.isAfter(ceilExclusive) ? ceilExclusive : value;
     }
 
 

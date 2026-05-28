@@ -151,7 +151,10 @@
                 </div>
                 <div class="form-group">
                     <label>Пароль</label>
-                    <input type="password" id="regPassword" placeholder="8–32 символа" required minlength="8" maxlength="32" autocomplete="new-password">
+                    <input type="password" id="regPassword" placeholder="8–32 символа" required minlength="8" maxlength="32" autocomplete="new-password"
+                           pattern="[A-Za-z0-9!@#$%^&amp;*()_+\-=\[\]{};':,./<>?]+"
+                           oninput="this.value = this.value.replace(/\s/g, '').replace(/[^A-Za-z0-9!@#$%^&amp;*()_+\-=\[\]{};':,./<>?]/g, '')"
+                           title="8-32 симваола">
                 </div>
                 <div class="form-group">
                     <label class="terms-label" style="display:flex;gap:10px;align-items:flex-start;font-weight:normal;cursor:pointer;">

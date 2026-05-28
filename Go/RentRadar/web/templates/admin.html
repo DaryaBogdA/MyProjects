@@ -112,10 +112,9 @@
         <div class="admin-toolbar">
             <label>Статус:
                 <select id="reportsStatusFilter">
-                    <option value="pending">Новые</option>
-                    <option value="all">Все</option>
-                    <option value="resolved">Рассмотрено</option>
-                    <option value="dismissed">Отклонено</option>
+                    <option value="all" selected>Все</option>
+                    <option value="resolved">Рассмотренные</option>
+                    <option value="dismissed">Отклонённые</option>
                 </select>
             </label>
             <button type="button" class="btn btn-outline btn-sm" id="reloadReportsBtn"> Обновить</button>
@@ -178,7 +177,6 @@
                 <div><label>Город</label><input type="text" id="editCity"></div>
                 <div><label>Район</label><input type="text" id="editDistrict"></div>
                 <div><label>Доступно с (YYYY-MM-DD)</label><input type="text" id="editAvailableFrom" placeholder="пусто или дата"></div>
-                <div><label>Залог</label><input type="text" id="editDeposit" placeholder="none / month / half"></div>
                 <div><label>Коммунальные включены</label><select id="editUtilities"><option value="false">Нет</option><option value="true">Да</option></select></div>
                 <div class="full"><label>Фото (URL через запятую)</label><textarea id="editPhotos" rows="2" placeholder="/static/uploads/listings/1_0.jpg,..."></textarea></div>
             </div>

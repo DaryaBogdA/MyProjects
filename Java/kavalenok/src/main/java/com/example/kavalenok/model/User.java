@@ -58,6 +58,9 @@ public class User {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean locked = false;
 
+    @Column(name = "coach_verified", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean coachVerified = false;
+
 
 
     public User() {}
@@ -70,6 +73,14 @@ public class User {
     public Boolean getLocked() { return locked; }
 
     public void setLocked(Boolean locked) { this.locked = locked; }
+
+    public Boolean getCoachVerified() {
+        return coachVerified;
+    }
+
+    public void setCoachVerified(Boolean coachVerified) {
+        this.coachVerified = coachVerified;
+    }
 
     public Long getId() {
         return id;

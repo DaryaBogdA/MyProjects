@@ -23,9 +23,10 @@ public class CoachReviewService {
 
     @Transactional(readOnly = true)
     public List<CoachReview> getReviewsByCoach(Long coachId) {
-        User coach = userRepository.findById(coachId)
-                .orElseThrow(() -> new IllegalArgumentException("Тренер не найден"));
-        return coachReviewRepository.findByCoachOrderByCreatedAtDesc(coach);
+        if (userRepository.findById(coachId).isEmpty()) {
+            throw new IllegalArgumentException("Тренер не найден");
+        }
+        return coachReviewRepository.findByCoachIdWithUserOrderByCreatedAtDesc(coachId);
     }
 
     @Transactional

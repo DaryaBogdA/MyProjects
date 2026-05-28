@@ -30,7 +30,7 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 	rooms := r.URL.Query().Get("rooms")
 
 	query := `SELECT l.id, l.user_id, l.title, l.description, l.listing_type, l.price, l.AREA, l.rooms, 
-          l.FLOOR, l.total_floors, l.address, l.city, l.district, l.available_from, l.deposit, 
+          l.FLOOR, l.total_floors, l.address, l.city, l.district, l.property_type, l.plot_area, l.available_from, l.deposit, 
           l.utilities_included, l.photos, l.is_active, l.moderation_status, l.views_count,
           l.latitude, l.longitude,
           COALESCE((SELECT AVG(r.rating) FROM reviews r WHERE r.listing_id = l.id AND COALESCE(r.moderation_status, 'approved') = 'approved'), 0) as average_rating,
@@ -95,6 +95,8 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 		var floor sql.NullInt64
 		var totalFloors sql.NullInt64
 		var district sql.NullString
+		var propertyType sql.NullString
+		var plotArea sql.NullFloat64
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
@@ -105,7 +107,7 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 
 		err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus, &l.ViewsCount, &lat, &lng, &l.AverageRating, &l.ReviewsCount)
+			&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus, &l.ViewsCount, &lat, &lng, &l.AverageRating, &l.ReviewsCount)
 
 		if err != nil {
 			continue
@@ -113,37 +115,9 @@ func (h *ListingHandler) GetListings(w http.ResponseWriter, r *http.Request) {
 
 		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
 		l.IsActive = active.Valid && active.Bool
-
-		if description.Valid {
-			l.Description = description.String
-		}
-		if area.Valid {
-			l.Area = area.Float64
-		}
-		if roomCount.Valid {
-			l.Rooms = int(roomCount.Int64)
-		}
-		if floor.Valid {
-			l.Floor = int(floor.Int64)
-		}
-		if totalFloors.Valid {
-			l.TotalFloors = int(totalFloors.Int64)
-		}
-		if district.Valid {
-			l.District = district.String
-		}
-
-		if availableFrom.Valid {
-			l.AvailableFrom = &availableFrom.Time
-		} else {
+		applyListingNullableFields(&l, description, area, roomCount, floor, totalFloors, district, propertyType, plotArea, availableFrom, deposit, photos)
+		if !availableFrom.Valid {
 			l.AvailableFrom = nil
-		}
-
-		if deposit.Valid {
-			l.Deposit = deposit.String
-		}
-		if photos.Valid {
-			l.Photos = photos.String
 		}
 		if lat.Valid {
 			v := lat.Float64
@@ -174,6 +148,8 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 	var floor sql.NullInt64
 	var totalFloors sql.NullInt64
 	var district sql.NullString
+	var propertyType sql.NullString
+	var plotArea sql.NullFloat64
 	var availableFrom sql.NullTime
 	var deposit sql.NullString
 	var photos sql.NullString
@@ -182,14 +158,14 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 	var utilities sql.NullBool
 	var active sql.NullBool
 	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
-              FLOOR, total_floors, address, city, district, available_from, deposit, 
+              FLOOR, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
               utilities_included, photos, is_active, moderation_status, views_count,
               latitude, longitude
               FROM listings WHERE id = ?`
 
 	err = h.DB.QueryRow(query, id).Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType,
 		&l.Price, &area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-		&availableFrom, &deposit, &utilities, &photos, &active,
+		&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active,
 		&l.ModerationStatus, &l.ViewsCount, &lat, &lng)
 
 	if err != nil {
@@ -209,36 +185,9 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if description.Valid {
-		l.Description = description.String
-	}
-	if area.Valid {
-		l.Area = area.Float64
-	}
-	if roomCount.Valid {
-		l.Rooms = int(roomCount.Int64)
-	}
-	if floor.Valid {
-		l.Floor = int(floor.Int64)
-	}
-	if totalFloors.Valid {
-		l.TotalFloors = int(totalFloors.Int64)
-	}
-	if district.Valid {
-		l.District = district.String
-	}
-
-	if availableFrom.Valid {
-		l.AvailableFrom = &availableFrom.Time
-	} else {
+	applyListingNullableFields(&l, description, area, roomCount, floor, totalFloors, district, propertyType, plotArea, availableFrom, deposit, photos)
+	if !availableFrom.Valid {
 		l.AvailableFrom = nil
-	}
-
-	if deposit.Valid {
-		l.Deposit = deposit.String
-	}
-	if photos.Valid {
-		l.Photos = photos.String
 	}
 	if lat.Valid {
 		v := lat.Float64
@@ -275,11 +224,21 @@ func (h *ListingHandler) CreateListing(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "title and listing_type (rent/sale) are required"})
 		return
 	}
+	if msg := validateListingProperty(&req); msg != "" {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": msg})
+		return
+	}
+	req.Deposit = "none"
+
+	var plotArg interface{}
+	if req.PlotArea > 0 {
+		plotArg = req.PlotArea
+	}
 
 	query := `INSERT INTO listings (user_id, title, description, listing_type, price, area, rooms, 
-              floor, total_floors, address, city, district, available_from, deposit, utilities_included, photos,
+              floor, total_floors, address, city, district, property_type, plot_area, available_from, deposit, utilities_included, photos,
               latitude, longitude, moderation_status) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`
 
 	var availableDate interface{}
 	if req.AvailableFrom != "" {
@@ -296,7 +255,7 @@ func (h *ListingHandler) CreateListing(w http.ResponseWriter, r *http.Request) {
 
 	result, err := h.DB.Exec(query, userID, req.Title, req.Description, req.ListingType,
 		req.Price, req.Area, req.Rooms, req.Floor, req.TotalFloors, req.Address,
-		req.City, req.District, availableDate, req.Deposit, req.UtilitiesIncluded, req.Photos,
+		req.City, req.District, req.PropertyType, plotArg, availableDate, req.Deposit, req.UtilitiesIncluded, req.Photos,
 		latArg, lngArg)
 
 	if err != nil {
@@ -376,6 +335,16 @@ func (h *ListingHandler) UpdateListing(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "title and listing_type (rent/sale) are required"})
 		return
 	}
+	if msg := validateListingProperty(&req); msg != "" {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": msg})
+		return
+	}
+	req.Deposit = "none"
+
+	var plotArg interface{}
+	if req.PlotArea > 0 {
+		plotArg = req.PlotArea
+	}
 
 	var prevPhotos string
 	if err := h.DB.QueryRow(`SELECT COALESCE(photos, '') FROM listings WHERE id = ?`, id).Scan(&prevPhotos); err != nil {
@@ -422,11 +391,11 @@ func (h *ListingHandler) UpdateListing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = h.DB.Exec(`UPDATE listings SET title=?, description=?, listing_type=?, price=?, area=?, rooms=?, 
-		floor=?, total_floors=?, address=?, city=?, district=?, available_from=?, deposit=?, utilities_included=?, photos=?,
+		floor=?, total_floors=?, address=?, city=?, district=?, property_type=?, plot_area=?, available_from=?, deposit=?, utilities_included=?, photos=?,
 		latitude=?, longitude=?, moderation_status='pending'
 		WHERE id=? AND user_id=?`,
 		req.Title, req.Description, req.ListingType, req.Price, req.Area, req.Rooms,
-		req.Floor, req.TotalFloors, req.Address, req.City, req.District, availableDate, req.Deposit, req.UtilitiesIncluded, finalPhotos,
+		req.Floor, req.TotalFloors, req.Address, req.City, req.District, req.PropertyType, plotArg, availableDate, req.Deposit, req.UtilitiesIncluded, finalPhotos,
 		latArg, lngArg, id, userID)
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
@@ -451,7 +420,7 @@ func (h *ListingHandler) AdminListListings(w http.ResponseWriter, r *http.Reques
 		strings.EqualFold(r.URL.Query().Get("include_inactive"), "true")
 
 	q := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
-              FLOOR, total_floors, address, city, district, available_from, deposit, 
+              FLOOR, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
               utilities_included, photos, is_active, moderation_status, views_count
               FROM listings WHERE 1=1`
 	args := []interface{}{}
@@ -480,6 +449,8 @@ func (h *ListingHandler) AdminListListings(w http.ResponseWriter, r *http.Reques
 		var floor sql.NullInt64
 		var totalFloors sql.NullInt64
 		var district sql.NullString
+		var propertyType sql.NullString
+		var plotArea sql.NullFloat64
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
@@ -488,40 +459,14 @@ func (h *ListingHandler) AdminListListings(w http.ResponseWriter, r *http.Reques
 
 		if err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus,
+			&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus,
 			&l.ViewsCount); err != nil {
 			continue
 		}
 
 		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
 		l.IsActive = active.Valid && active.Bool
-		if description.Valid {
-			l.Description = description.String
-		}
-		if area.Valid {
-			l.Area = area.Float64
-		}
-		if roomCount.Valid {
-			l.Rooms = int(roomCount.Int64)
-		}
-		if floor.Valid {
-			l.Floor = int(floor.Int64)
-		}
-		if totalFloors.Valid {
-			l.TotalFloors = int(totalFloors.Int64)
-		}
-		if district.Valid {
-			l.District = district.String
-		}
-		if availableFrom.Valid {
-			l.AvailableFrom = &availableFrom.Time
-		}
-		if deposit.Valid {
-			l.Deposit = deposit.String
-		}
-		if photos.Valid {
-			l.Photos = photos.String
-		}
+		applyListingNullableFields(&l, description, area, roomCount, floor, totalFloors, district, propertyType, plotArea, availableFrom, deposit, photos)
 		listings = append(listings, l)
 	}
 
@@ -580,11 +525,17 @@ func (h *ListingHandler) AdminUpdateListing(w http.ResponseWriter, r *http.Reque
 		}
 	}
 
+	body.Deposit = "none"
+	var plotArg interface{}
+	if body.PlotArea > 0 {
+		plotArg = body.PlotArea
+	}
+
 	_, err = h.DB.Exec(`UPDATE listings SET title=?, description=?, listing_type=?, price=?, area=?, rooms=?, 
-		floor=?, total_floors=?, address=?, city=?, district=?, available_from=?, deposit=?, utilities_included=?, photos=?, moderation_status=?
+		floor=?, total_floors=?, address=?, city=?, district=?, property_type=?, plot_area=?, available_from=?, deposit=?, utilities_included=?, photos=?, moderation_status=?
 		WHERE id=?`,
 		body.Title, body.Description, body.ListingType, body.Price, body.Area, body.Rooms,
-		body.Floor, body.TotalFloors, body.Address, body.City, body.District, availableDate,
+		body.Floor, body.TotalFloors, body.Address, body.City, body.District, body.PropertyType, plotArg, availableDate,
 		body.Deposit, body.UtilitiesIncluded, photos, modStatus, id)
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
@@ -627,7 +578,7 @@ func (h *ListingHandler) GetFavorites(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := `SELECT l.id, l.user_id, l.title, l.description, l.listing_type, l.price, l.AREA, l.rooms, 
-              l.FLOOR, l.total_floors, l.address, l.city, l.district, l.available_from, l.deposit, 
+              l.FLOOR, l.total_floors, l.address, l.city, l.district, l.property_type, l.plot_area, l.available_from, l.deposit, 
               l.utilities_included, l.photos, l.is_active, l.moderation_status, l.views_count
               FROM listings l 
               INNER JOIN favorites f ON l.id = f.listing_id 
@@ -649,6 +600,8 @@ func (h *ListingHandler) GetFavorites(w http.ResponseWriter, r *http.Request) {
 		var floor sql.NullInt64
 		var totalFloors sql.NullInt64
 		var district sql.NullString
+		var propertyType sql.NullString
+		var plotArea sql.NullFloat64
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
@@ -657,7 +610,7 @@ func (h *ListingHandler) GetFavorites(w http.ResponseWriter, r *http.Request) {
 
 		err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &utilities, &photos, &active,
+			&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active,
 			&l.ModerationStatus, &l.ViewsCount)
 		if err != nil {
 			continue
@@ -665,34 +618,7 @@ func (h *ListingHandler) GetFavorites(w http.ResponseWriter, r *http.Request) {
 
 		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
 		l.IsActive = active.Valid && active.Bool
-
-		if description.Valid {
-			l.Description = description.String
-		}
-		if area.Valid {
-			l.Area = area.Float64
-		}
-		if roomCount.Valid {
-			l.Rooms = int(roomCount.Int64)
-		}
-		if floor.Valid {
-			l.Floor = int(floor.Int64)
-		}
-		if totalFloors.Valid {
-			l.TotalFloors = int(totalFloors.Int64)
-		}
-		if district.Valid {
-			l.District = district.String
-		}
-		if availableFrom.Valid {
-			l.AvailableFrom = &availableFrom.Time
-		}
-		if deposit.Valid {
-			l.Deposit = deposit.String
-		}
-		if photos.Valid {
-			l.Photos = photos.String
-		}
+		applyListingNullableFields(&l, description, area, roomCount, floor, totalFloors, district, propertyType, plotArea, availableFrom, deposit, photos)
 		listings = append(listings, l)
 	}
 
@@ -763,7 +689,7 @@ func (h *ListingHandler) GetMyListings(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
-              FLOOR, total_floors, address, city, district, available_from, deposit, 
+              FLOOR, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
               utilities_included, photos, is_active, moderation_status, views_count 
               FROM listings WHERE user_id = ? ORDER BY id DESC`
 
@@ -783,6 +709,8 @@ func (h *ListingHandler) GetMyListings(w http.ResponseWriter, r *http.Request) {
 		var floor sql.NullInt64
 		var totalFloors sql.NullInt64
 		var district sql.NullString
+		var propertyType sql.NullString
+		var plotArea sql.NullFloat64
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
@@ -791,40 +719,13 @@ func (h *ListingHandler) GetMyListings(w http.ResponseWriter, r *http.Request) {
 
 		if err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus, &l.ViewsCount); err != nil {
+			&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus, &l.ViewsCount); err != nil {
 			continue
 		}
 
 		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
 		l.IsActive = active.Valid && active.Bool
-
-		if description.Valid {
-			l.Description = description.String
-		}
-		if area.Valid {
-			l.Area = area.Float64
-		}
-		if roomCount.Valid {
-			l.Rooms = int(roomCount.Int64)
-		}
-		if floor.Valid {
-			l.Floor = int(floor.Int64)
-		}
-		if totalFloors.Valid {
-			l.TotalFloors = int(totalFloors.Int64)
-		}
-		if district.Valid {
-			l.District = district.String
-		}
-		if availableFrom.Valid {
-			l.AvailableFrom = &availableFrom.Time
-		}
-		if deposit.Valid {
-			l.Deposit = deposit.String
-		}
-		if photos.Valid {
-			l.Photos = photos.String
-		}
+		applyListingNullableFields(&l, description, area, roomCount, floor, totalFloors, district, propertyType, plotArea, availableFrom, deposit, photos)
 		listings = append(listings, l)
 	}
 
@@ -908,7 +809,7 @@ func (h *ListingHandler) canViewListing(l *models.Listing, viewerID int) bool {
 
 func (h *ListingHandler) AdminListPending(w http.ResponseWriter, r *http.Request) {
 	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
-              FLOOR, total_floors, address, city, district, available_from, deposit, 
+              FLOOR, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
               utilities_included, photos, is_active, moderation_status, views_count
               FROM listings WHERE is_active = 1 AND moderation_status = 'pending' ORDER BY id ASC`
 
@@ -928,6 +829,8 @@ func (h *ListingHandler) AdminListPending(w http.ResponseWriter, r *http.Request
 		var floor sql.NullInt64
 		var totalFloors sql.NullInt64
 		var district sql.NullString
+		var propertyType sql.NullString
+		var plotArea sql.NullFloat64
 		var availableFrom sql.NullTime
 		var deposit sql.NullString
 		var photos sql.NullString
@@ -936,40 +839,14 @@ func (h *ListingHandler) AdminListPending(w http.ResponseWriter, r *http.Request
 
 		if err := rows.Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType, &l.Price,
 			&area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
-			&availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus,
+			&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active, &l.ModerationStatus,
 			&l.ViewsCount); err != nil {
 			continue
 		}
 
 		l.UtilitiesIncluded = utilities.Valid && utilities.Bool
 		l.IsActive = active.Valid && active.Bool
-		if description.Valid {
-			l.Description = description.String
-		}
-		if area.Valid {
-			l.Area = area.Float64
-		}
-		if roomCount.Valid {
-			l.Rooms = int(roomCount.Int64)
-		}
-		if floor.Valid {
-			l.Floor = int(floor.Int64)
-		}
-		if totalFloors.Valid {
-			l.TotalFloors = int(totalFloors.Int64)
-		}
-		if district.Valid {
-			l.District = district.String
-		}
-		if availableFrom.Valid {
-			l.AvailableFrom = &availableFrom.Time
-		}
-		if deposit.Valid {
-			l.Deposit = deposit.String
-		}
-		if photos.Valid {
-			l.Photos = photos.String
-		}
+		applyListingNullableFields(&l, description, area, roomCount, floor, totalFloors, district, propertyType, plotArea, availableFrom, deposit, photos)
 		listings = append(listings, l)
 	}
 

@@ -93,6 +93,9 @@ func (h *ReportHandler) AdminListUserReports(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	status := strings.ToLower(strings.TrimSpace(r.URL.Query().Get("status")))
+	if status == "all" {
+		status = ""
+	}
 	q := `SELECT ur.id, ur.reporter_id,
 		COALESCE(NULLIF(TRIM(ur1.first_name), ''), ur1.email, ur1.phone, ''),
 		ur.reported_user_id,
@@ -147,7 +150,7 @@ func (h *ReportHandler) AdminUpdateUserReport(w http.ResponseWriter, r *http.Req
 		return
 	}
 	st := strings.ToLower(strings.TrimSpace(body.Status))
-	if st != "resolved" && st != "dismissed" && st != "pending" {
+	if st != "resolved" && st != "dismissed" {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid status"})
 		return
 	}

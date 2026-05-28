@@ -324,7 +324,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!isNaN(d.getTime())) af = d.toISOString().slice(0, 10);
             }
             document.getElementById('editAvailableFrom').value = af;
-            document.getElementById('editDeposit').value = L.deposit || 'none';
             document.getElementById('editUtilities').value = L.utilities_included ? 'true' : 'false';
             document.getElementById('editPhotos').value = L.photos || '';
         } catch (e) {
@@ -355,7 +354,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             city: document.getElementById('editCity').value.trim(),
             district: document.getElementById('editDistrict').value.trim(),
             available_from: document.getElementById('editAvailableFrom').value.trim(),
-            deposit: document.getElementById('editDeposit').value.trim() || 'none',
             utilities_included: document.getElementById('editUtilities').value === 'true',
             photos: document.getElementById('editPhotos').value.trim(),
         };
@@ -448,11 +446,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    function reportStatusLabel(st) {
+        const s = (st || '').toLowerCase();
+        if (s === 'resolved') return 'Рассмотрена';
+        if (s === 'dismissed') return 'Отклонена';
+        return '—';
+    }
+
     async function loadReports() {
         const tbody = document.getElementById('reportsBody');
         const empty = document.getElementById('reportsEmpty');
-        const filter = document.getElementById('reportsStatusFilter')?.value || 'pending';
-        const q = filter === 'all' ? '' : `?status=${encodeURIComponent(filter)}`;
+        const filter = document.getElementById('reportsStatusFilter')?.value || 'all';
+        const q = filter === 'all' ? '?status=all' : `?status=${encodeURIComponent(filter)}`;
         try {
             const res = await fetch(`/api/admin/reports${q}`, { headers: { 'X-User-ID': uid } });
             const data = await res.json();
@@ -473,11 +478,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td>${escapeHtml(rep.reported_user_name || '')} (#${rep.reported_user_id})</td>
                     <td>${lid}</td>
                     <td style="max-width:240px;">${escapeHtml(rep.reason || '')}</td>
-                    <td>${escapeHtml(rep.status || '')}</td>
+                    <td>${escapeHtml(reportStatusLabel(rep.status))}</td>
                     <td>
                         <div class="row-actions">
-                            <button type="button" class="btn btn-primary btn-xs rep-resolve" data-id="${rep.id}" ${rep.status !== 'pending' ? 'disabled' : ''}>Рассмотрено</button>
-                            <button type="button" class="btn btn-outline btn-xs rep-dismiss" data-id="${rep.id}" ${rep.status !== 'pending' ? 'disabled' : ''}>Отклонить</button>
+                            <button type="button" class="btn btn-primary btn-xs rep-resolve" data-id="${rep.id}" ${rep.status !== 'pending' ? 'disabled' : ''}>Рассмотрена</button>
+                            <button type="button" class="btn btn-outline btn-xs rep-dismiss" data-id="${rep.id}" ${rep.status !== 'pending' ? 'disabled' : ''}>Отклонена</button>
                         </div>
                     </td>`;
                 tbody.appendChild(tr);
@@ -492,7 +497,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         });
                         const d = await r.json().catch(() => ({}));
                         if (!r.ok) throw new Error(d.error || 'Ошибка');
-                        showMsg('Жалоба отмечена как рассмотренная');
+                        showMsg('Статус: Рассмотрена');
                         loadReports();
                     } catch (e) {
                         alert(e.message);
@@ -509,7 +514,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         });
                         const d = await r.json().catch(() => ({}));
                         if (!r.ok) throw new Error(d.error || 'Ошибка');
-                        showMsg('Жалоба отклонена');
+                        showMsg('Статус: Отклонена');
                         loadReports();
                     } catch (e) {
                         alert(e.message);

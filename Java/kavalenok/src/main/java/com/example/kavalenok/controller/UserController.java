@@ -7,6 +7,7 @@ import com.example.kavalenok.model.User;
 import com.example.kavalenok.repository.FriendRepository;
 import com.example.kavalenok.repository.TrainingParticipantRepository;
 import com.example.kavalenok.repository.UserRepository;
+import com.example.kavalenok.service.ProfileInsightsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,9 @@ public class UserController {
     @Autowired
     private FriendRepository friendRepository;
 
+    @Autowired
+    private ProfileInsightsService profileInsightsService;
+
     @GetMapping("/user")
     public String user(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -55,6 +59,10 @@ public class UserController {
         model.addAttribute("friends", friends);
         model.addAttribute("user", user);
         model.addAttribute("myTrainings", myTrainings);
+        model.addAttribute("recommendedTrainings", profileInsightsService.getRecommendationsFor(user));
+        model.addAttribute("achievements", profileInsightsService.syncAndGetAchievements(user));
+        model.addAttribute("allAchievements", profileInsightsService.getAllAchievementsProgress(user));
+        model.addAttribute("developmentPlan", profileInsightsService.buildDevelopmentPlan(user));
         return "user";
     }
 

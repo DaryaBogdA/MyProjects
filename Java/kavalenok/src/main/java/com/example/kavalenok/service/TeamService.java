@@ -140,7 +140,7 @@ public class TeamService {
     }
 
     public TeamWithMembers getTeamWithMembers(Long teamId) {
-        Team team = teamRepository.findById(teamId)
+        Team team = teamRepository.findByIdWithCaptain(teamId)
                 .orElseThrow(() -> new IllegalArgumentException("Команда не найдена"));
         List<TeamMember> approved = teamMemberRepository.findByTeamIdAndStatusOrderByRoleAsc(teamId, TeamMemberStatus.APPROVED);
         List<TeamMember> pending = teamMemberRepository.findByTeamIdAndStatus(teamId, TeamMemberStatus.PENDING);

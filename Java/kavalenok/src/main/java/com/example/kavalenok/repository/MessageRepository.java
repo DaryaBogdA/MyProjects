@@ -8,13 +8,19 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    @Query("SELECT m FROM Message m WHERE " +
+    @Query("SELECT m FROM Message m " +
+            "JOIN FETCH m.sender s " +
+            "JOIN FETCH m.receiver r " +
+            "WHERE " +
             "(m.sender.id = :user1 AND m.receiver.id = :user2) OR " +
             "(m.sender.id = :user2 AND m.receiver.id = :user1) " +
             "ORDER BY m.sentAt ASC")
     List<Message> findConversation(@Param("user1") Long user1, @Param("user2") Long user2);
 
-    @Query("SELECT m FROM Message m WHERE " +
+    @Query("SELECT m FROM Message m " +
+            "JOIN FETCH m.sender s " +
+            "JOIN FETCH m.receiver r " +
+            "WHERE " +
             "(m.sender.id = :user1 AND m.receiver.id = :user2) OR " +
             "(m.sender.id = :user2 AND m.receiver.id = :user1) " +
             "ORDER BY m.sentAt DESC")

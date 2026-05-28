@@ -12,10 +12,10 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, TeamMemb
     @Query("SELECT tm FROM TeamMember tm WHERE tm.team.id = :teamId AND tm.user.id = :userId")
     Optional<TeamMember> findByTeamIdAndUserId(@Param("teamId") Long teamId, @Param("userId") Long userId);
 
-    @Query("SELECT tm FROM TeamMember tm WHERE tm.team.id = :teamId AND tm.status = :status")
+    @Query("SELECT tm FROM TeamMember tm JOIN FETCH tm.user u WHERE tm.team.id = :teamId AND tm.status = :status")
     List<TeamMember> findByTeamIdAndStatus(@Param("teamId") Long teamId, @Param("status") TeamMemberStatus status);
 
-    @Query("SELECT tm FROM TeamMember tm WHERE tm.team.id = :teamId AND tm.status = :status ORDER BY tm.role ASC")
+    @Query("SELECT tm FROM TeamMember tm JOIN FETCH tm.user u WHERE tm.team.id = :teamId AND tm.status = :status ORDER BY tm.role ASC")
     List<TeamMember> findByTeamIdAndStatusOrderByRoleAsc(@Param("teamId") Long teamId, @Param("status") TeamMemberStatus status);
 
     @Query("SELECT COUNT(tm) FROM TeamMember tm WHERE tm.team.id = :teamId AND tm.status = 'APPROVED' AND tm.role = :role")

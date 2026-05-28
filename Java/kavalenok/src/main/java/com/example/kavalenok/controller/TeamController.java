@@ -34,7 +34,7 @@ public class TeamController {
 
     @GetMapping
     public String listTeams(Model model) {
-        List<Team> teams = teamRepository.findAllByOrderByCreatedAtDesc();
+        List<Team> teams = teamRepository.findAllWithCaptainOrderByCreatedAtDesc();
         model.addAttribute("teams", teams);
         return "teams";
     }

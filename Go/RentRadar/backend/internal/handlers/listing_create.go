@@ -43,7 +43,10 @@ func decodeCreateListingRequest(r *http.Request) (models.CreateListingRequest, *
 		req.City = strings.TrimSpace(firstForm(f, "city"))
 		req.District = strings.TrimSpace(firstForm(f, "district"))
 		req.AvailableFrom = strings.TrimSpace(firstForm(f, "available_from"))
-		req.Deposit = strings.TrimSpace(firstForm(f, "deposit"))
+		req.PropertyType = strings.TrimSpace(firstForm(f, "property_type"))
+		if pa, err := strconv.ParseFloat(strings.TrimSpace(firstForm(f, "plot_area")), 64); err == nil {
+			req.PlotArea = pa
+		}
 
 		if p, err := strconv.ParseFloat(strings.TrimSpace(firstForm(f, "price")), 64); err == nil {
 			req.Price = p

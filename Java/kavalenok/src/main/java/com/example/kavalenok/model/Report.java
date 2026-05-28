@@ -30,7 +30,7 @@ public class Report {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String reason;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = ReportStatusConverter.class)
     @Column(columnDefinition = "ENUM('pending', 'resolved', 'rejected') default 'pending'")
     private Status status = Status.PENDING;
 
@@ -114,6 +114,18 @@ public class Report {
     }
 
     public enum Status {
-        PENDING, RESOLVED, REJECTED
+        PENDING("На рассмотрении"),
+        RESOLVED("Решено"),
+        REJECTED("Отклонено");
+
+        private final String displayName;
+
+        Status(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 }

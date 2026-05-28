@@ -24,6 +24,7 @@ func main() {
 	defer db.Close()
 
 	log.Println("database connected successfully")
+	database.EnsureSchema(db)
 
 	projectRoot := filepath.Join("..")
 	router := app.NewRouter(db, projectRoot)

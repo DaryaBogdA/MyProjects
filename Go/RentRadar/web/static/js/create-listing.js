@@ -34,6 +34,8 @@ async function initCreateListing() {
     const existingPhotosNote = document.getElementById('existingPhotosNote');
     const floorFormGroup = document.getElementById('floorFormGroup');
     const floorInput = document.getElementById('floor');
+    const plotAreaFormGroup = document.getElementById('plotAreaFormGroup');
+    const plotAreaInput = document.getElementById('plotArea');
     const propertyTypeSelect = document.getElementById('propertyType');
 
     function fillCitySelect() {
@@ -200,8 +202,13 @@ async function initCreateListing() {
         const parsedPeriod = parsePricePeriodFromDescription(L.description || '');
         currentRentPricePeriod = parsedPeriod.period;
         document.getElementById('description').value = parsedPeriod.description;
+        if (L.property_type) {
+            document.getElementById('propertyType').value = L.property_type;
+        }
         if (L.rooms != null) document.getElementById('rooms').value = String(L.rooms);
         if (L.area != null) document.getElementById('area').value = String(L.area);
+        if (L.plot_area != null && plotAreaInput) plotAreaInput.value = String(L.plot_area);
+        updateFloorFieldByPropertyType();
         if (L.floor != null) document.getElementById('floor').value = String(L.floor);
         if (L.total_floors != null) document.getElementById('totalFloors').value = String(L.total_floors);
         document.getElementById('address').value = L.address || '';
@@ -244,10 +251,6 @@ async function initCreateListing() {
             if (input && !isNaN(d.getTime())) {
                 input.value = d.toISOString().slice(0, 10);
             }
-        }
-        if (L.deposit && L.listing_type === 'rent') {
-            const rb = document.querySelector(`input[name="deposit"][value="${L.deposit}"]`);
-            if (rb) rb.checked = true;
         }
         const util = document.getElementById('utilitiesIncluded');
         if (util) util.checked = !!L.utilities_included;
@@ -399,6 +402,20 @@ async function initCreateListing() {
             } else {
                 floorInput.setAttribute('required', 'required');
                 floorInput.disabled = false;
+            }
+        }
+        if (plotAreaFormGroup) {
+            plotAreaFormGroup.classList.toggle('hidden', !isHouse);
+            plotAreaFormGroup.style.display = isHouse ? '' : 'none';
+        }
+        if (plotAreaInput) {
+            if (isHouse) {
+                plotAreaInput.setAttribute('required', 'required');
+                plotAreaInput.disabled = false;
+            } else {
+                plotAreaInput.removeAttribute('required');
+                plotAreaInput.disabled = true;
+                plotAreaInput.value = '';
             }
         }
         updateHouseSensitiveAmenities();
@@ -560,6 +577,17 @@ async function initCreateListing() {
         }
 
         const isHouse = propertyTypeSelect?.value === 'house';
+        if (isHouse) {
+            const plotArea = plotAreaInput?.value;
+            if (!plotArea) {
+                showError('plotArea', 'Укажите размер участка');
+                isValid = false;
+            } else if (parseFloat(plotArea) < 0.1) {
+                showError('plotArea', 'Размер участка должен быть больше 0');
+                isValid = false;
+            }
+        }
+
         const floor = document.getElementById('floor')?.value;
         if (!isHouse) {
             if (!floor) {
@@ -688,6 +716,9 @@ async function initCreateListing() {
             formData.append('rooms', document.getElementById('rooms').value);
             formData.append('area', document.getElementById('area').value);
             formData.append('floor', propertyTypeSelect?.value === 'house' ? '0' : document.getElementById('floor').value);
+            if (propertyTypeSelect?.value === 'house' && plotAreaInput?.value) {
+                formData.append('plot_area', plotAreaInput.value);
+            }
             formData.append('total_floors', document.getElementById('totalFloors').value);
             formData.append('address', document.getElementById('address').value.trim());
             formData.append('city', getResolvedCity());
@@ -701,8 +732,6 @@ async function initCreateListing() {
             if (currentType === 'rent') {
                 formData.append('available_from', document.getElementById('availableFrom').value);
                 formData.append('utilities_included', document.getElementById('utilitiesIncluded')?.checked ? '1' : '0');
-                const deposit = document.querySelector('input[name="deposit"]:checked')?.value || 'none';
-                formData.append('deposit', deposit);
             } else {
                 formData.append('condition', document.getElementById('condition')?.value || '');
                 formData.append('building_year', document.getElementById('buildingYear')?.value || '');

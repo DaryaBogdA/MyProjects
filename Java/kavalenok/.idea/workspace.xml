@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dd67be33-eb00-494d-ba99-63be29282c93" name="Changes" comment="result">
+      <change afterPath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/database/migrate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../C#/Boyr/Boyr/bin/Debug/Boyr.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../C#/Boyr/Boyr/bin/Debug/Boyr.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/.idea/RentRadar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/.idea/RentRadar.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/backend/cmd/api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/backend/cmd/api/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/handlers/listing_create.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/handlers/listing_create.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/handlers/listings.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/handlers/listings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/handlers/reports.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/handlers/reports.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/backend/internal/models/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/web/static/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/web/static/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/web/static/js/create-listing.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/web/static/js/create-listing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/web/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/web/templates/admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Go/RentRadar/web/templates/create-listing.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Go/RentRadar/web/templates/create-listing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../arena/src/main/resources/templates/auth.html" beforeDir="false" afterPath="$PROJECT_DIR$/../arena/src/main/resources/templates/auth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/TeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/TrainingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/TrainingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/model/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/model/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/AnnouncementRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/AnnouncementRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/CoachReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/CoachReviewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/FriendRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/FriendRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/MessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/MessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TeamMemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TeamMemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TeamRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TrainingParticipantRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TrainingParticipantRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TrainingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/repository/TrainingRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/service/CoachReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/service/CoachReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/service/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/kavalenok/service/TeamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/announcements.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/announcements.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/coach-reviews.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/coach-reviews.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/coaches.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/coaches.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/conversation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/conversation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/gallery.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/gallery.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/layout/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/layout/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/messages.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/messages.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/moreInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/moreInfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/teamCreate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/teamCreate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/teamDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/teamDetail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/teams.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/teams.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/trainingCreate.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/trainingCreate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/trainings.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/trainings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/kavalenok/KavalenokApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/kavalenok/KavalenokApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="module" />
+      <option value="repository" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="391j7W4PAOnm5ORGg7Ulq0nIMiF" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.KavalenokApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/kollege/MyProjects/Java/kavalenok/src/main/resources/static/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\kollege\MyProjects\Java\kavalenok\src\main\resources\static\img" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="KavalenokApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kavalenok" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.kavalenok.KavalenokApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd67be33-eb00-494d-ba99-63be29282c93" name="Changes" comment="" />
+      <created>1769870303445</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769870303445</updated>
+      <workItem from="1769870304850" duration="1644000" />
+      <workItem from="1770015572168" duration="21445000" />
+      <workItem from="1770098644211" duration="26007000" />
+      <workItem from="1770617828381" duration="4945000" />
+      <workItem from="1770798114018" duration="5850000" />
+      <workItem from="1770815435649" duration="30355000" />
+      <workItem from="1771146560701" duration="2279000" />
+      <workItem from="1771235157082" duration="6409000" />
+      <workItem from="1771395453602" duration="2390000" />
+      <workItem from="1771438684307" duration="11458000" />
+      <workItem from="1772772083186" duration="2824000" />
+      <workItem from="1777385107324" duration="280000" />
+      <workItem from="1777886717740" duration="2743000" />
+      <workItem from="1777959728141" duration="1342000" />
+      <workItem from="1778075499120" duration="21000" />
+      <workItem from="1778075781849" duration="17000" />
+      <workItem from="1778424939240" duration="28000" />
+      <workItem from="1779964283870" duration="6536000" />
+      <workItem from="1779971584569" duration="404000" />
+    </task>
+    <task id="LOCAL-00001" summary="result">
+      <option name="closed" value="true" />
+      <created>1770975816054</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1770975816054</updated>
+    </task>
+    <task id="LOCAL-00002" summary="result">
+      <option name="closed" value="true" />
+      <created>1771396636619</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1771396636619</updated>
+    </task>
+    <task id="LOCAL-00003" summary="result">
+      <option name="closed" value="true" />
+      <created>1771954636095</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1771954636095</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="result" />
+    <option name="LAST_COMMIT_MESSAGE" value="result" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.sql.SQLSyntaxErrorException" package="java.sql" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

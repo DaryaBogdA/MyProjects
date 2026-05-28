@@ -49,6 +49,8 @@ type Listing struct {
 	Address           string     `json:"address" db:"address"`
 	City              string     `json:"city" db:"city"`
 	District          string     `json:"district,omitempty" db:"district"`
+	PropertyType      string     `json:"property_type,omitempty" db:"property_type"`
+	PlotArea          float64    `json:"plot_area,omitempty" db:"plot_area"`
 	AvailableFrom     *time.Time `json:"available_from,omitempty" db:"available_from"`
 	Deposit           string     `json:"deposit,omitempty" db:"deposit"`
 	UtilitiesIncluded bool       `json:"utilities_included" db:"utilities_included"`
@@ -98,6 +100,8 @@ type CreateListingRequest struct {
 	Address           string   `json:"address"`
 	City              string   `json:"city"`
 	District          string   `json:"district"`
+	PropertyType      string   `json:"property_type"`
+	PlotArea          float64  `json:"plot_area"`
 	AvailableFrom     string   `json:"available_from"`
 	Deposit           string   `json:"deposit"`
 	UtilitiesIncluded bool     `json:"utilities_included"`
