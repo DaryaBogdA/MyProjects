@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelCanvas — Помощь</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link href="/api/assets/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/api/assets/img/logo.png">
+    <script src="/api/assets/js/config.js"></script>
+    <script src="/api/assets/js/app.js"></script>
+    <script src="/api/assets/js/js.js"></script>
+    <style>
+        .help-hero {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #3d4f6e 100%);
+            color: #fff;
+            border-radius: 24px;
+            padding: 32px 28px;
+            margin-bottom: 2rem;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        }
+        .help-hero h1 { font-size: 2rem; font-weight: 800; margin: 0; }
+        .help-hero p { opacity: 0.9; margin: 10px 0 0; max-width: 640px; }
+        .help-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 26px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+        .help-card h2, .help-card h3 {
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .help-card h2 i, .help-card h3 i { color: var(--coral, #ff6b6b); }
+        .help-step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 1rem;
+        }
+        .help-step-num {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+        .status-hint {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+        .status-hint.pending { background: #fff3cd; color: #856404; }
+        .status-hint.ok { background: #d1e7dd; color: #0f5132; }
+        .contact-box {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(45, 55, 72, 0.06));
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .quick-links a {
+            display: block;
+            padding: 8px 0;
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .quick-links a:hover { color: var(--coral, #ff6b6b); }
+        .quick-links a i { width: 22px; color: var(--coral, #ff6b6b); }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+
+<div class="container mt-4 mb-4">
+    <div class="help-hero">
+        <h1><i class="fas fa-circle-question me-2"></i>Центр помощи</h1>
+        <p>Как забронировать тур, собрать маршрут и скачать подтверждение после одобрения заявки.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="help-card mb-4">
+                <h2><i class="fas fa-route"></i>Как пользоваться сайтом</h2>
+                <div class="help-step">
+                    <span class="help-step-num">1</span>
+                    <div>
+                        <strong>Регистрация и вход</strong>
+                        <p class="text-muted small mb-0">Создайте аккаунт на странице «Регистрация» (пароль не короче 8 символов). Для бронирования и личного кабинета нужен вход.</p>
+                    </div>
+                </div>
+                <div class="help-step">
+                    <span class="help-step-num">2</span>
+                    <div>
+                        <strong>Готовый тур</strong>
+                        <p class="text-muted small mb-0">Раздел <a href="chooseTour.html">Выбрать тур</a> → карточка тура → укажите дату начала (не в прошлом) → «Забронировать».</p>
+                    </div>
+                </div>
+                <div class="help-step">
+                    <span class="help-step-num">3</span>
+                    <div>
+                        <strong>Свой маршрут</strong>
+                        <p class="text-muted small mb-0"><a href="tourCreate.html">Собрать тур</a>: страна, город, даты, число людей, один отель, транспорт, экскурсии. Сохраните тур, затем нажмите «Забронировать».</p>
+                    </div>
+                </div>
+                <div class="help-step">
+                    <span class="help-step-num">4</span>
+                    <div>
+                        <strong>Ожидание и подтверждение</strong>
+                        <p class="text-muted small mb-0">Заявка получает статус «На рассмотрении». После одобрения администратором можно <strong>скачать файл</strong> с информацией о туре в разделе <a href="myBookings.html">Мои бронирования</a>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-card mb-4">
+                <h2><i class="fas fa-tags"></i>Статусы бронирования</h2>
+                <p class="mb-3 text-muted small">Статус отображается в «Мои бронирования» и в деталях заявки.</p>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><span class="status-hint pending">На рассмотрении</span> — заявка отправлена, ждёт решения админа.</li>
+                    <li class="mb-2"><span class="status-hint ok">Подтверждено</span> — тур одобрен, доступно скачивание информации.</li>
+                    <li class="mb-2"><span class="status-hint ok">Оплачено / Завершено</span> — финальные этапы (при необходимости).</li>
+                    <li><span class="status-hint" style="background:#f8d7da;color:#842029">Отменено</span> — вы или администратор отменили заявку.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+            <div class="help-card mb-4 quick-links">
+                <h3><i class="fas fa-link"></i>Быстрые ссылки</h3>
+                <a href="main.html"><i class="fas fa-home"></i> Главная</a>
+                <a href="chooseTour.html"><i class="fas fa-compass"></i> Выбрать тур</a>
+                <a href="tourCreate.html"><i class="fas fa-puzzle-piece"></i> Собрать тур</a>
+                <a href="countries.html"><i class="fas fa-globe"></i> Страны</a>
+                <a href="myTrips.html"><i class="fas fa-suitcase"></i> Мои туры</a>
+                <a href="myBookings.html"><i class="fas fa-clipboard-check"></i> Мои бронирования</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
+                <a href="login.html"><i class="fas fa-sign-in-alt"></i> Войти</a>
+            </div>
+
+            <div class="help-card">
+                <h3><i class="fas fa-headset"></i>Контакты</h3>
+                <div class="contact-box">
+                    <p class="mb-2"><i class="fas fa-envelope text-danger me-2"></i><strong>Email:</strong><br>
+                        <a href="mailto:support@travelcanvas.local">support@travelcanvas.local</a></p>
+                    <p class="mb-2"><i class="fas fa-clock text-danger me-2"></i><strong>Поддержка:</strong><br>
+                        <span class="text-muted">Пн–Пт, 9:00–18:00</span></p>
+                    <p class="mb-0 small text-muted">Учебный проект TravelCanvas. По вопросам заявок обращайтесь к администратору через панель сайта или email.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+</body>
+</html>

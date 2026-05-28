@@ -1,5 +1,64 @@
-﻿<footer>
-    <div class="container">
-        <p>Bogdanovich Darya &copy;</p>
+﻿<footer class="site-footer">
+    <div class="footer-wave"></div>
+    <div class="container footer-inner">
+        <div class="row g-4 footer-grid">
+            <div class="col-md-6 col-lg-4">
+                <a href="main.html" class="footer-logo">
+                    <img src="/api/assets/img/logo.png" alt="TravelCanvas">
+                    <span>TravelCanvas</span>
+                </a>
+                <p class="footer-tagline">Путешествия мечты: готовые туры и свой маршрут в одном сервисе.</p>
+                <div class="footer-social">
+                    <a href="main.html" aria-label="Главная"><i class="fas fa-home"></i></a>
+                    <a href="help.html" aria-label="Помощь"><i class="fas fa-circle-question"></i></a>
+                    <a href="mailto:support@travelcanvas.local" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2">
+                <h4 class="footer-heading">Сайт</h4>
+                <ul class="footer-links">
+                    <li><a href="main.html">Главная</a></li>
+                    <li><a href="chooseTour.html">Выбрать тур</a></li>
+                    <li><a href="tourCreate.html">Собрать тур</a></li>
+                    <li><a href="countries.html">Страны</a></li>
+                    <li><a href="attractions.html">Достопримечательности</a></li>
+                    <li><a href="excursions.html">Экскурсии</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2">
+                <h4 class="footer-heading">Кабинет</h4>
+                <ul class="footer-links">
+                    <li><a href="myTrips.html">Мои туры</a></li>
+                    <li><a href="myBookings.html">Мои бронирования</a></li>
+                    <li><a href="profile.html">Профиль</a></li>
+                    <li><a href="login.html">Войти</a></li>
+                    <li><a href="register.html">Регистрация</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-12 col-lg-4">
+                <h4 class="footer-heading">Помощь</h4>
+                <ul class="footer-links">
+                    <li><a href="help.html"><i class="fas fa-circle-question me-1"></i> Центр помощи</a></li>
+                </ul>
+                <p class="footer-contact">
+                    <i class="fas fa-envelope me-1"></i>
+                    <a href="mailto:support@travelcanvas.local">support@travelcanvas.local</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="footer-year"></span> TravelCanvas · Bogdanovich Darya</p>
+            <p class="footer-bottom-note">Учебный проект · Все права защищены</p>
+        </div>
     </div>
+    <script>
+        (function () {
+            var y = document.getElementById('footer-year');
+            if (y) y.textContent = new Date().getFullYear();
+        })();
+    </script>
 </footer>
