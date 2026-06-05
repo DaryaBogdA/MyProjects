@@ -59,10 +59,9 @@
             margin-top: 16px;
         }
 
-        .photo-preview-item img {
+        .photo-preview-item .photo-blur-frame {
             width: 100%;
             height: 100%;
-            object-fit: cover;
         }
 
 
@@ -348,8 +347,8 @@
                 </h2>
                 <div class="form-group full-width">
                     <label for="description">Описание объявления *</label>
-                    <textarea id="description" name="description" rows="8" maxlength="1000" placeholder="Расскажите о вашем жилье..."></textarea>
-                    <div class="textarea-counter">0/1000</div>
+                    <textarea id="description" name="description" rows="8" maxlength="5000" placeholder="Расскажите о вашем жилье..."></textarea>
+                    <div class="textarea-counter">0/5000</div>
                     <div class="error-message" id="descriptionError"></div>
                 </div>
             </div>
@@ -361,7 +360,7 @@
                 <div class="photo-upload-area" id="photoUploadArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size: 3rem;"></i>
                     <p>Перетащите фотографии сюда или нажмите для выбора</p>
-                    <p class="photo-hint">Максимум 10 фото. Первое фото будет обложкой</p>
+                    <p class="photo-hint">Максимум 50 фото. Первое фото будет обложкой</p>
                     <p class="photo-hint" id="existingPhotosNote" style="display: none;"></p>
                     <input type="file" id="photoInput" multiple accept="image/*" style="display: none;">
                     <button type="button" class="btn btn-outline" id="selectPhotosBtn" style="margin-top: 15px;">

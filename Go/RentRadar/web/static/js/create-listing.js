@@ -14,6 +14,8 @@ async function initCreateListing() {
     }
 
     let selectedFiles = [];
+    let existingPhotos = [];
+    let photosToDelete = [];
     let currentType = 'rent';
     let currentRentPricePeriod = 'month';
     let editListingId = null;
@@ -40,6 +42,7 @@ async function initCreateListing() {
 
     function fillCitySelect() {
         if (!citySelect || !window.BELARUS_CITIES) return;
+        citySelect.innerHTML = '<option value="" selected disabled hidden>Выберите город</option>';
         for (const name of BELARUS_CITIES) {
             const opt = document.createElement('option');
             opt.value = name;
@@ -176,6 +179,93 @@ async function initCreateListing() {
 
     initListingLocationMap();
 
+    function renderAllPhotos() {
+        const photoPreview = document.getElementById('photoPreview');
+        if (!photoPreview) return;
+
+        photoPreview.innerHTML = '';
+        let allPhotos = [];
+
+        const visibleExisting = existingPhotos.filter(url => !photosToDelete.includes(url));
+        for (let i = 0; i < visibleExisting.length; i++) {
+            allPhotos.push({ type: 'existing', url: visibleExisting[i], index: i });
+        }
+        for (let i = 0; i < selectedFiles.length; i++) {
+            allPhotos.push({ type: 'new', file: selectedFiles[i], index: i });
+        }
+
+        if (allPhotos.length === 0) {
+            return;
+        }
+
+        allPhotos.forEach((photo, idx) => {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'photo-preview-item';
+
+            if (photo.type === 'existing') {
+                previewItem.innerHTML = `
+                    ${photoBlurFrameHtml(photo.url, 'Фото')}
+                    <button type="button" class="photo-remove" data-type="existing" data-url="${escapeHtml(photo.url)}" data-index="${photo.index}">&times;</button>
+                    ${idx === 0 ? '<span class="photo-cover">Обложка</span>' : ''}
+                `;
+            } else {
+                const reader = new FileReader();
+                previewItem.innerHTML = `
+                    ${photoBlurFrameHtml('', 'Фото')}
+                    <button type="button" class="photo-remove" data-type="new" data-index="${photo.index}">&times;</button>
+                    ${idx === 0 ? '<span class="photo-cover">Обложка</span>' : ''}
+                `;
+                reader.onload = (e) => {
+                    const frame = previewItem.querySelector('.photo-blur-frame');
+                    if (frame) updatePhotoBlurFrameSrc(frame, e.target.result);
+                };
+                reader.readAsDataURL(photo.file);
+            }
+            photoPreview.appendChild(previewItem);
+        });
+
+        initPhotoBlurFrames(photoPreview);
+
+        document.querySelectorAll('.photo-remove').forEach(btn => {
+            btn.removeEventListener('click', handlePhotoRemove);
+            btn.addEventListener('click', handlePhotoRemove);
+        });
+    }
+
+    function handlePhotoRemove(e) {
+        const btn = e.currentTarget;
+        const type = btn.dataset.type;
+
+        if (type === 'existing') {
+            const url = btn.dataset.url;
+            if (!photosToDelete.includes(url)) {
+                photosToDelete.push(url);
+            }
+            renderAllPhotos();
+        } else if (type === 'new') {
+            const idx = parseInt(btn.dataset.index);
+            if (!isNaN(idx) && idx >= 0 && idx < selectedFiles.length) {
+                selectedFiles.splice(idx, 1);
+                renderAllPhotos();
+            }
+        }
+
+        updateExistingPhotosNote();
+    }
+
+    function updateExistingPhotosNote() {
+        const visibleExistingCount = existingPhotos.filter(url => !photosToDelete.includes(url)).length;
+        const existingPhotosNote = document.getElementById('existingPhotosNote');
+        if (existingPhotosNote) {
+            if (visibleExistingCount > 0) {
+                existingPhotosNote.style.display = 'block';
+                existingPhotosNote.textContent = `Уже загружено фото: ${visibleExistingCount}. Можно добавить ещё или удалить.`;
+            } else {
+                existingPhotosNote.style.display = 'none';
+            }
+        }
+    }
+
     async function loadListingForEdit(id) {
         const uid = localStorage.getItem('userId');
         const res = await fetch(`/api/listings/${id}`, {
@@ -208,7 +298,9 @@ async function initCreateListing() {
         if (L.rooms != null) document.getElementById('rooms').value = String(L.rooms);
         if (L.area != null) document.getElementById('area').value = String(L.area);
         if (L.plot_area != null && plotAreaInput) plotAreaInput.value = String(L.plot_area);
+
         updateFloorFieldByPropertyType();
+
         if (L.floor != null) document.getElementById('floor').value = String(L.floor);
         if (L.total_floors != null) document.getElementById('totalFloors').value = String(L.total_floors);
         document.getElementById('address').value = L.address || '';
@@ -239,7 +331,8 @@ async function initCreateListing() {
         }
         toggleCityCustom();
 
-        if ((L.listing_type || '').toLowerCase() === 'sale') {
+        const listingType = (L.listing_type || '').toLowerCase();
+        if (listingType === 'sale') {
             updateFormForType('sale');
         } else {
             updateFormForType('rent');
@@ -256,18 +349,14 @@ async function initCreateListing() {
         if (util) util.checked = !!L.utilities_included;
 
         if (L.photos) {
-            existingPhotoCount = L.photos.split(',').map((s) => s.trim()).filter(Boolean).length;
+            existingPhotos = L.photos.split(',').map(s => s.trim()).filter(Boolean);
         } else {
-            existingPhotoCount = 0;
+            existingPhotos = [];
         }
-        if (existingPhotosNote) {
-            if (existingPhotoCount > 0) {
-                existingPhotosNote.style.display = 'block';
-                existingPhotosNote.textContent = `Уже загружено фото: ${existingPhotoCount}. Можно добавить ещё или оставить как есть.`;
-            } else {
-                existingPhotosNote.style.display = 'none';
-            }
-        }
+        photosToDelete = [];
+
+        renderAllPhotos();
+        updateExistingPhotosNote();
 
         if (submitBtn) {
             submitBtn.innerHTML = 'Сохранить изменения';
@@ -473,58 +562,16 @@ async function initCreateListing() {
     }
 
     function handleFiles(files) {
-        if (selectedFiles.length + files.length > 10) {
-            showError('photos', 'Можно загрузить не более 10 фотографий');
+        const visibleExistingCount = existingPhotos.filter(url => !photosToDelete.includes(url)).length;
+        if (visibleExistingCount + selectedFiles.length + files.length > 50) {
+            showError('photos', 'Можно загрузить не более 50 фотографий');
             return;
         }
 
-        files.forEach(file => {
-            if (file.type.startsWith('image/')) {
-                selectedFiles.push(file);
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'photo-preview-item';
-                    const index = selectedFiles.length - 1;
-                    previewItem.innerHTML = `
-                        <img src="${e.target.result}" alt="Фото">
-                        <button type="button" class="photo-remove" data-index="${index}">&times;</button>
-                        ${index === 0 ? '<span class="photo-cover">Обложка</span>' : ''}
-                    `;
-                    photoPreview.appendChild(previewItem);
-
-                    previewItem.querySelector('.photo-remove').addEventListener('click', () => {
-                        selectedFiles.splice(index, 1);
-                        renderPhotoPreview();
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        const imageFiles = files.filter(file => file.type.startsWith('image/'));
+        selectedFiles.push(...imageFiles);
+        renderAllPhotos();
         document.getElementById('photosError').textContent = '';
-    }
-
-    function renderPhotoPreview() {
-        photoPreview.innerHTML = '';
-        selectedFiles.forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const previewItem = document.createElement('div');
-                previewItem.className = 'photo-preview-item';
-                previewItem.innerHTML = `
-                    <img src="${e.target.result}" alt="Фото">
-                    <button type="button" class="photo-remove" data-index="${index}">&times;</button>
-                    ${index === 0 ? '<span class="photo-cover">Обложка</span>' : ''}
-                `;
-                photoPreview.appendChild(previewItem);
-
-                previewItem.querySelector('.photo-remove').addEventListener('click', () => {
-                    selectedFiles.splice(index, 1);
-                    renderPhotoPreview();
-                });
-            };
-            reader.readAsDataURL(file);
-        });
     }
 
     const description = document.getElementById('description');
@@ -532,11 +579,11 @@ async function initCreateListing() {
     if (description && counter) {
         function syncDescriptionCounter() {
             let len = description.value.length;
-            if (len > 1000) {
-                description.value = description.value.substring(0, 1000);
-                len = 1000;
+            if (len > 5000) {
+                description.value = description.value.substring(0, 5000);
+                len = 5000;
             }
-            counter.textContent = `${len}/1000`;
+            counter.textContent = `${len}/5000`;
         }
         description.addEventListener('input', syncDescriptionCounter);
         syncDescriptionCounter();
@@ -659,7 +706,7 @@ async function initCreateListing() {
         } else if (descriptionText.length < 20) {
             showError('description', 'Описание должно содержать минимум 20 символов');
             isValid = false;
-        } else if (descriptionText.length > 1000) {
+        } else if (descriptionText.length > 5000) {
             showError('description', 'Описание не длиннее 1000 символов');
             isValid = false;
         }
@@ -680,8 +727,9 @@ async function initCreateListing() {
             }
         }
 
-        if (selectedFiles.length + existingPhotoCount < 1) {
-            showError('photos', 'Нужна хотя бы одна фотография (уже загруженная или новая)');
+        const visibleExistingCount = existingPhotos.filter(url => !photosToDelete.includes(url)).length;
+        if (selectedFiles.length + visibleExistingCount < 1) {
+            showError('photos', 'Нужна хотя бы одна фотография');
             isValid = false;
         }
 
@@ -726,8 +774,8 @@ async function initCreateListing() {
             formData.append('price', document.getElementById('price').value);
             formData.append('description', withPricePeriodMarker(document.getElementById('description').value.trim()));
             formData.append('listing_type', currentType);
-            formData.append('contact_name', document.getElementById('contactName').value.trim());
-            formData.append('contact_phone', document.getElementById('contactPhone').value.trim());
+            formData.append('contact_name', document.getElementById('contactName')?.value.trim() || '');
+            formData.append('contact_phone', document.getElementById('contactPhone')?.value.trim() || '');
 
             if (currentType === 'rent') {
                 formData.append('available_from', document.getElementById('availableFrom').value);
@@ -760,6 +808,10 @@ async function initCreateListing() {
             selectedFiles.forEach(file => {
                 formData.append('photos', file);
             });
+
+            if (photosToDelete.length > 0) {
+                formData.append('delete_photos', JSON.stringify(photosToDelete));
+            }
 
             try {
                 const url = editListingId ? `/api/listings/${editListingId}` : '/api/listings';

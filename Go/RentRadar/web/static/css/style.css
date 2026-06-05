@@ -611,13 +611,51 @@ body {
     width: 240px;
     min-width: 240px;
     height: 200px;
+    overflow: hidden;
 }
 
-.listing-image img {
+.listing-image .photo-blur-frame {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+}
+
+.photo-blur-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     display: block;
+}
+
+.photo-blur-bg {
+    position: absolute;
+    inset: -24px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px);
+    transform: scale(1.2);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.photo-blur-main {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.photo-blur-frame--blur .photo-blur-bg {
+    opacity: 1;
+}
+
+.photo-blur-frame--blur .photo-blur-main {
+    object-fit: contain;
+}
+
+.photo-blur-frame--cover .photo-blur-main {
+    object-fit: cover;
 }
 
 .badge {
@@ -1589,10 +1627,9 @@ main {
     border: 1px solid var(--border-color);
 }
 
-.photo-preview-item img {
+.photo-preview-item .photo-blur-frame {
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }
 
 .photo-remove {

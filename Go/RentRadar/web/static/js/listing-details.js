@@ -60,6 +60,265 @@ function extractPricePeriodMeta(rawDescription) {
     return { period, description };
 }
 
+// Функция для отображения удобств
+function renderAmenities(amenitiesArray) {
+    const amenityMap = {
+        'parking': { icon: 'fa-parking', label: 'Парковка' },
+        'elevator': { icon: 'fa-arrow-up', label: 'Лифт' },
+        'furniture': { icon: 'fa-couch', label: 'Мебель' },
+        'children': { icon: 'fa-child', label: 'Можно с детьми' },
+        'pets': { icon: 'fa-paw', label: 'Можно с животными' },
+        'wifi': { icon: 'fa-wifi', label: 'Wi-Fi' },
+        'renovation': { icon: 'fa-paint-roller', label: 'Евроремонт' },
+        'new_building': { icon: 'fa-building', label: 'Новостройка' }
+    };
+
+    if (!amenitiesArray || amenitiesArray.length === 0) {
+        return '<p class="ld-muted" style="margin: 10px 0 0;">Нет указанных удобств</p>';
+    }
+
+    let html = '<div class="ld-amenities-grid">';
+    for (const amenity of amenitiesArray) {
+        const info = amenityMap[amenity] || { icon: 'fa-check', label: amenity };
+        html += `<div class="ld-amenity-item"><i class="fas ${info.icon}"></i> ${info.label}</div>`;
+    }
+    html += '</div>';
+    return html;
+}
+
+let lightboxImages = [];
+let lightboxCurrentIndex = 0;
+let touchStartX = 0;
+
+function initLightbox(images) {
+    lightboxImages = images;
+    if (lightboxImages.length === 0) return;
+
+    let lb = document.getElementById('lightboxModal');
+    if (!lb) {
+        lb = document.createElement('div');
+        lb.id = 'lightboxModal';
+        lb.className = 'lightbox-modal';
+        lb.innerHTML = `
+            <button class="lightbox-close" id="lightboxCloseBtn">&times;</button>
+            <button class="lightbox-prev" id="lightboxPrevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="lightbox-next" id="lightboxNextBtn"><i class="fas fa-chevron-right"></i></button>
+            <div class="lightbox-content">
+                <img id="lightboxImg" src="" alt="Просмотр фото">
+                <div class="lightbox-counter" id="lightboxCounter"></div>
+            </div>
+            <button class="lightbox-fullscreen" id="lightboxFullscreenBtn"><i class="fas fa-expand"></i></button>
+        `;
+        document.body.appendChild(lb);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .lightbox-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.95);
+                z-index: 10000;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+            .lightbox-modal.show {
+                display: flex;
+            }
+            .lightbox-content {
+                position: relative;
+                max-width: 90vw;
+                max-height: 90vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .lightbox-content img {
+                max-width: 90vw;
+                max-height: 90vh;
+                object-fit: contain;
+                border-radius: 8px;
+                box-shadow: 0 0 30px rgba(0,0,0,0.5);
+                cursor: default;
+            }
+            .lightbox-close {
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                font-size: 40px;
+                color: white;
+                background: none;
+                border: none;
+                cursor: pointer;
+                z-index: 10001;
+                transition: opacity 0.2s;
+            }
+            .lightbox-close:hover {
+                opacity: 0.7;
+            }
+            .lightbox-prev, .lightbox-next {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0,0,0,0.6);
+                color: white;
+                border: none;
+                font-size: 32px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+                z-index: 10001;
+            }
+            .lightbox-prev { left: 20px; }
+            .lightbox-next { right: 20px; }
+            .lightbox-prev:hover, .lightbox-next:hover {
+                background: rgba(0,0,0,0.8);
+            }
+            .lightbox-counter {
+                position: absolute;
+                bottom: -40px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                color: white;
+                font-size: 14px;
+                background: rgba(0,0,0,0.6);
+                padding: 5px 12px;
+                border-radius: 20px;
+                width: fit-content;
+                margin: 0 auto;
+            }
+            .lightbox-fullscreen {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                background: rgba(0,0,0,0.6);
+                color: white;
+                border: none;
+                font-size: 20px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+                z-index: 10001;
+            }
+            .lightbox-fullscreen:hover {
+                background: rgba(0,0,0,0.8);
+            }
+            @media (max-width: 768px) {
+                .lightbox-prev, .lightbox-next {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 24px;
+                }
+                .lightbox-prev { left: 10px; }
+                .lightbox-next { right: 10px; }
+                .lightbox-close { top: 10px; right: 15px; font-size: 32px; }
+                .lightbox-fullscreen { bottom: 10px; right: 10px; width: 36px; height: 36px; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        lb.addEventListener('click', (e) => {
+            if (e.target === lb) {
+                lb.classList.remove('show');
+            }
+        });
+
+        document.getElementById('lightboxCloseBtn').addEventListener('click', () => {
+            lb.classList.remove('show');
+        });
+        document.getElementById('lightboxPrevBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+            updateLightboxImage();
+        });
+        document.getElementById('lightboxNextBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxImages.length;
+            updateLightboxImage();
+        });
+        document.getElementById('lightboxFullscreenBtn').addEventListener('click', () => {
+            const img = document.getElementById('lightboxImg');
+            if (!img) return;
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                img.requestFullscreen().catch(() => {});
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lb.classList.contains('show')) return;
+            if (e.key === 'Escape') {
+                lb.classList.remove('show');
+            } else if (e.key === 'ArrowLeft') {
+                lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+                updateLightboxImage();
+            } else if (e.key === 'ArrowRight') {
+                lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxImages.length;
+                updateLightboxImage();
+            }
+        });
+
+        let touchStartX = 0;
+        lb.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        lb.addEventListener('touchend', (e) => {
+            const diff = e.changedTouches[0].screenX - touchStartX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+                } else {
+                    lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxImages.length;
+                }
+                updateLightboxImage();
+            }
+        });
+    }
+
+    function updateLightboxImage() {
+        const img = document.getElementById('lightboxImg');
+        const counter = document.getElementById('lightboxCounter');
+        if (img && lightboxImages[lightboxCurrentIndex]) {
+            img.src = lightboxImages[lightboxCurrentIndex];
+        }
+        if (counter) {
+            counter.textContent = `${lightboxCurrentIndex + 1} / ${lightboxImages.length}`;
+        }
+    }
+
+    const imgElement = document.getElementById('ldCarouselImage');
+    if (imgElement) {
+        imgElement.style.cursor = 'pointer';
+        imgElement.addEventListener('click', () => {
+            lightboxCurrentIndex = 0;
+            updateLightboxImage();
+            lb.classList.add('show');
+        });
+    }
+
+    window.openLightboxAtIndex = (index) => {
+        lightboxCurrentIndex = Math.max(0, Math.min(index, lightboxImages.length - 1));
+        updateLightboxImage();
+        lb.classList.add('show');
+    };
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const root = document.getElementById('detailsRoot');
     const id = new URLSearchParams(window.location.search).get('id');
@@ -159,8 +418,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             items.length === 0
                 ? '<p style="color:var(--text-muted);">Пока нет отзывов.</p>'
                 : items
-                      .map(
-                          (r) => `
+                    .map(
+                        (r) => `
                 <div class="ld-review-item">
                     <div class="ld-review-item-head">
                         <div><strong>${escapeHtml(r.author_name || 'Пользователь')}</strong>
@@ -169,13 +428,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                     ${r.comment ? `<p style="margin:10px 0 0;">${escapeHtml(r.comment)}</p>` : ''}
                     ${
-                        uid && String(r.user_id) !== String(uid)
-                            ? `<button type="button" class="btn btn-outline btn-sm report-review-btn ld-report-review" data-user-id="${r.user_id}">Пожаловаться на автора</button>`
-                            : ''
-                    }
+                            uid && String(r.user_id) !== String(uid)
+                                ? `<button type="button" class="btn btn-outline btn-sm report-review-btn ld-report-review" data-user-id="${r.user_id}">Пожаловаться на автора</button>`
+                                : ''
+                        }
                 </div>`
-                      )
-                      .join('');
+                    )
+                    .join('');
 
         mount.innerHTML = `
             <div class="ld-reviews-heading">
@@ -226,6 +485,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const images = photos.length > 0 ? photos : ['https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=900&h=500&fit=crop'];
         const meta = extractPricePeriodMeta(listing.description || '');
         const rentSuffix = listing.listing_type === 'rent' ? (meta.period === 'day' ? '/ сутки' : '/ месяц') : '';
+
+        // Парсим удобства из JSON
+        let amenitiesArray = [];
+        if (listing.amenities) {
+            try {
+                amenitiesArray = JSON.parse(listing.amenities);
+            } catch (e) {
+                console.error('Failed to parse amenities:', e);
+            }
+        }
+        const amenitiesHtml = renderAmenities(amenitiesArray);
+
+        // Контактная информация
+        const contactName = listing.contact_name || 'Собственник';
+        const contactPhone = listing.contact_phone || 'Не указан';
+
+        initLightbox(images);
+
         root.innerHTML = `
             <div style="display:flex;flex-direction:column;gap:20px;">
             <article class="ld-article-grid" style="display:grid; grid-template-columns:1.4fr 1fr; gap:18px;">
@@ -233,11 +510,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="ld-carousel" data-index="0">
                         <button type="button" class="ld-carousel-arrow prev" aria-label="Предыдущее фото"><i class="fas fa-chevron-left"></i></button>
                         ${
-                            listing.listing_type === 'sale'
-                                ? '<span class="badge badge-sale" style="position:absolute;top:12px;left:12px;z-index:3;">Продажа</span>'
-                                : '<span class="badge badge-rent" style="position:absolute;top:12px;left:12px;z-index:3;">Аренда</span>'
-                        }
-                        <img id="ldCarouselImage" src="${escapeHtml(images[0])}" alt="${escapeHtml(listing.title || '')}" style="width:100%; max-height:440px; object-fit:cover; border-radius:12px;">
+            listing.listing_type === 'sale'
+                ? '<span class="badge badge-sale" style="position:absolute;top:12px;left:12px;z-index:3;">Продажа</span>'
+                : '<span class="badge badge-rent" style="position:absolute;top:12px;left:12px;z-index:3;">Аренда</span>'
+        }
+                        <div id="ldCarouselFrame" class="photo-blur-frame ld-carousel-frame">
+                            <div class="photo-blur-bg" style="background-image:url('${escapeHtml(images[0])}')"></div>
+                            <img id="ldCarouselImage" class="photo-blur-main" src="${escapeHtml(images[0])}" alt="${escapeHtml(listing.title || '')}">
+                        </div>
                         <button type="button" class="ld-carousel-arrow next" aria-label="Следующее фото"><i class="fas fa-chevron-right"></i></button>
                         <div class="ld-carousel-counter" id="ldCarouselCounter">1 / ${images.length}</div>
                     </div>
@@ -255,15 +535,34 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                     <div class="ld-sidebar-card ld-contact-card">
                         <div class="ld-contact-head">
+                            <span class="ld-contact-icon"><i class="fas fa-user"></i></span>
+                            <div>
+                                <h3 class="ld-contact-title">Контактная информация</h3>
+                                <p class="ld-muted"><strong>${escapeHtml(contactName)}</strong></p>
+                                <p class="ld-muted"><i class="fas fa-phone"></i> ${escapeHtml(contactPhone)}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ld-sidebar-card">
+                        <div class="ld-contact-head">
+                            <span class="ld-contact-icon"><i class="fas fa-couch"></i></span>
+                            <div>
+                                <h3 class="ld-contact-title">Удобства и особенности</h3>
+                                ${amenitiesHtml}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ld-sidebar-card ld-contact-card">
+                        <div class="ld-contact-head">
                             <span class="ld-contact-icon"><i class="fas fa-comments"></i></span>
                             <div>
                                 <h3 class="ld-contact-title">Связь с собственником</h3>
-                                <p class="ld-muted">Нажмите на кнопку, чтобы начать диалог</p>
+                                <p class="ld-muted">Напишите сообщение, чтобы задать вопрос</p>
                             </div>
                         </div>
                         <p id="chatStartMsg" class="ld-booking-msg" role="alert" style="display:none;margin:0 0 10px;"></p>
                         <button type="button" id="startChatBtn" class="chat-simple-btn">
-                            <i class="fas fa-comment-dots"></i> Открыть чат с собственником
+                            <i class="fas fa-comment-dots"></i> Написать сообщение
                         </button>
                         <div id="bookingMount" style="margin-top: 16px;"></div>
                         <div id="reportHostMount" style="margin-top: 12px;"></div>
@@ -274,17 +573,42 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>`;
 
         const carousel = root.querySelector('.ld-carousel');
+        const carouselFrame = document.getElementById('ldCarouselFrame');
         const carouselImage = document.getElementById('ldCarouselImage');
         const carouselCounter = document.getElementById('ldCarouselCounter');
+
+        if (typeof initPhotoBlurFrame === 'function' && carouselFrame) {
+            initPhotoBlurFrame(carouselFrame);
+        } else if (typeof initPhotoBlurFrames === 'function') {
+            initPhotoBlurFrames(carousel);
+        }
+
         function setCarouselIndex(nextIdx) {
             if (!carousel || !carouselImage || images.length === 0) return;
             let i = Number(nextIdx) || 0;
             if (i < 0) i = images.length - 1;
             if (i >= images.length) i = 0;
             carousel.dataset.index = String(i);
-            carouselImage.src = images[i];
+
+            const frame = document.getElementById('ldCarouselFrame');
+            if (frame) {
+                const blurBg = frame.querySelector('.photo-blur-bg');
+                if (blurBg) blurBg.style.backgroundImage = `url('${escapeHtml(images[i])}')`;
+                const mainImg = frame.querySelector('.photo-blur-main');
+                if (mainImg) mainImg.src = images[i];
+            } else {
+                carouselImage.src = images[i];
+            }
             if (carouselCounter) carouselCounter.textContent = `${i + 1} / ${images.length}`;
         }
+
+        (carouselFrame || carouselImage).addEventListener('click', () => {
+            const currentIdx = Number(carousel.dataset.index || 0);
+            if (typeof window.openLightboxAtIndex === 'function') {
+                window.openLightboxAtIndex(currentIdx);
+            }
+        });
+
         carousel?.querySelector('.prev')?.addEventListener('click', () => {
             setCarouselIndex(Number(carousel.dataset.index || 0) - 1);
         });

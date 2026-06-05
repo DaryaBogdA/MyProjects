@@ -1,9 +1,12 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"image"
+	"image/jpeg"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -12,8 +15,62 @@ import (
 	"strconv"
 	"strings"
 
+	_ "image/gif"
+	_ "image/png"
+
 	"rentradar/backend/internal/models"
+
+	"github.com/nfnt/resize"
 )
+
+func convertToJPEG(imgData io.Reader, quality int, maxWidth, maxHeight uint) ([]byte, error) {
+	img, _, err := image.Decode(imgData)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось декодировать изображение: %w", err)
+	}
+
+	bounds := img.Bounds()
+	width := uint(bounds.Dx())
+	height := uint(bounds.Dy())
+
+	if width > maxWidth || height > maxHeight {
+		img = resize.Thumbnail(maxWidth, maxHeight, img, resize.Lanczos3)
+	}
+
+	var buf bytes.Buffer
+	err = jpeg.Encode(&buf, img, &jpeg.Options{Quality: quality})
+	if err != nil {
+		return nil, fmt.Errorf("ошибка кодирования в JPEG: %w", err)
+	}
+
+	return buf.Bytes(), nil
+}
+
+func processAndSaveImage(fh *multipart.FileHeader, destPath string) error {
+	src, err := fh.Open()
+	if err != nil {
+		return fmt.Errorf("не удалось открыть файл: %w", err)
+	}
+	defer src.Close()
+
+	jpegData, err := convertToJPEG(src, 85, 1920, 1920)
+	if err != nil {
+		return err
+	}
+
+	dest, err := os.OpenFile(destPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return fmt.Errorf("не удалось создать файл: %w", err)
+	}
+	defer dest.Close()
+
+	_, err = dest.Write(jpegData)
+	if err != nil {
+		return fmt.Errorf("ошибка записи файла: %w", err)
+	}
+
+	return nil
+}
 
 func decodeCreateListingRequest(r *http.Request) (models.CreateListingRequest, *multipart.Form, error) {
 	var req models.CreateListingRequest
@@ -27,7 +84,7 @@ func decodeCreateListingRequest(r *http.Request) (models.CreateListingRequest, *
 		return req, nil, nil
 
 	case strings.HasPrefix(ct, "multipart/form-data"):
-		if err := r.ParseMultipartForm(32 << 20); err != nil {
+		if err := r.ParseMultipartForm(100 << 20); err != nil {
 			return req, nil, err
 		}
 		form := r.MultipartForm
@@ -107,33 +164,13 @@ func (h *ListingHandler) saveListingPhotos(form *multipart.Form, listingID int64
 		return nil, err
 	}
 
-	extOK := map[string]bool{
-		".jpg": true, ".jpeg": true, ".png": true, ".webp": true, ".gif": true,
-	}
-
 	paths := make([]string, 0, len(fileHeaders))
 	for i, fh := range fileHeaders {
-		ext := strings.ToLower(filepath.Ext(fh.Filename))
-		if !extOK[ext] {
-			ext = ".jpg"
-		}
-		name := fmt.Sprintf("%d_%d%s", listingID, startIndex+i, ext)
+		name := fmt.Sprintf("%d_%d.jpg", listingID, startIndex+i)
 		destPath := filepath.Join(h.uploadsDir, name)
 
-		src, err := fh.Open()
-		if err != nil {
-			continue
-		}
-
-		dest, err := os.OpenFile(destPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
-		if err != nil {
-			src.Close()
-			continue
-		}
-		_, copyErr := io.Copy(dest, src)
-		src.Close()
-		dest.Close()
-		if copyErr != nil {
+		if err := processAndSaveImage(fh, destPath); err != nil {
+			fmt.Printf("Ошибка обработки фото %s: %v\n", fh.Filename, err)
 			continue
 		}
 		paths = append(paths, "/static/uploads/listings/"+name)

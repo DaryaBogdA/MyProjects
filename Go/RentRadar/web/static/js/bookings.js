@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `
             <div class="booking-card" data-id="${booking.id}">
                 <div class="booking-image">
-                    <img src="${esc(firstPhoto)}" alt="${esc(booking.listing_title || 'Объявление')}">
+                    ${typeof photoBlurFrameHtml === 'function' ? photoBlurFrameHtml(firstPhoto, booking.listing_title || 'Объявление') : `<img src="${esc(firstPhoto)}" alt="${esc(booking.listing_title || 'Объявление')}">`}
                     ${getStatusBadge(booking.status)}
                 </div>
                 <div class="booking-content">
@@ -276,6 +276,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     return;
                 }
                 root.innerHTML = items.map(item => renderBookingCard(item, false)).join('');
+                if (typeof initPhotoBlurFrames === 'function') initPhotoBlurFrames(root);
                 return;
             }
 
@@ -290,6 +291,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
             root.innerHTML = incoming.map(item => renderBookingCard(item, true)).join('');
+            if (typeof initPhotoBlurFrames === 'function') initPhotoBlurFrames(root);
 
             root.querySelectorAll('button[data-action="approve"]').forEach((btn) => {
                 btn.addEventListener('click', async () => {

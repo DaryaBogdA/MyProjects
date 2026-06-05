@@ -621,11 +621,7 @@ async function loadListings() {
 
         if (currentFilters.propertyType && currentFilters.propertyType !== 'all') {
             filteredListings = filteredListings.filter(
-                (l) =>
-                    l.property_type === currentFilters.propertyType ||
-                    (currentFilters.propertyType === 'apartment' && l.title?.toLowerCase().includes('квартир')) ||
-                    (currentFilters.propertyType === 'house' && l.title?.toLowerCase().includes('дом')) ||
-                    (currentFilters.propertyType === 'room' && l.title?.toLowerCase().includes('комнат'))
+                (l) => l.property_type === currentFilters.propertyType
             );
         }
 
@@ -682,7 +678,7 @@ async function loadListings() {
                 return `
                 <article class="listing-card">
                     <div class="listing-image">
-                        <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop'}" alt="${escapeHtml(listing.title)}">
+                        ${photoBlurFrameHtml(listingCoverImage(listing.photos), listing.title)}
                         ${badge}
                     </div>
                     <div class="listing-content">
@@ -711,6 +707,7 @@ async function loadListings() {
                     </div>
                 </article>
             `}).join('');
+            initPhotoBlurFrames(listingsGrid);
         }
 
         document.querySelectorAll('.btn-like').forEach(btn => {
@@ -872,7 +869,7 @@ async function loadMapMarkers(listingsOverride = null) {
 
             const popupContent = `
                 <div class="map-popup-listing" style="min-width: 220px;">
-                    <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=200&h=100&fit=crop'}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">
+                    <div style="width:100%;height:100px;border-radius:8px;margin-bottom:8px;overflow:hidden;">${photoBlurFrameHtml(listingCoverImage(listing.photos, 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=200&h=100&fit=crop'), listing.title)}</div>
                     <h4 style="font-size: 14px; margin-bottom: 4px;">${escapeHtml(listing.title)}</h4>
                     <div style="color: var(--primary-teal); font-weight: bold;">${Number(listing.price || 0).toLocaleString()} BYN</div>
                     <div style="font-size: 12px; color: #666;">${escapeHtml(listing.address || listing.city || '')}</div>
@@ -882,6 +879,7 @@ async function loadMapMarkers(listingsOverride = null) {
             `;
 
             marker.bindPopup(popupContent);
+            marker.on('popupopen', (e) => initPhotoBlurFrames(e.popup.getElement()));
             mapMarkers.push(marker);
         });
     } catch (err) {
@@ -1179,7 +1177,7 @@ async function loadSaleListings() {
         listingsGrid.innerHTML = listings.map(listing => `
             <article class="listing-card">
                 <div class="listing-image">
-                    <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop'}" alt="${listing.title}">
+                    ${photoBlurFrameHtml(listingCoverImage(listing.photos), listing.title)}
                     <span class="badge badge-sale">Продажа</span>
                 </div>
                 <div class="listing-content">
@@ -1206,7 +1204,8 @@ async function loadSaleListings() {
             </article>
         `).join('');
 
-        
+        initPhotoBlurFrames(listingsGrid);
+
         document.querySelectorAll('.btn-like').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1375,6 +1374,77 @@ function escapeHtml(str) {
         .replace(/'/g, '&#39;');
 }
 
+function listingCoverImage(photos, fallback) {
+    const first = String(photos || '').split(',')[0].trim();
+    return first || fallback || 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop';
+}
+
+function photoBlurFrameHtml(src, alt, extraClass) {
+    const s = escapeHtml(src || '');
+    const a = escapeHtml(alt || '');
+    const cls = extraClass ? ` ${extraClass}` : '';
+    return `<div class="photo-blur-frame${cls}"><div class="photo-blur-bg" style="background-image:url('${s}')"></div><img class="photo-blur-main" src="${s}" alt="${a}" loading="lazy"></div>`;
+}
+
+function initPhotoBlurFrame(frame) {
+    if (!frame) return;
+    const img = frame.querySelector('.photo-blur-main');
+    const bg = frame.querySelector('.photo-blur-bg');
+    if (!img || !bg || !img.getAttribute('src')) return;
+
+    const apply = () => {
+        const cw = frame.clientWidth || 1;
+        const ch = frame.clientHeight || 1;
+        const nw = img.naturalWidth;
+        const nh = img.naturalHeight;
+        if (!nw || !nh) return;
+
+        const containerAR = cw / ch;
+        const imageAR = nw / nh;
+        const needsBlur = Math.abs(imageAR - containerAR) > 0.08;
+
+        frame.classList.toggle('photo-blur-frame--blur', needsBlur);
+        frame.classList.toggle('photo-blur-frame--cover', !needsBlur);
+
+        const src = img.currentSrc || img.src;
+        bg.style.backgroundImage = `url("${src}")`;
+    };
+
+    const onLoad = () => {
+        apply();
+        frame.dataset.blurInit = '1';
+    };
+
+    if (img.complete && img.naturalWidth) {
+        onLoad();
+    } else {
+        img.addEventListener('load', onLoad, { once: true });
+    }
+}
+
+function initPhotoBlurFrames(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll('.photo-blur-frame').forEach((frame) => {
+        if (frame.dataset.blurInit !== '1') {
+            initPhotoBlurFrame(frame);
+        }
+    });
+}
+
+function updatePhotoBlurFrameSrc(frame, src) {
+    if (!frame) return;
+    const img = frame.querySelector('.photo-blur-main');
+    const bg = frame.querySelector('.photo-blur-bg');
+    if (!img) return;
+
+    const s = src || '';
+    img.src = s;
+    if (bg) bg.style.backgroundImage = `url("${s}")`;
+    delete frame.dataset.blurInit;
+    frame.classList.remove('photo-blur-frame--blur', 'photo-blur-frame--cover');
+    initPhotoBlurFrame(frame);
+}
+
 function extractListingMetaFromDescription(rawDescription) {
     const raw = String(rawDescription || '');
     const m = raw.match(/^\[\[RR_PRICE_PERIOD:(day|month)\]\]\s*/i);
@@ -1496,3 +1566,8 @@ window.addToFavorites = addToFavorites;
 window.removeFromFavorites = removeFromFavorites;
 window.deleteListing = deleteListing;
 window.listingFloorsLabel = listingFloorsLabel;
+window.listingCoverImage = listingCoverImage;
+window.photoBlurFrameHtml = photoBlurFrameHtml;
+window.initPhotoBlurFrame = initPhotoBlurFrame;
+window.initPhotoBlurFrames = initPhotoBlurFrames;
+window.updatePhotoBlurFrameSrc = updatePhotoBlurFrameSrc;

@@ -63,8 +63,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 : listing.listing_type === 'rent'
                   ? '<span class="badge badge-rent">Аренда</span>'
                   : '';
-        const imgSrc = listing.photos ? String(listing.photos).split(',')[0].trim() : defaultImg;
-        const safeImgAttr = String(imgSrc).replace(/"/g, '&quot;');
+        const imgSrc = typeof listingCoverImage === 'function'
+            ? listingCoverImage(listing.photos, defaultImg)
+            : (listing.photos ? String(listing.photos).split(',')[0].trim() : defaultImg);
         const priceSuffix =
             typeof listingPriceSuffix === 'function' ? listingPriceSuffix(listing) : '';
         const ratingLabel =
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <article class="listing-card stats-listing-card">
                     <div class="listing-image">
                         <span class="stats-card-rank" aria-label="Место в списке">#${rank}</span>
-                        <img src="${safeImgAttr}" alt="${esc(listing.title)}">
+                        ${typeof photoBlurFrameHtml === 'function' ? photoBlurFrameHtml(imgSrc, listing.title) : `<img src="${String(imgSrc).replace(/"/g, '&quot;')}" alt="${esc(listing.title)}">`}
                         ${badge}
                     </div>
                     <div class="listing-content">
@@ -141,6 +142,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <h2><i class="fas fa-list"></i> ${esc(title)}</h2>
                     <div class="listings-grid">${cards}</div>
                 </section>`;
+            if (typeof initPhotoBlurFrames === 'function') {
+                initPhotoBlurFrames(root);
+            }
         } catch (e) {
             root.innerHTML = `<p class="stats-empty">${esc(e.message || 'Ошибка')}</p>`;
         }

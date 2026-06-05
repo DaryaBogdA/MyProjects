@@ -132,7 +132,7 @@ async function loadFavorites() {
         grid.innerHTML = favorites.map((listing) => `
             <div class="favorite-card" data-id="${listing.id}">
                 <div class="favorite-image">
-                    <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=400&h=250&fit=crop'}" alt="${escapeHtml(listing.title)}">
+                    ${photoBlurFrameHtml(listingCoverImage(listing.photos), listing.title)}
                 </div>
                 <div class="favorite-content">
                     <div class="favorite-title">${escapeHtml(listing.title)}</div>
@@ -145,6 +145,8 @@ async function loadFavorites() {
                 </div>
             </div>
         `).join('');
+
+        initPhotoBlurFrames(grid);
 
         document.querySelectorAll('.remove-favorite').forEach((btn) => {
             btn.addEventListener('click', async () => {
@@ -203,7 +205,7 @@ async function loadMyListings() {
             <div class="my-listing-card" data-id="${listing.id}">
                 <div class="my-listing-image">
                     <span class="my-listing-type-badge ${typeClass}">${typeLabel}</span>
-                    <img src="${listing.photos ? listing.photos.split(',')[0] : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=120&h=120&fit=crop'}" alt="${escapeHtml(listing.title)}">
+                    ${photoBlurFrameHtml(listingCoverImage(listing.photos, 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=120&h=120&fit=crop'), listing.title)}
                 </div>
                 <div class="my-listing-content">
                     <div class="my-listing-header">
@@ -225,6 +227,8 @@ async function loadMyListings() {
             </div>
         `;
         }).join('');
+
+        initPhotoBlurFrames(grid);
 
         document.querySelectorAll('.delete-listing').forEach((btn) => {
             btn.addEventListener('click', async () => {

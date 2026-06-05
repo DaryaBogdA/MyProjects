@@ -51,7 +51,7 @@ function cardWritten(r) {
             </div>
             <div class="review-listing-info">
                 <div class="review-listing-image">
-                    <img src="${escapeHtml(listingThumb(r.listing_photos))}" alt="">
+                    ${typeof photoBlurFrameHtml === 'function' ? photoBlurFrameHtml(listingThumb(r.listing_photos), '') : `<img src="${escapeHtml(listingThumb(r.listing_photos))}" alt="">`}
                 </div>
                 <div class="review-listing-details">
                     <div class="review-listing-title">
@@ -89,7 +89,7 @@ function cardAbout(r) {
             </div>
             <div class="review-listing-info">
                 <div class="review-listing-image">
-                    <img src="${escapeHtml(listingThumb(r.listing_photos))}" alt="">
+                    ${typeof photoBlurFrameHtml === 'function' ? photoBlurFrameHtml(listingThumb(r.listing_photos), '') : `<img src="${escapeHtml(listingThumb(r.listing_photos))}" alt="">`}
                 </div>
                 <div class="review-listing-details">
                     <div class="review-listing-title">
@@ -157,6 +157,9 @@ async function initReviewsPage() {
             return;
         }
         container.innerHTML = list.map((r) => (activeTab === 'written' ? cardWritten(r) : cardAbout(r))).join('');
+        if (typeof initPhotoBlurFrames === 'function') {
+            initPhotoBlurFrames(container);
+        }
     }
 
     tabs.forEach((tab) => {
