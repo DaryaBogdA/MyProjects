@@ -101,6 +101,9 @@ func decodeCreateListingRequest(r *http.Request) (models.CreateListingRequest, *
 		req.District = strings.TrimSpace(firstForm(f, "district"))
 		req.AvailableFrom = strings.TrimSpace(firstForm(f, "available_from"))
 		req.PropertyType = strings.TrimSpace(firstForm(f, "property_type"))
+		req.ContactName = strings.TrimSpace(firstForm(f, "contact_name"))
+		req.ContactPhone = strings.TrimSpace(firstForm(f, "contact_phone"))
+		req.Amenities = strings.TrimSpace(firstForm(f, "amenities"))
 		if pa, err := strconv.ParseFloat(strings.TrimSpace(firstForm(f, "plot_area")), 64); err == nil {
 			req.PlotArea = pa
 		}

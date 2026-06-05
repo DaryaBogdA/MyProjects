@@ -559,9 +559,39 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     font-size: 0.82rem;
 }
 
-/* Фикс для сетки на мобильных */
 @media (max-width: 900px) {
     .ld-article-grid {
         grid-template-columns: 1fr !important;
+    }
+}
+
+.ld-amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.ld-amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    background: #f8fafd;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.ld-amenity-item i {
+    width: 20px;
+    color: var(--primary-teal);
+    font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+    .ld-amenities-grid {
+        grid-template-columns: 1fr;
     }
 }

@@ -62,6 +62,36 @@ type Listing struct {
 	ReviewsCount      int        `json:"reviews_count,omitempty" db:"reviews_count"`
 	Latitude          *float64   `json:"latitude,omitempty" db:"latitude"`
 	Longitude         *float64   `json:"longitude,omitempty" db:"longitude"`
+	// НОВЫЕ ПОЛЯ:
+	ContactName  string `json:"contact_name,omitempty" db:"contact_name"`
+	ContactPhone string `json:"contact_phone,omitempty" db:"contact_phone"`
+	Amenities    string `json:"amenities,omitempty" db:"amenities"`
+}
+
+type CreateListingRequest struct {
+	Title             string   `json:"title"`
+	Description       string   `json:"description"`
+	ListingType       string   `json:"listing_type"`
+	Price             float64  `json:"price"`
+	Area              float64  `json:"area"`
+	Rooms             int      `json:"rooms"`
+	Floor             int      `json:"floor"`
+	TotalFloors       int      `json:"total_floors"`
+	Address           string   `json:"address"`
+	City              string   `json:"city"`
+	District          string   `json:"district"`
+	PropertyType      string   `json:"property_type"`
+	PlotArea          float64  `json:"plot_area"`
+	AvailableFrom     string   `json:"available_from"`
+	Deposit           string   `json:"deposit"`
+	UtilitiesIncluded bool     `json:"utilities_included"`
+	Photos            string   `json:"photos"`
+	Latitude          *float64 `json:"latitude"`
+	Longitude         *float64 `json:"longitude"`
+	// НОВЫЕ ПОЛЯ:
+	ContactName  string `json:"contact_name"`
+	ContactPhone string `json:"contact_phone"`
+	Amenities    string `json:"amenities"`
 }
 type Favorite struct {
 	UserID    int `json:"user_id" db:"user_id"`
@@ -88,27 +118,6 @@ type Review struct {
 	AuthorName       string    `json:"author_name,omitempty"`
 }
 
-type CreateListingRequest struct {
-	Title             string   `json:"title"`
-	Description       string   `json:"description"`
-	ListingType       string   `json:"listing_type"`
-	Price             float64  `json:"price"`
-	Area              float64  `json:"area"`
-	Rooms             int      `json:"rooms"`
-	Floor             int      `json:"floor"`
-	TotalFloors       int      `json:"total_floors"`
-	Address           string   `json:"address"`
-	City              string   `json:"city"`
-	District          string   `json:"district"`
-	PropertyType      string   `json:"property_type"`
-	PlotArea          float64  `json:"plot_area"`
-	AvailableFrom     string   `json:"available_from"`
-	Deposit           string   `json:"deposit"`
-	UtilitiesIncluded bool     `json:"utilities_included"`
-	Photos            string   `json:"photos"`
-	Latitude          *float64 `json:"latitude"`
-	Longitude         *float64 `json:"longitude"`
-}
 type BookingCreateRequest struct {
 	ListingID int    `json:"listing_id"`
 	UserID    int    `json:"user_id"`

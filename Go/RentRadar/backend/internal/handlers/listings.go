@@ -157,16 +157,23 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 	var lng sql.NullFloat64
 	var utilities sql.NullBool
 	var active sql.NullBool
-	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
-              FLOOR, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
-              utilities_included, photos, is_active, moderation_status, views_count,
-              latitude, longitude
-              FROM listings WHERE id = ?`
+	var contactName, contactPhone, amenities string
 
-	err = h.DB.QueryRow(query, id).Scan(&l.ID, &l.UserID, &l.Title, &description, &l.ListingType,
+	query := `SELECT id, user_id, title, description, listing_type, price, AREA, rooms, 
+       FLOOR, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
+       utilities_included, photos, is_active, moderation_status, views_count,
+       latitude, longitude,
+       COALESCE(contact_name, '') as contact_name,
+       COALESCE(contact_phone, '') as contact_phone,
+       COALESCE(amenities, '') as amenities
+FROM listings WHERE id = ?`
+
+	err = h.DB.QueryRow(query, id).Scan(
+		&l.ID, &l.UserID, &l.Title, &description, &l.ListingType,
 		&l.Price, &area, &roomCount, &floor, &totalFloors, &l.Address, &l.City, &district,
 		&propertyType, &plotArea, &availableFrom, &deposit, &utilities, &photos, &active,
-		&l.ModerationStatus, &l.ViewsCount, &lat, &lng)
+		&l.ModerationStatus, &l.ViewsCount, &lat, &lng,
+		&contactName, &contactPhone, &amenities)
 
 	if err != nil {
 		writeJSON(w, http.StatusNotFound, map[string]string{"error": "listing not found"})
@@ -175,7 +182,9 @@ func (h *ListingHandler) GetListing(w http.ResponseWriter, r *http.Request) {
 
 	l.UtilitiesIncluded = utilities.Valid && utilities.Bool
 	l.IsActive = active.Valid && active.Bool
-
+	l.ContactName = contactName
+	l.ContactPhone = contactPhone
+	l.Amenities = amenities
 	viewerID := 0
 	if hdr := strings.TrimSpace(r.Header.Get("X-User-ID")); hdr != "" {
 		viewerID, _ = strconv.Atoi(hdr)
@@ -236,9 +245,10 @@ func (h *ListingHandler) CreateListing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := `INSERT INTO listings (user_id, title, description, listing_type, price, area, rooms, 
-              floor, total_floors, address, city, district, property_type, plot_area, available_from, deposit, utilities_included, photos,
-              latitude, longitude, moderation_status) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`
+          floor, total_floors, address, city, district, property_type, plot_area, available_from, deposit, 
+          utilities_included, photos, latitude, longitude, moderation_status,
+          contact_name, contact_phone, amenities) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)`
 
 	var availableDate interface{}
 	if req.AvailableFrom != "" {
@@ -255,8 +265,9 @@ func (h *ListingHandler) CreateListing(w http.ResponseWriter, r *http.Request) {
 
 	result, err := h.DB.Exec(query, userID, req.Title, req.Description, req.ListingType,
 		req.Price, req.Area, req.Rooms, req.Floor, req.TotalFloors, req.Address,
-		req.City, req.District, req.PropertyType, plotArg, availableDate, req.Deposit, req.UtilitiesIncluded, req.Photos,
-		latArg, lngArg)
+		req.City, req.District, req.PropertyType, plotArg, availableDate, req.Deposit,
+		req.UtilitiesIncluded, req.Photos, latArg, lngArg,
+		req.ContactName, req.ContactPhone, req.Amenities)
 
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
@@ -391,12 +402,14 @@ func (h *ListingHandler) UpdateListing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = h.DB.Exec(`UPDATE listings SET title=?, description=?, listing_type=?, price=?, area=?, rooms=?, 
-		floor=?, total_floors=?, address=?, city=?, district=?, property_type=?, plot_area=?, available_from=?, deposit=?, utilities_included=?, photos=?,
-		latitude=?, longitude=?, moderation_status='pending'
-		WHERE id=? AND user_id=?`,
+    floor=?, total_floors=?, address=?, city=?, district=?, property_type=?, plot_area=?, available_from=?, deposit=?, 
+    utilities_included=?, photos=?, latitude=?, longitude=?, moderation_status='pending',
+    contact_name=?, contact_phone=?, amenities=?
+    WHERE id=? AND user_id=?`,
 		req.Title, req.Description, req.ListingType, req.Price, req.Area, req.Rooms,
-		req.Floor, req.TotalFloors, req.Address, req.City, req.District, req.PropertyType, plotArg, availableDate, req.Deposit, req.UtilitiesIncluded, finalPhotos,
-		latArg, lngArg, id, userID)
+		req.Floor, req.TotalFloors, req.Address, req.City, req.District, req.PropertyType, plotArg, availableDate,
+		req.Deposit, req.UtilitiesIncluded, finalPhotos, latArg, lngArg,
+		req.ContactName, req.ContactPhone, req.Amenities, id, userID)
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
