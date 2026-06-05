@@ -62,10 +62,9 @@ type Listing struct {
 	ReviewsCount      int        `json:"reviews_count,omitempty" db:"reviews_count"`
 	Latitude          *float64   `json:"latitude,omitempty" db:"latitude"`
 	Longitude         *float64   `json:"longitude,omitempty" db:"longitude"`
-	// НОВЫЕ ПОЛЯ:
-	ContactName  string `json:"contact_name,omitempty" db:"contact_name"`
-	ContactPhone string `json:"contact_phone,omitempty" db:"contact_phone"`
-	Amenities    string `json:"amenities,omitempty" db:"amenities"`
+	ContactName       string     `json:"contact_name,omitempty" db:"contact_name"`
+	ContactPhone      string     `json:"contact_phone,omitempty" db:"contact_phone"`
+	Amenities         string     `json:"amenities,omitempty" db:"amenities"`
 }
 
 type CreateListingRequest struct {
@@ -88,10 +87,9 @@ type CreateListingRequest struct {
 	Photos            string   `json:"photos"`
 	Latitude          *float64 `json:"latitude"`
 	Longitude         *float64 `json:"longitude"`
-	// НОВЫЕ ПОЛЯ:
-	ContactName  string `json:"contact_name"`
-	ContactPhone string `json:"contact_phone"`
-	Amenities    string `json:"amenities"`
+	ContactName       string   `json:"contact_name"`
+	ContactPhone      string   `json:"contact_phone"`
+	Amenities         string   `json:"amenities"`
 }
 type Favorite struct {
 	UserID    int `json:"user_id" db:"user_id"`

@@ -84,7 +84,6 @@
     z-index: 10;
 }
 
-/* Адаптив для мобильных */
 @media (max-width: 768px) {
     .ld-carousel-frame {
         height: 280px;
@@ -334,7 +333,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     right: 12px;
 }
 
-/* Счётчик фото */
 .ld-carousel-counter {
     position: absolute;
     right: 12px;
@@ -347,7 +345,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     z-index: 10;
 }
 
-/* Адаптив для мобильных */
 @media (max-width: 768px) {
     .ld-carousel-frame {
         height: 280px;
@@ -360,7 +357,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     }
 }
 
-/* ===== ОСТАЛЬНЫЕ СТИЛИ ===== */
 .ld-sidebar-stack {
     display: flex;
     flex-direction: column;

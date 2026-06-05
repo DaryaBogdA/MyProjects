@@ -104,7 +104,8 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	identifier := strings.TrimSpace(req.Identifier)
-	if strings.Contains(identifier, "@") {
+	isEmail := strings.Contains(identifier, "@")
+	if isEmail {
 		identifier = strings.ToLower(identifier)
 	}
 
@@ -233,16 +234,27 @@ func (h *AuthHandler) UpdateProfile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	email := strings.TrimSpace(strings.ToLower(req.Email))
-	if email == "" {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "email required"})
-		return
+	phone := strings.TrimSpace(req.Phone)
+
+	var emailArg any
+	if email != "" {
+		emailArg = email
+	} else {
+		emailArg = nil
 	}
+	var phoneArg any
+	if phone != "" {
+		phoneArg = phone
+	} else {
+		phoneArg = nil
+	}
+
 	_, err := h.DB.Exec("UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?",
-		req.FirstName, req.LastName, email, req.Phone, userID)
+		req.FirstName, req.LastName, emailArg, phoneArg, userID)
 	if err != nil {
 		var sqlErr *mysql.MySQLError
 		if errors.As(err, &sqlErr) && sqlErr.Number == 1062 {
-			writeJSON(w, http.StatusConflict, map[string]string{"error": "email already used"})
+			writeJSON(w, http.StatusConflict, map[string]string{"error": "email or phone already used"})
 			return
 		}
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})

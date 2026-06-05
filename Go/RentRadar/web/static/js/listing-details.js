@@ -60,7 +60,6 @@ function extractPricePeriodMeta(rawDescription) {
     return { period, description };
 }
 
-// Функция для отображения удобств
 function renderAmenities(amenitiesArray) {
     const amenityMap = {
         'parking': { icon: 'fa-parking', label: 'Парковка' },
@@ -486,7 +485,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const meta = extractPricePeriodMeta(listing.description || '');
         const rentSuffix = listing.listing_type === 'rent' ? (meta.period === 'day' ? '/ сутки' : '/ месяц') : '';
 
-        // Парсим удобства из JSON
         let amenitiesArray = [];
         if (listing.amenities) {
             try {
@@ -497,7 +495,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         const amenitiesHtml = renderAmenities(amenitiesArray);
 
-        // Контактная информация
         const contactName = listing.contact_name || 'Собственник';
         const contactPhone = listing.contact_phone || 'Не указан';
 
@@ -539,7 +536,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div>
                                 <h3 class="ld-contact-title">Контактная информация</h3>
                                 <p class="ld-muted"><strong>${escapeHtml(contactName)}</strong></p>
-                                <p class="ld-muted"><i class="fas fa-phone"></i> ${escapeHtml(contactPhone)}</p>
+                                <p class="ld-muted"> ${escapeHtml(contactPhone)}</p>
                             </div>
                         </div>
                     </div>
