@@ -46,7 +46,7 @@ namespace TattooYou.Forms
                 conn.Open();
                 string query = @"
                     SELECT a.id, u.username AS Клиент, a.appointment_date AS Дата, a.appointment_time AS Время,
-                           s.name AS Услуга, st.name AS Стиль, m.full_name AS Мастер,
+                           s.name AS Услуга, s.price AS Цена, st.name AS Стиль, m.full_name AS Мастер,
                            a.size AS Размер, a.status AS Статус
                     FROM appointments a
                     JOIN users u ON a.user_id = u.id

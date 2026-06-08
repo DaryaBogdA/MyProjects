@@ -9,7 +9,6 @@ namespace Boyr.Controls
     public partial class ProductCardControl : UserControl
     {
         private Product _product;
-        public event EventHandler AddToCartClicked;
 
         public ProductCardControl(Product product)
         {
@@ -54,7 +53,7 @@ namespace Boyr.Controls
                 MessageBox.Show("Товара нет в наличии.", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (CartService.AddToCart(_product, 1))
+            if (CartService.Instance.AddToCart(_product, 1))
             {
                 MessageBox.Show($"Изделие \"{_product.Name}\" добавлено в корзину.", "Корзина", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

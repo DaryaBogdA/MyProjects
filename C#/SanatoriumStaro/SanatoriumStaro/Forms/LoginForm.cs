@@ -9,8 +9,32 @@ namespace SanatoriumStaro
         public LoginForm()
         {
             InitializeComponent();
+            this.KeyPreview = true;
+            this.KeyDown += LoginForm_KeyDown;
         }
-
+        private void LoginForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.L) 
+            {
+                txtLogin.Focus();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.P) 
+            {
+                txtPassword.Focus();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                btnExit.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string login = txtLogin.Text.Trim();

@@ -99,7 +99,7 @@ namespace Boyr.Controls
 
             int userId = (int)dataGridViewUsers.CurrentRow.Cells["Id"].Value;
 
-            if (AuthService.CurrentUser != null && AuthService.CurrentUser.Id == userId)
+            if (AuthService.Instance.CurrentUser != null && AuthService.Instance.CurrentUser.Id == userId)
             {
                 MessageBox.Show("Вы не можете удалить себя!");
                 return;

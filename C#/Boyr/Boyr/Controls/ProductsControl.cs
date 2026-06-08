@@ -57,7 +57,6 @@ namespace Boyr.Controls
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка загрузки товаров: " + ex.Message);
-                // Очищаем DataGridView, чтобы избежать ошибок с колонками
                 dataGridViewProducts.DataSource = null;
                 dataGridViewProducts.Columns.Clear();
             }
@@ -65,11 +64,9 @@ namespace Boyr.Controls
 
         private void dataGridViewProducts_SelectionChanged(object sender, EventArgs e)
         {
-            // Проверка наличия строк и колонок
             if (dataGridViewProducts.CurrentRow == null || dataGridViewProducts.Rows.Count == 0)
                 return;
 
-            // Защита от отсутствия необходимых колонок
             if (dataGridViewProducts.Columns.Count == 0 || !dataGridViewProducts.Columns.Contains("Name"))
                 return;
 

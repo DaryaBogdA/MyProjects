@@ -3,12 +3,60 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\statisticsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\statisticsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\statisticsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\statisticsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\statisticsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\statisticsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\servicesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\servicesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\profileform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\profileform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|c:\\kollege\\myprojects\\c#\\sanatoriumstaro\\sanatoriumstaro\\forms\\appointmentsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\appointmentsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\serviceeditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\serviceeditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\manageservicesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\manageservicesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\bookingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\bookingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\sanatoriumstaro\\forms\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCE08A8-E2B0-474C-98D8-199538B1DFAF}|SanatoriumStaro\\SanatoriumStaro.csproj|solutionrelative:sanatoriumstaro\\forms\\registerform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +66,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 313,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,29 +74,179 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RegisterForm.Designer.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
-              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
-              "RelativeToolTip": "SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAYwI0AAAArAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "StatisticsForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\StatisticsForm.Designer.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\StatisticsForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\StatisticsForm.Designer.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\StatisticsForm.Designer.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAowH0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T09:17:27.368Z",
+              "WhenOpened": "2026-06-08T18:47:34.308Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "StatisticsForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\StatisticsForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\StatisticsForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\StatisticsForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\StatisticsForm.cs",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAmwIAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:44:53.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\MainForm.Designer.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\MainForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\MainForm.Designer.cs*",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\MainForm.Designer.cs*",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAowHkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:45:35.215Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\MainForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\MainForm.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:31.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StatisticsForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\StatisticsForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\StatisticsForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\StatisticsForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\StatisticsForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:44:49.136Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ServicesForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ServicesForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\ServicesForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ServicesForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\ServicesForm.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAYwEoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:42:37.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProfileForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ProfileForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\ProfileForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ProfileForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\ProfileForm.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAwwDAAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:39.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AppointmentsForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\AppointmentsForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\AppointmentsForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\AppointmentsForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\AppointmentsForm.cs",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAowJoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:19.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\LoginForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\LoginForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\LoginForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\LoginForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:28.176Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ManageServicesForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ManageServicesForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\ManageServicesForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ManageServicesForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\ManageServicesForm.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAiwGMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:35.514Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ServiceEditForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ServiceEditForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\ServiceEditForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\ServiceEditForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\ServiceEditForm.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAuwFkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:48.002Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "BookingForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\BookingForm.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\BookingForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\BookingForm.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\BookingForm.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:53:24.737Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "RegisterForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.cs",
               "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\RegisterForm.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.cs",
               "RelativeToolTip": "SanatoriumStaro\\Forms\\RegisterForm.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAiwFcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T09:17:22.751Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-18T09:17:22.751Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RegisterForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "RelativeDocumentMoniker": "SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\SanatoriumStaro\\SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "RelativeToolTip": "SanatoriumStaro\\Forms\\RegisterForm.Designer.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAYwJAAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-18T09:17:27.368Z"
             }
           ]
         },

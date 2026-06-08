@@ -1,30 +1,56 @@
 ﻿using Boyr.DataAccess;
+using Boyr.Delegates; 
 using Boyr.Entities;
+using Boyr.Interfaces;
 using Boyr.Utils;
 
 namespace Boyr.Services
 {
-    public static class AuthService
+    public class AuthService : IAuthService
     {
-        public static User CurrentUser { get; private set; }
+        private static AuthService _instance;
+        private User _currentUser;
 
-        public static bool Login(string login, string password)
+        private AuthService() { }
+
+        public static AuthService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new AuthService();
+                return _instance;
+            }
+        }
+
+        public User CurrentUser => _currentUser;
+        public bool IsAuthenticated => _currentUser != null;
+        public bool IsAdmin => _currentUser?.Role == UserRole.admin;
+
+        public event LoginAttemptEventHandler LoginAttempt;
+
+        public bool Login(string login, string password)
         {
             var user = new UserRepository().GetByLogin(login);
-            if (user != null && PasswordHasher.Verify(password, user.Password))
+            bool success = user != null && PasswordHasher.Verify(password, user.Password);
+
+            if (success)
             {
-                CurrentUser = user;
-                return true;
+                _currentUser = user;
             }
-            return false;
+
+            OnLoginAttempt(login, success);
+            return success;
         }
 
-        public static void Logout()
+        public void Logout()
         {
-            CurrentUser = null;
+            _currentUser = null;
         }
 
-        public static bool IsAuthenticated => CurrentUser != null;
-        public static bool IsAdmin => CurrentUser?.Role == UserRole.admin;
+        private void OnLoginAttempt(string login, bool success)
+        {
+            LoginAttempt?.Invoke(login, success);
+        }
     }
 }

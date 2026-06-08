@@ -3,12 +3,32 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\TattooYou\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|c:\\kollege\\myprojects\\c#\\tattooyou\\tattooyou\\database\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\database\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|c:\\kollege\\myprojects\\c#\\tattooyou\\tattooyou\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\uitheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\uitheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\statisticshelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\statisticshelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\exporthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\exporthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\database\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\database\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,18 +69,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\passwordhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\helpers\\exporthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|solutionrelative:tattooyou\\helpers\\exporthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C13454C8-D9FC-4B37-9747-8503D390F238}|TattooYou\\TattooYou.csproj|C:\\kollege\\MyProjects\\C#\\TattooYou\\tattooyou\\forms\\splashform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -174,7 +182,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 313,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -182,79 +190,56 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "UiTheme.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\UiTheme.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Helpers\\UiTheme.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\UiTheme.cs",
+              "RelativeToolTip": "TattooYou\\Helpers\\UiTheme.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-30T11:32:16.58Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StatisticsHelper.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\StatisticsHelper.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Helpers\\StatisticsHelper.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\StatisticsHelper.cs",
+              "RelativeToolTip": "TattooYou\\Helpers\\StatisticsHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-30T11:32:15.426Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "DatabaseHelper.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Database\\DatabaseHelper.cs",
               "RelativeDocumentMoniker": "TattooYou\\Database\\DatabaseHelper.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Database\\DatabaseHelper.cs",
               "RelativeToolTip": "TattooYou\\Database\\DatabaseHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T19:49:29.894Z",
+              "WhenOpened": "2026-03-16T19:49:29.894Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\App.config",
+              "RelativeDocumentMoniker": "TattooYou\\App.config",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\App.config*",
+              "RelativeToolTip": "TattooYou\\App.config*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-03-16T19:09:54.626Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "packages.config",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\packages.config",
-              "RelativeDocumentMoniker": "TattooYou\\packages.config",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\packages.config",
-              "RelativeToolTip": "TattooYou\\packages.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2026-03-16T19:10:29.666Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Program.cs",
-              "RelativeDocumentMoniker": "TattooYou\\Program.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Program.cs",
-              "RelativeToolTip": "TattooYou\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T19:10:28.748Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\App.config",
-              "RelativeDocumentMoniker": "TattooYou\\App.config",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\App.config",
-              "RelativeToolTip": "TattooYou\\App.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAD4vwUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2026-03-16T19:09:54.626Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SplashForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\SplashForm.cs",
-              "RelativeDocumentMoniker": "TattooYou\\Forms\\SplashForm.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\SplashForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "TattooYou\\Forms\\SplashForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T10:30:07.307Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FormLogin.Designer.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormLogin.Designer.cs",
-              "RelativeDocumentMoniker": "TattooYou\\Forms\\FormLogin.Designer.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormLogin.Designer.cs",
-              "RelativeToolTip": "TattooYou\\Forms\\FormLogin.Designer.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAIwCAAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T09:29:52.663Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "MainForm.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\MainForm.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\MainForm.Designer.cs",
@@ -266,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Models\\User.cs",
               "RelativeDocumentMoniker": "TattooYou\\Models\\User.cs",
@@ -278,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "FormLogin.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormLogin.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormLogin.cs",
@@ -289,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "Appointment.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Models\\Appointment.cs",
               "RelativeDocumentMoniker": "TattooYou\\Models\\Appointment.cs",
@@ -301,31 +286,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Session.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\Session.cs",
-              "RelativeDocumentMoniker": "TattooYou\\Helpers\\Session.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\Session.cs",
-              "RelativeToolTip": "TattooYou\\Helpers\\Session.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T09:34:36.423Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "PasswordHelper.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\PasswordHelper.cs",
-              "RelativeDocumentMoniker": "TattooYou\\Helpers\\PasswordHelper.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\PasswordHelper.cs",
-              "RelativeToolTip": "TattooYou\\Helpers\\PasswordHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T09:34:35.136Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 5,
               "Title": "ExportHelper.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\ExportHelper.cs",
               "RelativeDocumentMoniker": "TattooYou\\Helpers\\ExportHelper.cs",
@@ -337,7 +298,78 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 4,
+              "Title": "PasswordHelper.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\PasswordHelper.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Helpers\\PasswordHelper.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\PasswordHelper.cs",
+              "RelativeToolTip": "TattooYou\\Helpers\\PasswordHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T09:34:35.136Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FormLogin.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormLogin.Designer.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Forms\\FormLogin.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormLogin.Designer.cs",
+              "RelativeToolTip": "TattooYou\\Forms\\FormLogin.Designer.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAIwCAAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T09:29:52.663Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Session.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\Session.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Helpers\\Session.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Helpers\\Session.cs",
+              "RelativeToolTip": "TattooYou\\Helpers\\Session.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T09:34:36.423Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "SplashForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\SplashForm.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Forms\\SplashForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\SplashForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "TattooYou\\Forms\\SplashForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T10:30:07.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Program.cs",
+              "RelativeDocumentMoniker": "TattooYou\\Program.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Program.cs",
+              "RelativeToolTip": "TattooYou\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T19:10:28.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "packages.config",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\packages.config",
+              "RelativeDocumentMoniker": "TattooYou\\packages.config",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\packages.config",
+              "RelativeToolTip": "TattooYou\\packages.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-03-16T19:10:29.666Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "SplashForm.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\SplashForm.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\SplashForm.Designer.cs",
@@ -349,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "SplashForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\SplashForm.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\SplashForm.cs",
@@ -361,7 +393,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "Master.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Models\\Master.cs",
               "RelativeDocumentMoniker": "TattooYou\\Models\\Master.cs",
@@ -373,7 +405,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "Service.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Models\\Service.cs",
               "RelativeDocumentMoniker": "TattooYou\\Models\\Service.cs",
@@ -385,7 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "MainForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\MainForm.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\MainForm.cs",
@@ -397,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "FormStyles.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormStyles.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormStyles.Designer.cs",
@@ -409,7 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "FormStyles.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormStyles.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormStyles.cs",
@@ -421,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "FormRegister.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormRegister.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormRegister.Designer.cs",
@@ -433,7 +465,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "FormRegister.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormRegister.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormRegister.cs",
@@ -445,7 +477,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "FormMyAppointments.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormMyAppointments.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormMyAppointments.Designer.cs",
@@ -457,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "FormMyAppointments.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormMyAppointments.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormMyAppointments.cs",
@@ -469,7 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "FormMasters.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormMasters.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormMasters.Designer.cs",
@@ -481,7 +513,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "FormMasters.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormMasters.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormMasters.cs",
@@ -493,7 +525,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "FormManageUsers.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormManageUsers.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormManageUsers.Designer.cs",
@@ -505,7 +537,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "FormManageUsers.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormManageUsers.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormManageUsers.cs",
@@ -517,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "FormManageServices.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormManageServices.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormManageServices.Designer.cs",
@@ -529,7 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "FormManageServices.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormManageServices.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormManageServices.cs",
@@ -541,7 +573,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "FormLogin.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormLogin.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormLogin.cs",
@@ -553,7 +585,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "FormEditStyle.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditStyle.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditStyle.Designer.cs",
@@ -565,7 +597,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "FormEditStyle.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditStyle.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditStyle.cs",
@@ -577,7 +609,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "FormEditService.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditService.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditService.Designer.cs",
@@ -589,7 +621,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "FormEditService.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditService.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditService.cs",
@@ -601,7 +633,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "FormEditMaster.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditMaster.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditMaster.Designer.cs",
@@ -613,7 +645,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "FormEditMaster.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditMaster.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditMaster.cs",
@@ -625,7 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "FormEditMaster.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormEditMaster.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormEditMaster.cs",
@@ -636,7 +668,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "FormBookAppointment.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormBookAppointment.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormBookAppointment.Designer.cs",
@@ -648,7 +680,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "FormBookAppointment.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormBookAppointment.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormBookAppointment.cs",
@@ -660,7 +692,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "FormAllAppointments.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\TattooYou\\TattooYou\\Forms\\FormAllAppointments.Designer.cs",
               "RelativeDocumentMoniker": "TattooYou\\Forms\\FormAllAppointments.Designer.cs",

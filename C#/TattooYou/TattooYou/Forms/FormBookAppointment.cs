@@ -13,6 +13,8 @@ namespace TattooYou.Forms
 {
     public partial class FormBookAppointment : Form
     {
+        private static readonly string[] AllTimeSlots = { "10:00", "13:00", "16:00", "19:00" };
+
         private List<Service> services = new List<Service>();
         private List<Style> allStyles = new List<Style>();
         private List<Style> masterStyles = new List<Style>();
@@ -38,8 +40,97 @@ namespace TattooYou.Forms
                 cmbMaster.Enabled = false;
             }
             LoadAvailableDates();
+            monthCalendar.DateChanged += monthCalendar_DateChanged;
             cmbSize.SelectedIndex = 1;
+            RefreshAvailableTimes();
+            SyncSelectionsFromControls();
             UpdatePrice();
+        }
+
+        private void monthCalendar_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            RefreshAvailableTimes();
+        }
+
+        private void RefreshAvailableTimes()
+        {
+            DateTime selectedDate = monthCalendar.SelectionStart.Date;
+            var available = new List<string>();
+
+            foreach (string slot in AllTimeSlots)
+            {
+                TimeSpan time = TimeSpan.Parse(slot);
+                if (selectedDate.Add(time) > DateTime.Now)
+                    available.Add(slot);
+            }
+
+            string previous = cmbTime.SelectedItem?.ToString();
+            cmbTime.Items.Clear();
+
+            if (available.Count == 0)
+            {
+                cmbTime.Enabled = false;
+                return;
+            }
+
+            cmbTime.Enabled = true;
+            cmbTime.Items.AddRange(available.ToArray());
+
+            if (previous != null && available.Contains(previous))
+                cmbTime.SelectedItem = previous;
+            else
+                cmbTime.SelectedIndex = 0;
+        }
+
+        private void SyncSelectionsFromControls()
+        {
+            if (cmbService.SelectedItem is Service service)
+                selectedServiceId = service.Id;
+            else if (TryGetComboId(cmbService, out int serviceId))
+                selectedServiceId = serviceId;
+
+            if (cmbStyle.SelectedItem is Style style)
+            {
+                selectedStyleId = style.Id;
+                if (!preselectedMasterId.HasValue && masters.Count == 0)
+                    LoadMastersByStyle(style.Id);
+            }
+            else if (TryGetComboId(cmbStyle, out int styleId))
+            {
+                selectedStyleId = styleId;
+                if (!preselectedMasterId.HasValue && masters.Count == 0)
+                    LoadMastersByStyle(styleId);
+            }
+
+            if (preselectedMasterId.HasValue)
+                selectedMasterId = preselectedMasterId.Value;
+            else if (cmbMaster.SelectedItem is Master master)
+                selectedMasterId = master.Id;
+            else if (TryGetComboId(cmbMaster, out int masterId))
+                selectedMasterId = masterId;
+
+            if (cmbSize.SelectedItem != null)
+                selectedSize = cmbSize.SelectedItem.ToString().ToLower();
+        }
+
+        private static bool TryGetComboId(ComboBox combo, out int id)
+        {
+            id = 0;
+            if (combo.SelectedValue == null)
+                return false;
+
+            object value = combo.SelectedValue;
+            if (value is int intVal)
+            {
+                id = intVal;
+                return true;
+            }
+            if (value is long longVal)
+            {
+                id = (int)longVal;
+                return true;
+            }
+            return int.TryParse(value.ToString(), out id);
         }
 
         private void ApplyColorScheme()
@@ -194,9 +285,13 @@ namespace TattooYou.Forms
             cmbMaster.DataSource = masters;
             cmbMaster.DisplayMember = "FullName";
             cmbMaster.ValueMember = "Id";
-            if (preselectedMasterId.HasValue && masters.Count > 0)
+            if (masters.Count > 0)
             {
-                cmbMaster.SelectedValue = preselectedMasterId.Value;
+                cmbMaster.SelectedIndex = 0;
+                if (preselectedMasterId.HasValue)
+                    selectedMasterId = preselectedMasterId.Value;
+                else if (cmbMaster.SelectedItem is Master master)
+                    selectedMasterId = master.Id;
             }
         }
 
@@ -208,32 +303,44 @@ namespace TattooYou.Forms
 
         private void cmbStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbStyle.SelectedValue != null && cmbStyle.SelectedValue is int styleId)
+            if (cmbStyle.SelectedItem is Style style)
+            {
+                selectedStyleId = style.Id;
+                if (!preselectedMasterId.HasValue)
+                    LoadMastersByStyle(style.Id);
+            }
+            else if (TryGetComboId(cmbStyle, out int styleId))
             {
                 selectedStyleId = styleId;
                 if (!preselectedMasterId.HasValue)
-                {
                     LoadMastersByStyle(styleId);
-                }
             }
         }
 
         private void cmbService_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbService.SelectedValue != null && cmbService.SelectedValue is int serviceId)
-            {
+            if (cmbService.SelectedItem is Service service)
+                selectedServiceId = service.Id;
+            else if (TryGetComboId(cmbService, out int serviceId))
                 selectedServiceId = serviceId;
-                UpdatePrice();
-            }
+
+            UpdatePrice();
         }
 
         private void cmbMaster_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbMaster.SelectedValue != null && cmbMaster.SelectedValue is int masterId)
+            if (preselectedMasterId.HasValue)
             {
-                selectedMasterId = masterId;
-                UpdatePrice();
+                selectedMasterId = preselectedMasterId.Value;
+                return;
             }
+
+            if (cmbMaster.SelectedItem is Master master)
+                selectedMasterId = master.Id;
+            else if (TryGetComboId(cmbMaster, out int masterId))
+                selectedMasterId = masterId;
+
+            UpdatePrice();
         }
 
         private void cmbSize_SelectedIndexChanged(object sender, EventArgs e)
@@ -267,6 +374,8 @@ namespace TattooYou.Forms
 
         private void btnBook_Click(object sender, EventArgs e)
         {
+            SyncSelectionsFromControls();
+
             if (selectedServiceId == 0)
             {
                 MessageBox.Show("Выберите услугу");
@@ -284,7 +393,12 @@ namespace TattooYou.Forms
             }
             if (monthCalendar.SelectionStart.Date < DateTime.Today)
             {
-                MessageBox.Show("Выберите будущую дату");
+                MessageBox.Show("Нельзя записаться на прошедшую дату");
+                return;
+            }
+            if (cmbTime.SelectedItem == null)
+            {
+                MessageBox.Show("На выбранную дату нет свободного времени");
                 return;
             }
             if (string.IsNullOrEmpty(selectedSize))
@@ -295,6 +409,14 @@ namespace TattooYou.Forms
 
             DateTime selectedDate = monthCalendar.SelectionStart.Date;
             TimeSpan selectedTime = TimeSpan.Parse(cmbTime.SelectedItem.ToString());
+            DateTime appointmentDateTime = selectedDate.Add(selectedTime);
+
+            if (appointmentDateTime <= DateTime.Now)
+            {
+                MessageBox.Show("Нельзя записаться на прошедшее время");
+                RefreshAvailableTimes();
+                return;
+            }
 
             using (var conn = DatabaseHelper.GetConnection())
             {

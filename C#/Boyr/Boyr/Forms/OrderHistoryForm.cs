@@ -24,7 +24,7 @@ namespace Boyr.Forms
 
         private void LoadOrders()
         {
-            _sales = saleRepo.GetByUser(AuthService.CurrentUser.Id);
+            _sales = saleRepo.GetByUser(AuthService.Instance.CurrentUser.Id);
             dataGridView.Rows.Clear();
             foreach (var sale in _sales)
             {

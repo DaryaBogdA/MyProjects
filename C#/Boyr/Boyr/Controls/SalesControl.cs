@@ -7,12 +7,17 @@ namespace Boyr.Controls
 {
     public partial class SalesControl : UserControl
     {
-        private SaleRepository saleRepo = new SaleRepository();
+        private SalesChartControl salesChart;
 
         public SalesControl()
         {
             InitializeComponent();
             UiTheme.ApplyToControlTree(this);
+
+            salesChart = new SalesChartControl();
+            salesChart.Dock = DockStyle.Fill;
+            tabChart.Controls.Add(salesChart);
+
             LoadSales();
         }
 
@@ -20,6 +25,7 @@ namespace Boyr.Controls
         {
             try
             {
+                var saleRepo = new SaleRepository();
                 dataGridViewSales.AutoGenerateColumns = true;
                 dataGridViewSales.DataSource = null;
                 dataGridViewSales.DataSource = saleRepo.GetAll();

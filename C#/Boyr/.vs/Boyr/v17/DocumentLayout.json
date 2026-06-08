@@ -3,28 +3,132 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\Boyr\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\utils\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\utils\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\ui\\uitheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\ui\\uitheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\services\\receiptservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\services\\receiptservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\services\\notificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\services\\notificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\services\\cartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\services\\cartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\interfaces\\inotifiable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\interfaces\\inotifiable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\interfaces\\icartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\interfaces\\icartservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\orderhistoryform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\orderhistoryform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\checkoutform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\checkoutform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\cartform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\cartform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\delegates\\delegates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\delegates\\delegates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\dataaccess\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\dataaccess\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\dataaccess\\salerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\dataaccess\\salerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\dataaccess\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\dataaccess\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\dataaccess\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\dataaccess\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\dataaccess\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\dataaccess\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\userscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\userscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\salescontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\salescontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\saleschartcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\saleschartcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\productscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|C:\\kollege\\MyProjects\\C#\\Boyr\\boyr\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\productcardcontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productcardcontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\forms\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|c:\\kollege\\myprojects\\c#\\boyr\\boyr\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productcardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|C:\\kollege\\MyProjects\\C#\\Boyr\\boyr\\controls\\productscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|C:\\kollege\\MyProjects\\C#\\Boyr\\boyr\\controls\\productscontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productscontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|C:\\kollege\\MyProjects\\C#\\Boyr\\boyr\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|C:\\kollege\\MyProjects\\C#\\Boyr\\boyr\\controls\\productscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E5838289-6A24-4081-8D70-378F830AE769}|Boyr\\Boyr.csproj|solutionrelative:boyr\\controls\\productscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,81 +138,426 @@
       "DocumentGroups": [
         {
           "DockedWidth": 313,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PasswordHasher.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Utils\\PasswordHasher.cs",
+              "RelativeDocumentMoniker": "Boyr\\Utils\\PasswordHasher.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Utils\\PasswordHasher.cs",
+              "RelativeToolTip": "Boyr\\Utils\\PasswordHasher.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:34:08.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UiTheme.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\UI\\UiTheme.cs",
+              "RelativeDocumentMoniker": "Boyr\\UI\\UiTheme.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\UI\\UiTheme.cs",
+              "RelativeToolTip": "Boyr\\UI\\UiTheme.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:34:07.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReceiptService.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\ReceiptService.cs",
+              "RelativeDocumentMoniker": "Boyr\\Services\\ReceiptService.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\ReceiptService.cs",
+              "RelativeToolTip": "Boyr\\Services\\ReceiptService.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:34:04.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NotificationService.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\NotificationService.cs",
+              "RelativeDocumentMoniker": "Boyr\\Services\\NotificationService.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\NotificationService.cs",
+              "RelativeToolTip": "Boyr\\Services\\NotificationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:34:01.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IUserRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IUserRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\Interfaces\\IUserRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IUserRepository.cs",
+              "RelativeToolTip": "Boyr\\Interfaces\\IUserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:33:49.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\Interfaces\\IRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IRepository.cs",
+              "RelativeToolTip": "Boyr\\Interfaces\\IRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:33:46.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\Interfaces\\IProductRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IProductRepository.cs",
+              "RelativeToolTip": "Boyr\\Interfaces\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:33:41.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "INotifiable.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\INotifiable.cs",
+              "RelativeDocumentMoniker": "Boyr\\Interfaces\\INotifiable.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\INotifiable.cs",
+              "RelativeToolTip": "Boyr\\Interfaces\\INotifiable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:33:37.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RegisterForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\RegisterForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\RegisterForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\RegisterForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\RegisterForm.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:33:27.863Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 18,
+              "Title": "Delegates.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Delegates\\Delegates.cs",
+              "RelativeDocumentMoniker": "Boyr\\Delegates\\Delegates.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Delegates\\Delegates.cs",
+              "RelativeToolTip": "Boyr\\Delegates\\Delegates.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:40:23.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CartForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\CartForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\CartForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\CartForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\CartForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:38:54.187Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CheckoutForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\CheckoutForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\CheckoutForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\CheckoutForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\CheckoutForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:39:04.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\LoginForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\LoginForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\LoginForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\LoginForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:38:35.155Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Boyr\\Services\\AuthService.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\AuthService.cs",
+              "RelativeToolTip": "Boyr\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:38:08.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CartService.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\CartService.cs",
+              "RelativeDocumentMoniker": "Boyr\\Services\\CartService.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Services\\CartService.cs",
+              "RelativeToolTip": "Boyr\\Services\\CartService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:38:14.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\DataAccess\\UserRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\UserRepository.cs",
+              "RelativeToolTip": "Boyr\\DataAccess\\UserRepository.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:49.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "SaleRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\SaleRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\DataAccess\\SaleRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\SaleRepository.cs",
+              "RelativeToolTip": "Boyr\\DataAccess\\SaleRepository.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:46.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\MainForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\MainForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:38:43.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "OrderHistoryForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\OrderHistoryForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\OrderHistoryForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\OrderHistoryForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\OrderHistoryForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:39:16.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Boyr\\Interfaces\\IAuthService.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\IAuthService.cs",
+              "RelativeToolTip": "Boyr\\Interfaces\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:29:30.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ICartService.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\ICartService.cs",
+              "RelativeDocumentMoniker": "Boyr\\Interfaces\\ICartService.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Interfaces\\ICartService.cs",
+              "RelativeToolTip": "Boyr\\Interfaces\\ICartService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:40:02.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\DataAccess\\ProductRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\ProductRepository.cs",
+              "RelativeToolTip": "Boyr\\DataAccess\\ProductRepository.cs",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:43.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "DatabaseHelper.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\DatabaseHelper.cs",
+              "RelativeDocumentMoniker": "Boyr\\DataAccess\\DatabaseHelper.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\DatabaseHelper.cs",
+              "RelativeToolTip": "Boyr\\DataAccess\\DatabaseHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:42.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "Boyr\\DataAccess\\CategoryRepository.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\DataAccess\\CategoryRepository.cs",
+              "RelativeToolTip": "Boyr\\DataAccess\\CategoryRepository.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:40.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "SalesControl.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\SalesControl.cs",
+              "RelativeDocumentMoniker": "Boyr\\Controls\\SalesControl.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\SalesControl.cs",
+              "RelativeToolTip": "Boyr\\Controls\\SalesControl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:31.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "SalesChartControl.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\SalesChartControl.cs",
+              "RelativeDocumentMoniker": "Boyr\\Controls\\SalesChartControl.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\SalesChartControl.cs",
+              "RelativeToolTip": "Boyr\\Controls\\SalesChartControl.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAASwEUAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:32:12.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ProductsControl.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.cs",
+              "RelativeDocumentMoniker": "Boyr\\Controls\\ProductsControl.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.cs",
+              "RelativeToolTip": "Boyr\\Controls\\ProductsControl.cs",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAewEUAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:31:57.943Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "ProductCardControl.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductCardControl.Designer.cs",
+              "RelativeDocumentMoniker": "Boyr\\Controls\\ProductCardControl.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductCardControl.Designer.cs",
+              "RelativeToolTip": "Boyr\\Controls\\ProductCardControl.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:31:44.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "UsersControl.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\UsersControl.cs",
+              "RelativeDocumentMoniker": "Boyr\\Controls\\UsersControl.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\UsersControl.cs",
+              "RelativeToolTip": "Boyr\\Controls\\UsersControl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:30:46.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "AdminForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\AdminForm.cs",
+              "RelativeDocumentMoniker": "Boyr\\Forms\\AdminForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\AdminForm.cs",
+              "RelativeToolTip": "Boyr\\Forms\\AdminForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T15:39:26.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "ProductCardControl.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductCardControl.cs",
               "RelativeDocumentMoniker": "Boyr\\Controls\\ProductCardControl.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductCardControl.cs",
               "RelativeToolTip": "Boyr\\Controls\\ProductCardControl.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAYwDAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAiwD4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T15:10:18.323Z",
+              "WhenOpened": "2026-06-08T15:38:26.394Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 31,
               "Title": "ProductCardControl.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductCardControl.cs",
               "RelativeDocumentMoniker": "Boyr\\Controls\\ProductCardControl.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductCardControl.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "Boyr\\Controls\\ProductCardControl.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T15:10:11.761Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductsControl.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.cs",
-              "RelativeDocumentMoniker": "Boyr\\Controls\\ProductsControl.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.cs",
-              "RelativeToolTip": "Boyr\\Controls\\ProductsControl.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwEIAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T15:07:36.068Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ProductsControl.Designer.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.Designer.cs",
-              "RelativeDocumentMoniker": "Boyr\\Controls\\ProductsControl.Designer.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.Designer.cs",
-              "RelativeToolTip": "Boyr\\Controls\\ProductsControl.Designer.cs",
-              "ViewState": "AgIAAA0BAAAAAAAAAAAowBkBAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T15:03:08.317Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\MainForm.cs",
-              "RelativeDocumentMoniker": "Boyr\\Forms\\MainForm.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Forms\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "Boyr\\Forms\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T11:24:59.544Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ProductsControl.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.cs",
-              "RelativeDocumentMoniker": "Boyr\\Controls\\ProductsControl.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Boyr\\Boyr\\Controls\\ProductsControl.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "Boyr\\Controls\\ProductsControl.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-16T11:22:06.367Z"
+              "WhenOpened": "2026-06-08T15:38:23.914Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             }
           ]
         },

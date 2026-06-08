@@ -17,11 +17,52 @@ namespace Boyr.Forms
             UiTheme.Apply(this);
             ConfigureAdminButton();
             LoadProducts();
+            SetupShortcuts();
+        }
+
+        private void SetupShortcuts()
+        {
+            this.KeyPreview = true;
+            this.KeyDown += MainForm_KeyDown;
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.K)
+            {
+                btnCatalog_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.C)
+            {
+                btnCart_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.O)
+            {
+                btnOrders_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.A && AuthService.Instance.IsAdmin)
+            {
+                btnAdmin_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.Q)
+            {
+                btnExit_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.F5)
+            {
+                LoadProducts();
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void ConfigureAdminButton()
         {
-            btnAdmin.Visible = AuthService.IsAdmin;
+            btnAdmin.Visible = AuthService.Instance.IsAdmin;
         }
 
         public void LoadProducts()
@@ -37,7 +78,6 @@ namespace Boyr.Forms
 
         private void btnCatalog_Click(object sender, EventArgs e)
         {
-            // Уже на каталоге, но можно обновить список
             LoadProducts();
         }
 
@@ -45,12 +85,12 @@ namespace Boyr.Forms
         {
             CartForm cart = new CartForm();
             cart.ShowDialog();
-            LoadProducts(); // обновить количество после возможных покупок
+            LoadProducts();
         }
 
         private void btnOrders_Click(object sender, EventArgs e)
         {
-            if (!AuthService.IsAuthenticated)
+            if (!AuthService.Instance.IsAuthenticated)
             {
                 MessageBox.Show("Необходимо войти в систему.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -61,19 +101,19 @@ namespace Boyr.Forms
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {
-            if (!AuthService.IsAdmin)
+            if (!AuthService.Instance.IsAdmin)
             {
                 MessageBox.Show("Доступ запрещён.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             AdminForm admin = new AdminForm();
             admin.ShowDialog();
-            LoadProducts(); // возможно товары изменились
+            LoadProducts();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            AuthService.Logout();
+            AuthService.Instance.Logout();
             Application.Restart();
         }
     }

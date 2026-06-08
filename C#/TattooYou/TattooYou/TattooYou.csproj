@@ -183,6 +183,8 @@
     <Compile Include="Helpers\ExportHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\Session.cs" />
+    <Compile Include="Helpers\StatisticsHelper.cs" />
+    <Compile Include="Helpers\UiTheme.cs" />
     <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Master.cs" />
     <Compile Include="Models\Service.cs" />

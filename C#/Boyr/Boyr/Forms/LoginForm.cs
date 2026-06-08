@@ -11,6 +11,32 @@ namespace Boyr.Forms
         {
             InitializeComponent();
             UiTheme.Apply(this);
+            SetupShortcuts();
+        }
+
+        private void SetupShortcuts()
+        {
+            this.KeyPreview = true;
+            this.KeyDown += LoginForm_KeyDown;
+        }
+
+        private void LoginForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.R)
+            {
+                btnRegister_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                btnExit_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -24,9 +50,9 @@ namespace Boyr.Forms
                 return;
             }
 
-            if (AuthService.Login(login, password))
+            if (AuthService.Instance.Login(login, password))
             {
-                MessageBox.Show($"Добро пожаловать, {AuthService.CurrentUser.Login}!");
+                MessageBox.Show($"Добро пожаловать, {AuthService.Instance.CurrentUser.Login}!");
                 MainForm main = new MainForm();
                 main.Show();
                 this.Hide();

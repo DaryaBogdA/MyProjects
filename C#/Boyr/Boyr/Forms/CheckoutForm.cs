@@ -4,7 +4,6 @@ using Boyr.Services;
 using Boyr.UI;
 using MySql.Data.MySqlClient;
 using System;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -29,7 +28,7 @@ namespace Boyr.Forms
                 return;
             }
 
-            foreach (var item in CartService.Items)
+            foreach (var item in CartService.Instance.Items)
             {
                 if (item.Quantity > item.Product.Quantity)
                 {
@@ -47,12 +46,12 @@ namespace Boyr.Forms
                     {
                         string insertSale = "INSERT INTO sales (user_id, total_amount, customer_name) VALUES (@userId, @total, @customer); SELECT LAST_INSERT_ID();";
                         MySqlCommand cmdSale = new MySqlCommand(insertSale, connection, transaction);
-                        cmdSale.Parameters.AddWithValue("@userId", AuthService.CurrentUser.Id);
-                        cmdSale.Parameters.AddWithValue("@total", CartService.TotalAmount);
+                        cmdSale.Parameters.AddWithValue("@userId", AuthService.Instance.CurrentUser.Id);
+                        cmdSale.Parameters.AddWithValue("@total", CartService.Instance.TotalAmount);
                         cmdSale.Parameters.AddWithValue("@customer", customer);
                         int saleId = Convert.ToInt32(cmdSale.ExecuteScalar());
 
-                        foreach (var item in CartService.Items)
+                        foreach (var item in CartService.Instance.Items)
                         {
                             string insertItem = "INSERT INTO sale_items (sale_id, product_id, quantity, price_at_moment) VALUES (@saleId, @productId, @qty, @price)";
                             MySqlCommand cmdItem = new MySqlCommand(insertItem, connection, transaction);
@@ -73,7 +72,7 @@ namespace Boyr.Forms
                         CustomerName = customer;
                         DialogResult = DialogResult.OK;
 
-                        var saleItems = CartService.Items.Select(item => new SaleItem
+                        var saleItems = CartService.Instance.Items.Select(item => new SaleItem
                         {
                             Product = item.Product,
                             Quantity = item.Quantity,
@@ -84,7 +83,7 @@ namespace Boyr.Forms
                         {
                             Id = saleId,
                             SaleDate = DateTime.Now,
-                            TotalAmount = CartService.TotalAmount,
+                            TotalAmount = CartService.Instance.TotalAmount,
                             CustomerName = customer
                         };
 

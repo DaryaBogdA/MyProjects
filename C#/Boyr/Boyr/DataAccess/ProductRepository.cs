@@ -1,12 +1,13 @@
 ﻿using Boyr.Entities;
+using Boyr.Interfaces;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-
+using System.Linq;
 namespace Boyr.DataAccess
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         public List<Product> GetAll()
         {
@@ -43,7 +44,39 @@ namespace Boyr.DataAccess
 
             return products;
         }
+        public List<Product> GetByCategory(int categoryId)
+        {
+            var all = GetAll();
+            return all.Where(p => p.CategoryId == categoryId).ToList();
+        }
 
+        public List<Product> GetByMetal(string metal)
+        {
+            var all = GetAll();
+            return all.Where(p => p.Metal != null && p.Metal.Equals(metal, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        public List<Product> GetByPriceRange(decimal min, decimal max)
+        {
+            var all = GetAll();
+            return all.Where(p => p.Price >= min && p.Price <= max).ToList();
+        }
+
+        public void UpdateQuantity(int productId, int newQuantity)
+        {
+            var product = GetById(productId);
+            if (product != null)
+            {
+                product.Quantity = newQuantity;
+                Update(product);
+            }
+        }
+
+        public bool IsInStock(int productId, int requestedQuantity)
+        {
+            var product = GetById(productId);
+            return product != null && product.Quantity >= requestedQuantity;
+        }
         public Product GetById(int id)
         {
             string query = "SELECT * FROM products WHERE id = @id";

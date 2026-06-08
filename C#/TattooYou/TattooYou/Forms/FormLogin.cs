@@ -12,7 +12,13 @@ namespace TattooYou.Forms
         public FormLogin()
         {
             InitializeComponent();
-            this.AcceptButton = btnLogin;
+            AcceptButton = btnLogin;
+            Session.LoginForm = this;
+            FormClosed += (s, e) =>
+            {
+                if (Session.LoginForm == this)
+                    Session.LoginForm = null;
+            };
             ApplyColorScheme();
         }
 
@@ -66,9 +72,10 @@ namespace TattooYou.Forms
                         Session.CurrentUserName = reader.GetString("username");
                         Session.CurrentUserRole = reader.GetString("role");
 
-                        MainForm mainForm = new MainForm();
+                        Session.LoginForm = this;
+                        var mainForm = new MainForm();
                         mainForm.Show();
-                        this.Hide();
+                        Hide();
                     }
                     else
                     {
@@ -87,6 +94,17 @@ namespace TattooYou.Forms
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        public void ReturnToLoginScreen()
+        {
+            txtUsername.Clear();
+            txtPassword.Clear();
+            lblError.Text = string.Empty;
+            Show();
+            BringToFront();
+            Activate();
+            txtUsername.Focus();
         }
     }
 }

@@ -1,16 +1,35 @@
-﻿using Boyr.Entities;
+﻿using Boyr.Delegates; 
+using Boyr.Entities;
+using Boyr.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Boyr.Services
 {
-    public static class CartService
+    public class CartService : ICartService
     {
-        private static List<CartItem> _items = new List<CartItem>();
+        private static CartService _instance;
+        private List<CartItem> _items = new List<CartItem>();
 
-        public static IReadOnlyList<CartItem> Items => _items.AsReadOnly();
+        private CartService() { }
 
-        public static bool AddToCart(Product product, int quantity = 1)
+        public static CartService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new CartService();
+                return _instance;
+            }
+        }
+
+        public event CartChangedEventHandler CartChanged;
+
+        public IReadOnlyList<CartItem> Items => _items.AsReadOnly();
+        public decimal TotalAmount => _items.Sum(i => i.TotalPrice);
+        public int TotalItems => _items.Sum(i => i.Quantity);
+
+        public bool AddToCart(Product product, int quantity = 1)
         {
             if (product == null) return false;
             var existing = _items.FirstOrDefault(i => i.Product.Id == product.Id);
@@ -24,21 +43,25 @@ namespace Boyr.Services
                 existing.Quantity = newTotal;
             else
                 _items.Add(new CartItem { Product = product, Quantity = quantity });
+
+            OnCartChanged();
             return true;
         }
 
-        public static void RemoveFromCart(int productId)
+        public void RemoveFromCart(int productId)
         {
             _items.RemoveAll(i => i.Product.Id == productId);
+            OnCartChanged();
         }
 
-        public static bool UpdateQuantity(int productId, int newQuantity)
+        public bool UpdateQuantity(int productId, int newQuantity)
         {
             var item = _items.FirstOrDefault(i => i.Product.Id == productId);
             if (item == null) return false;
             if (newQuantity <= 0)
             {
                 _items.Remove(item);
+                OnCartChanged();
                 return true;
             }
             if (newQuantity > item.Product.Quantity)
@@ -46,14 +69,24 @@ namespace Boyr.Services
                 return false;
             }
             item.Quantity = newQuantity;
+            OnCartChanged();
             return true;
         }
 
-        public static void Clear()
+        public void Clear()
         {
             _items.Clear();
+            OnCartChanged();
         }
 
-        public static decimal TotalAmount => _items.Sum(i => i.TotalPrice);
+        public bool ContainsProduct(int productId)
+        {
+            return _items.Any(i => i.Product.Id == productId);
+        }
+
+        private void OnCartChanged()
+        {
+            CartChanged?.Invoke(TotalItems, TotalAmount);
+        }
     }
 }

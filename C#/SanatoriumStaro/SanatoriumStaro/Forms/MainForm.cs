@@ -13,6 +13,10 @@ namespace SanatoriumStaro
             currentUser = user;
             InitializeComponent();
             CustomizeForRole();
+
+            // Настройка горячих клавиш
+            this.KeyPreview = true;
+            this.KeyDown += MainForm_KeyDown;
         }
 
         private void CustomizeForRole()
@@ -33,7 +37,13 @@ namespace SanatoriumStaro
         private void btnProfile_Click(object sender, EventArgs e)
         {
             ProfileForm profileForm = new ProfileForm(currentUser);
+            profileForm.ProfileUpdated += ProfileForm_ProfileUpdated;
             profileForm.ShowDialog();
+        }
+
+        private void ProfileForm_ProfileUpdated(object sender, EventArgs e)
+        {
+            // Обновляем данные после изменения профиля
             currentUser = DatabaseHelper.GetUserById(currentUser.Id);
             lblWelcome.Text = $"Добро пожаловать, {currentUser.FullName}!";
         }
@@ -66,6 +76,44 @@ namespace SanatoriumStaro
         {
             this.Close();
             Application.OpenForms["LoginForm"]?.Show();
+        }
+        private void btnStatistics_Click(object sender, EventArgs e)
+        {
+            StatisticsForm statisticsForm = new StatisticsForm(currentUser);
+            statisticsForm.ShowDialog();
+        }
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                btnServices.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.M)
+            {
+                btnMyAppointments.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.P) 
+            {
+                btnProfile.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.Q) 
+            {
+                btnLogout.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.U && btnManageServices.Visible) 
+            {
+                btnManageServices.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.A && btnAllAppointments.Visible)
+            {
+                btnAllAppointments.PerformClick();
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }

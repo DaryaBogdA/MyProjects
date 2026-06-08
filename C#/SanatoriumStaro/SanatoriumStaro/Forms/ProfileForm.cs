@@ -4,15 +4,21 @@ using SanatoriumStaro.Models;
 
 namespace SanatoriumStaro
 {
+    // Объявление делегата для события обновления профиля
+    public delegate void ProfileUpdatedEventHandler(object sender, EventArgs e);
+
     public partial class ProfileForm : Form
     {
         private User currentUser;
+
+        public event ProfileUpdatedEventHandler ProfileUpdated;
 
         public ProfileForm(User user)
         {
             currentUser = user;
             InitializeComponent();
             LoadData();
+
         }
 
         private void LoadData()
@@ -32,19 +38,22 @@ namespace SanatoriumStaro
 
             if (string.IsNullOrEmpty(currentUser.FullName))
             {
-                MessageBox.Show("ФИО не может быть пустым.");
+                MessageBox.Show("ФИО не может быть пустым.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (DatabaseHelper.UpdateUser(currentUser))
             {
-                MessageBox.Show("Данные обновлены.");
+                MessageBox.Show("Данные обновлены.", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ProfileUpdated?.Invoke(this, EventArgs.Empty);
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Ошибка при обновлении.");
+                MessageBox.Show("Ошибка при обновлении.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -52,5 +61,6 @@ namespace SanatoriumStaro
         {
             this.Close();
         }
+
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Boyr.DataAccess;
 using Boyr.Entities;
+using Boyr.Interfaces;
+using Boyr.Utils;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-
 namespace Boyr.DataAccess
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public User GetByLogin(string login)
         {
@@ -17,7 +18,18 @@ namespace Boyr.DataAccess
             if (dt.Rows.Count == 0) return null;
             return MapUser(dt.Rows[0]);
         }
+        public bool LoginExists(string login)
+        {
+            return GetByLogin(login) != null;
+        }
 
+        public User Authenticate(string login, string password)
+        {
+            var user = GetByLogin(login);
+            if (user != null && PasswordHasher.Verify(password, user.Password))
+                return user;
+            return null;
+        }
         public List<User> GetAll()
         {
             var users = new List<User>();
