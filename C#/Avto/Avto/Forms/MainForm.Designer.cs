@@ -14,6 +14,10 @@
         private System.Windows.Forms.Button btnMyOrders;
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Button btnExportVehicles;
+        private System.Windows.Forms.Button btnAnalytics;
+        private System.Windows.Forms.Label lblHotkeys;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblEventLog;
 
         protected override void Dispose(bool disposing)
         {
@@ -36,11 +40,15 @@
             this.btnUsers = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.lblUserInfo = new System.Windows.Forms.Label();
+            this.btnExportVehicles = new System.Windows.Forms.Button();
+            this.btnAnalytics = new System.Windows.Forms.Button();
+            this.lblHotkeys = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.lblEventLog = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVehicles)).BeginInit();
             this.SuspendLayout();
-            // 
+
             // dgvVehicles
-            // 
             this.dgvVehicles.AllowUserToAddRows = false;
             this.dgvVehicles.AllowUserToDeleteRows = false;
             this.dgvVehicles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
@@ -51,13 +59,11 @@
             this.dgvVehicles.ReadOnly = true;
             this.dgvVehicles.RowHeadersVisible = false;
             this.dgvVehicles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvVehicles.Size = new System.Drawing.Size(1060, 450);
+            this.dgvVehicles.Size = new System.Drawing.Size(1060, 400);
             this.dgvVehicles.TabIndex = 0;
             this.dgvVehicles.SelectionChanged += new System.EventHandler(this.dgvVehicles_SelectionChanged);
-            //
+
             // btnExportVehicles
-            //
-            this.btnExportVehicles = new System.Windows.Forms.Button();
             this.btnExportVehicles.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
             this.btnExportVehicles.FlatAppearance.BorderSize = 0;
             this.btnExportVehicles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -70,10 +76,23 @@
             this.btnExportVehicles.Text = "Экспорт ТС";
             this.btnExportVehicles.UseVisualStyleBackColor = false;
             this.btnExportVehicles.Click += new System.EventHandler(this.btnExportVehicles_Click);
-            // 
+
+            // btnAnalytics
+            this.btnAnalytics.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
+            this.btnAnalytics.FlatAppearance.BorderSize = 0;
+            this.btnAnalytics.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnalytics.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAnalytics.ForeColor = System.Drawing.Color.White;
+            this.btnAnalytics.Location = new System.Drawing.Point(444, 510);
+            this.btnAnalytics.Name = "btnAnalytics";
+            this.btnAnalytics.Size = new System.Drawing.Size(100, 35);
+            this.btnAnalytics.TabIndex = 10;
+            this.btnAnalytics.Text = "Графики";
+            this.btnAnalytics.UseVisualStyleBackColor = false;
+            this.btnAnalytics.Click += new System.EventHandler(this.btnAnalytics_Click);
+
             // btnAdd
-            // 
-            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
             this.btnAdd.FlatAppearance.BorderSize = 0;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -85,10 +104,9 @@
             this.btnAdd.Text = "Добавить";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
+
             // btnEdit
-            // 
-            this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnEdit.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
             this.btnEdit.FlatAppearance.BorderSize = 0;
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -100,10 +118,9 @@
             this.btnEdit.Text = "Изменить";
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
+
             // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(204, 0, 0);
             this.btnDelete.FlatAppearance.BorderSize = 0;
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -115,10 +132,9 @@
             this.btnDelete.Text = "Удалить";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
+
             // btnRefresh
-            // 
-            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
             this.btnRefresh.FlatAppearance.BorderSize = 0;
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -130,10 +146,9 @@
             this.btnRefresh.Text = "Обновить";
             this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
+
             // btnRent
-            // 
-            this.btnRent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.btnRent.BackColor = System.Drawing.Color.FromArgb(0, 150, 136);
             this.btnRent.FlatAppearance.BorderSize = 0;
             this.btnRent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRent.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -145,25 +160,25 @@
             this.btnRent.Text = "Арендовать";
             this.btnRent.UseVisualStyleBackColor = false;
             this.btnRent.Click += new System.EventHandler(this.btnRent_Click);
-            // 
+            this.btnRent.Visible = false;
+
             // btnMyOrders
-            // 
-            this.btnMyOrders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.btnMyOrders.BackColor = System.Drawing.Color.FromArgb(0, 150, 136);
             this.btnMyOrders.FlatAppearance.BorderSize = 0;
             this.btnMyOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMyOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnMyOrders.ForeColor = System.Drawing.Color.White;
             this.btnMyOrders.Location = new System.Drawing.Point(567, 510);
             this.btnMyOrders.Name = "btnMyOrders";
-            this.btnMyOrders.Size = new System.Drawing.Size(100, 35);
+            this.btnMyOrders.Size = new System.Drawing.Size(140, 35);
             this.btnMyOrders.TabIndex = 7;
             this.btnMyOrders.Text = "Мои заказы";
             this.btnMyOrders.UseVisualStyleBackColor = false;
             this.btnMyOrders.Click += new System.EventHandler(this.btnMyOrders_Click);
-            // 
+            this.btnMyOrders.Visible = false;
+
             // btnUsers
-            // 
-            this.btnUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnUsers.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
             this.btnUsers.FlatAppearance.BorderSize = 0;
             this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUsers.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -175,10 +190,9 @@
             this.btnUsers.Text = "Пользователи";
             this.btnUsers.UseVisualStyleBackColor = false;
             this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
-            // 
+
             // btnLogout
-            // 
-            this.btnLogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.btnLogout.BackColor = System.Drawing.Color.FromArgb(100, 100, 100);
             this.btnLogout.FlatAppearance.BorderSize = 0;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -190,30 +204,60 @@
             this.btnLogout.Text = "Выход";
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
+
             // lblUserInfo
-            // 
             this.lblUserInfo.AutoSize = true;
             this.lblUserInfo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblUserInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            this.lblUserInfo.Location = new System.Drawing.Point(12, 20);
+            this.lblUserInfo.ForeColor = System.Drawing.Color.FromArgb(0, 122, 204);
+            this.lblUserInfo.Location = new System.Drawing.Point(12, 15);
             this.lblUserInfo.Name = "lblUserInfo";
             this.lblUserInfo.Size = new System.Drawing.Size(0, 19);
             this.lblUserInfo.TabIndex = 6;
-            // 
+
+            // lblStatus (новая строка состояния)
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this.lblStatus.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblStatus.Location = new System.Drawing.Point(12, 455);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 15);
+            this.lblStatus.TabIndex = 13;
+
+            // lblEventLog (лог событий)
+            this.lblEventLog.AutoSize = true;
+            this.lblEventLog.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
+            this.lblEventLog.ForeColor = System.Drawing.Color.Gray;
+            this.lblEventLog.Location = new System.Drawing.Point(12, 475);
+            this.lblEventLog.Name = "lblEventLog";
+            this.lblEventLog.Size = new System.Drawing.Size(0, 13);
+            this.lblEventLog.TabIndex = 14;
+
+            // lblHotkeys
+            this.lblHotkeys.AutoSize = true;
+            this.lblHotkeys.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
+            this.lblHotkeys.ForeColor = System.Drawing.Color.Gray;
+            this.lblHotkeys.Location = new System.Drawing.Point(12, 550);
+            this.lblHotkeys.Name = "lblHotkeys";
+            this.lblHotkeys.Size = new System.Drawing.Size(0, 13);
+            this.lblHotkeys.TabIndex = 12;
+            this.lblHotkeys.Text = "Горячие клавиши: F1-Добавить | F2-Изменить | F3-Обновить | F4-Графики | F5-Заказы | Ctrl+Q-Выход";
+
             // MainForm
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1084, 561);
+            this.ClientSize = new System.Drawing.Size(1084, 600);
+            this.Controls.Add(this.lblEventLog);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.lblHotkeys);
             this.Controls.Add(this.lblUserInfo);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnUsers);
             this.Controls.Add(this.btnMyOrders);
             this.Controls.Add(this.btnRent);
             this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnExportVehicles); 
+            this.Controls.Add(this.btnExportVehicles);
+            this.Controls.Add(this.btnAnalytics);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnAdd);
@@ -227,7 +271,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvVehicles)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }

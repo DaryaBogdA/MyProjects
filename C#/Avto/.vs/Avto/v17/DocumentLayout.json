@@ -3,7 +3,19 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\Avto\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\rentform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|c:\\kollege\\myprojects\\c#\\avto\\avto\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|c:\\kollege\\myprojects\\c#\\avto\\avto\\forms\\mainform.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\mainform.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|c:\\kollege\\myprojects\\c#\\avto\\avto\\forms\\rentform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\rentform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -11,7 +23,7 @@
       "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|c:\\kollege\\myprojects\\c#\\avto\\avto\\forms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\usermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -21,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\myordersform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\myordersform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\forms\\addeditform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\forms\\addeditform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\data\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|solutionrelative:avto\\data\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{736D463C-24C3-4583-97A7-2CF5C9290F6F}|Avto\\Avto.csproj|C:\\kollege\\MyProjects\\C#\\Avto\\avto\\data\\authhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -61,25 +65,50 @@
           "SelectedChildIndex": 3,
           "Children": [
             {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainForm.resx",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.resx",
+              "RelativeDocumentMoniker": "Avto\\Forms\\MainForm.resx",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.resx",
+              "RelativeToolTip": "Avto\\Forms\\MainForm.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2026-06-08T19:07:37.42Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainForm.Designer.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.Designer.cs",
+              "RelativeDocumentMoniker": "Avto\\Forms\\MainForm.Designer.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.Designer.cs",
+              "RelativeToolTip": "Avto\\Forms\\MainForm.Designer.cs",
+              "ViewState": "AgIAAA8BAAAAAAAAAAAkwBMBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-08T18:58:50.42Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserManagementForm.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\UserManagementForm.cs",
-              "RelativeDocumentMoniker": "Avto\\Forms\\UserManagementForm.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\UserManagementForm.cs",
-              "RelativeToolTip": "Avto\\Forms\\UserManagementForm.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAcwDYAAAANAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "Avto\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.cs",
+              "RelativeToolTip": "Avto\\Forms\\MainForm.cs",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAQwBIAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T19:37:16.214Z",
+              "WhenOpened": "2026-03-13T12:42:38.387Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "UserEditForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\UserEditForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\UserEditForm.cs",
@@ -91,20 +120,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "RentForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\RentForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\RentForm.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\RentForm.cs",
               "RelativeToolTip": "Avto\\Forms\\RentForm.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAQwBcAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAQwBgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T19:37:11.2Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
+              "Title": "UserManagementForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\UserManagementForm.cs",
+              "RelativeDocumentMoniker": "Avto\\Forms\\UserManagementForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\UserManagementForm.cs",
+              "RelativeToolTip": "Avto\\Forms\\UserManagementForm.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAcwDYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T19:37:16.214Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "RegisterForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\RegisterForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\RegisterForm.cs",
@@ -112,12 +153,11 @@
               "RelativeToolTip": "Avto\\Forms\\RegisterForm.cs",
               "ViewState": "AgIAAE0AAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T19:37:07.982Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T19:37:07.982Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "MyOrdersForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MyOrdersForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\MyOrdersForm.cs",
@@ -129,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\LoginForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\LoginForm.cs",
@@ -141,7 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "AddEditForm.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\AddEditForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\AddEditForm.cs",
@@ -153,7 +193,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "AddEditForm.Designer.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\AddEditForm.Designer.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\AddEditForm.Designer.cs",
@@ -165,19 +205,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DatabaseHelper.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Data\\DatabaseHelper.cs",
-              "RelativeDocumentMoniker": "Avto\\Data\\DatabaseHelper.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Data\\DatabaseHelper.cs",
-              "RelativeToolTip": "Avto\\Data\\DatabaseHelper.cs",
-              "ViewState": "AgIAAPkAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T19:36:41.769Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "AuthHelper.cs",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Data\\AuthHelper.cs",
               "RelativeDocumentMoniker": "Avto\\Data\\AuthHelper.cs",
@@ -189,26 +217,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.cs",
               "RelativeDocumentMoniker": "Avto\\Forms\\MainForm.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "Avto\\Forms\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T12:45:07.003Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.cs",
-              "RelativeDocumentMoniker": "Avto\\Forms\\MainForm.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\Avto\\Avto\\Forms\\MainForm.cs",
-              "RelativeToolTip": "Avto\\Forms\\MainForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAALQAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T12:42:38.387Z"
+              "WhenOpened": "2026-03-13T12:45:07.003Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             }
           ]
         },

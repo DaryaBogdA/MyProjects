@@ -409,5 +409,102 @@ namespace Avto.Data
                 return false;
             }
         }
+        public class TypeStat
+        {
+            public string TypeName { get; set; }
+            public int Count { get; set; }
+        }
+
+        public class OrderStat
+        {
+            public string Status { get; set; }
+            public int Count { get; set; }
+        }
+
+        public class AvailabilityStat
+        {
+            public bool IsAvailable { get; set; }
+            public int Count { get; set; }
+        }
+
+        public static List<TypeStat> GetVehicleStatsByType()
+        {
+            var stats = new List<TypeStat>();
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = @"
+            SELECT vt.type_name, COUNT(v.id) as Count
+            FROM vehicle_types vt
+            LEFT JOIN vehicles v ON vt.id = v.vehicle_type_id
+            GROUP BY vt.id, vt.type_name
+            ORDER BY Count DESC";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        stats.Add(new TypeStat
+                        {
+                            TypeName = reader.GetString("type_name"),
+                            Count = reader.GetInt32("Count")
+                        });
+                    }
+                }
+            }
+            return stats;
+        }
+
+        public static List<OrderStat> GetOrderStats()
+        {
+            var stats = new List<OrderStat>();
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = @"
+            SELECT status, COUNT(*) as Count
+            FROM orders
+            GROUP BY status";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        stats.Add(new OrderStat
+                        {
+                            Status = reader.GetString("status"),
+                            Count = reader.GetInt32("Count")
+                        });
+                    }
+                }
+            }
+            return stats;
+        }
+
+        public static List<AvailabilityStat> GetVehicleAvailabilityStats()
+        {
+            var stats = new List<AvailabilityStat>();
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = @"
+            SELECT is_available, COUNT(*) as Count
+            FROM vehicles
+            GROUP BY is_available";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        stats.Add(new AvailabilityStat
+                        {
+                            IsAvailable = reader.GetBoolean("is_available"),
+                            Count = reader.GetInt32("Count")
+                        });
+                    }
+                }
+            }
+            return stats;
+        }
     }
 }
