@@ -526,7 +526,6 @@ header.scrolled {
     resize: vertical;
 }
 
-/* ——— Footer ——— */
 .site-footer {
     position: relative;
     background: linear-gradient(160deg, #1a202c 0%, var(--dark-bg) 45%, #2d3a4f 100%);
@@ -1245,7 +1244,6 @@ footer:not(.site-footer) p {
     border-color: var(--coral);
 }
 
-/* Современный прелоадер */
 #main-preloader {
     position: fixed;
     top: 0;
@@ -1283,7 +1281,6 @@ footer:not(.site-footer) p {
     filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
 }
 
-/* Кольцо вокруг логотипа */
 .preloader-ring {
     position: absolute;
     top: 50%;
@@ -1326,7 +1323,6 @@ footer:not(.site-footer) p {
     animation: spin 2.4s linear infinite;
 }
 
-/* Танцующие точки */
 .preloader-dots {
     margin-top: 30px;
     display: flex;
@@ -1373,7 +1369,6 @@ footer:not(.site-footer) p {
 }
 
 
-/* Мобильное меню */
 @media (max-width: 992px) {
     .menu-toggle {
         display: block;

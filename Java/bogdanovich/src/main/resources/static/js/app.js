@@ -48,7 +48,7 @@ async function downloadBookingDocument(bookingId) {
         try {
             const err = await res.json();
             if (err.message) msg = err.message;
-        } catch (e) { /* ignore */ }
+        } catch (e) {  }
         alert(msg);
         return;
     }
