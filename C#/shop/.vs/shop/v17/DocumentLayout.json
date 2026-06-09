@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\kollege\\MyProjects\\C#\\shop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|c:\\kollege\\myprojects\\c#\\shop\\shop\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|c:\\kollege\\myprojects\\c#\\shop\\shop\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|C:\\kollege\\MyProjects\\C#\\shop\\shop\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|c:\\kollege\\myprojects\\c#\\shop\\shop\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\forms\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|C:\\kollege\\MyProjects\\C#\\shop\\shop\\forms\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\forms\\loginform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|C:\\kollege\\MyProjects\\C#\\shop\\shop\\dataaccess\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\dataaccess\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|C:\\kollege\\MyProjects\\C#\\shop\\shop\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{C231646C-61B6-4DEB-8F0D-35C6C6810DD8}|shop\\shop.csproj|solutionrelative:shop\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,24 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 313,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\App.config",
-              "RelativeDocumentMoniker": "shop\\App.config",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\App.config",
-              "RelativeToolTip": "shop\\App.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2026-03-15T06:02:24.842Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -57,44 +32,23 @@
               "RelativeDocumentMoniker": "shop\\Forms\\MainForm.Designer.cs",
               "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\MainForm.Designer.cs",
               "RelativeToolTip": "shop\\Forms\\MainForm.Designer.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAwwGEAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T09:48:30.479Z"
+              "WhenOpened": "2026-06-09T06:20:15.21Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoginForm.Designer.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\LoginForm.Designer.cs",
-              "RelativeDocumentMoniker": "shop\\Forms\\LoginForm.Designer.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\LoginForm.Designer.cs",
-              "RelativeToolTip": "shop\\Forms\\LoginForm.Designer.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAwwGgAAAAYAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "shop\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\MainForm.cs",
+              "RelativeToolTip": "shop\\Forms\\MainForm.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAgwLIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T09:46:10.036Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DatabaseHelper.cs",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\DataAccess\\DatabaseHelper.cs",
-              "RelativeDocumentMoniker": "shop\\DataAccess\\DatabaseHelper.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\DataAccess\\DatabaseHelper.cs",
-              "RelativeToolTip": "shop\\DataAccess\\DatabaseHelper.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwB4AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T06:07:16.93Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RegisterForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\RegisterForm.cs",
-              "RelativeDocumentMoniker": "shop\\Forms\\RegisterForm.cs",
-              "ToolTip": "C:\\kollege\\MyProjects\\C#\\shop\\shop\\Forms\\RegisterForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "shop\\Forms\\RegisterForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T12:10:13.581Z"
+              "WhenOpened": "2026-06-09T06:20:02.269Z",
+              "EditorCaption": ""
             }
           ]
         },

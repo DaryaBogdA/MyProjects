@@ -40,6 +40,6 @@ C:\kollege\MyProjects\C#\shop\shop\bin\Debug\System.Threading.Tasks.Extensions.x
 C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.csproj.Up2Date
 C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.exe
 C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.pdb
-C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.exe.config
 C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.Forms.RegisterForm.resources
 C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.Forms.AdminForm.resources
+C:\kollege\MyProjects\C#\shop\shop\obj\Debug\shop.exe.config

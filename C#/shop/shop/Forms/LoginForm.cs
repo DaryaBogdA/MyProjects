@@ -11,6 +11,35 @@ namespace shop.Forms
         {
             InitializeComponent();
             UiTheme.Apply(this);
+            SetupShortcuts();
+        }
+
+        private void SetupShortcuts()
+        {
+            this.KeyPreview = true;
+            this.KeyDown += LoginForm_KeyDown;
+        }
+
+        private void LoginForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.R)
+            {
+                // Ctrl+R - открыть регистрацию
+                btnRegister_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                // Enter - выполнить вход
+                btnLogin_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                // Esc - выход из приложения
+                btnExit_Click(null, null);
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
