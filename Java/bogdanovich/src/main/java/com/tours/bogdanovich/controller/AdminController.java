@@ -1,12 +1,10 @@
 package com.tours.bogdanovich.controller;
 
-import com.tours.bogdanovich.dto.AdminTourRequestDto;
-import com.tours.bogdanovich.dto.BookingDetailDto;
-import com.tours.bogdanovich.dto.BookingDto;
-import com.tours.bogdanovich.dto.TourDetailDto;
-import com.tours.bogdanovich.dto.TourDto;
+import com.tours.bogdanovich.dto.*;
 import com.tours.bogdanovich.service.BookingService;
+import com.tours.bogdanovich.service.StatisticsService;
 import com.tours.bogdanovich.service.TourService;
+import com.tours.bogdanovich.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +17,12 @@ public class AdminController {
 
     private final TourService tourService;
     private final BookingService bookingService;
+    private final StatisticsService statisticsService;
 
-    public AdminController(TourService tourService, BookingService bookingService) {
+    public AdminController(TourService tourService,StatisticsService statisticsService, BookingService bookingService) {
         this.tourService = tourService;
         this.bookingService = bookingService;
+        this.statisticsService = statisticsService;
     }
 
     @GetMapping("/tours")
@@ -34,7 +34,10 @@ public class AdminController {
     public ResponseEntity<TourDetailDto> getTour(@PathVariable Integer id) {
         return ResponseEntity.ok(tourService.getTourDetail(id));
     }
-
+    @GetMapping("/stats/dashboard")
+    public ResponseEntity<DashboardStatsDto> dashboardStats() {
+        return ResponseEntity.ok(statisticsService.getDashboardStats());
+    }
     @PostMapping("/tours")
     public ResponseEntity<TourDto> createTour(@RequestBody AdminTourRequestDto request) {
         return ResponseEntity.ok(tourService.createTour(request));

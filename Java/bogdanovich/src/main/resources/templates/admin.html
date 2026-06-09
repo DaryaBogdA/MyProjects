@@ -11,6 +11,7 @@
     <script src="/api/assets/js/config.js"></script>
     <script src="/api/assets/js/app.js"></script>
     <script src="/api/assets/js/js.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         .admin-card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,.08); margin-bottom: 1.5rem; }
         .photo-preview { max-height: 120px; border-radius: 12px; margin-top: 8px; display: none; }
@@ -27,6 +28,7 @@
         <ul class="nav nav-tabs mb-4" role="tablist">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabBookings">Заявки</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-target="#tabTours" data-bs-toggle="tab">Туры</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-target="#tabStats" data-bs-toggle="tab">Статистика</button></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="tabBookings">
@@ -65,6 +67,23 @@
                 <div class="admin-card">
                     <h5 class="fw-bold">Все туры</h5>
                     <div id="allTours" class="d-grid gap-2 mt-2"></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabStats">
+                <div class="admin-card">
+                    <h5 class="fw-bold mb-3">Статистика платформы</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-4"><canvas id="statusChart" width="400" height="300"></canvas></div>
+                        <div class="col-md-6 mb-4"><canvas id="monthlyChart" width="400" height="300"></canvas></div>
+                        <div class="col-12 mb-4"><canvas id="toursChart" width="800" height="300"></canvas></div>
+                        <div class="col-12">
+                            <table class="table table-sm table-bordered">
+                                <tr><td><strong>Всего пользователей</strong></td><td id="statTotalUsers">—</td></tr>
+                                <tr><td><strong>Всего бронирований</strong></td><td id="statTotalBookings">—</td></tr>
+                                <tr><td><strong>Общая выручка</strong></td><td id="statTotalRevenue">— €</td></tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -219,13 +238,49 @@
             alert(msg);
         }
     });
+    async function loadStatistics() {
+        try {
+            const stats = await $.ajax({ url: API_BASE + '/admin/stats/dashboard', headers: adminHeaders() });
 
+            $('#statTotalUsers').text(stats.totalUsers);
+            $('#statTotalBookings').text(stats.totalBookings);
+            $('#statTotalRevenue').text(stats.totalRevenue.toFixed(2) + ' €');
+
+            new Chart(document.getElementById('statusChart'), {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(stats.bookingStatusCounts).map(s => statusLabel(s)),
+                    datasets: [{ data: Object.values(stats.bookingStatusCounts), backgroundColor: ['#ffc107','#28a745','#dc3545','#17a2b8','#6c757d'] }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' }, title: { display: true, text: 'Статусы бронирований' } } }
+            });
+
+            new Chart(document.getElementById('monthlyChart'), {
+                type: 'line',
+                data: {
+                    labels: stats.monthlyBookings.map(m => m.month),
+                    datasets: [{ label: 'Количество бронирований', data: stats.monthlyBookings.map(m => m.count), borderColor: '#ff6b6b', tension: 0.2, fill: false }]
+                },
+                options: { responsive: true, plugins: { title: { display: true, text: 'Бронирования по месяцам' } } }
+            });
+
+            new Chart(document.getElementById('toursChart'), {
+                type: 'bar',
+                data: {
+                    labels: stats.topTours.map(t => t.name.length > 20 ? t.name.substring(0,20)+'…' : t.name),
+                    datasets: [{ label: 'Количество бронирований', data: stats.topTours.map(t => t.bookingsCount), backgroundColor: '#4a6fa5' }]
+                },
+                options: { indexAxis: 'y', responsive: true, plugins: { title: { display: true, text: 'Популярные туры' } } }
+            });
+        } catch(e) { console.error(e); }
+    }
     $(document).ready(async function () {
         if (!requireAuth()) return;
         if (await ensureAdmin()) {
             await loadCountries();
             loadPending();
             loadTours();
+            loadStatistics();
         }
     });
 </script>

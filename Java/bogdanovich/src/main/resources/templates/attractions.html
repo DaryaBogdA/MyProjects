@@ -62,7 +62,13 @@
             <div style="opacity:.85;margin-top:6px;">Лучшие места в разных городах</div>
         </div>
     </div>
-
+    <div class="d-flex justify-content-end mb-3">
+        <select id="sortAttractions" class="form-select form-select-sm w-auto">
+            <option value="popularity-desc">По популярности</option>
+            <option value="name-asc">По названию (А–Я)</option>
+            <option value="name-desc">По названию (Я–А)</option>
+        </select>
+    </div>
     <div class="row g-4 mt-2" id="list"></div>
     <div class="text-muted mt-3" id="empty" style="display:none;">Нет данных.</div>
 </div>
@@ -71,39 +77,62 @@
 
 <script>
     $(document).ready(function () {
-        $.ajax({
-            url: 'http://localhost:8087/api/attractions',
-            type: 'GET',
-            success: function (items) {
-                const list = $('#list');
-                list.empty();
-                if (!items || items.length === 0) {
-                    $('#empty').show();
-                    return;
-                }
-                items.sort((a,b) => (b.popularity||0) - (a.popularity||0));
-                items.forEach(a => {
-                    const img = normalizeImage(a.photo_url);
-                    const col = $(`
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="cardx h-100">
-                                <img src="${img}" alt="${a.name}">
-                                <div class="cardx-body">
-                                    <p class="title">${a.name}</p>
-                                    <div class="desc">${(a.description || '').toString().slice(0, 110)}${(a.description && a.description.length>110)?'...':''}</div>
-                                    <div class="mt-3">
-                                        <span class="pill"><i class="fas fa-fire"></i>${a.popularity || 0}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                    list.append(col);
-                });
-            },
-            error: function () {
-                $('#empty').text('Не удалось загрузить достопримечательности.').show();
+        let allAttractions = [];
+
+        function renderAttractions(items) {
+            const list = $('#list');
+            list.empty();
+            if (!items || items.length === 0) {
+                $('#empty').show();
+                return;
             }
+            $('#empty').hide();
+            items.forEach(a => {
+                const img = normalizeImage(a.photo_url);
+                const col = $(`
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="cardx h-100">
+                    <img src="${img}" alt="${a.name}">
+                    <div class="cardx-body">
+                        <p class="title">${a.name}</p>
+                        <div class="desc">${(a.description || '').slice(0, 110)}${(a.description && a.description.length > 110) ? '...' : ''}</div>
+                        <div class="mt-3">
+                            <span class="pill"><i class="fas fa-fire"></i>${a.popularity || 0}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+                list.append(col);
+            });
+        }
+
+        function sortAttractions() {
+            const sortBy = $('#sortAttractions').val();
+            let sorted = [...allAttractions];
+            if (sortBy === 'popularity-desc') {
+                sorted.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+            } else if (sortBy === 'name-asc') {
+                sorted.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortBy === 'name-desc') {
+                sorted.sort((a, b) => b.name.localeCompare(a.name));
+            }
+            renderAttractions(sorted);
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: API_BASE + '/attractions',
+                type: 'GET',
+                success: function (items) {
+                    allAttractions = items;
+                    sortAttractions();
+                },
+                error: function () {
+                    $('#empty').text('Не удалось загрузить достопримечательности.').show();
+                }
+            });
+            $('#sortAttractions').on('change', sortAttractions);
         });
     });
 </script>

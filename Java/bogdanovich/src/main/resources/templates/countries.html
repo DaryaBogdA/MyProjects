@@ -20,7 +20,17 @@
 <div id="header"></div>
 
 <div class="container mt-4">
-    <h2>Список стран</h2>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <h2 class="m-0">Список стран</h2>
+        <div class="d-flex gap-2 align-items-center">
+            <label class="text-muted small">Сортировать:</label>
+            <select id="sortCountries" class="form-select form-select-sm w-auto">
+                <option value="popularity-desc">По популярности (сначала лучшие)</option>
+                <option value="name-asc">По названию (А–Я)</option>
+                <option value="name-desc">По названию (Я–А)</option>
+            </select>
+        </div>
+    </div>
     <div id="countriesContainer" class="row row-cols-1 row-cols-md-3 g-4"></div>
 </div>
 
@@ -28,47 +38,65 @@
 
 <script>
     $(document).ready(function () {
-        $.ajax({
-            url: API_BASE + '/countries?page=0&size=100',
-            type: 'GET',
-            contentType: 'application/json',
-            success: function (response) {
-                const container = $('#countriesContainer');
-                container.empty();
+        let allCountries = [];
 
-                if (response.content && response.content.length > 0) {
-                    response.content.sort((a, b) => b.popularity - a.popularity);
-
-                    response.content.forEach(function (country) {
-                        const col = $('<div class="col"></div>');
-                        const card = $(`
-                        <a href="countryMore.html?id=${country.id}" class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden text-decoration-none text-dark"
-                           style="transition: transform 0.3s, box-shadow 0.3s;"
-                           onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.15)'"
-                           onmouseout="this.style.transform='';this.style.boxShadow=''">
-                            <img src="${normalizeImage(country.path_url)}" class="card-img-top" alt="${country.name}" style="height: 200px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80'">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold mb-2">${country.name}</h5>
-                                <p class="card-text description small text-secondary-emphasis mb-3">${country.description || ''}</p>
-                                <div class="mt-auto">
-                                    <span class="badge bg-primary bg-opacity-75 px-3 py-2 rounded-pill">
-                                        <i class="fas fa-star me-1"></i> Популярность: ${country.popularity}
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        `);
-                        col.append(card);
-                        container.append(col);
-                    });
-                } else {
-                    container.html('<p class="text-muted">Нет доступных стран</p>');
-                }
-            },
-            error: function (xhr) {
-                console.error('Ошибка загрузки стран:', xhr);
-                $('#countriesContainer').html('<p class="text-danger">Не удалось загрузить список стран. Проверьте подключение к серверу.</p>');
+        function renderCountries(sortedList) {
+            const container = $('#countriesContainer');
+            container.empty();
+            if (!sortedList || sortedList.length === 0) {
+                container.html('<p class="text-muted">Нет доступных стран</p>');
+                return;
             }
+            sortedList.forEach(function (country) {
+                const col = $('<div class="col"></div>');
+                const card = $(`
+            <a href="countryMore.html?id=${country.id}" class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden text-decoration-none text-dark"
+               style="transition: transform 0.3s, box-shadow 0.3s;"
+               onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.15)'"
+               onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <img src="${normalizeImage(country.path_url)}" class="card-img-top" alt="${country.name}" style="height: 200px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80'">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold mb-2">${country.name}</h5>
+                    <p class="card-text description small text-secondary-emphasis mb-3">${country.description || ''}</p>
+                    <div class="mt-auto">
+                        <span class="badge bg-primary bg-opacity-75 px-3 py-2 rounded-pill">
+                            <i class="fas fa-star me-1"></i> Популярность: ${country.popularity}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        `);
+                col.append(card);
+                container.append(col);
+            });
+        }
+
+        function sortCountries() {
+            const sortBy = $('#sortCountries').val();
+            let sorted = [...allCountries];
+            if (sortBy === 'popularity-desc') {
+                sorted.sort((a, b) => b.popularity - a.popularity);
+            } else if (sortBy === 'name-asc') {
+                sorted.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortBy === 'name-desc') {
+                sorted.sort((a, b) => b.name.localeCompare(a.name));
+            }
+            renderCountries(sorted);
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: API_BASE + '/countries?page=0&size=100',
+                type: 'GET',
+                success: function (response) {
+                    allCountries = response.content || response;
+                    sortCountries();
+                },
+                error: function () {
+                    $('#countriesContainer').html('<p class="text-danger">Не удалось загрузить список стран.</p>');
+                }
+            });
+            $('#sortCountries').on('change', sortCountries);
         });
     });
 </script>

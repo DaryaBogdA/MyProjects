@@ -27,17 +27,20 @@ public class BookingService {
     private final TripRepository tripRepository;
     private final UserService userService;
     private final PricingService pricingService;
+    private final NotificationService notificationService;
 
     public BookingService(BookingRepository bookingRepository,
                           TourRepository tourRepository,
                           TripRepository tripRepository,
                           UserService userService,
-                          PricingService pricingService) {
+                          PricingService pricingService,
+                          NotificationService notificationService) {
         this.bookingRepository = bookingRepository;
         this.tourRepository = tourRepository;
         this.tripRepository = tripRepository;
         this.userService = userService;
         this.pricingService = pricingService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -139,7 +142,11 @@ public class BookingService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Заявка уже обработана");
         }
         booking.setStatus(BookingStatus.CONFIRMED);
-        return toAdminDto(bookingRepository.save(booking));
+        Booking saved = bookingRepository.save(booking);
+
+        notificationService.sendBookingApprovedEmail(saved.getUser().getEmail(), saved.getId());
+
+        return toAdminDto(saved);
     }
 
     @Transactional
@@ -150,7 +157,9 @@ public class BookingService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Заявка уже обработана");
         }
         booking.setStatus(BookingStatus.CANCELLED);
-        return toAdminDto(bookingRepository.save(booking));
+        Booking saved = bookingRepository.save(booking);
+        notificationService.sendBookingRejectedEmail(saved.getUser().getEmail(), saved.getId());
+        return toAdminDto(saved);
     }
 
     private BookingDto toDto(Booking booking) {

@@ -29,65 +29,75 @@
         <div class="page-title">Выбрать тур</div>
         <p class="mb-0 mt-2 opacity-75">Готовые маршруты с экскурсиями — откройте карточку для подробностей</p>
     </div>
+    <div class="search-box mb-4">
+        <div class="input-group">
+            <input type="text" id="tourSearchInput" class="form-control" placeholder="Поиск по названию или городу...">
+
+        </div>
+    </div>
     <div class="row g-4" id="toursList"></div>
     <p class="text-muted" id="toursEmpty" style="display:none;">Пока нет опубликованных туров.</p>
 </div>
 <div id="footer"></div>
 <script>
+    let allTours = [];
+
     function renderTours(tours) {
         const list = $('#toursList');
         list.empty();
-        if (!tours || !tours.length) { $('#toursEmpty').show(); return; }
+        if (!tours || !tours.length) {
+            $('#toursEmpty').show();
+            return;
+        }
         $('#toursEmpty').hide();
         tours.forEach(t => {
             const img = normalizeImage(t.photoUrl);
             const title = t.name || ('Тур #' + t.id);
             list.append(`
-                <div class="col-12 col-md-6 col-lg-4">
-                    <article class="tour-card">
-                        <a href="tourDetail.html?id=${t.id}"><img src="${img}" alt="${title}" onerror="this.src='/api/assets/img/countries/italy.jpg'"></a>
-                        <div class="p-3">
-                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                                <p class="tour-name">${title}</p>
-                                <span class="pill"><i class="fas fa-fire"></i>${t.popularity || 0}</span>
-                            </div>
-                            <p class="text-muted small">${t.durationDays || '—'} дн. · ${t.priceTotal != null ? t.priceTotal + ' €' : '—'}</p>
-                            <p class="text-muted small" style="min-height:40px">${(t.description || '').slice(0, 90)}${(t.description && t.description.length > 90) ? '…' : ''}</p>
-                            <a href="tourDetail.html?id=${t.id}" class="btn btn-sm w-100 mb-2">Подробнее</a>
+            <div class="col-12 col-md-6 col-lg-4">
+                <article class="tour-card">
+                    <a href="tourDetail.html?id=${t.id}"><img src="${img}" alt="${title}" onerror="this.src='/api/assets/img/countries/italy.jpg'"></a>
+                    <div class="p-3">
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                            <p class="tour-name">${title}</p>
+                            <span class="pill"><i class="fas fa-fire"></i>${t.popularity || 0}</span>
                         </div>
-                    </article>
-                </div>`);
+                        <p class="text-muted small">${t.durationDays || '—'} дн. · ${t.priceTotal != null ? t.priceTotal + ' €' : '—'}</p>
+                        <p class="text-muted small" style="min-height:40px">${(t.description || '').slice(0, 90)}${(t.description && t.description.length > 90) ? '…' : ''}</p>
+                        <a href="tourDetail.html?id=${t.id}" class="btn btn-sm w-100 mb-2">Подробнее</a>
+                    </div>
+                </article>
+            </div>`);
         });
     }
+
+    function filterTours() {
+        const searchText = $('#tourSearchInput').val().toLowerCase().trim();
+        if (!searchText) {
+            renderTours(allTours);
+            return;
+        }
+        const filtered = allTours.filter(tour => {
+            const nameMatch = tour.name && tour.name.toLowerCase().includes(searchText);
+            const cityMatch = tour.cityName && tour.cityName.toLowerCase().includes(searchText);
+            return nameMatch || cityMatch;
+        });
+        renderTours(filtered);
+    }
+
     $(document).ready(function () {
         setMinDateToday('#globalTravelDate');
-        $('#toursList').on('click', '[data-action="book-tour"]', async function (e) {
-            e.preventDefault();
-            if (!requireAuth()) return;
-            const id = $(this).data('id');
-            const card = $(this).closest('.p-3');
-            let travelDate = card.find('.tour-travel-date').val() || $('#globalTravelDate').val();
-            if (!travelDate) { alert('Укажите дату начала поездки'); return; }
-            if (travelDate < todayIso()) { alert('Нельзя бронировать тур в прошлом'); return; }
-            try {
-                await $.ajax({
-                    url: API_BASE + '/bookings/tours/' + id,
-                    method: 'POST',
-                    contentType: 'application/json',
-                    headers: authHeaders(),
-                    data: JSON.stringify({ travelDate })
-                });
-                alert('Заявка отправлена! Ожидайте подтверждения администратора.');
-                window.location.href = 'myBookings.html';
-            } catch (err) {
-                const msg = err.responseJSON?.message || (err.status === 401 || err.status === 403 ? 'Войдите в аккаунт' : 'Не удалось отправить заявку');
-                alert(msg);
-            }
-        });
         $.get(API_BASE + '/tours').done(function (tours) {
-            renderTours(tours);
+            allTours = tours;
+            renderTours(allTours);
             setMinDateToday('.tour-travel-date');
         }).fail(() => $('#toursEmpty').text('Не удалось загрузить туры.').show());
+
+        $('#tourSearchInput').on('input', filterTours);
+        $('#clearSearchBtn').on('click', function() {
+            $('#tourSearchInput').val('');
+            filterTours();
+        });
     });
 </script>
 </body>
