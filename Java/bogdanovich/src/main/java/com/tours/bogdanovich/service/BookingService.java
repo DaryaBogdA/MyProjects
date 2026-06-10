@@ -3,6 +3,7 @@ package com.tours.bogdanovich.service;
 import com.tours.bogdanovich.dto.BookingDetailDto;
 import com.tours.bogdanovich.dto.BookingDto;
 import com.tours.bogdanovich.entity.*;
+import com.tours.bogdanovich.event.BookingRejectedEvent;
 import com.tours.bogdanovich.repository.BookingRepository;
 import com.tours.bogdanovich.repository.TourRepository;
 import com.tours.bogdanovich.repository.TripRepository;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.context.ApplicationEventPublisher;
+import com.tours.bogdanovich.event.BookingApprovedEvent;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,20 +30,20 @@ public class BookingService {
     private final TripRepository tripRepository;
     private final UserService userService;
     private final PricingService pricingService;
-    private final NotificationService notificationService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public BookingService(BookingRepository bookingRepository,
                           TourRepository tourRepository,
                           TripRepository tripRepository,
                           UserService userService,
                           PricingService pricingService,
-                          NotificationService notificationService) {
+                          ApplicationEventPublisher eventPublisher) {
         this.bookingRepository = bookingRepository;
         this.tourRepository = tourRepository;
         this.tripRepository = tripRepository;
         this.userService = userService;
         this.pricingService = pricingService;
-        this.notificationService = notificationService;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -144,7 +147,7 @@ public class BookingService {
         booking.setStatus(BookingStatus.CONFIRMED);
         Booking saved = bookingRepository.save(booking);
 
-        notificationService.sendBookingApprovedEmail(saved.getUser().getEmail(), saved.getId());
+        eventPublisher.publishEvent(new BookingApprovedEvent(this, saved));
 
         return toAdminDto(saved);
     }
@@ -158,7 +161,7 @@ public class BookingService {
         }
         booking.setStatus(BookingStatus.CANCELLED);
         Booking saved = bookingRepository.save(booking);
-        notificationService.sendBookingRejectedEmail(saved.getUser().getEmail(), saved.getId());
+        eventPublisher.publishEvent(new BookingRejectedEvent(this, saved));
         return toAdminDto(saved);
     }
 

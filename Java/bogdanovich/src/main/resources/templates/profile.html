@@ -308,7 +308,15 @@
             });
             showAlert('success', 'Профиль сохранён');
         } catch (e) {
-            showAlert('danger', 'Не удалось сохранить профиль');
+            let msg = 'Не удалось сохранить профиль';
+            if (e.responseJSON && e.responseJSON.message) {
+                msg = e.responseJSON.message;
+            } else if (e.responseJSON && e.responseJSON.error) {
+                msg = e.responseJSON.error;
+            } else if (e.status === 400) {
+                msg = 'Неверный формат телефона. Ожидается +375XXXXXXXXX';
+            }
+            showAlert('danger', msg);
         }
     });
 

@@ -52,14 +52,14 @@ public class PricingService {
         return switch (type) {
             case HOTEL -> roomTypeRepository.findById(itemId)
                     .map(rt -> "Отель: " + rt.getHotel().getName() + " — " + rt.getName())
-                    .orElse("Номер #" + itemId);
+                    .orElse("Номер №" + itemId);
             case TRANSPORT -> transportRepository.findById(itemId)
                     .map(t -> "Транспорт: " + t.getType() + " " + (t.getCompany() != null ? t.getCompany() : ""))
-                    .orElse("Транспорт #" + itemId);
+                    .orElse("Транспорт №" + itemId);
             case EXCURSION -> excursionRepository.findById(itemId)
                     .map(e -> "Экскурсия: " + e.getName())
-                    .orElse("Экскурсия #" + itemId);
-            case ATTRACTION -> "Достопримечательность #" + itemId;
+                    .orElse("Экскурсия №" + itemId);
+            case ATTRACTION -> "Достопримечательность №" + itemId;
         };
     }
 }
